@@ -1,8 +1,11 @@
+/*
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
+// import type { NextAuthOptions } from "next-auth"
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "./prisma";
 import { compare } from "bcrypt";
+import { User } from "@prisma/client";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
@@ -22,7 +25,7 @@ export const authOptions: NextAuthOptions = {
       // e.g. domain, username, password, 2FA token, etc.
       // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
-        email: { label: "Email", type: "text", placeholder: "jsmith@email.com" },
+        email: { label: "Email", type: "email", placeholder: "jsmith@email.com" },
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
@@ -51,6 +54,21 @@ export const authOptions: NextAuthOptions = {
     })
   ],
   callbacks: {
+    async jwt({ token, user }) {
+      if (user) token.user = user as User;
+      return token;
+    },
+
+    async session({ token, session }) {
+      session.user = token.user;
+      return session;
+    },
+  },
+};
+
+
+
+callbacks: {
     async signIn({ user, email, credentials }) {
       const isAllowedToSignIn = true
       if (isAllowedToSignIn) {
@@ -83,5 +101,4 @@ export const authOptions: NextAuthOptions = {
       }
     },
   }
-
-}
+*/

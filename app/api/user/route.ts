@@ -1,3 +1,4 @@
+/*
 import { db } from "@/lib/prisma";
 import { hash } from "bcrypt";
 import { NextResponse } from "next/server";
@@ -44,3 +45,4 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Something went wrong with creating a new user" }, { status: 500 })
   }
 }
+*/

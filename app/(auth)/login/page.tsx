@@ -1,11 +1,21 @@
-import LoginForm from "@/components/form/LoginForm";
+import LoginForm from "@/app/components/form/LoginForm";
+import Link from "next/link";
 
-const page = () => {
+interface Props {
+  searchParams: {
+    callbackUrl?: string;
+  };
+}
+
+const LoginPage = ({ searchParams }: Props) => {
+  console.log({ searchParams });
+
   return (
     <div className='w-full'>
-      <LoginForm />
+      <LoginForm callbackUrl={searchParams.callbackUrl} />
+      <Link className="ext-center text-sm mt-2 text-blue-500 hover:underline" href={"/auth/forgotPassword"}>Forgot your password?</Link>
     </div>
   );
 };
 
-export default page;
+export default LoginPage;
