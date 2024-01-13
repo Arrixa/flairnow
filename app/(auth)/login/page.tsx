@@ -12,7 +12,7 @@ const LoginPage = ({ searchParams }: Props) => {
 
   return (
     <div className='w-full'>
-      <LoginForm  />
+      <LoginForm callbackUrl={searchParams.callbackUrl} />
       <Link className="ext-center text-sm mt-2 text-blue-500 hover:underline" href={"/auth/forgotPassword"}>Forgot your password?</Link>
     </div>
   );

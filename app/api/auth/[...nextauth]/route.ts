@@ -6,9 +6,9 @@ import * as bcrypt from "bcrypt";
 import NextAuth from "next-auth/next";
 
 export const authOptions: AuthOptions = {
-  pages: {
-    signIn: "/auth/login",
-  },
+  // pages: {
+  //   signIn: "/login",
+  // },
   session: {
     strategy: "jwt",
   },
@@ -31,10 +31,10 @@ export const authOptions: AuthOptions = {
       name: "Credentials",
 
       credentials: {
-        username: {
-          label: "User Name",
-          type: "text",
-          placeholder: "Your User Name",
+        email: {
+          label: "email",
+          type: "email",
+          placeholder: "Your email",
         },
         password: {
           label: "Password",
@@ -44,7 +44,7 @@ export const authOptions: AuthOptions = {
       async authorize(credentials) {
         const user = await db.user.findUnique({
           where: {
-            email: credentials?.username,
+            email: credentials?.email,
           },
         });
 
