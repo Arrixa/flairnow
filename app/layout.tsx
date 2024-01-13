@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import Navbar from './components/NavBar'
+import { Providers } from './providers'
+import Appbar from './components/Appbar'
+// import Navbar from './components/NavBar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,12 +18,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body className={inter.className}>
-        <main className='h-screen flex flex-col justify-center items-center'>
-          <Navbar />
+        <Providers>
+          <Appbar />
           {children}
-        </main></body>
+          {/* <ToastContainer /> */}
+        </Providers>
+      </body>
     </html>
   )
 }
