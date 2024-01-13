@@ -13,12 +13,12 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { passwordStrength } from "check-password-strength";
 import PasswordStrength from "./PasswordStrength";
-// import { registerUser } from "@/lib/actions/authActions";
-// import { toast } from "react-toastify";
+import { registerUser } from "@/lib/actions/authActions";
+import { toast } from "react-toastify";
 
 const FormSchema = z
   .object({
-    fullName: z
+    fullname: z
       .string()
       .min(2, "Full name must be atleast 2 characters")
       .max(45, "Full name must be less than 45 characters")
@@ -65,26 +65,25 @@ const SignUpForm = () => {
   const toggleVisblePass = () => setIsVisiblePass((prev) => !prev);
 
   const saveUser: SubmitHandler<InputType> = async (data) => {
-    console.log(data)
     const { accepted, confirmPassword, ...user } = data;
-    // try {
-    //   const result = await registerUser(user);
-    //   toast.success("The user registered successfully.");
-    // } catch (error) {
-    //   toast.error("Something went wrong!");
-    //   console.error(error);
-    // }
+    try {
+      const result = await registerUser(user);
+      toast.success("The user registered successfully.");
+    } catch (error) {
+      toast.error("Something went wrong!");
+      console.error(error);
+    }
   };
 
   return (
     <form
-      // onSubmit={handleSubmit(saveUser)}
+      onSubmit={handleSubmit(saveUser)}
       className="grid grid-cols-2 gap-3 p-2 place-self-stretch shadow border rounded-md"
     >
       <Input
-        errorMessage={errors.fullName?.message}
-        isInvalid={!!errors.fullName}
-        {...register("fullName")}
+        errorMessage={errors.fullname?.message}
+        isInvalid={!!errors.fullname}
+        {...register("fullname")}
         label="Full Name"
         startContent={<UserIcon className="w-4" />}
       />
@@ -149,6 +148,7 @@ const SignUpForm = () => {
           Submit
         </Button>
       </div>
+
     </form>
   );
 };
