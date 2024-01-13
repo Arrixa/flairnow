@@ -78,7 +78,7 @@ const SignUpForm = () => {
   return (
     <form
       onSubmit={handleSubmit(saveUser)}
-      className="grid grid-cols-2 gap-3 p-2 place-self-stretch shadow border rounded-md"
+      className="grid grid-cols-2 gap-3 p-2 mx-auto max-w-screen-md shadow border rounded-md"
     >
       <Input
         errorMessage={errors.fullname?.message}
