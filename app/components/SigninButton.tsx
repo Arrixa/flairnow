@@ -22,8 +22,8 @@ const SigninButton = () => {
         </>
       ) : (
         <>
-          <Button as={Link} href={"/api/auth/signin"}>Sign in</Button>
-          {/* <Button onClick={() => signIn()}>Sign in</Button> */}
+          {/* <Button as={Link} href={"/api/auth/signin"}>Sign in</Button> */}
+          <Button onClick={() => signIn()}>Sign in</Button>
           <Button as={Link} href={"/auth/signup"}>
             Sign up
           </Button>

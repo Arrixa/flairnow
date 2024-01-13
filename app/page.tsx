@@ -1,8 +1,8 @@
 
 export default function Home() {
   return (
-    <main>
-      <h1 className='text-4xl py-5'>Home</h1>
+    <main className="p-10">
+      <h1 className='text-4xl font-extrabold py-5'>Home</h1>
     </main>
   )
 }
