@@ -15,6 +15,11 @@ import { passwordStrength } from "check-password-strength";
 import PasswordStrength from "./PasswordStrength";
 import { registerUser } from "@/lib/actions/authActions";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+
+interface Props {
+  callbackUrl?: string;
+}
 
 const FormSchema = z
   .object({
@@ -22,7 +27,7 @@ const FormSchema = z
       .string()
       .min(2, "Full name must be atleast 2 characters")
       .max(45, "Full name must be less than 45 characters")
-      .regex(new RegExp("^[a-zA-Z]+$"), "No special characters allowed!"),
+      .regex(new RegExp("^[a-zA-Z]+$"), "No special characters allowed"),
     email: z.string().email("Please enter a valid email address"),
     password: z
       .string()
@@ -45,7 +50,8 @@ const FormSchema = z
 
 type InputType = z.infer<typeof FormSchema>;
 
-const SignUpForm = () => {
+const SignUpForm = (props: Props) => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -69,6 +75,7 @@ const SignUpForm = () => {
     try {
       const result = await registerUser(user);
       toast.success("The user registered successfully.");
+      router.push(props.callbackUrl ? props.callbackUrl : "/profile");
     } catch (error) {
       toast.error("Something went wrong!");
       console.error(error);
