@@ -1,7 +1,7 @@
 import Handlebars from "handlebars";
 import nodemailer from "nodemailer";
 import { activationTemplate } from "./emailTemplates/activation";
-// import { resetPasswordTemplate } from "./emailTemplates/resetPass";
+import { resetPasswordTemplate } from "./emailTemplates/resetPass";
 
 export async function sendMail({
   to,
@@ -49,14 +49,15 @@ export function compileActivationTemplate(name: string, url: string) {
     name,
     url,
   });
+  console.log(htmlBody)
   return htmlBody;
 }
 
-// export function compileResetPassTemplate(name: string, url: string) {
-//   const template = Handlebars.compile(resetPasswordTemplate);
-//   const htmlBody = template({
-//     name,
-//     url,
-//   });
-//   return htmlBody;
-// }
+export function compileResetPassTemplate(name: string, url: string) {
+  const template = Handlebars.compile(resetPasswordTemplate);
+  const htmlBody = template({
+    name,
+    url,
+  });
+  return htmlBody;
+}

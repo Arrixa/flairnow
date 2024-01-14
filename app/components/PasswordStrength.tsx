@@ -7,7 +7,7 @@ interface Props {
 const PasswordStrength = ({ passStrength }: Props) => {
   return (
     <div
-      className=" col-span-2 flex gap-2"
+      className=" col-span-2 flex gap-2 z-10"
     >
       {Array.from({ length: passStrength + 1 }).map((i, index) => (
         <div

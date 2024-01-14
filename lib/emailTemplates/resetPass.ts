@@ -1,4 +1,4 @@
-export const activationTemplate = `
+export const resetPasswordTemplate = `
 <!DOCTYPE html>
 <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
 
@@ -164,7 +164,7 @@ export const activationTemplate = `
 													<table class="heading_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
 														<tr>
 															<td class="pad" style="padding-bottom:5px;padding-top:25px;text-align:center;width:100%;">
-																<h1 style="margin: 0; color: #555555; direction: ltr; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; font-size: 36px; font-weight: normal; letter-spacing: normal; line-height: 120%; text-align: center; margin-top: 0; margin-bottom: 0; mso-line-height-alt: 43.199999999999996px;"><strong>Welcome {{name}}</strong></h1>
+																<h1 style="margin: 0; color: #555555; direction: ltr; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; font-size: 36px; font-weight: normal; letter-spacing: normal; line-height: 120%; text-align: center; margin-top: 0; margin-bottom: 0; mso-line-height-alt: 43.199999999999996px;"><strong>Hi {{name}}</strong></h1>
 															</td>
 														</tr>
 													</table>
@@ -172,7 +172,7 @@ export const activationTemplate = `
 														<tr>
 															<td class="pad" style="padding-bottom:20px;padding-left:30px;padding-right:30px;padding-top:20px;">
 																<div style="color:#737487;font-family:Arial, Helvetica Neue, Helvetica, sans-serif;font-size:18px;line-height:180%;text-align:center;mso-line-height-alt:32.4px;">
-																	<p style="margin: 0; word-break: break-word;"><span>Follow the below link to activate your account</span></p>
+																	<p style="margin: 0; word-break: break-word;"><span>To reset your password follow the link below</span></p>
 																</div>
 															</td>
 														</tr>
@@ -181,11 +181,11 @@ export const activationTemplate = `
 														<tr>
 															<td class="pad" style="padding-bottom:30px;padding-left:15px;padding-right:15px;padding-top:20px;text-align:center;">
 																<div class="alignment" align="center"><!--[if mso]>
-<v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{url}}" style="height:52px;width:237px;v-text-anchor:middle;" arcsize="8%" stroke="false" fillcolor="#09443b">
+<v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{url}}" style="height:52px;width:234px;v-text-anchor:middle;" arcsize="8%" stroke="false" fillcolor="#09443b">
 <w:anchorlock/>
 <v:textbox inset="0px,0px,0px,0px">
 <center style="color:#ffffff; font-family:Arial, sans-serif; font-size:16px">
-<![endif]--><a href="{{url}}" target="_blank" style="text-decoration:none;display:inline-block;color:#ffffff;background-color:#09443b;border-radius:4px;width:auto;border-top:0px solid transparent;font-weight:undefined;border-right:0px solid transparent;border-bottom:0px solid transparent;border-left:0px solid transparent;padding-top:10px;padding-bottom:10px;font-family:Arial, Helvetica Neue, Helvetica, sans-serif;font-size:16px;text-align:center;mso-border-alt:none;word-break:keep-all;"><span style="padding-left:60px;padding-right:60px;font-size:16px;display:inline-block;letter-spacing:normal;"><span style="word-break: break-word; line-height: 32px;">Activate account</span></span></a><!--[if mso]></center></v:textbox></v:roundrect><![endif]--></div>
+<![endif]--><a href="{{url}}" target="_blank" style="text-decoration:none;display:inline-block;color:#ffffff;background-color:#09443b;border-radius:4px;width:auto;border-top:0px solid transparent;font-weight:undefined;border-right:0px solid transparent;border-bottom:0px solid transparent;border-left:0px solid transparent;padding-top:10px;padding-bottom:10px;font-family:Arial, Helvetica Neue, Helvetica, sans-serif;font-size:16px;text-align:center;mso-border-alt:none;word-break:keep-all;"><span style="padding-left:60px;padding-right:60px;font-size:16px;display:inline-block;letter-spacing:normal;"><span style="word-break: break-word; line-height: 32px;">Reset password</span></span></a><!--[if mso]></center></v:textbox></v:roundrect><![endif]--></div>
 															</td>
 														</tr>
 													</table>
@@ -306,7 +306,7 @@ export const activationTemplate = `
 															<td class="pad" style="padding-bottom:35px;padding-left:10px;padding-right:10px;padding-top:5px;">
 																<div style="font-family: sans-serif">
 																	<div class style="font-size: 12px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 14.399999999999999px; color: #262b30; line-height: 1.2;">
-																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 16.8px;"><span style="font-size:12px;">If you prefer not to receive marketing emails form this list, <a style="text-decoration: underline; color: #262b30;" href="http://www.example.com" target="_blank" rel="noopener">click here to unsubscribe</a>.</span></p>
+																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 16.8px;"><span style="font-size:12px;">If you prefer not to receive marketing emails form this list, <a style="text-decoration: underline; color: #262b30;" href="{{url}}" target="_blank" rel="noopener">click here to unsubscribe</a>.</span></p>
 																	</div>
 																</div>
 															</td>

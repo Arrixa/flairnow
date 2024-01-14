@@ -85,7 +85,7 @@ const SignUpForm = (props: Props) => {
   return (
     <form
       onSubmit={handleSubmit(saveUser)}
-      className="flex flex-col gap-2 border rounded-md shadow overflow-hidden w-8/12"
+      className="flex flex-col justify-center gap-2 border rounded-md shadow overflow-hidden "
     >
       <Input
         errorMessage={errors.fullname?.message}
