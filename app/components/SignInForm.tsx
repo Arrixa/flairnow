@@ -10,7 +10,7 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
-// import NextAuthProviders from "./NextAuthProviders";
+import NextAuthProviders from "./NextAuthProviders";
 
 interface Props {
   callbackUrl?: string;
@@ -47,7 +47,7 @@ const SignInForm = (props: Props) => {
       return;
     }
     toast.success("Welcome to FlairNow");
-    router.push(props.callbackUrl ? props.callbackUrl : "/");
+    router.push(props.callbackUrl ? props.callbackUrl : "/profile");
   };
 
   return (
@@ -76,11 +76,11 @@ const SignInForm = (props: Props) => {
             {isSubmitting ? "Signing in..." : "Sign in"}
           </Button>
           <Button as={Link} href="/auth/signup">
-            Sign Up
+            Sign up
           </Button>
         </div>
       </div>
-      {/* <NextAuthProviders /> */}
+      <NextAuthProviders />
     </form>
   );
 };
