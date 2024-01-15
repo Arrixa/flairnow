@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+// import { PrismaAdapter } from "@auth/prisma-adapter";
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
@@ -16,6 +17,7 @@ export const authOptions: AuthOptions = {
   jwt: {
     secret: process.env.NEXTAUTH_SECRET,
   },
+  // adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID ?? "",
@@ -26,6 +28,15 @@ export const authOptions: AuthOptions = {
         params: {
           scope: "openid profile email",
         },
+      },
+      profile(profile) {
+        return {
+          id: profile.sub,
+          name: `${profile.name}`,
+          email: profile.email,
+          image: profile.picture,
+          role: profile.role ? profile.role : "user",
+        };
       },
     }),
     CredentialsProvider({
@@ -71,7 +82,7 @@ export const authOptions: AuthOptions = {
     },
 
     async session({ token, session }) {
-      session.user = token.user;
+      session.user.role = token.user.role;
       return session;
     },
   },

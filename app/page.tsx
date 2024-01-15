@@ -1,8 +1,11 @@
+import { HomeIcon } from "@heroicons/react/20/solid";
 
 export default function Home() {
   return (
     <main className="p-10">
-      <h1 className='text-4xl font-extrabold py-5'>Home</h1>
+      <div className='flex items-center justify-center h-20'>
+        <HomeIcon />
+      </div>
     </main>
   )
 }

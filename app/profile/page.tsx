@@ -11,19 +11,24 @@ const ProfilePage = async () => {
   
   return (
     <div>
-      <Image
+      {/* <Image
         height={300}
         width={300}
         src={user?.image ?? ""}
-        alt={user?.fullname ?? ""}
+        alt={user?.name ?? ""}
         className="rounded-full"
-      />
+      /> */}
+      
       <div className="flex flex-col items-center gap-2">
-        <p>Full Name:</p> <p className="">{user?.fullname}</p>
+        <p>Name:</p> <p className="">{user?.name}</p>
         <p>Email:</p> <p className="">{user?.email}</p>
+        <p>Role:</p> <p className="">{user?.role}</p>
       </div>
     </div>
   );
 };
 
 export default ProfilePage;
+
+// NOTE:
+// Info from Google auth includes image: next/image not compatible

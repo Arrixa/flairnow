@@ -23,10 +23,10 @@ interface Props {
 
 const FormSchema = z
   .object({
-    fullname: z
+    name: z
       .string()
-      .min(2, "Full name must be atleast 2 characters")
-      .max(45, "Full name must be less than 45 characters")
+      .min(2, "Name must be atleast 2 characters")
+      .max(45, "Name must be less than 45 characters")
       .regex(new RegExp("^[a-zA-Z]+$"), "No special characters allowed"),
     email: z.string().email("Please enter a valid email address"),
     password: z
@@ -88,10 +88,10 @@ const SignUpForm = (props: Props) => {
       className="flex flex-col justify-center gap-2 border rounded-md shadow overflow-hidden "
     >
       <Input
-        errorMessage={errors.fullname?.message}
-        isInvalid={!!errors.fullname}
-        {...register("fullname")}
-        label="Full Name"
+        errorMessage={errors.name?.message}
+        isInvalid={!!errors.name}
+        {...register("name")}
+        label="Name"
         startContent={<UserIcon className="w-4" />}
       />
       <Input
