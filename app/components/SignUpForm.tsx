@@ -21,6 +21,22 @@ interface Props {
   callbackUrl?: string;
 }
 
+const passwordSchema = z.string().refine((password) => {
+  // At least one digit
+  const hasDigit = /\d/.test(password);
+  // At least one lowercase letter
+  const hasLowercase = /[a-z]/.test(password);
+  // At least one uppercase letter
+  const hasUppercase = /[A-Z]/.test(password);
+  // At least one special character
+  const hasSpecialChar = /[*.!@$%^&(){}[\]:;<>,.?/~_+-=|\\]/.test(password);
+  // Overall length between 6 and 30 characters
+  const isLengthValid = password.length >= 6 && password.length <= 30;
+  return hasDigit && hasLowercase && hasUppercase && hasSpecialChar && isLengthValid;
+}, {
+  message: 'Invalid password. Password must have at least one digit, one lowercase letter, one uppercase letter, one special character, and be between 6 and 30 characters long.',
+});
+
 const FormSchema = z
   .object({
     name: z
@@ -29,10 +45,10 @@ const FormSchema = z
       .max(45, "Name must be less than 45 characters")
       .regex(new RegExp("^[a-zA-Z]+$"), "No special characters allowed"),
     email: z.string().email("Please enter a valid email address"),
-    password: z
-      .string()
-      .min(6, "Password must be at least 6 characters ")
-      .max(50, "Password must be less than 50 characters"),
+    password: passwordSchema,
+      // .string()
+      // .min(6, "Password must be at least 6 characters ")
+      // .max(30, "Password must be less than 30 characters"),
     confirmPassword: z
       .string()
       .min(6, "Password must be at least 6 characters ")
@@ -73,7 +89,7 @@ const SignUpForm = (props: Props) => {
   const saveUser: SubmitHandler<InputType> = async (data) => {
     const { accepted, confirmPassword, ...user } = data;
     try {
-      const result = await registerUser(user);
+      // const result = await registerUser(user);
       toast.success("The user registered successfully.");
       router.push(props.callbackUrl ? props.callbackUrl : "/profile");
     } catch (error) {
@@ -124,7 +140,7 @@ const SignUpForm = (props: Props) => {
           )
         }
       />
-      <PasswordStrength passStrength={passStrength} />
+      {/* <PasswordStrength passStrength={passStrength} /> */}
       <Input
         errorMessage={errors.confirmPassword?.message}
         isInvalid={!!errors.confirmPassword}

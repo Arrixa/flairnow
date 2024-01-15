@@ -14,12 +14,25 @@ interface Props {
   jwtUserId: string;
 }
 
+const passwordSchema = z.string().refine((password) => {
+  // At least one digit
+  const hasDigit = /\d/.test(password);
+  // At least one lowercase letter
+  const hasLowercase = /[a-z]/.test(password);
+  // At least one uppercase letter
+  const hasUppercase = /[A-Z]/.test(password);
+  // At least one special character
+  const hasSpecialChar = /[*.!@$%^&(){}[\]:;<>,.?/~_+-=|\\]/.test(password);
+  // Overall length between 6 and 30 characters
+  const isLengthValid = password.length >= 6 && password.length <= 30;
+  return hasDigit && hasLowercase && hasUppercase && hasSpecialChar && isLengthValid;
+}, {
+  message: 'Invalid password. Password must have at least one digit, one lowercase letter, one uppercase letter, one special character, and be between 6 and 30 characters long.',
+});
+
 const FormSchema = z
   .object({
-    password: z
-      .string()
-      .min(6, "Password must be at least 6 characters!")
-      .max(52, "Password must be less than 52 characters"),
+    password: passwordSchema,
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
