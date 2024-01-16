@@ -6,7 +6,7 @@ import {
   KeyIcon,
   UserIcon,
 } from "@heroicons/react/20/solid";
-import { Button, Checkbox, Input, Link } from "@nextui-org/react";
+import { Button, Checkbox, Input, Link, Radio } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { z } from "zod";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -46,9 +46,6 @@ const FormSchema = z
       .regex(new RegExp("^[a-zA-Z]+$"), "No special characters allowed"),
     email: z.string().email("Please enter a valid email address"),
     password: passwordSchema,
-      // .string()
-      // .min(6, "Password must be at least 6 characters ")
-      // .max(30, "Password must be less than 30 characters"),
     confirmPassword: z
       .string()
       .min(6, "Password must be at least 6 characters ")
@@ -89,7 +86,7 @@ const SignUpForm = (props: Props) => {
   const saveUser: SubmitHandler<InputType> = async (data) => {
     const { accepted, confirmPassword, ...user } = data;
     try {
-      // const result = await registerUser(user);
+      const result = await registerUser(user);
       toast.success("The user registered successfully.");
       router.push(props.callbackUrl ? props.callbackUrl : "/profile");
     } catch (error) {

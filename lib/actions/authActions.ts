@@ -17,6 +17,8 @@ export async function registerUser(
   const result = await prisma.user.create({
     data: {
       ...user,
+      // add role: if "" : "user"
+      role: user.role ? user.role : "user",
       password: await bcrypt.hash(user.password, 10),
     },
   });
