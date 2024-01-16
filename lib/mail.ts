@@ -25,7 +25,7 @@ export async function sendMail({
 
   try {
     const testResult = await transport.verify();
-    console.log("Test result of transport", testResult);
+    // console.log("Test result of transport", testResult);
   } catch (e) {
     console.log(e);
   }
@@ -36,7 +36,7 @@ export async function sendMail({
       subject,
       html: body,
     });
-    console.log({ sendResult });
+    // console.log({ sendResult });
     return sendResult;
   } catch (e) {
     console.log(e);
@@ -49,7 +49,7 @@ export function compileActivationTemplate(name: string, url: string) {
     name,
     url,
   });
-  console.log(htmlBody)
+  // console.log(htmlBody)
   return htmlBody;
 }
 

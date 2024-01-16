@@ -9,16 +9,52 @@ import {
   sendMail,
 } from "../mail";
 import { signJwt, verifyJwt } from "../jwt";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma"; 
+import { excludedDomains } from "../excludedDomains";
+
+type Email = string;
+
+function extractEmailDomain(email: Email): string {
+  const [user, domain] = email.toLowerCase().split('@');
+  const domainParts = domain.split('.');
+
+  // Check if the domain is not in the excluded list
+  if (!excludedDomains.includes(domainParts[0])) {
+    return domainParts[0];
+  } 
+
+  const isolatedDomain = domainParts[0];
+  return isolatedDomain;
+}
+
 
 export async function registerUser(
   user: Omit<User, "id" | "emailVerified" | "image">
 ) {
+
+  // Client & role logic
+  const domain = extractEmailDomain(user.email);
+  console.log("domain", domain)
+  // Check if client exists
+  let client = await prisma.client.findUnique({
+    where: { 
+      clientId: domain 
+    },
+  });
+  // If client doesn't exist, create a new one
+  if (!client) {
+    client = await prisma.client.create({
+      data: {       
+        clientId: domain 
+      },
+    });
+  }
+
   const result = await prisma.user.create({
     data: {
       ...user,
-      // add role: if "" : "user"
       role: user.role ? user.role : "user",
+      Client: { connect: { id: client.id } },
       password: await bcrypt.hash(user.password, 10),
     },
   });
@@ -29,6 +65,8 @@ export async function registerUser(
   const activationUrl = `${process.env.NEXTAUTH_URL}/auth/activation/${jwtUserId}`;
   const body = compileActivationTemplate(user.name, activationUrl);
   await sendMail({ to: user.email, subject: "Activate your account", body });
+  // const isolatedDomain = extractEmailDomain(user.email);
+  // console.log("domain", isolatedDomain)
   return result;
 }
 
@@ -44,6 +82,7 @@ export const activateUser: ActivateUserFunc = async (jwtUserID) => {
       id: userId,
     },
   });
+  // const client = await prisma.client
   if (!user) return "userNotExist";
   if (user.emailVerified) return "alreadyActivated";
   const result = await prisma.user.update({
@@ -106,3 +145,24 @@ export const resetPassword: ResetPasswordFucn = async (jwtUserId, password) => {
   if (result) return "success";
   else throw new Error("Something went wrong!");
 };
+
+/*
+domain arrixa
+ ⨯ PrismaClientValidationError: 
+Invalid `prisma.client.findUnique()` invocation:
+
+{
+  where: {
+    clientId: "arrixa",
+?   id?: String,
+?   AND?: ClientWhereInput | ClientWhereInput[],
+?   OR?: ClientWhereInput[],
+?   NOT?: ClientWhereInput | ClientWhereInput[],
+?   role?: StringFilter | String,
+?   userId?: UserListRelationFilter
+  }
+}
+
+Argument `where` of type ClientWhereUniqueInput needs at least one of `id` arguments. Available options are marked with ?.
+    at async registerUser (./lib/actions/authActions.ts:34:18)
+*/

@@ -43,13 +43,13 @@ const FormSchema = z
       .string()
       .min(2, "Name must be atleast 2 characters")
       .max(45, "Name must be less than 45 characters")
-      .regex(new RegExp("^[a-zA-Z]+$"), "No special characters allowed"),
+      .regex(new RegExp("^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$"), "No special characters allowed"),
     email: z.string().email("Please enter a valid email address"),
     password: passwordSchema,
     confirmPassword: z
       .string()
       .min(6, "Password must be at least 6 characters ")
-      .max(50, "Password must be less than 50 characters"),
+      .max(30, "Password must be less than 30 characters"),
     accepted: z.literal(true, {
       errorMap: () => ({
         message: "Please accept all terms",
@@ -81,6 +81,7 @@ const SignUpForm = (props: Props) => {
   useEffect(() => {
     setPassStrength(passwordStrength(watch().password).id);
   }, [watch().password]);
+  
   const toggleVisblePass = () => setIsVisiblePass((prev) => !prev);
 
   const saveUser: SubmitHandler<InputType> = async (data) => {
