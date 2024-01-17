@@ -9,6 +9,12 @@ datasource db {
   url      = env("DATABASE_URL") // uses connection pooling
 }
 
+enum Role {
+  USER
+  ADMIN
+  EMPLOYEE
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -36,31 +42,47 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model User {
-  id            String    @id @default(cuid())
-  name          String
-  email         String    @unique
-  emailVerified DateTime?
-  password      String
-  image         String?
-  role          String   @default("user")
-  accounts      Account[]
-  sessions      Session[]
-  Client        Client?   @relation(fields: [clientId], references: [id])
-  clientId      String?
-}
 
 model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
+  identifier    String
+  token         String   @unique
+  expires       DateTime
 
   @@unique([identifier, token])
 }
+model User {
+  id            String     @id @default(cuid())
+  name          String
+  email         String     @unique
+  emailVerified DateTime?
+  password      String
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  client        ClientUser[]
+}
 
 model Client {
-  id       String   @id @default(cuid())
-  clientId String   @unique
-  userId   User[]
-  // role     String?
+  id              String @id @default(cuid())
+  domain          String @unique
+  name            String?
+  website         String?
+  description     String?
+  countryCode     String?
+  phoneNumber     String?
+  streetNo        String?
+  streetAddress   String?
+  province        String?
+  zipCode         String?
+  country         String?
+  user            ClientUser[]
+}
+
+model ClientUser {
+  id              String @id @default(cuid())
+  client          Client @relation(fields: [clientId], references: [id])
+  clientId        String 
+  user            User @relation(fields: [userId], references: [id])
+  userId          String
+  role            Role[]   
 }

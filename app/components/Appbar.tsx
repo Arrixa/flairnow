@@ -5,7 +5,7 @@ import { HomeIcon } from "@heroicons/react/20/solid";
 
 const Appbar = () => {
   return (
-    <Navbar isBordered>
+    <Navbar isBordered maxWidth={'full'}>
       <NavbarContent className="sm:flex gap-4" justify="center">
         <NavbarItem className="flex gap-4 p-10">
           <Link className="text-gray-800 hover:text-sky-400" href={"/"}>

@@ -1,6 +1,6 @@
 "use server";
 
-import { User } from "@prisma/client";
+import { Role, User } from "@prisma/client";
 
 import * as bcrypt from "bcrypt";
 import {
@@ -17,12 +17,10 @@ type Email = string;
 function extractEmailDomain(email: Email): string {
   const [user, domain] = email.toLowerCase().split('@');
   const domainParts = domain.split('.');
-
   // Check if the domain is not in the excluded list
   if (!excludedDomains.includes(domainParts[0])) {
     return domainParts[0];
   } 
-
   const isolatedDomain = domainParts[0];
   return isolatedDomain;
 }
@@ -38,23 +36,28 @@ export async function registerUser(
   // Check if client exists
   let client = await prisma.client.findUnique({
     where: { 
-      clientId: domain 
+      domain: domain 
     },
   });
   // If client doesn't exist, create a new one
   if (!client) {
     client = await prisma.client.create({
       data: {       
-        clientId: domain 
+        domain: domain 
       },
     });
-  }
+  };
+
+  /*
+  Check for existing client with prisma.user.findFirst with the email domain
+  If its unique then create user with role admin and connect with client 
+  */
 
   const result = await prisma.user.create({
     data: {
       ...user,
-      role: user.role ? user.role : "user",
-      Client: { connect: { id: client.id } },
+      // role: Role.USER,
+      client: { connect: { id: client.id } },
       password: await bcrypt.hash(user.password, 10),
     },
   });
@@ -65,8 +68,6 @@ export async function registerUser(
   const activationUrl = `${process.env.NEXTAUTH_URL}/auth/activation/${jwtUserId}`;
   const body = compileActivationTemplate(user.name, activationUrl);
   await sendMail({ to: user.email, subject: "Activate your account", body });
-  // const isolatedDomain = extractEmailDomain(user.email);
-  // console.log("domain", isolatedDomain)
   return result;
 }
 
@@ -165,4 +166,8 @@ Invalid `prisma.client.findUnique()` invocation:
 
 Argument `where` of type ClientWhereUniqueInput needs at least one of `id` arguments. Available options are marked with ?.
     at async registerUser (./lib/actions/authActions.ts:34:18)
+
+
+code 15:50 before existingClient logic
+
 */
