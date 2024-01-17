@@ -1,6 +1,6 @@
 "use server";
 
-import { Role, User } from "@prisma/client";
+import { Client, Role, User } from "@prisma/client";
 
 import * as bcrypt from "bcrypt";
 import {
@@ -30,6 +30,8 @@ export async function registerUser(
   user: Omit<User, "id" | "emailVerified" | "image">
 ) {
 
+  console.log(user)
+
   // Client & role logic
   const domain = extractEmailDomain(user.email);
   console.log("domain", domain)
@@ -53,7 +55,11 @@ export async function registerUser(
   If its unique then create user with role admin and connect with client 
   */
 
-  const result = await prisma.user.create({
+  // User logic
+
+  
+
+  const newUser = await prisma.user.create({
     data: {
       ...user,
       // role: Role.USER,
@@ -63,12 +69,12 @@ export async function registerUser(
   });
 
   const jwtUserId = signJwt({
-    id: result.id,
+    id: newUser.id,
   });
   const activationUrl = `${process.env.NEXTAUTH_URL}/auth/activation/${jwtUserId}`;
   const body = compileActivationTemplate(user.name, activationUrl);
   await sendMail({ to: user.email, subject: "Activate your account", body });
-  return result;
+  return newUser;
 }
 
 type ActivateUserFunc = (
@@ -168,6 +174,5 @@ Argument `where` of type ClientWhereUniqueInput needs at least one of `id` argum
     at async registerUser (./lib/actions/authActions.ts:34:18)
 
 
-code 15:50 before existingClient logic
 
 */

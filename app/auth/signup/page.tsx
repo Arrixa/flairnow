@@ -1,5 +1,5 @@
 import SignUpForm from "@/app/components/SignUpForm";
-import { Link } from "@nextui-org/react";
+import Link from "next/link";
 
 const SignupPage = () => {
   return (
