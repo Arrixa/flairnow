@@ -6,7 +6,19 @@ import {
   KeyIcon,
   UserIcon,
 } from "@heroicons/react/20/solid";
-import { Button, Checkbox, Input, Link, Radio } from "@nextui-org/react";
+import { Button } from "./ui/button"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./ui/form"
+import { Input } from "./ui/input"
+import Link from "next/link";
+// import { Button, Checkbox, Input, Link, Radio } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { z } from "zod";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
