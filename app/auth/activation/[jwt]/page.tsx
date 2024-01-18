@@ -1,4 +1,4 @@
-import { activateUser } from "@/lib/actions/authActions";
+import { activateUser } from "@/app/api/user/route";
 import { verifyJwt } from "@/lib/jwt";
 
 interface Props {

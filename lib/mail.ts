@@ -49,7 +49,7 @@ export function compileActivationTemplate(name: string, url: string) {
     name,
     url,
   });
-  // console.log(htmlBody)
+  console.log(htmlBody)
   return htmlBody;
 }
 
