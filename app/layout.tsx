@@ -6,6 +6,7 @@ import Appbar from './components/Appbar'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { cn } from "../lib/utils"
+import Head from 'next/head'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -24,6 +25,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
+      <Head>
+      <link rel="icon" href="/favicon.ico" />
+      </Head>
       <body  className={cn(
           "min-h-screen bg-background font-sans antialiased",
           fontSans.variable

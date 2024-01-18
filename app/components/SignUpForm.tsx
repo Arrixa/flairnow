@@ -19,14 +19,27 @@ import NextAuthProviders from './NextAuthProviders';
 import { toast } from "react-toastify";
 // import GoogleSignInButton from '../GoogleSignInButton';
 
+const passwordSchema = z.string().refine((password) => {
+  // At least one digit
+  const hasDigit = /\d/.test(password);
+  // At least one lowercase letter
+  const hasLowercase = /[a-z]/.test(password);
+  // At least one uppercase letter
+  const hasUppercase = /[A-Z]/.test(password);
+  // At least one special character
+  const hasSpecialChar = /[*.!@$%^&(){}[\]:;<>,.?/~_+-=|\\]/.test(password);
+  // Overall length between 6 and 30 characters
+  const isLengthValid = password.length >= 6 && password.length <= 30;
+  return hasDigit && hasLowercase && hasUppercase && hasSpecialChar && isLengthValid;
+}, {
+  message: 'Invalid password. Password must be 6-30 characters and have at least one digit, lowercase letter, uppercase letter and special character.',
+});
+
 const FormSchema = z
   .object({
     username: z.string().min(1, 'Username is required').max(100),
     email: z.string().min(1, 'Email is required').email('Invalid email'),
-    password: z
-      .string()
-      .min(1, 'Password is required')
-      .min(8, 'Password must have than 8 characters'),
+    password: passwordSchema,
     confirmPassword: z.string().min(1, 'Password confirmation is required'),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -73,18 +86,18 @@ const SignUpForm = () => {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center mx-auto">
+    <div className="flex flex-col justify-center items-center mx-auto w-full px-4 md:px-6 lg:px-8 xl:w-3/4">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
-          <div className='space-y-2'>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='w-full lg:w-96'>
+          <div className='space-y-2 md:w-full lg:w-96'>
             <FormField
               control={form.control}
               name='username'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel className='mx-2'>Username</FormLabel>
                   <FormControl>
-                    <Input placeholder='johndoe' {...field} />
+                    <Input placeholder='Your fullname' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -95,9 +108,9 @@ const SignUpForm = () => {
               name='email'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className='mx-2'>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder='mail@example.com' {...field} />
+                    <Input placeholder='example@mail.com' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -108,7 +121,7 @@ const SignUpForm = () => {
               name='password'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel className='mx-2'>Password</FormLabel>
                   <FormControl>
                     <Input
                       type='password'
@@ -125,10 +138,10 @@ const SignUpForm = () => {
               name='confirmPassword'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Re-enter your password</FormLabel>
+                  <FormLabel className='mx-2'>Re-enter your password</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder='Re-Enter your password'
+                      placeholder='Re-enter your password'
                       type='password'
                       {...field}
                     />
@@ -138,13 +151,16 @@ const SignUpForm = () => {
               )}
             />
           </div>
-          <Button className='w-full mt-6' type='submit'>
+          <div>
+
+          <Button className='min-w-full w-full mt-6' type='submit'>
             Sign up
           </Button>
+          </div>
         </form>
         {/* <NextAuthProviders /> */}
       </Form>
-      <p className='text-center text-sm text-gray-600 mt-2'>
+      <p className='text-sm text-slate-600 mt-2'>
         If you have an account, please&nbsp;
         <Link className='text-blue-500 hover:underline' href='/sign-in'>
           Sign in
