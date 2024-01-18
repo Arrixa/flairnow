@@ -12,8 +12,8 @@ const NextAuthProviders = () => {
   return (
     <div className="flex justify-center items-center p-4 border-t m-3">
       <Button onClick={googleSignIn}>
-        <Image src="/google.svg" alt="Google logo" width={40} height={40}></Image>
-        Sign in with Google
+        <Image src="/google.svg" alt="Google logo" width={30} height={30}></Image>
+        &nbsp;&nbsp;Sign in with Google
         </Button>
     </div>
   );

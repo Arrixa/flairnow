@@ -15,6 +15,8 @@ import { Input } from './ui/input';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import NextAuthProviders from './NextAuthProviders';
+import { toast } from "react-toastify";
 // import GoogleSignInButton from '../GoogleSignInButton';
 
 const FormSchema = z
@@ -59,7 +61,7 @@ const SignUpForm = () => {
         })
       })
       if (response.ok) {
-        // toast.success("The user registered successfully.");
+        toast.success("The user registered successfully.");
         router.push('/auth/signin')
       } else {
         const errorData = await response.json();
@@ -123,7 +125,7 @@ const SignUpForm = () => {
               name='confirmPassword'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Re-Enter your password</FormLabel>
+                  <FormLabel>Re-enter your password</FormLabel>
                   <FormControl>
                     <Input
                       placeholder='Re-Enter your password'
@@ -140,7 +142,7 @@ const SignUpForm = () => {
             Sign up
           </Button>
         </form>
-        {/* <GoogleSignInButton>Sign up with Google</GoogleSignInButton> */}
+        {/* <NextAuthProviders /> */}
       </Form>
       <p className='text-center text-sm text-gray-600 mt-2'>
         If you have an account, please&nbsp;

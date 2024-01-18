@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const SignupPage = () => {
   return (
-    <div className="grid grid-cols-1justify-center items-center gap-3">
+    <div className="grid grid-cols-1 justify-center items-center gap-3 py-10">
       <div className="flex justify-center items-center">
         <p className="p-2 text-lg font-bold">Already signed up?</p>
         <Link className="hover:underline" href={"/auth/signin"}>Sign in</Link>
