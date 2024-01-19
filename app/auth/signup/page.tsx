@@ -10,21 +10,34 @@ const SignupPage = () => {
       <Image
         src="/undraw_job_hunt.svg"
         alt="Image"
-      width={500} 
-      height={300} 
-      objectFit="cover"
+        width={500} 
+        height={300} 
+        style={{objectFit: "cover"}}
       />
     </div>
-  
     <div className="flex flex-col justify-center items-center xl:w-1/2 lg:w-1/2 mx-auto ">
-      <div className="flex justify-center items-center">
-        <p className="p-2 text-lg font-bold">Already signed up?</p>
-        <Link className="hover:underline" href={"/auth/signin"}>
-          Sign in
-        </Link>
+      <div className="py-5">
+        <h2 className="text-3xl font-bold text-center py-5">Sign up</h2>
+        <div className="flex justify-center items-center">
+          <h3>Create your &nbsp;</h3>
+          <span> 
+            <Image
+            src="/FlairNow-Logo-Full-Text.png"
+            alt="Image"
+            width={80} 
+            height={50}
+            />
+          </span>
+          <h3>&nbsp; account.</h3></div>
       </div>
       <div className="w-full md:w-auto"> 
-      <SignUpForm />
+        <SignUpForm />
+      </div>
+    <div className="flex justify-center items-center py-2">
+      <p className="p-2">Already have an account?</p>
+      <Link className="hover:underline text-accent" href={"/auth/signin"}>
+        Sign in
+      </Link>
     </div>
     </div>
   </div>

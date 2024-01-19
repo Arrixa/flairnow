@@ -1,5 +1,5 @@
 "use client";
-import { forgotPassword } from "@/lib/actions/authActions";
+import { forgotPassword } from "@/app/api/user/route";
 import { EnvelopeIcon } from "@heroicons/react/20/solid";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Input } from "@nextui-org/react";
@@ -29,10 +29,11 @@ const ForgotPasswordPage = () => {
       if (result) toast.success("Reset password link was sent to your email.");
       reset();
     } catch (e) {
-      console.log(e);
-      toast.error("Something went wrong!");
+      console.error("Error during password reset:", e);
+      toast.error("Something went wrong. Please try again.");
     }
   };
+  
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 items-center">
       <form

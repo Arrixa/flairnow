@@ -12,10 +12,18 @@ const SigninPage = ({ searchParams }: Props) => {
 
   return (
     <div className="flex items-center justify-center flex-col py-10">
-      <SignInForm callbackUrl={searchParams.callbackUrl} />
-      <Link href={"/auth/forgotPassword"}>Forgot your password?</Link>
+      <SignInForm  />
+      <div className="flex justify-center items-center py-2">
+      <p className="p-2">Don&apos;t have an account?</p>
+      <Link className="hover:underline text-accent" href={"/auth/signup"}>
+        Sign in
+      </Link>
+    </div>
+      <Link href={"/auth/forgotPassword"} className="hover:underline">Forgot your password?</Link>
     </div>
   );
 };
 
 export default SigninPage;
+
+// callbackUrl={searchParams.callbackUrl}

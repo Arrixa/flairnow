@@ -153,20 +153,13 @@ const SignUpForm = () => {
           </div>
           <div>
 
-          <Button className='min-w-full w-full mt-6' type='submit'>
+          <Button className='min-w-full w-full mt-6 text-md ' type='submit'>
             Sign up
           </Button>
           </div>
         </form>
         {/* <NextAuthProviders /> */}
       </Form>
-      <p className='text-sm text-slate-600 mt-2'>
-        If you have an account, please&nbsp;
-        <Link className='text-blue-500 hover:underline' href='/sign-in'>
-          Sign in
-        </Link>
-      </p>
-
     </div>
   );
 };

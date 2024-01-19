@@ -1,9 +1,9 @@
-import * as bcrypt from "bcrypt";
+import * as bcrypt from 'bcryptjs';
 import { prisma } from "@/lib/prisma"; 
 import { excludedDomains } from "@/lib/excludedDomains";
 import { NextResponse } from "next/server";
 import { signJwt, verifyJwt } from "@/lib/jwt";
-import { compileActivationTemplate, sendMail } from "@/lib/mail";
+import { compileActivationTemplate, compileResetPassTemplate, sendMail } from "@/lib/mail";
 
 type Email = string;
 
@@ -102,52 +102,57 @@ type ActivateUserFunc = (
     return "success";
   };
 
-  // export async function forgotPassword(email: string) {
-//   const user = await prisma.user.findUnique({
-//     where: {
-//       email: email,
-//     },
-//   });
+  export async function forgotPassword(email: string) {
+  const user = await prisma.user.findUnique({
+    where: {
+      email: email,
+    },
+  });
 
-//   if (!user) throw new Error("The user does not exist");
+  if (!user) throw new Error("The user does not exist");
 
-//   const jwtUserId = signJwt({
-//     id: user.id,
-//   });
-//   const resetPassUrl = `${process.env.NEXTAUTH_URL}/auth/resetPass/${jwtUserId}`;
-//   const body = compileResetPassTemplate(user.name, resetPassUrl);
-//   const sendResult = await sendMail({
-//     to: user.email,
-//     subject: "Reset password",
-//     body: body,
-//   });
-//   return sendResult;
-// }
+  const jwtUserId = signJwt({
+    id: user.id,
+  });
+  const resetPassUrl = `${process.env.NEXTAUTH_URL}/auth/resetPass/${jwtUserId}`;
+  const body = compileResetPassTemplate(user.name, resetPassUrl);
+  try {
+    const sendResult = await sendMail({
+      to: user.email,
+      subject: "Reset password",
+      body: body,
+    });
+    return sendResult;    
+  } catch (error) {
+    console.error("Error sending email:", error);
+    throw new Error("Failed to send reset password email");
+  }
+}
 
-// type ResetPasswordFucn = (
-//   jwtUserId: string,
-//   password: string
-// ) => Promise<"userNotExist" | "success">;
+type ResetPasswordFucn = (
+  jwtUserId: string,
+  password: string
+) => Promise<"userNotExist" | "success">;
 
-// export const resetPassword: ResetPasswordFucn = async (jwtUserId, password) => {
-//   const payload = verifyJwt(jwtUserId);
-//   if (!payload) return "userNotExist";
-//   const userId = payload.id;
-//   const user = await prisma.user.findUnique({
-//     where: {
-//       id: userId,
-//     },
-//   });
-//   if (!user) return "userNotExist";
+export const resetPassword: ResetPasswordFucn = async (jwtUserId, password) => {
+  const payload = verifyJwt(jwtUserId);
+  if (!payload) return "userNotExist";
+  const userId = payload.id;
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+  if (!user) return "userNotExist";
 
-//   const result = await prisma.user.update({
-//     where: {
-//       id: userId,
-//     },
-//     data: {
-//       password: await bcrypt.hash(password, 10),
-//     },
-//   });
-//   if (result) return "success";
-//   else throw new Error("Something went wrong!");
-// };
+  const result = await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      password: await bcrypt.hash(password, 10),
+    },
+  });
+  if (result) return "success";
+  else throw new Error("Something went wrong!");
+};

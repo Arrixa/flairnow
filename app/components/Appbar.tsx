@@ -1,19 +1,24 @@
 import SigninButton from "./SigninButton";
 import Link from "next/link";
-import { Home } from 'lucide-react';
 import { ModeToggle } from "./ModeToggle";
+import Image from "next/image";
 
 const Appbar = () => {
   return (
-    <nav className=' bg-slate-700 py-2 border-b border-s-zinc-200 flex flex-row w-full z-10 top-0'>
+    <nav className=' bg-primary py-2 flex flex-row w-full z-10 top-0'>
       <div className='container flex items-center gap-4'>
         <Link href='/'>
-          <Home className="text-slate-100 hover:text-sky-400" />
+          <Image
+            src="/FlairNow-Logo.png"
+            alt="Image"
+            width={30} 
+            height={30}
+          />
         </Link>
-          <Link className="text-sm text-slate-100 hover:text-sky-400" href={"/profile"}>
+          <Link className="text-sm text-slate-100 hover:text-accent" href={"/profile"}>
             User Profile
           </Link>
-          <Link className="text-sm text-slate-100 hover:text-sky-400" href={"/admin"}>
+          <Link className="text-sm text-slate-100 hover:text-accent" href={"/admin"}>
             Admin Dashboard
           </Link>
       </div>
