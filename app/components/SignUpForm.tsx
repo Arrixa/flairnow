@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import {
   Form,
   FormControl,
@@ -12,11 +12,13 @@ import {
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from './ui/input';
+import { Label } from './ui/label';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import NextAuthProviders from './NextAuthProviders';
 import { toast } from "react-toastify";
+import { Checkbox } from './ui/checkbox';
 // import GoogleSignInButton from '../GoogleSignInButton';
 
 const passwordSchema = z.string().refine((password) => {
@@ -95,9 +97,9 @@ const SignUpForm = () => {
               name='username'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='mx-2'>Username</FormLabel>
+                  <FormLabel className='mx-2'>Full name</FormLabel>
                   <FormControl>
-                    <Input placeholder='Your fullname' {...field} />
+                    <Input placeholder='Enter your full name' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -110,7 +112,7 @@ const SignUpForm = () => {
                 <FormItem>
                   <FormLabel className='mx-2'>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder='example@mail.com' {...field} />
+                    <Input placeholder='Enter your email address' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -125,7 +127,7 @@ const SignUpForm = () => {
                   <FormControl>
                     <Input
                       type='password'
-                      placeholder='Enter your password'
+                      placeholder='Enter a unique password'
                       {...field}
                     />
                   </FormControl>
@@ -138,7 +140,7 @@ const SignUpForm = () => {
               name='confirmPassword'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='mx-2'>Re-enter your password</FormLabel>
+                  <FormLabel className='mx-2'>Confirm password</FormLabel>
                   <FormControl>
                     <Input
                       placeholder='Re-enter your password'
@@ -151,8 +153,22 @@ const SignUpForm = () => {
               )}
             />
           </div>
+          <div className="gap-2 mt-6">
+           <Controller
+             control={form.control}
+             name="accepted"
+             render={({ field }) => (
+               <Checkbox
+                 onChange={field.onChange}
+                 onBlur={field.onBlur}
+                 className="col-span-2"
+               >
+               </Checkbox>
+             )}
+           />  
+           <Label className="mx-4">By signing up, I agree with the FlairNow <Link href="/terms" className='hover:underline'>Terms </Link>and <Link href="/policy" className='hover:underline'>Privacy Policy </Link></Label>      
+         </div>
           <div>
-
           <Button className='min-w-full w-full mt-6 text-md ' type='submit'>
             Sign up
           </Button>

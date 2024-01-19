@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const Appbar = () => {
   return (
-    <nav className=' bg-primary py-2 flex flex-row w-full z-10 top-0'>
+    <nav className=' bg-secondary py-2 flex flex-row w-full z-10 top-0'>
       <div className='container flex items-center gap-4'>
         <Link href='/'>
           <Image

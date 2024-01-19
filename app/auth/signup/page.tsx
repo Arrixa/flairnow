@@ -35,7 +35,7 @@ const SignupPage = () => {
       </div>
     <div className="flex justify-center items-center py-2">
       <p className="p-2">Already have an account?</p>
-      <Link className="hover:underline text-accent" href={"/auth/signin"}>
+      <Link className="hover:underline text-primary" href={"/auth/signin"}>
         Sign in
       </Link>
     </div>
