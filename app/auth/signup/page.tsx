@@ -8,7 +8,7 @@ const SignupPage = () => {
     {/* Desktop-only image */}
     <div className="hidden md:block">
       <Image
-        src="/undraw_career_development.svg"
+        src="/undraw_job_hunt.svg"
         alt="Image"
       width={500} 
       height={300} 
