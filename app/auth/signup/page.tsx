@@ -8,7 +8,7 @@ const SignupPage = () => {
     {/* Desktop-only image */}
     <div className="hidden md:block">
       <Image
-        src="/undraw_job_hunt.svg"
+        src="/undraw_sign_up.svg"
         alt="Image"
         width={500} 
         height={300} 
@@ -17,10 +17,10 @@ const SignupPage = () => {
     </div>
     <div className="flex flex-col justify-center items-center xl:w-1/2 lg:w-1/2 mx-auto ">
       <div className="py-5">
-        <h2 className="text-3xl font-bold text-center py-5">Sign up</h2>
-        <div className="flex justify-center items-center">
-          <h3>Create your &nbsp;</h3>
-          <span> 
+        <h2 className="text-3xl font-bold text-center py-10">Sign up</h2>
+        <div className="flex items-center justify-center">
+          <h3 className="text-lg align-text-bottom">Create your &nbsp;</h3>
+          <span className="inline-block align-text-bottom"> 
             <Image
             src="/FlairNow-Logo-Full-Text.png"
             alt="Image"
@@ -28,8 +28,8 @@ const SignupPage = () => {
             height={50}
             />
           </span>
-          <h3>&nbsp; account.</h3></div>
-      </div>
+          <h3 className="text-lg align-text-bottom">&nbsp; account.</h3></div>
+        </div>
       <div className="w-full md:w-auto"> 
         <SignUpForm />
       </div>

@@ -5,20 +5,20 @@ import Image from "next/image";
 
 const Appbar = () => {
   return (
-    <nav className=' bg-secondary py-2 flex flex-row w-full z-10 top-0'>
-      <div className='container flex items-center gap-4'>
+    <nav className=' bg-background border-b-4 border-secondary py-2 flex flex-row w-full z-10 top-0'>
+      <div className='container flex items-center gap-4 '>
         <Link href='/'>
           <Image
             src="/FlairNow-Logo.png"
             alt="Image"
-            width={30} 
-            height={30}
+            width={40} 
+            height={40}
           />
         </Link>
-          <Link className="text-sm text-slate-100 hover:text-accent" href={"/profile"}>
+          <Link className="text-sm text-text hover:text-primary mx-2" href={"/profile"}>
             User Profile
           </Link>
-          <Link className="text-sm text-slate-100 hover:text-accent" href={"/admin"}>
+          <Link className="text-sm text-text hover:text-primary mx-2" href={"/admin"}>
             Admin Dashboard
           </Link>
       </div>
