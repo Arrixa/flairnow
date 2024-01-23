@@ -10,9 +10,15 @@ datasource db {
 }
 
 enum Role {
-  USER
+  OWNER
   ADMIN
+  VIEWER
   EMPLOYEE
+  RECRUITER
+  PEOPLE_MANAGER
+  HIRING_MANAGER
+  ONBOARDING_MANAGER
+  UNASSIGNED
 }
 
 model Account {
@@ -84,5 +90,5 @@ model ClientUser {
   clientId        String 
   user            User @relation(fields: [userId], references: [id])
   userId          String
-  role            Role[]   
+  role            Role[]
 }

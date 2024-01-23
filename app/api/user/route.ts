@@ -4,6 +4,7 @@ import { excludedDomains } from "@/lib/excludedDomains";
 import { NextResponse } from "next/server";
 import { signJwt, verifyJwt } from "@/lib/jwt";
 import { compileActivationTemplate, compileResetPassTemplate, sendMail } from "@/lib/mail";
+import { Prisma, Role } from '@prisma/client';
 
 type Email = string;
 
@@ -11,11 +12,18 @@ function extractEmailDomain(email: Email): string {
   const [user, domain] = email.toLowerCase().split('@');
   const domainParts = domain.split('.');
   // Check if the domain is not in the excluded list
+  console.log(domainParts)
   if (!excludedDomains.includes(domainParts[0])) {
     return domainParts[0];
   } 
   const isolatedDomain = domainParts[0];
+  console.log(isolatedDomain)
   return isolatedDomain;
+}
+
+
+const isDomainInExcludedList = (domain: string): boolean => {
+  return excludedDomains.includes(domain);
 }
 
 
@@ -24,24 +32,6 @@ export async function POST(req: Request) {
     const reqBody = await req.json();
     const { emailVerified, image, id, ...user } = reqBody;
     console.log(reqBody)
-
-    // Check if client domain exists
-    const domain = extractEmailDomain(user.email);
-    console.log("domain", domain)
-    const existingClientByDomain = await prisma.client.findUnique({
-      where: {
-        domain: domain
-      }
-    })
-    if (!existingClientByDomain) {
-      const client = await prisma.client.create({
-        data: {       
-          domain: domain,
-          
-        }, 
-      })
-      return client;
-    }
 
     // Check if user email exists
     const existingUserByEmail = await prisma.user.findUnique({
@@ -52,13 +42,67 @@ export async function POST(req: Request) {
     if (existingUserByEmail) {
       return NextResponse.json({ user: null, message: "User with this email already exists. Please signin"})
     }
-    const newUser = await prisma.user.create({
+
+      // New user
+      const newUser = await prisma.user.create({
       data: {
         ...user,
-        // client: { connect: { id: existingClientByDomain.id } },
-        password: await bcrypt.hash(user.password, 10), 
+        password: await bcrypt.hash(user.password, 10)
       }
     });
+
+    // Check if client domain exists
+    const domain = extractEmailDomain(user.email);
+    console.log("domain", domain)
+    
+    // Check if the domain is part of the excluded list (public domains)
+    const isPublicDomain = isDomainInExcludedList(domain);
+    console.log(isPublicDomain)
+
+    if (!isPublicDomain) {
+      let roles: Role[] = [];
+      let client;
+  
+      if (!isPublicDomain) {
+        const existingClientByDomain = await prisma.client.findUnique({
+          where: { 
+            domain: domain 
+          },
+        });
+  
+        if (!existingClientByDomain) {
+          client = await prisma.client.create({ 
+            data: { 
+              domain: domain 
+            } 
+          });
+          roles.push(Role.ADMIN, Role.EMPLOYEE);
+        } else {
+          client = existingClientByDomain;
+          roles.push(Role.EMPLOYEE);
+        }
+      }
+  
+      if (roles.length === 0) {
+        // If roles are not assigned, assume some default role, e.g., USER
+        roles.push(Role.UNASSIGNED);
+      }
+  
+      console.log('Roles:', roles);
+      console.log('Client:', client);
+  
+      // New record in ClientUser table
+      const newClientUser = await prisma.clientUser.create({
+        data: {
+          client: { connect: { id: client.id } },
+          user: { connect: { id: newUser.id } },
+          role: roles,
+        },
+      });
+      
+    }
+
+
     const jwtUserId = signJwt({
           id: newUser.id,
         });
@@ -72,7 +116,6 @@ export async function POST(req: Request) {
     console.error("Error during user creation:", error);
     return NextResponse.json({ message: "Something went wrong"}, { status: 500 });
   }
-
 
 }
 
