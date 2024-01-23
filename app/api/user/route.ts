@@ -4,7 +4,8 @@ import { excludedDomains } from "@/lib/excludedDomains";
 import { NextResponse } from "next/server";
 import { signJwt, verifyJwt } from "@/lib/jwt";
 import { compileActivationTemplate, compileResetPassTemplate, sendMail } from "@/lib/mail";
-import { Prisma, Role } from '@prisma/client';
+// import Role from "@/lib/prisma"
+import { Role } from "@prisma/client";
 
 type Email = string;
 
@@ -60,7 +61,7 @@ export async function POST(req: Request) {
     console.log(isPublicDomain)
 
     if (!isPublicDomain) {
-      let roles: Role[] = [];
+      let roles = [];
       let client;
   
       if (!isPublicDomain) {
@@ -101,7 +102,6 @@ export async function POST(req: Request) {
       });
       
     }
-
 
     const jwtUserId = signJwt({
           id: newUser.id,

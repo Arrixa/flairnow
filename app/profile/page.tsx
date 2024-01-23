@@ -22,7 +22,6 @@ const ProfilePage = async () => {
       <div className="flex flex-col items-center gap-2">
         <p>Name:</p> <p className="">{user?.name}</p>
         <p>Email:</p> <p className="">{user?.email}</p>
-        <p>Role:</p> <p className="">{user?.role}</p>
       </div>
     </div>
   );

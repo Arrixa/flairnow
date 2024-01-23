@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
-// import { PrismaAdapter } from "@auth/prisma-adapter";
-import { AuthOptions } from "next-auth";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { AuthOptions, NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import * as bcrypt from "bcryptjs";
@@ -17,7 +17,7 @@ export const authOptions: AuthOptions = {
   jwt: {
     secret: process.env.NEXTAUTH_SECRET,
   },
-  // adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID ?? "",
@@ -77,12 +77,48 @@ export const authOptions: AuthOptions = {
 
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token = user as User;
+      // if (user) token = user as User;
+      // return token;
+      console.log(token, user)
+      if (token && user && token.email) {
+        const dbUser = await prisma.user.findFirst({
+          where: {
+            email: token.email
+          }
+        })
+        console.log("user id:", user.id)
+        const dbClient = await prisma.clientUser.findFirst({
+          where: {
+            userId: user.id
+          }
+        })
+
+        if (dbUser) {
+          return {
+            id: dbUser.id,
+            name: dbUser.name,
+            email: dbUser.name,
+            role: dbClient?.role
+          }
+        }
+      }
       return token;
     },
 
     async session({ token, session }) {
-      session.user = token;
+      // session.user = token;
+      console.log(token, session)
+      if (token) {
+        session.user = {
+          id: token.id,
+          name: token.name,
+          email: token.email
+        };
+
+        session.clientUser = {
+          role: token.role
+        }
+      }
       return session;
     },
   },
