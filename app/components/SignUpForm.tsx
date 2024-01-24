@@ -169,7 +169,7 @@ const SignUpForm = () => {
            <Label className="mx-4">By signing up, I agree with the FlairNow <Link href="/terms" className='hover:underline'>Terms </Link>and <Link href="/policy" className='hover:underline'>Privacy Policy </Link></Label>      
          </div>
           <div>
-          <Button className='min-w-full w-full mt-6 text-md ' type='submit'>
+          <Button className='min-w-full w-full mt-6 text-md' type='submit'>
             Sign up
           </Button>
           </div>

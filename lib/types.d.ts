@@ -8,6 +8,7 @@ declare module "next-auth" {
     role: Role[]
     client?: {
       domain: string;
+      id: string
     };
   }
 }
@@ -18,6 +19,7 @@ declare module "next-auth/jwt" {
     role: Role[]
     client?: {
       domain: string;
+      id: string
     };
   }
 }

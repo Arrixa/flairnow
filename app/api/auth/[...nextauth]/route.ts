@@ -109,7 +109,8 @@ export const authOptions: AuthOptions = {
             role: dbClientUser?.role,
             clientId: dbClientUser?.clientId,
             client: {
-              domain: dbClient?.domain
+              domain: dbClient?.domain,
+              id: dbClient?.id
             }
           }
         }
@@ -134,6 +135,7 @@ export const authOptions: AuthOptions = {
 
         session.client = {
           domain: token.client?.domain || '',
+          id: token.client?.id || '',
         }
       }
       return session;
