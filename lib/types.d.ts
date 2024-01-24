@@ -6,6 +6,9 @@ declare module "next-auth" {
     user: User
     clientUser: ClientUser
     role: Role[]
+    client?: {
+      domain: string;
+    };
   }
 }
 
@@ -13,6 +16,9 @@ declare module "next-auth/jwt" {
   interface JWT {
     user: User
     role: Role[]
+    client?: {
+      domain: string;
+    };
   }
 }
 

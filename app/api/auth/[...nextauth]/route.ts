@@ -79,26 +79,38 @@ export const authOptions: AuthOptions = {
     async jwt({ token, user }) {
       // if (user) token = user as User;
       // return token;
-      console.log(token, user)
+      // console.log(token, user)
       if (token && user && token.email) {
         const dbUser = await prisma.user.findFirst({
           where: {
             email: token.email
           }
         })
-        console.log("user id:", user.id)
-        const dbClient = await prisma.clientUser.findFirst({
+
+        const emailDomain = user?.email?.toLowerCase().split('@').pop()?.split('.')[0]
+        console.log(emailDomain)
+        const dbClient = await prisma.client.findFirst({
+          where: {
+            domain: emailDomain
+          }
+        })
+
+        const dbClientUser = await prisma.clientUser.findFirst({
           where: {
             userId: user.id
           }
         })
 
-        if (dbUser) {
+        if (dbUser || dbClientUser || dbClient) {
           return {
             id: dbUser.id,
             name: dbUser.name,
-            email: dbUser.name,
-            role: dbClient?.role
+            email: dbUser.email,
+            role: dbClientUser?.role,
+            clientId: dbClientUser?.clientId,
+            client: {
+              domain: dbClient?.domain
+            }
           }
         }
       }
@@ -107,7 +119,7 @@ export const authOptions: AuthOptions = {
 
     async session({ token, session }) {
       // session.user = token;
-      console.log(token, session)
+      // console.log(token, session)
       if (token) {
         session.user = {
           id: token.id,
@@ -116,7 +128,12 @@ export const authOptions: AuthOptions = {
         };
 
         session.clientUser = {
-          role: token.role
+          role: token.role, 
+          clientId: token.clientId, 
+        };
+
+        session.client = {
+          domain: token.client?.domain || '',
         }
       }
       return session;
