@@ -5,6 +5,7 @@
 import { getServerSession } from 'next-auth';
 import Sidebar from './_components/Sidebar';
 import { authOptions } from '../api/auth/[...nextauth]/route';
+import SidebarComp from './_components/Sidebar';
 
 const ClientLayout = async ({ 
   children,
@@ -15,9 +16,10 @@ const ClientLayout = async ({
 
   return (
     <div className="flex">
-      {session?.clientUser?.clientId && session?.clientUser?.role && (
+      {/* {session?.clientUser?.clientId && session?.clientUser?.role && (
         <Sidebar />
-      )}
+      )} */}
+      <SidebarComp />
       <main className="flex-grow p-4">{children}</main>
     </div>
   );

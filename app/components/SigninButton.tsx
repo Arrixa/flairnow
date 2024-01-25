@@ -6,8 +6,8 @@ import Link from "next/link";
 
 const SigninButton = () => {
   const { data: session } = useSession();
-  const clientId = session?.clientUser?.clientId;
   const role = session?.clientUser.role;
+  const clientId = session?.clientUser?.clientId;
   console.log(session?.user, session?.clientUser, 'sesssion & role in sign in btn')
 
 
@@ -15,12 +15,11 @@ const SigninButton = () => {
     <div className="flex items-center gap-2">
       {session && session.user ? (
         <>
-          {/* {role ? (
+          {role ? (
             <Link href="/employee-profile">{`${session.user.name}`}</Link>
           ) : (
             <Link href="/profile">{`${session.user.name}`}</Link>
-          )} */}
-          <Link href="/profile">{`${session.user.name}`}</Link>
+          )}
           <Button onClick={() => signOut()}>Sign out</Button>
         </>
       ) : (
