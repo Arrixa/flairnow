@@ -11,7 +11,7 @@ const NavBar = () => {
       <div className='container flex items-center gap-4 '>
         <Link href='/'>
           <Image
-            src="/FlairNow-Logo.png"
+            src="/FlairNow-Logo.svg"
             alt="Logo"
             width={40} 
             height={40}

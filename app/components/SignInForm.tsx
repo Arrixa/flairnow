@@ -1,6 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
+import { getSession } from 'next-auth/react';
 import {
   Form,
   FormControl,
@@ -43,18 +44,34 @@ const SignInForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
-    const result = await signIn("credentials", {
-      redirect: false,
-      username: values.email,
-      password: values.password,
-    });
-    if (!result?.ok) {
-      toast.error(result?.error);
-      return;
+    try {
+      const result = await signIn("credentials", {
+        redirect: false,
+        username: values.email,
+        password: values.password,
+      });
+      if (!result?.ok) {
+        toast.error(result?.error);
+        return;
+      }
+
+      await getSession();
+      const session = await getSession(); 
+      const role = session?.clientUser.role;
+      const userData = session?.user;
+      console.log('session data in sign in', userData)
+  
+      if (role && role.length > 0) {
+        router.push("/dashboard");
+      } else {
+        router.push("/profile");
+      }
+      toast.success("Welcome to FlairNow");
+    } catch (error) {
+        console.error('Authentication error:', error);
     }
-    toast.success("Welcome to FlairNow");
-    router.push("/profile");
   };
+    
 
   return (
     <div className="flex flex-col justify-center items-center mx-auto">
@@ -94,7 +111,7 @@ const SignInForm = () => {
           </div>
           <div className='flex justify-between items-center mt-4'>
             <span className='flex items-center'><Checkbox className="col-span-2 mr-2"></Checkbox><p>Remember me</p></span>    
-            <Link href={"/auth/forgotPassword"} className="hover:underline text-primary flex justify-end">Forgot password</Link>
+            <Link href={"/auth/forgotPassword"} className="hover:underline text-accent flex justify-end">Forgot password</Link>
           </div>
           <Button className='w-full mt-6' type='submit'>
             Sign in

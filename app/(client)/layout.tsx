@@ -3,23 +3,23 @@
 // Token is encrypted - use instead of session
 
 import { getServerSession } from 'next-auth';
-import Sidebar from './_components/Sidebar';
 import { authOptions } from '../api/auth/[...nextauth]/route';
 import SidebarComp from './_components/Sidebar';
+import { signOut, useSession } from 'next-auth/react';
 
 const ClientLayout = async ({ 
   children,
   }: {
     children: React.ReactNode
   }) => {
-    const session = await getServerSession(authOptions);
+  
+  const session = await getServerSession(authOptions);
+  const userRoles = session?.clientUser?.role ?? [];
+
 
   return (
     <div className="flex">
-      {/* {session?.clientUser?.clientId && session?.clientUser?.role && (
-        <Sidebar />
-      )} */}
-      <SidebarComp />
+      <SidebarComp userRoles={userRoles} />
       <main className="flex-grow p-4">{children}</main>
     </div>
   );

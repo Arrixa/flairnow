@@ -34,7 +34,7 @@ const SigninPage = ({ searchParams }: Props) => {
         </div>
       <div className="flex justify-center items-center py-2">
         <p className="p-2">Don&apos;t have an account?</p>
-        <Link className="hover:underline text-primary" href={"/auth/signup"}>
+        <Link className="hover:underline text-accent" href={"/auth/signup"}>
           Sign up
         </Link>
       </div>

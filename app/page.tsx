@@ -5,7 +5,7 @@ export default function Home() {
     <main className="p-10">
       <div className='flex items-center justify-center h-20 p-5'>
         <Image
-          src="/FlairNow-Logo-Full.png"
+          src="/FlairNow-Logo-Full.svg"
           alt="Image"
           width={300} 
           height={50}

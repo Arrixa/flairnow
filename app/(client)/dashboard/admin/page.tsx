@@ -12,7 +12,7 @@ const AdminDashboardPage = async (req: NextApiRequest, res: NextApiResponse) => 
 
   return (
     <main>
-      <h1 className="text-2xl font-semibold my-4">Admin Dashboard</h1>
+      <h1 className="text-2xl font-semibold my-4 text-center">Admin Dashboard</h1>
       <AdminDashboardForm />
     </main>
   );

@@ -22,7 +22,7 @@ const SignupPage = () => {
             <h3 className="text-lg align-text-bottom">Create your &nbsp;</h3>
             <span className="inline-block align-text-bottom"> 
               <Image
-              src="/FlairNow-Logo-Full-Text.png"
+              src="/FlairNow-Logo-Full-Text.svg"
               alt="Image"
               width={80} 
               height={50}

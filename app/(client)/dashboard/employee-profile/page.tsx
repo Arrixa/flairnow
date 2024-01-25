@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import { NextApiRequest, NextApiResponse } from 'next';
-import { authOptions } from "../../api/auth/[...nextauth]/route";
+import { authOptions } from "../../../api/auth/[...nextauth]/route";
 import { checkAccessAndRedirect } from "@/lib/redirects";
 
 const getSessionData = async (req: NextApiRequest, res: NextApiResponse) => {
