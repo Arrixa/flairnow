@@ -1,22 +1,24 @@
 "use client";
 
+import { Session } from "next-auth";
 import { Button } from "./ui/button";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 
-const SigninButton = () => {
-  const { data: session } = useSession();
-  const role = session?.clientUser.role;
-  const clientId = session?.clientUser?.clientId;
-  console.log(session?.user, session?.clientUser, 'sesssion & role in sign in btn')
+interface SigninBtnProps {
+  role: string[];
+  session?: Session | null, 
+  onClick?: () => void;
+}
 
+const SigninButton: React.FC<SigninBtnProps> = ({ role, session }) => {
 
   return (
     <div className="flex items-center gap-2">
       {session && session.user ? (
         <>
           {role ? (
-            <Link href="/employee-profile">{`${session.user.name}`}</Link>
+            <Link href="/dashboard/employee-profile">{`${session.user.name}`}</Link>
           ) : (
             <Link href="/profile">{`${session.user.name}`}</Link>
           )}

@@ -1,7 +1,13 @@
+"use server"
+
 import { NextApiResponse } from 'next';
 import { Session } from 'next-auth';
 
 export const checkAccessAndRedirect = async (path: string, session: Session | null, res: NextApiResponse) => {
+  console.log('path:', path);
+  console.log('session:', session);
+  console.log('res:', res);
+
   if (!session || !session.clientUser) {
     res.writeHead(302, { Location: '/' });
     res.end();

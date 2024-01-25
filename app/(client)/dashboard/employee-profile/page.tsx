@@ -7,7 +7,7 @@ const getSessionData = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerSession(authOptions);
 
   // Check access and redirect if needed
-  await checkAccessAndRedirect('/employee-profile', session, res);
+  await checkAccessAndRedirect('/dashboard/employee-profile', session, res);
 
   return session;
 };

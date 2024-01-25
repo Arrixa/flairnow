@@ -4,22 +4,17 @@
 
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]/route';
-import SidebarComp from './_components/Sidebar';
-import { signOut, useSession } from 'next-auth/react';
+import Sidebar from './sidebar/page';
 
 const ClientLayout = async ({ 
   children,
   }: {
     children: React.ReactNode
   }) => {
-  
-  const session = await getServerSession(authOptions);
-  const userRoles = session?.clientUser?.role ?? [];
-
 
   return (
     <div className="flex">
-      <SidebarComp userRoles={userRoles} />
+      <Sidebar />
       <main className="flex-grow p-4">{children}</main>
     </div>
   );

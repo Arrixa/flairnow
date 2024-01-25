@@ -5,7 +5,10 @@ import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 
-const NavBar = () => {
+const NavBar = async () => {
+  const session = await getServerSession(authOptions);
+  const role = session?.clientUser?.role ?? [];
+  
   return (
     <nav className=' bg-background border-b-4 border-secondary py-2 flex flex-row w-full z-10 top-0'>
       <div className='container flex items-center gap-4 '>
@@ -21,7 +24,7 @@ const NavBar = () => {
       <div className='container flex items-center gap-4'>
         <div className="flex flex-row ml-auto gap-4">
           <ModeToggle />
-          <SigninButton />
+          <SigninButton role={role} session={session}/>
         </div>
       </div>
     </nav>

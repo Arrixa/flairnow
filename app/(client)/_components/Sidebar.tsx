@@ -1,11 +1,10 @@
 'use client';
-
-import { Sidebar, Spinner } from 'flowbite-react';
-import { signOut, useSession } from 'next-auth/react';
+import { Sidebar } from 'flowbite-react';
+import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { HiAdjustmentsHorizontal, HiArrowLeftOnRectangle, HiArrowRightOnRectangle, HiArrowSmallRight, HiBriefcase, HiBuildingOffice, HiCog8Tooth, HiInbox, HiUser, HiUsers } from 'react-icons/hi2';
+import { HiAdjustmentsHorizontal, HiArrowRightOnRectangle, HiArrowSmallRight, HiBriefcase, HiBuildingOffice, HiCog8Tooth, HiInbox, HiUser, HiUsers } from 'react-icons/hi2';
 interface SidebarCompProps {
   userRoles: string[];
   onClick?: () => void;
@@ -14,36 +13,10 @@ interface SidebarCompProps {
 const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles })  => {
   const router = useRouter(); 
 
-  const handleSignOut = () => {
-    signOut(); 
-    router.push('/');
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: '/' }); 
+    router.replace('/'); 
   };
-// ({ 
-//   children,
-//   }: {
-//     children: React.ReactNode
-//   }) => {
-
-  // const { data: session } = useSession();
-  // const userRoles = session?.clientUser.role ?? [];
-  // const router = useRouter(); 
-
-  // const handleSignOut = () => {
-  //   signOut(); 
-  //   router.push('/');
-  // };
-
-  // console.log(session, 'session in sidebar')
-  // if (session === undefined) {
-  //   return <p className='w-20'>Loading<Spinner className='w-5'/></p>; 
-  // }
-
-  // if (!session) {
-  //   return (
-  //     <Link href="/auth/signin" className="hover:underline text-primary"><HiArrowLeftOnRectangle /> Sign in</Link>
-  //   );
-  // }
-
 
   // Define a list of possible sidebar items with their associated roles
   const sidebarItems = [
@@ -54,7 +27,7 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles })  => {
     { role: 'ADMIN', icon: HiUsers, label: 'Users', href: '#' },
     { role: 'EMPLOYEE', icon: HiAdjustmentsHorizontal, label: 'Preferences', href: '#' },
     { role: 'EMPLOYEE', icon: HiCog8Tooth, label: 'Settings', href: '#' },
-    { role: 'EMPLOYEE', icon: HiArrowRightOnRectangle, label: 'Sign Out', href: '#', onClick: handleSignOut },
+    // { role: 'EMPLOYEE', icon: HiArrowRightOnRectangle, label: 'Sign Out', href: '/', onClick: handleSignOut },
   ];
 
   // Get all unique roles of the user
@@ -78,7 +51,7 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles })  => {
           <Sidebar.ItemGroup>
           {filteredSidebarItems.length > 0 ? (
               filteredSidebarItems.map((item, index) => (
-                <Sidebar.Item key={index} href={item.href} icon={item.icon} onClick={item.onClick}>
+                <Sidebar.Item key={index} href={item.href} icon={item.icon}>
                   {item.label}
                 </Sidebar.Item>
               ))
@@ -88,13 +61,17 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles })  => {
                 No role access
               </Sidebar.Item>
             )}
+             {/* Sign Out button styled like other sidebar items */}
+             <button className="flex items-center mr-5" onClick={handleSignOut}>
+              <HiArrowRightOnRectangle className="mx-2" />
+              Sign Out
+            </button>
           </Sidebar.ItemGroup>
         </Sidebar.Items>
       </Sidebar>
-      {/* {children} */}
     </div>
   )
 }
 
-export default SidebarComp
+export default SidebarComp;
 
