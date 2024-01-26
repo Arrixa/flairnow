@@ -37,7 +37,7 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles })  => {
   const filteredSidebarItems = sidebarItems.filter(item => uniqueRoles.includes(item.role));
 
   return (
-    <div>
+    <div className='border-r-4 border-secondary'>
       <Sidebar aria-label="Client dashboard sidebar" className='border-none w-auto m-4'>
         <Link href='/dashboard'>
           <Image
@@ -64,7 +64,7 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles })  => {
              {/* Sign Out button styled like other sidebar items */}
              <button className="flex items-center mr-5" onClick={handleSignOut}>
               <HiArrowRightOnRectangle className="mx-2" />
-              Sign Out
+              Sign out
             </button>
           </Sidebar.ItemGroup>
         </Sidebar.Items>

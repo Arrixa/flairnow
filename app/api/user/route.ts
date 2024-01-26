@@ -109,6 +109,7 @@ export async function POST(req: Request) {
         const activationUrl = `${process.env.NEXTAUTH_URL}/auth/activation/${jwtUserId}`;
         const body = compileActivationTemplate(user.username, activationUrl);
         await sendMail({ to: user.email, subject: "Activate your account", body });
+        
     const { password: newUserPassword, ...rest } = newUser;
     return NextResponse.json({ user: rest, message: "User created successfully"}, { status: 201 })
 

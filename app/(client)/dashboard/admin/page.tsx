@@ -13,8 +13,8 @@ const AdminDashboardPage = async (req: NextApiRequest, res: NextApiResponse) => 
 
   return (
     <main className='mx-20'>
-      <h1 className="text-2xl text-center font-semibold my-4">Company settings</h1>
-      <div className='w-full'>
+      <h1 className="text-2xl text-left ml-4 font-semibold my-4">Company settings</h1>
+      <div className='w-full flex flex-start'>
         <Tabs defaultValue="info" className="w-full">
           <TabsList>
             <TabsTrigger value="info" className="info-trigger">Company information</TabsTrigger>
