@@ -13,6 +13,7 @@ import 'react-phone-number-input/style.css';
 import PhoneInput2 from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import { toast } from 'react-toastify';
+import { useState } from 'react';
 
 
 const FormSchema = z.object({
@@ -56,7 +57,7 @@ const yourComponentStyles = {
     cursor: 'not-allowed', // disabled:cursor-not-allowed in Tailwind
     opacity: '0.5', // disabled:opacity-50 in Tailwind
   },
-  inputStyle: {
+  inputstyle: {
     flex: '1',
     background: '#fff', // background: "white" in Tailwind
     focusVisible: {
@@ -72,6 +73,7 @@ const yourComponentStyles = {
 };
 
 const AdminDashboardForm = () => {
+  const [isEditMode, setIsEditMode] = useState(true);
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -111,17 +113,54 @@ const AdminDashboardForm = () => {
       })
       if (response.ok) {
         toast.success("The client infomation saved successfully.");
+        setIsEditMode(true);
       } else {
         // const errorData = await response.json();
-        console.error("Save failed:");
+        console.error("Save failed");
       }
     } catch (error) {
       console.error("Save failed:", error);
     }
   };
+  console.log(isEditMode)
 
   return (
     <section className="flex flex-col w-full p-4">
+      {isEditMode ? (
+        <div className='w-full'>
+          <div className="flex flex-row mx-auto w-full">
+            {/* Display submitted information */}
+            <div>
+              <p className="mb-2">Name:</p>
+              <p className="mb-2">Website:</p>
+              <p className="mb-2">Description:</p>
+              <p className="mb-2">Phone number:</p>
+              <p className="mb-2">Street number:</p>
+              <p className="mb-2">Street address:</p>
+              <p className="mb-2">Province:</p>
+              <p className="mb-2">Zip code:</p>
+              <p className="mb-2">Country:</p>
+            </div>
+            <div>
+              <p className="flex h-10 w-full border-b-2 border-border px-3 py-2 text-sm">{form.watch('name')}</p>
+              <p className="flex h-10 w-full border-b-2 border-border px-3 py-2 text-sm">{form.watch('website')}</p>
+              <p className="flex h-10 w-full border-b-2 border-border px-3 py-2 text-sm">{form.watch('description')}</p>
+              <p className="flex h-10 w-full border-b-2 border-border px-3 py-2 text-sm"> {form.watch('phoneNumber')}</p>
+              <p className="flex h-10 w-full border-b-2 border-border px-3 py-2 text-sm">{form.watch('streetNo')}</p>
+              <p className="flex h-10 w-full border-b-2 border-border px-3 py-2 text-sm"> {form.watch('streetAddress')}</p>
+              <p className="flex h-10 w-full border-b-2 border-border px-3 py-2 text-sm">{form.watch('province')}</p>
+              <p className="flex h-10 w-full border-b-2 border-border px-3 py-2 text-sm">{form.watch('zipCode')}</p>
+              <p className="flex h-10 w-full border-b-2 border-border px-3 py-2 text-sm">{form.watch('country')}</p>
+            </div>
+          </div>
+          <Button
+            className='mt-4 text-md'
+            onClick={() => setIsEditMode(false)}
+          >
+            Edit
+          </Button>
+        </div>
+      ) : (
       <div 
       className='flex flex-col mx-auto w-full'
       >
@@ -186,7 +225,7 @@ const AdminDashboardForm = () => {
                       <PhoneInput 
                         className='flex h-10 w-full rounded-md border-2 border-border bg-input px-3 py-2 text-sm ring-offset-accent file:border-0  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50' 
                         containerStyle={yourComponentStyles.containerStyle}
-                        inputStyle={yourComponentStyles.inputStyle}
+                        inputstyle={yourComponentStyles.inputstyle}
                         placeholder="Enter phone number"
                         {...field} />
                     </FormControl>
@@ -280,6 +319,8 @@ const AdminDashboardForm = () => {
           </form>
         </Form>
       </div>
+
+        )}
     </section>
   );
 };
