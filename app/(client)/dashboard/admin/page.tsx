@@ -3,6 +3,7 @@ import AdminDashboardForm from '../../_components/AdminDashboardForm';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { checkAccessAndRedirect } from '@/lib/redirects';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
 
 const AdminDashboardPage = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getServerSession(authOptions);
@@ -11,14 +12,25 @@ const AdminDashboardPage = async (req: NextApiRequest, res: NextApiResponse) => 
   await checkAccessAndRedirect('/admin', session, res);
 
   return (
-    <main>
-      <h1 className="text-2xl font-semibold my-4 text-center">Admin Dashboard</h1>
-      <AdminDashboardForm />
+    <main className='mx-20'>
+      <h1 className="text-2xl text-center font-semibold my-4">Company settings</h1>
+      <div className='w-full'>
+        <Tabs defaultValue="info" className="w-full">
+          <TabsList>
+            <TabsTrigger value="info" className="info-trigger">Company information</TabsTrigger>
+            <TabsTrigger value="preferences" className="info-trigger">Preferences</TabsTrigger>
+          </TabsList>
+          <TabsContent value="info"><AdminDashboardForm /></TabsContent>
+          <TabsContent value="preferences"></TabsContent>
+        </Tabs>
+      </div>   
     </main>
   );
 };
 
 export default AdminDashboardPage;
+
+
 
 // import { getServerSession } from "next-auth";
 // import React from "react";

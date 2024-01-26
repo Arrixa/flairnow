@@ -6,6 +6,7 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { HiBuildingOffice, HiNewspaper } from 'react-icons/hi2';
+import { Textarea } from '@/app/components/ui/textarea';
 
 const GeneralInfoSchema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -46,9 +47,9 @@ const AdminDashboardForm = () => {
   };
 
   return (
-    <div className="flex flex-col w-full p-4">
+    <section className="flex flex-col w-full p-4">
       <div 
-      className='flex flex-col justify-center items-center mx-auto w-full px-4 md:px-6 lg:px-8'
+      className='flex flex-col mx-auto w-full'
       >
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='w-full lg:w-3/4'>
@@ -93,7 +94,8 @@ const AdminDashboardForm = () => {
                   <FormItem className="flex items-center">
                     <FormLabel className="w-1/2 pr-4">Description</FormLabel>
                     <FormControl>
-                      <Input placeholder='Enter description' {...field} />
+                      <Textarea placeholder="Type your description" {...field} />
+                      {/* <Input placeholder='Enter description'  /> */}
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -210,7 +212,7 @@ const AdminDashboardForm = () => {
           </form>
         </Form>
       </div>
-    </div>
+    </section>
   );
 };
 
