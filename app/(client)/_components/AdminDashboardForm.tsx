@@ -7,12 +7,16 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { HiBuildingOffice, HiNewspaper } from 'react-icons/hi2';
 import { Textarea } from '@/app/components/ui/textarea';
+// import CountrySelect from './CountrySelect';
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
+
 
 const GeneralInfoSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   website: z.string().url('Invalid URL'),
   description: z.string(),
-  countryCode: z.string().length(2, 'Country Code must be 2 characters'),
+  // countryCode: z.string().length(2, 'Country Code must be 2 characters'),
   phoneNumber: z.string().min(1, 'Phone Number is required'),
 });
 
@@ -31,7 +35,7 @@ const AdminDashboardForm = () => {
       name: '',
       website: '',
       description: '',
-      countryCode: '',
+      // countryCode: '',
       phoneNumber: '',
       streetNo: '',
       streetAddress: '',
@@ -101,19 +105,7 @@ const AdminDashboardForm = () => {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name='countryCode'
-                render={({ field }) => (
-                  <FormItem className="flex items-center">
-                    <FormLabel className="w-1/2 pr-4">Country code</FormLabel>
-                    <FormControl>
-                      <Input placeholder='Enter country code' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              
               <FormField
                 control={form.control}
                 name='phoneNumber'
@@ -121,7 +113,9 @@ const AdminDashboardForm = () => {
                   <FormItem className="flex items-center">
                     <FormLabel className="w-1/2 pr-4">Phone number</FormLabel>
                     <FormControl>
-                      <Input placeholder='Enter phone number' {...field} />
+                      <PhoneInput 
+                        className='flex h-10 w-full rounded-md border-2 border-border bg-input px-3 py-2 text-sm ring-offset-accent file:border-0  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50' 
+                        placeholder="Enter phone number" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -218,3 +212,16 @@ const AdminDashboardForm = () => {
 
 export default AdminDashboardForm;
 
+{/* <FormField
+                control={form.control}
+                name='countryCode'
+                render={({ field }) => (
+                  <FormItem className="flex items-center">
+                    <FormLabel className="w-1/2 pr-4">Country code</FormLabel>
+                    <FormControl>
+                      <CountrySelect {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              /> */}
