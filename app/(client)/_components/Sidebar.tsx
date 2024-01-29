@@ -62,7 +62,7 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles })  => {
               </Sidebar.Item>
             )}
              {/* Sign Out button styled like other sidebar items */}
-             <button className="flex items-center mr-5" onClick={handleSignOut}>
+             <button className="flex items-center mr-5 py-2" onClick={handleSignOut}>
               <HiArrowRightOnRectangle className="mx-2" />
               Sign out
             </button>

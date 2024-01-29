@@ -13,6 +13,10 @@ interface UserCardProps {
 }
 
 const UserCard: React.FC<UserCardProps> = ({ session }) => {
+  function capitalizeFirstLetter(str: string): string {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
   return (
     <div className="bg-secondary p-6 rounded-b-md border-r-4 border-secondary">
       {session && session.user ? (
@@ -32,7 +36,7 @@ const UserCard: React.FC<UserCardProps> = ({ session }) => {
           <div>
             <h4 className="text-lg font-semibold">{`${session.user.username}`}</h4>
             <Separator />
-            <p>{`${session.client?.domain}`}</p>
+            <p>{`${session.client?.domain ? capitalizeFirstLetter(session.client.domain) : ''}`}</p>
           </div>
         </div>
       ) : (
