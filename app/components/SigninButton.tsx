@@ -18,9 +18,9 @@ const SigninButton: React.FC<SigninBtnProps> = ({ role, session }) => {
       {session && session.user ? (
         <>
           {role ? (
-            <Link href="/dashboard/employee-profile">{`${session.user.name}`}</Link>
+            <Link href="/dashboard/employee-profile">{`${session.user.username}`}</Link>
           ) : (
-            <Link href="/profile">{`${session.user.name}`}</Link>
+            <Link href="/profile">{`${session.user.username}`}</Link>
           )}
           <Button onClick={() => signOut()}>Sign out</Button>
         </>

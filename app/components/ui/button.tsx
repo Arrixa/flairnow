@@ -12,7 +12,7 @@ const buttonVariants = cva(
         flairnow: 
           "bg-primary hover:bg-muted text-white",
         flairnowOutline:
-          "border-2 border-primary bg-background text-primary hover:bg-accent hover:text-accent-foreground",
+          "border-2 border-primary bg-background text-primary hover:bg-secondary",
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",

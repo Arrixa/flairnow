@@ -20,7 +20,7 @@ const EmployeePage = async (req: NextApiRequest, res: NextApiResponse) => {
   return (
     <div className="flex flex-col items-center gap-2">
       <h2 className="p-4">Employee profile page</h2>
-      <p>Name:</p> <p className="">{user?.name}</p>
+      <p>Name:</p> <p className="">{user?.username}</p>
       <p>Email:</p> <p className="">{user?.email}</p>
       <p>Role:</p> <p>{role}</p>
     </div>

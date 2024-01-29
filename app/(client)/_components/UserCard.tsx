@@ -30,7 +30,7 @@ const UserCard: React.FC<UserCardProps> = ({ session }) => {
             </Avatar> */}
           </div>
           <div>
-            <h4 className="text-lg font-semibold">{`${session.user.name}`}</h4>
+            <h4 className="text-lg font-semibold">{`${session.user.username}`}</h4>
             <Separator />
             <p>{`${session.client?.domain}`}</p>
           </div>

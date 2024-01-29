@@ -43,10 +43,10 @@ export async function sendMail({
   }
 }
 
-export function compileActivationTemplate(name: string, url: string) {
+export function compileActivationTemplate(username: string, url: string) {
   const template = Handlebars.compile(activationTemplate);
   const htmlBody = template({
-    name,
+    username,
     url,
   });
   // console.log(htmlBody)
