@@ -5,7 +5,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import * as bcrypt from "bcryptjs";
 import NextAuth from "next-auth/next";
-import { User } from "@prisma/client";
+// import { User } from "@prisma/client";
+import { JWT } from "next-auth/jwt";
 
 export const authOptions: AuthOptions = {
   pages: {
@@ -32,10 +33,9 @@ export const authOptions: AuthOptions = {
       profile(profile) {
         return {
           id: profile.sub,
-          name: `${profile.name}`,
+          username: `${profile.name}`,
           email: profile.email,
           image: profile.picture,
-          role: profile.role ? profile.role : "user",
         };
       },
     }),
@@ -43,10 +43,10 @@ export const authOptions: AuthOptions = {
       name: "Credentials",
 
       credentials: {
-        username: {
-          label: "User Name",
+        email: {
+          label: "Email",
           type: "text",
-          placeholder: "Your User Name",
+          placeholder: "Your email",
         },
         password: {
           label: "Password",
@@ -56,16 +56,16 @@ export const authOptions: AuthOptions = {
       async authorize(credentials) {
         const user = await prisma.user.findUnique({
           where: {
-            email: credentials?.username,
+            email: credentials?.email,
           },
         });
 
-        if (!user) throw new Error("User name or password is not correct");
+        if (!user) throw new Error("Email or password is not correct");
 
         if (!credentials?.password) throw new Error("Please provide your password");
         const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
 
-        if (!isPasswordCorrect) throw new Error("User name or password is not correct");
+        if (!isPasswordCorrect) throw new Error("Email or password is not correct");
 
         if (!user.emailVerified) throw new Error("Please verify your email first!");
 
@@ -76,16 +76,17 @@ export const authOptions: AuthOptions = {
   ],
 
   callbacks: {
-    async jwt({ token, user }) {
-      // if (user) token = user as User;
-      // return token;
-      // console.log(token, user)
+    async jwt({ token, user }): Promise<JWT> {
       if (token && user && token.email) {
+        console.log('Token email:', token.email);
+  
         const dbUser = await prisma.user.findFirst({
           where: {
-            email: token.email
-          }
-        })
+            email: user.email,
+          },
+        });
+  
+        console.log('DB User:', dbUser);
 
         const emailDomain = user?.email?.toLowerCase().split('@').pop()?.split('.')[0]
         console.log(emailDomain)
@@ -103,6 +104,7 @@ export const authOptions: AuthOptions = {
 
         if (dbUser || dbClientUser || dbClient) {
           return {
+            user,
             id: dbUser.id,
             username: dbUser.username,
             email: dbUser.email,
@@ -110,7 +112,17 @@ export const authOptions: AuthOptions = {
             clientId: dbClientUser?.clientId,
             client: {
               domain: dbClient?.domain,
-              id: dbClient?.id
+              id: dbClient?.id,
+              companyName: dbClient?.companyName,
+              website: dbClient?.website,
+              description: dbClient?.description,
+              countryCode: dbClient?.countryCode,
+              phoneNumber: dbClient?.phoneNumber,
+              streetNo: dbClient?.streetNo,
+              streetAddress: dbClient?.streetAddress,
+              province: dbClient?.province,
+              zipCode: dbClient?.zipCode,
+              country: dbClient?.country
             }
           }
         }
@@ -136,6 +148,16 @@ export const authOptions: AuthOptions = {
         session.client = {
           domain: token.client?.domain || '',
           id: token.client?.id || '',
+          name: token.client?.name || '',
+          website: token.client?.website || '',
+          description: token.client?.description || '',
+          countryCode: token.client?.countryCode || '',
+          phoneNumber: token.client?.phoneNumber || '',
+          streetNo: token.client?.streetNo || '',
+          streetAddress: token.client?.streetAddress || '',
+          province: token.client?.province || '',
+          zipCode: token.client?.zipCode || '',
+          country: token.client?.country || ''
         }
       }
       return session;

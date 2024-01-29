@@ -9,7 +9,7 @@ const rolesConfig: { [key: string]: { variant: string; label: string } } = {
 const RoleBadges = ({ roles }: { roles: string[] }) => {
   return (
     <>
-      {roles.map((role, index) => {
+      {roles?.map((role, index) => {
         const roleConfig = rolesConfig[role] || { variant: "outline", label: role };
         const { variant, label } = roleConfig;
 

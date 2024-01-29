@@ -71,7 +71,7 @@ model User {
 model Client {
   id              String @id @default(cuid())
   domain          String @unique
-  name            String?
+  companyName     String?
   website         String?
   description     String?
   countryCode     String?

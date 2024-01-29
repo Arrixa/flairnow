@@ -2,14 +2,8 @@ import SignInForm from "@/app/components/SignInForm";
 import Image from "next/image";
 import Link from "next/link";
 
-interface Props {
-  searchParams: {
-    callbackUrl?: string;
-  };
-}
 
-const SigninPage = ({ searchParams }: Props) => {
-  console.log({ searchParams });
+const SigninPage = () => {
 
   return (
     <main className="grid grid-cols-1 md:grid-cols-2 justify-center items-center gap-2 mx-auto py-10 xl:w-3/4 lg:w-3/4 md:w-8/12 sm:w-full ">

@@ -14,10 +14,16 @@ import PhoneInput2 from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import { toast } from 'react-toastify';
 import { useState } from 'react';
+import CompanyInfo from './CompanyInfo';
+import { Session } from "next-auth";
 
+interface AdminProps {
+  session?: Session | null, 
+  onClick?: () => void;
+}
 
 const FormSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
+  companyName: z.string().min(1, 'Name is required'),
   website: z.string().url('Invalid URL'),
   description: z.string(),
   // countryCode: z.string().length(2, 'Country Code must be 2 characters'),
@@ -72,12 +78,11 @@ const yourComponentStyles = {
   },
 };
 
-const AdminDashboardForm = () => {
-  const [isEditMode, setIsEditMode] = useState(true);
+const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      name: '',
+      companyName: '',
       website: '',
       description: '',
       // countryCode: '',
@@ -90,6 +95,8 @@ const AdminDashboardForm = () => {
     },
   });
 
+  const [isEditMode, setIsEditMode] = useState(true);
+
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     console.log('Form submitted:', data);
     console.log("Save client function called");
@@ -100,7 +107,7 @@ const AdminDashboardForm = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          name: data.name,
+          companyName: data.companyName,
           website: data.website,       
           description: data.description,
           phoneNumber: data.phoneNumber,
@@ -113,7 +120,7 @@ const AdminDashboardForm = () => {
       })
       if (response.ok) {
         toast.success("The client infomation saved successfully.");
-        setIsEditMode(true);
+        setIsEditMode(true)
       } else {
         // const errorData = await response.json();
         console.error("Save failed");
@@ -122,39 +129,16 @@ const AdminDashboardForm = () => {
       console.error("Save failed:", error);
     }
   };
-  console.log(isEditMode)
 
   return (
     <section className="flex flex-col w-full p-4">
       {isEditMode ? (
         <div className='w-full'>
           <div className="flex flex-row mx-auto w-full">
-            {/* Display submitted information */}
-            <div>
-              <p className="mb-2">Name:</p>
-              <p className="mb-2">Website:</p>
-              <p className="mb-2">Description:</p>
-              <p className="mb-2">Phone number:</p>
-              <p className="mb-2">Street number:</p>
-              <p className="mb-2">Street address:</p>
-              <p className="mb-2">Province:</p>
-              <p className="mb-2">Zip code:</p>
-              <p className="mb-2">Country:</p>
-            </div>
-            <div>
-              <p className="flex h-10 w-full border-b-2 border-border px-3 py-2 text-sm">{form.watch('name')}</p>
-              <p className="flex h-10 w-full border-b-2 border-border px-3 py-2 text-sm">{form.watch('website')}</p>
-              <p className="flex h-10 w-full border-b-2 border-border px-3 py-2 text-sm">{form.watch('description')}</p>
-              <p className="flex h-10 w-full border-b-2 border-border px-3 py-2 text-sm"> {form.watch('phoneNumber')}</p>
-              <p className="flex h-10 w-full border-b-2 border-border px-3 py-2 text-sm">{form.watch('streetNo')}</p>
-              <p className="flex h-10 w-full border-b-2 border-border px-3 py-2 text-sm"> {form.watch('streetAddress')}</p>
-              <p className="flex h-10 w-full border-b-2 border-border px-3 py-2 text-sm">{form.watch('province')}</p>
-              <p className="flex h-10 w-full border-b-2 border-border px-3 py-2 text-sm">{form.watch('zipCode')}</p>
-              <p className="flex h-10 w-full border-b-2 border-border px-3 py-2 text-sm">{form.watch('country')}</p>
-            </div>
+            <CompanyInfo session={session}/>
           </div>
           <Button
-            className='mt-4 text-md'
+            className='mt-4 text-md px-10'
             onClick={() => setIsEditMode(false)}
           >
             Edit
@@ -168,18 +152,18 @@ const AdminDashboardForm = () => {
           <form onSubmit={form.handleSubmit(onSubmit)} className='w-full lg:w-3/4'>
             <div className="flex items-center my-4">
               <HiNewspaper />
-              <h2 className="text-xl font-semibold ml-2">General Information</h2>
+              <h2 className="text-xl font-semibold ml-6">General Information</h2>
             </div>
             <div className="flex flex-col">
               <div className="">
                 <FormField
                   control={form.control}
-                  name='name'
+                  name='companyName'
                   render={({ field }) => (
-                    <FormItem className="flex items-center">
-                      <FormLabel className="w-1/2 pr-4">Name</FormLabel>
+                    <FormItem className="flex items-center border-b">
+                      <FormLabel className="w-1/2 ml-10">Name</FormLabel>
                       <FormControl className="">
-                        <Input placeholder='Enter name' {...field} />
+                        <Input placeholder='Enter company name' {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -191,8 +175,8 @@ const AdminDashboardForm = () => {
                 control={form.control}
                 name='website'
                 render={({ field }) => (
-                  <FormItem className="flex items-center">
-                    <FormLabel className="w-1/2 pr-4">Website</FormLabel>
+                  <FormItem className="flex items-center border-b">
+                    <FormLabel className="w-1/2 ml-10">Website</FormLabel>
                     <FormControl>
                       <Input placeholder='Enter website URL' {...field} />
                     </FormControl>
@@ -204,8 +188,8 @@ const AdminDashboardForm = () => {
                 control={form.control}
                 name='description'
                 render={({ field }) => (
-                  <FormItem className="flex items-center">
-                    <FormLabel className="w-1/2 pr-4">Description</FormLabel>
+                  <FormItem className="flex items-center border-b">
+                    <FormLabel className="w-1/2 ml-10">Description</FormLabel>
                     <FormControl>
                       <Textarea placeholder="Type your description" {...field} />
                       {/* <Input placeholder='Enter description'  /> */}
@@ -219,11 +203,11 @@ const AdminDashboardForm = () => {
                 control={form.control}
                 name='phoneNumber'
                 render={({ field }) => (
-                  <FormItem className="flex items-center">
-                    <FormLabel className="w-1/2 pr-4">Phone number</FormLabel>
+                  <FormItem className="flex items-center border-b">
+                    <FormLabel className="w-1/2 ml-10">Phone number</FormLabel>
                     <FormControl>
                       <PhoneInput 
-                        className='flex h-10 w-full rounded-md border-2 border-border bg-input px-3 py-2 text-sm ring-offset-accent file:border-0  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50' 
+                        className='flex h-10 w-full rounded-md bg-input px-3 py-2 text-sm ring-offset-accent file:border-0  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50' 
                         containerStyle={yourComponentStyles.containerStyle}
                         inputstyle={yourComponentStyles.inputstyle}
                         placeholder="Enter phone number"
@@ -237,15 +221,15 @@ const AdminDashboardForm = () => {
             </div>
             <div className="flex items-center my-4">
               <HiBuildingOffice />
-              <h2 className="text-xl font-semibold ml-2">Location</h2>
+              <h2 className="text-xl font-semibold ml-6">Location</h2>
             </div>
             <div className="flex flex-col">
               <FormField
                   control={form.control}
                   name='streetNo'
                   render={({ field }) => (
-                    <FormItem className="flex items-center">
-                      <FormLabel className="w-1/2 pr-4">Street number</FormLabel>
+                    <FormItem className="flex items-center border-b">
+                      <FormLabel className="w-1/2 ml-10">Street number</FormLabel>
                       <FormControl>
                         <Input placeholder='Enter street number' {...field} />
                       </FormControl>
@@ -257,8 +241,8 @@ const AdminDashboardForm = () => {
                   control={form.control}
                   name='streetAddress'
                   render={({ field }) => (
-                    <FormItem className="flex items-center">
-                      <FormLabel className="w-1/2 pr-4">Street Address</FormLabel>
+                    <FormItem className="flex items-center border-b">
+                      <FormLabel className="w-1/2 ml-10">Street Address</FormLabel>
                       <FormControl>
                         <Input placeholder='Enter street address' {...field} />
                       </FormControl>
@@ -270,8 +254,8 @@ const AdminDashboardForm = () => {
                   control={form.control}
                   name='province'
                   render={({ field }) => (
-                    <FormItem className="flex items-center">
-                      <FormLabel className="w-1/2 pr-4">Province</FormLabel>
+                    <FormItem className="flex items-center border-b">
+                      <FormLabel className="w-1/2 ml-10">Province</FormLabel>
                       <FormControl>
                         <Input placeholder='Enter province' {...field} />
                       </FormControl>
@@ -283,8 +267,8 @@ const AdminDashboardForm = () => {
                   control={form.control}
                   name='zipCode'
                   render={({ field }) => (
-                    <FormItem className="flex items-center">
-                      <FormLabel className="w-1/2 pr-4">Zip Code</FormLabel>
+                    <FormItem className="flex items-center border-b">
+                      <FormLabel className="w-1/2 ml-10">Zip Code</FormLabel>
                       <FormControl>
                         <Input placeholder='Enter zip code' {...field} />
                       </FormControl>
@@ -296,8 +280,8 @@ const AdminDashboardForm = () => {
                   control={form.control}
                   name='country'
                   render={({ field }) => (
-                    <FormItem className="flex items-center">
-                      <FormLabel className="w-1/2 pr-4">Country</FormLabel>
+                    <FormItem className="flex items-center border-b">
+                      <FormLabel className="w-1/2 ml-10">Country</FormLabel>
                       <FormControl>
                         <Input placeholder='Enter country' {...field} />
                       </FormControl>
@@ -307,7 +291,7 @@ const AdminDashboardForm = () => {
                 />
             </div>
             <div className="flex items-center">
-              <div className="w-1/2 pr-4">
+              <div className="w-1/2 ml-10">
                 {/* Empty div to create space for label alignment */}
               </div>
               <div className="w-full">

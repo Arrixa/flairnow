@@ -1,28 +1,36 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]/route";
-import Image from "next/image";
 import { redirect } from "next/navigation";
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/app/components/ui/table";
+
 
 const ProfilePage = async () => {
   const session = await getServerSession(authOptions);
   const user = session?.user;
   if (!session || !session.user) redirect("/auth/signin");
-  if (!session.role) {
+  if (!session.clientUser.role) {
     return (
-      <div>
-        {/* <Image
-          height={300}
-          width={300}
-          src={user?.image ?? ""}
-          alt={user?.name ?? ""}
-          className="rounded-full"
-        /> */}
-        
-        <div className="flex flex-col items-center gap-2">
-          <p>Name:</p> <p className="">{user?.name}</p>
-          <p>Email:</p> <p className="">{user?.email}</p>
-        </div>
-      </div>
+      <main className="flex flex-col items-left space-x-10 mx-20">
+        <h1 className="text-2xl text-left mx-20 font-semibold my-8">User profile information</h1>
+        <Table className="lg:w-1/2 md:w-2/3 w-3/4 space-x-10">
+          <TableCaption></TableCaption>
+          <TableHeader>
+            <TableRow>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableHead className="w-1/3 px-10">Name:</TableHead>
+              <TableCell className="w-2/3 text-left px-10">{user?.username}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableHead className="w-1/3 px-10">Email:</TableHead>
+              <TableCell className="w-2/3 text-left px-10">{user?.email}</TableCell>
+            </TableRow>
+            <TableRow></TableRow>
+          </TableBody>
+        </Table>
+      </main>
     );
   }
   

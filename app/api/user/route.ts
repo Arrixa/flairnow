@@ -159,7 +159,7 @@ type ActivateUserFunc = (
     id: user.id,
   });
   const resetPassUrl = `${process.env.NEXTAUTH_URL}/auth/resetPass/${jwtUserId}`;
-  const body = compileResetPassTemplate(user.name, resetPassUrl);
+  const body = compileResetPassTemplate(user.username, resetPassUrl);
   try {
     const sendResult = await sendMail({
       to: user.email,

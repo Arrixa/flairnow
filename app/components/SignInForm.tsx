@@ -47,7 +47,7 @@ const SignInForm = () => {
     try {
       const result = await signIn("credentials", {
         redirect: false,
-        username: values.email,
+        email: values.email,
         password: values.password,
       });
       if (!result?.ok) {

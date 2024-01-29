@@ -3,7 +3,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { authOptions } from "../../../api/auth/[...nextauth]/route";
 import { checkAccessAndRedirect } from "@/lib/redirects";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/app/components/ui/table";
-import { Badge } from "@/app/components/ui/badge";
 import RoleBadges from "../../_components/RoleBadges";
 
 const getSessionData = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -21,28 +20,15 @@ const EmployeePage = async (req: NextApiRequest, res: NextApiResponse) => {
   const roles = session?.clientUser.role;
   const company = session?.client?.domain;
 
-  // Function to format role array
-  function formatRoles(roles: string[]): string {
-    if (!roles || roles.length === 0) {
-      return '';
-    }
-
-    const formattedRoles = roles.map((role) => capitalizeFirstLetter(role)).join(', ');
-    return formattedRoles;
-  }
-
-
-
-  // Function to capitalize the first letter of a string
   function capitalizeFirstLetter(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }
 
   return (
-    <div className="flex flex-col items-center space-x-10">
-      <h2 className="text-left py-10 font-semibold">Employee profile information</h2>
-      <Table className="lg:w-1/2 md:w-2/3 w-3/4 mx-auto space-x-10">
-        <TableCaption>Employee profile</TableCaption>
+    <main className="flex flex-col items-left space-x-10 mx-20">
+      <h1 className="text-2xl text-left mx-20 font-semibold my-8">Employee profile information</h1>
+      <Table className="lg:w-1/2 md:w-2/3 w-3/4 space-x-10">
+        <TableCaption></TableCaption>
         <TableHeader>
           <TableRow>
           </TableRow>
@@ -66,11 +52,10 @@ const EmployeePage = async (req: NextApiRequest, res: NextApiResponse) => {
             <TableHead className="w-1/3 px-10">Company:</TableHead>
             <TableCell className="w-2/3 text-left px-10">{`${company ? capitalizeFirstLetter(company) : ''}`}</TableCell>
           </TableRow>
-          <TableRow>
-          </TableRow>
+          <TableRow></TableRow>
         </TableBody>
       </Table>
-    </div>
+    </main>
   );
 };
 

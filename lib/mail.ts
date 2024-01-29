@@ -53,10 +53,10 @@ export function compileActivationTemplate(username: string, url: string) {
   return htmlBody;
 }
 
-export function compileResetPassTemplate(name: string, url: string) {
+export function compileResetPassTemplate(username: string, url: string) {
   const template = Handlebars.compile(resetPasswordTemplate);
   const htmlBody = template({
-    name,
+    username,
     url,
   });
   return htmlBody;
