@@ -6,7 +6,7 @@ import Link from "next/link";
 const SigninPage = () => {
 
   return (
-    <main className="grid grid-cols-1 md:grid-cols-2 justify-center items-center gap-2 mx-auto py-10 xl:w-3/4 lg:w-3/4 md:w-8/12 sm:w-full ">
+    <main className="grid grid-cols-1 md:grid-cols-2 justify-center items-center gap-2 mx-auto py-10 xl:w-3/4 lg:w-10/12 md:w-10/12 sm:w-full ">
     {/* Desktop-only image */}
       <section className="hidden md:block">
         <Image
@@ -17,7 +17,7 @@ const SigninPage = () => {
           style={{objectFit: "cover"}}
         />
       </section>
-      <section className="flex flex-col justify-center items-center xl:w-1/2 lg:w-1/2 mx-auto ">
+      <section className="flex flex-col justify-center items-center xl:w-1/2 lg:w-2/3 mx-auto ">
         <div className="py-5">
           <div className="flex flex-row justify-center items-center">
             <span><Image 

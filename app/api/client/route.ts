@@ -24,8 +24,6 @@ export async function POST(req: Request) {
         ...reqBody
       },
     });
-    // if (result) return "success";
-    // else throw new Error("Something went wrong!");
     return NextResponse.json({ updateClient, message: "User created successfully"}, { status: 202 })
   } catch (error) {
     console.error("Error during updating client information:", error);
