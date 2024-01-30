@@ -1,29 +1,89 @@
-"use server"
+import { Session, getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
-import { NextApiResponse } from 'next';
-import { Session } from 'next-auth';
+export const checkAccessAndRedirect = async (path: string) => {
+  const session: Session | null = await getServerSession(authOptions);
 
-export const checkAccessAndRedirect = async (path: string, session: Session | null, res: NextApiResponse) => {
-  console.log('path:', path);
-  console.log('session:', session);
-  console.log('res:', res);
-
-  if (!session || !session.clientUser) {
-    res.writeHead(302, { Location: '/' });
-    res.end();
-    return;
+  // If there is no session, redirect to the home page
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
   }
 
-  const { clientUser } = session;
+  const clientUser = session.clientUser
+
+  // If the user does not have a role, redirect to /profile
+  if (session && !session.clientUser || !session.client) {
+    return {
+      redirect: {
+        destination: '/profile',
+        permanent: false,
+      },
+    };
+  }
+
+  if (!clientUser || !clientUser.role) {
+    return {
+      redirect: {
+        destination: '/profile',
+        permanent: false,
+      },
+    };
+  }
+
+  const role = clientUser.role;
+
+  // If the user has role = EMPLOYEE
+  if (role.includes('EMPLOYEE')) {
+    return {
+      redirect: {
+        destination: '/dashboard/employee-profile',
+        permanent: false,
+      },
+    };
+  }
+
+  // If the user has role = ADMIN
+  if (role.includes('ADMIN')) {
+    return {
+      redirect: {
+        destination: '/dashboard/admin',
+        permanent: false,
+      },
+    };
+  }
 
   if (path === '/dashboard' && (!clientUser.role || !clientUser.role.includes('EMPLOYEE'))) {
-    res.writeHead(302, { Location: '/' });
-    res.end();
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
   } else if (path === '/employee-profile' && (!clientUser.role || !clientUser.role.includes('EMPLOYEE'))) {
-    res.writeHead(302, { Location: '/' });
-    res.end();
+    return {
+      redirect: {
+        destination: '/profile',
+        permanent: false,
+      },
+    };
   } else if (path === '/dashboard/admin' && (!clientUser.role || !clientUser.role.includes('ADMIN'))) {
-    res.writeHead(302, { Location: '/' });
-    res.end();
+    return {
+      redirect: {
+        destination: '/dashboard',
+        permanent: false,
+      },
+    };
   }
+
+  return {
+    redirect: {
+      destination: '/profile',
+      permanent: false,
+    },
+  };
 };

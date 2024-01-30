@@ -12,6 +12,9 @@ const ClientLayout = async ({
     children: React.ReactNode
   }) => {
 
+  // const session = await getServerSession(authOptions);
+
+
   return (
     <div className="flex">
       <Sidebar />

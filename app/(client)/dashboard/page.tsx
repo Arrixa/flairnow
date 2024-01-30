@@ -14,8 +14,7 @@ import SidebarComp from '../_components/Sidebar';
 const clientDashboard = () => {
   return (
     <div>
-      {/* <SidebarComp /> */}
-      {/* <p>{session?.client?.domain}</p> */}
+      
     </div>
   )
 }

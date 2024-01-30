@@ -1,5 +1,3 @@
-// "use server"
-
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import SidebarComp from "../_components/Sidebar";

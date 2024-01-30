@@ -27,7 +27,6 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles })  => {
     { role: 'ADMIN', icon: HiUsers, label: 'Users', href: '#' },
     { role: 'EMPLOYEE', icon: HiAdjustmentsHorizontal, label: 'Preferences', href: '#' },
     { role: 'EMPLOYEE', icon: HiCog8Tooth, label: 'Settings', href: '#' },
-    // { role: 'EMPLOYEE', icon: HiArrowRightOnRectangle, label: 'Sign Out', href: '/', onClick: handleSignOut },
   ];
 
   // Get all unique roles of the user

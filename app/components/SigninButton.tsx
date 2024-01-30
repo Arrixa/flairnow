@@ -4,25 +4,31 @@ import { Session } from "next-auth";
 import { Button } from "./ui/button";
 import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface SigninBtnProps {
-  role: string[];
   session?: Session | null, 
   onClick?: () => void;
 }
 
-const SigninButton: React.FC<SigninBtnProps> = ({ role, session }) => {
+const SigninButton: React.FC<SigninBtnProps> = ({ session }) => {
+  const router = useRouter(); 
+
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: '/' }); 
+    router.replace('/'); 
+  };
 
   return (
     <div className="flex items-center gap-2">
       {session && session.user ? (
         <>
-          {role ? (
+          {session.role ? (
             <Link href="/dashboard/employee-profile">{`${session.user.username}`}</Link>
           ) : (
             <Link href="/profile">{`${session.user.username}`}</Link>
           )}
-          <Button onClick={() => signOut()}>Sign out</Button>
+          <Button onClick={handleSignOut}>Sign out</Button>
         </>
       ) : (
         <>
