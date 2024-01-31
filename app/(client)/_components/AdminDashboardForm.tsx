@@ -10,7 +10,7 @@ import { Textarea } from '@/app/components/ui/textarea';
 import { toast } from 'react-toastify';
 import CompanyInfo from './CompanyInfo';
 import { Session } from "next-auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CountrySelect } from './CountrySelect';
 import { CodeSelect } from './CodeSelect';
 
@@ -24,14 +24,15 @@ const FormSchema = z.object({
   companyName: z.string().min(1, 'Name is required'),
   website: z.string().url('Invalid URL'),
   description: z.string(),
-  countryCode: z.string().length(2, 'Country Code must be 2 characters'),
-  phoneNumber: z.string().min(1, 'Phone Number is required'),
+  countryCode: z.string().min(1, 'Country code is required'),
+  phoneNumber: z.string().min(1, 'Phone number is required'),
   streetNo: z.string(),
   streetAddress: z.string(),
   province: z.string(),
   zipCode: z.string(),
   country: z.string(),
 });
+
 
 const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
   const form = useForm({
@@ -50,11 +51,53 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
     },
   });
 
+
   const [isEditMode, setIsEditMode] = useState(true);
+  const [formData, setFormData] = useState({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch data from your API endpoint
+        const response = await fetch('/api/client');
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+  
+        const data = await response.json();
+        setFormData(data)
+  
+        // Set form data with fetched values
+        console.log(data);
+  
+        form.reset({
+          companyName: data.companyName,
+          website: data.website,
+          description: data.description,
+          countryCode: data.countryCode,
+          phoneNumber: data.phoneNumber,
+          streetNo: data.streetNo,
+          streetAddress: data.streetAddress,
+          province: data.province,
+          zipCode: data.zipCode,
+          country: data.country,
+        });
+      } catch (error) {
+        console.error('Error fetching form data:', error);
+      }
+    };
+  
+    // Call fetchData when the component mounts
+    fetchData();
+  }, [form]);
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     console.log('Form submitted:', data);
     console.log("Save client function called");
+
+    // Add this log to check the form state before submitting
+    console.log('Form state before submit:', form.formState);
+
     try {
       const response = await fetch('/api/client', {
         method: 'POST',
@@ -74,6 +117,9 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
           country: data.country,    
         })
       })
+
+      console.log('Form submission response:', response);
+
       if (response.ok) {
         toast.success("The client infomation saved successfully.");
         setIsEditMode(true)
@@ -90,7 +136,7 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
       {isEditMode ? (
         <div className='w-full'>
           <div className="flex flex-row mx-auto w-full">
-            <CompanyInfo session={session}/>
+            <CompanyInfo session={session} formData={formData} />
           </div>
           <Button
             className='mt-4 text-md px-10'
@@ -104,7 +150,7 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
       className='flex flex-col mx-auto w-full'
       >
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className='w-full lg:w-3/4'>
+          <form  onSubmit={form.handleSubmit(onSubmit)} className='w-full lg:w-3/4'>
             <div className="flex items-center my-4">
               <HiNewspaper />
               <h2 className="text-xl font-semibold ml-6">General Information</h2>
@@ -118,7 +164,8 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
                     <FormItem className="flex items-center">
                       <FormLabel className="w-1/2 ml-10">Name</FormLabel>
                       <FormControl className="">
-                        <Input placeholder='Enter company name' {...field} />
+                        <Input placeholder='Enter company name' 
+                         {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -147,20 +194,33 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
                     <FormLabel className="w-1/2 ml-10">Description</FormLabel>
                     <FormControl>
                       <Textarea placeholder="Type your description" {...field} />
-                      {/* <Input placeholder='Enter description'  /> */}
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <div className='w-full'>
+              {/* <FormField
+                control={form.control}
+                name='countryCode'
+                render={({ field }) => (
+                  <FormItem className="flex items-center">
+                     <FormControl>
+                      <CodeSelect {...field} value={form.getValues('countryCode')} onChange={(value) => form.setValue('countryCode', value)} />
+                      </FormControl>               
+                    <FormMessage />
+                  </FormItem>
+                )}
+              /> */}
               <FormField
                 control={form.control}
                 name='phoneNumber'
                 render={({ field }) => (
                   <FormItem className="flex items-center">
                     <FormLabel className="w-[75%] ml-10">Phone number</FormLabel>
-                    <CodeSelect {...field} /> 
+                    <FormControl>
+                      <CodeSelect {...field} value={form.getValues('countryCode')} onChange={(value) => form.setValue('countryCode', value)} />
+                    </FormControl>
                     <FormControl>
                       <Input className='ml-2 w-full' placeholder="Enter phone number" {...field} />
                     </FormControl>
@@ -234,11 +294,7 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
                     <FormItem className="flex items-center">
                       <FormLabel className="w-1/2 ml-10">Country</FormLabel>
                       <FormControl>
-                        <CountrySelect
-                        {...field}
-                        // value={form.getValues("country")}
-                        // onChange={(value) => form.setValue("country", value)}
-                        />
+                      <CountrySelect {...field} value={form.getValues('country')} onChange={(value) => form.setValue('country', value)} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -264,3 +320,5 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
 };
 
 export default AdminDashboardForm;
+
+// export type FormDataType = z.infer<typeof FormSchema>;

@@ -27,18 +27,31 @@ interface Country {
   dialCode: string;
 }
 
+interface CommandInputProps {
+  placeholder: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const CustomCommandInput: React.FC<CommandInputProps> = ({ placeholder, onChange }) => (
+  <input
+    type="text"
+    placeholder={placeholder}
+    onChange={onChange}
+    className="w-full border-none focus:outline-none"
+  />
+);
+
 interface CodeSelectProps {
   onChange: (value: string) => void;
   value: string;
 }
 
-export function CodeSelect({ onChange, value }: CodeSelectProps) {
+export function CodeSelect({ onChange, value }: CodeSelectProps)  {
   const [open, setOpen] = useState(false);
   const [selectedCode, setSelectedCode] = useState(value);
-  const [displayed, setDisplayed] = useState('')
-
+  const [displayed, setDisplayed] = useState('');
+  const [searchText, setSearchText] = useState('');
   const [countries, setCountries] = useState<Country[]>([]);
-  console.log(countries)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,17 +62,21 @@ export function CodeSelect({ onChange, value }: CodeSelectProps) {
             "Content-Type": "application/json",
           },
         });
-        console.log("res", response)
 
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
         const data = await response.json();
-        console.log('data:', data)
 
         if (!data.error) {
-          setCountries(data.data);
+           // Filter out countries with no dialCode
+        const filteredCountries = data.data.filter((country: Country) => country.dialCode);
+          // Sort the countries based on the name property
+          const sortedCountries =  filteredCountries.sort((a: Country, b: Country) =>
+            a.name.localeCompare(b.name)
+          );
+          setCountries(sortedCountries);
         } else {
           console.error("Error fetching country data:", data.msg);
         }
@@ -71,11 +88,16 @@ export function CodeSelect({ onChange, value }: CodeSelectProps) {
     fetchData();
   }, []);
 
-  const handleSelect = (currentValue: string[]) => {
-    setSelectedCode(currentValue[0]);
-    setDisplayed(currentValue[1])
+
+  const filteredCountries = countries.filter((country) =>
+    country.name.toLowerCase().includes(searchText.toLowerCase())
+  );
+
+  const handleSelect = (country: Country) => {
+    setSelectedCode(country.dialCode);
+    setDisplayed(country.unicodeFlag);
     setOpen(false);
-    onChange(currentValue[0]);
+    onChange(country.dialCode);
   };
 
   return (
@@ -86,22 +108,25 @@ export function CodeSelect({ onChange, value }: CodeSelectProps) {
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-auto p-0">
         <ScrollArea className="h-[200px] w-[350px] rounded-md border p-4">
           <Command>
-            <CommandInput placeholder="Search country code..." />
+            <CustomCommandInput
+              placeholder="Search country code..."
+              onChange={(e) => setSearchText(e.target.value)}
+            />
             <CommandEmpty>No country code found.</CommandEmpty>
             <CommandGroup>
-              {countries.map((country) => (
+              {filteredCountries.map((country) => (
                 <CommandItem
                   key={country.name}
                   value={country.dialCode}
-                  onSelect={() => handleSelect([country.dialCode, country.unicodeFlag])}
+                  onSelect={() => handleSelect(country)}
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      selectedCode === country.unicodeFlag ? "opacity-100" : "opacity-0"
+                      selectedCode === displayed ? "opacity-100" : "opacity-0"
                     )}
                   />
                   <span role="img" aria-label="flag">

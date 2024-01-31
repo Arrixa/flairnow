@@ -1,15 +1,17 @@
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/app/components/ui/table"
 import { Session } from "next-auth";
 import { HiBuildingOffice, HiNewspaper } from "react-icons/hi2";
+// import { FormDataType } from "./AdminDashboardForm";
 
 interface AdminProps {
   session?: Session | null, 
   onClick?: () => void;
 }
 
-const CompanyInfo: React.FC<AdminProps> = ({ session }) => {
-  const client = session?.client;
-  console.log(client, "client info")
+const CompanyInfo: React.FC<AdminProps> = ({ session, formData }) => {
+  // const client = session?.client;
+  const client = formData
+  console.log('Client object:', client);
   return (
     <section className="flex flex-col w-full">    
       <div className="">
@@ -26,7 +28,7 @@ const CompanyInfo: React.FC<AdminProps> = ({ session }) => {
           <TableBody>
             <TableRow>
               <TableHead className="w-1/3 px-10">Name:</TableHead>
-              <TableCell className="w-2/3 text-left px-10">{client.companyName}</TableCell>
+              <TableCell className="w-2/3 text-left px-10">{client?.companyName}</TableCell>
             </TableRow>
             <TableRow>
               <TableHead className="w-1/3 px-10">Website:</TableHead>
@@ -35,6 +37,10 @@ const CompanyInfo: React.FC<AdminProps> = ({ session }) => {
             <TableRow>
               <TableHead className="w-1/3 px-10">Description:</TableHead>
               <TableCell className="w-2/3 text-left px-10">{client?.description}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableHead className="w-1/3 px-10">Country code:</TableHead>
+              <TableCell className="w-2/3 text-left px-10 space-x-2">{client?.countryCode}</TableCell>
             </TableRow>
             <TableRow>
               <TableHead className="w-1/3 px-10">Phone number:</TableHead>
@@ -62,7 +68,7 @@ const CompanyInfo: React.FC<AdminProps> = ({ session }) => {
             </TableRow>
             <TableRow>
               <TableHead className="w-1/3 px-10">Street address:</TableHead>
-              <TableCell className="w-2/3 text-left px-10">{client.streetAddress}</TableCell>
+              <TableCell className="w-2/3 text-left px-10">{client?.streetAddress}</TableCell>
             </TableRow>
             <TableRow>
               <TableHead className="w-1/3 px-10">Province:</TableHead>

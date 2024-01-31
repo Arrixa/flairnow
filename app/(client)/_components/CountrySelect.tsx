@@ -29,10 +29,8 @@ interface Country {
 export function CountrySelect({ onChange, value }: { onChange: (value: string) => void; value: string }) {
   const [open, setOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(value);
-  const [displayed, setDisplayed] = useState('Select country')
-
+  const [displayed, setDisplayed] = useState('Select country');
   const [countries, setCountries] = useState<Country[]>([]);
-  console.log(countries)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,17 +41,19 @@ export function CountrySelect({ onChange, value }: { onChange: (value: string) =
             "Content-Type": "application/json",
           },
         });
-        console.log("res", response)
 
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
         const data = await response.json();
-        console.log('data:', data)
 
         if (!data.error) {
-          setCountries(data.data);
+          // Sort the countries based on the name property
+          const sortedCountries =  data.data.sort((a: Country, b: Country) =>
+            a.name.localeCompare(b.name)
+          );
+          setCountries(sortedCountries);
         } else {
           console.error("Error fetching country data:", data.msg);
         }
@@ -65,11 +65,12 @@ export function CountrySelect({ onChange, value }: { onChange: (value: string) =
     fetchData();
   }, []);
 
+
   const handleSelect = (currentValue: string[]) => {
     setSelectedCountry(currentValue[0]);
-    setDisplayed(`${currentValue[0]} ${String.fromCharCode(160)} ${currentValue[1]}`)
+    setDisplayed(`${currentValue[0]} ${String.fromCharCode(160)} ${currentValue[1]}`);
     setOpen(false);
-    onChange(currentValue[0]); // Call the onChange prop to update the form field value
+    onChange(currentValue[0]);
   };
 
   return (
@@ -95,7 +96,7 @@ export function CountrySelect({ onChange, value }: { onChange: (value: string) =
                   <Check
                     className={cn(
                       "h-4 w-6",
-                      displayed === country.name  ? "opacity-100" : "opacity-0"
+                      displayed === selectedCountry  ? "opacity-100" : "opacity-0"
                     )}
                   />
                   <span role="img" aria-label="flag">
@@ -111,3 +112,4 @@ export function CountrySelect({ onChange, value }: { onChange: (value: string) =
     </Popover>
   );
 }
+
