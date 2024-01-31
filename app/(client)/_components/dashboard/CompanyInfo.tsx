@@ -44,16 +44,17 @@ const CompanyInfo: React.FC = () => {
   const client = formData
   console.log(client)
 
-  function formatPhoneNumber(countryCode: ClientData, phoneNumber: ClientData) {
-    // Remove any non-numeric characters from the phone number
+  function formatPhoneNumber(countryCode: string | undefined, phoneNumber: string | undefined): string | undefined {
     if (countryCode && phoneNumber) {
-      const cleanedPhoneNumber = phoneNumber?.replace(/\D/g, '');
-      // Format the phone number as +46 72 555 0000
-      const formattedPhoneNumber = `+${countryCode} ${cleanedPhoneNumber?.slice(0, 2)} ${cleanedPhoneNumber?.slice(2, 5)} ${cleanedPhoneNumber?.slice(5, 9)}`;
-    
+      const cleanedPhoneNumber = phoneNumber.replace(/\D/g, '');
+      if (!cleanedPhoneNumber) {
+        return undefined; // or throw an error, depending on your requirements
+      }
+      const formattedPhoneNumber = `+${countryCode} ${cleanedPhoneNumber.replace(/^0+/, '').replace(/(\d{2})(\d{2})(\d{2})(\d{2})/, '$1 $2 $3 $4')}`;
+  
       return formattedPhoneNumber;
-    } else { 
-      return <></>
+    } else {
+      return undefined; // or throw an error, depending on your requirements
     }
   }
 

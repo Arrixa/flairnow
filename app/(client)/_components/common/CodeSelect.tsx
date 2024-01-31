@@ -18,12 +18,9 @@ import {
 } from "@/app/components/ui/popover"
 import { useState, useEffect } from "react";
 import { ScrollArea } from "@/app/components/ui/scroll-area"
-
-
 interface Country {
   name: string;
   unicodeFlag: string;
-
   dialCode: string;
 }
 
@@ -89,9 +86,17 @@ export function CodeSelect({ onChange, value }: CodeSelectProps)  {
   }, []);
 
 
-  const filteredCountries = countries.filter((country) =>
-    country.name.toLowerCase().includes(searchText.toLowerCase())
+  const filteredCountries = countries.map((country) => {
+    const cleanedDialCode = country.dialCode.replace(/\+/g, '');
+    return { ...country, dialCode: cleanedDialCode };
+  }).filter((country) =>
+    (country.name.toLowerCase().includes(searchText.toLowerCase()) ||
+    country.dialCode.toLowerCase().includes(searchText.toLowerCase())) &&
+    country.dialCode
   );
+  
+  console.log(filteredCountries);
+  
 
   const handleSelect = (country: Country) => {
     setSelectedCode(country.dialCode);
@@ -103,7 +108,7 @@ export function CodeSelect({ onChange, value }: CodeSelectProps)  {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="combobox" role="combobox" aria-expanded={open} className="w-[40%] justify-between">
+        <Button variant="combobox" role="combobox" aria-expanded={open} className="justify-between text-foreground">
           {displayed ? displayed : "Code"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -112,6 +117,7 @@ export function CodeSelect({ onChange, value }: CodeSelectProps)  {
         <ScrollArea className="h-[200px] w-[350px] rounded-md border p-4">
           <Command>
             <CustomCommandInput
+              
               placeholder="Search country code..."
               onChange={(e) => setSearchText(e.target.value)}
             />
@@ -123,12 +129,6 @@ export function CodeSelect({ onChange, value }: CodeSelectProps)  {
                   value={country.dialCode}
                   onSelect={() => handleSelect(country)}
                 >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      selectedCode === displayed ? "opacity-100" : "opacity-0"
-                    )}
-                  />
                   <span role="img" aria-label="flag">
                     {country.unicodeFlag}
                   </span>

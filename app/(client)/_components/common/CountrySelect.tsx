@@ -66,17 +66,18 @@ export function CountrySelect({ onChange, value }: { onChange: (value: string) =
   }, []);
 
 
-  const handleSelect = (currentValue: string[]) => {
-    setSelectedCountry(currentValue[0]);
-    setDisplayed(`${currentValue[0]} ${String.fromCharCode(160)} ${currentValue[1]}`);
+  const handleSelect = (selectedCountry: Country) => {
+    // console.log("Selected country:", selectedCountry)
+    setSelectedCountry(selectedCountry.name);
+    setDisplayed(`${selectedCountry.name} ${String.fromCharCode(160)} ${selectedCountry.unicodeFlag}`);
     setOpen(false);
-    onChange(currentValue[0]);
+    onChange(selectedCountry.name);
   };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="combobox" role="combobox" aria-expanded={open} className="w-full justify-between">
+        <Button variant="combobox" role="combobox" aria-expanded={open} className="w-full justify-between text-foreground">
           {displayed ? displayed : "Select country..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -91,11 +92,11 @@ export function CountrySelect({ onChange, value }: { onChange: (value: string) =
                 <CommandItem
                   key={country.name}
                   value={country.name}
-                  onSelect={() => handleSelect([country.name, country.unicodeFlag])}
+                  onSelect={() => handleSelect(country)}
                 >
                   <Check
                     className={cn(
-                      "h-4 w-6",
+                      "h-4 w-6 text-foreground",
                       displayed === selectedCountry  ? "opacity-100" : "opacity-0"
                     )}
                   />

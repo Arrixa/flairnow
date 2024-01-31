@@ -51,7 +51,8 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
     },
   });
 
-
+  const [selectedCode, setSelectedCode] = useState<string>(''); 
+  const [selectedCountry, setSelectedCountry] = useState<string>(''); 
   const [isEditMode, setIsEditMode] = useState(true);
   const [formData, setFormData] = useState({});
 
@@ -70,18 +71,21 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
         // Set form data with fetched values
         console.log(data);
   
-        form.reset({
+        const mappedData = {
           companyName: data.companyName,
           website: data.website,
           description: data.description,
-          countryCode: data.countryCode,
+          countryCode: selectedCode,
           phoneNumber: data.phoneNumber,
           streetNo: data.streetNo,
           streetAddress: data.streetAddress,
           province: data.province,
           zipCode: data.zipCode,
-          country: data.country,
-        });
+          country: selectedCountry,
+        };
+        form.reset(mappedData)
+        console.log('form reset data', data)
+        console.log(selectedCountry, selectedCode)
       } catch (error) {
         console.error('Error fetching form data:', error);
       }
@@ -89,7 +93,7 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
   
     // Call fetchData when the component mounts
     fetchData();
-  }, [form]);
+  }, [form, selectedCode, selectedCountry]);
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     console.log('Form submitted:', data);
@@ -200,34 +204,28 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
                 )}
               />
               <div className='w-full'>
-              {/* <FormField
-                control={form.control}
-                name='countryCode'
-                render={({ field }) => (
-                  <FormItem className="flex items-center">
-                     <FormControl>
-                      <CodeSelect {...field} value={form.getValues('countryCode')} onChange={(value) => form.setValue('countryCode', value)} />
-                      </FormControl>               
-                    <FormMessage />
-                  </FormItem>
-                )}
-              /> */}
               <FormField
-                control={form.control}
-                name='phoneNumber'
-                render={({ field }) => (
-                  <FormItem className="flex items-center">
-                    <FormLabel className="w-[75%] ml-10">Phone number</FormLabel>
-                    <FormControl>
-                    <CodeSelect value={form.getValues('countryCode')} onChange={(value) => form.setValue('countryCode', value)} />
-                    </FormControl>
-                    <FormControl>
-                      <Input className='ml-2 w-full' placeholder="Enter phone number" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-                />
+  control={form.control}
+  name='phoneNumber'
+  render={({ field }) => (
+    <FormItem className="flex items-center">
+      <FormLabel className="w-1/2 ml-10">Phone number</FormLabel>
+      <div className="w-[100%] flex items-center">
+        <FormControl className="w-1/3">
+          <CodeSelect
+            {...field}
+            value={selectedCode}
+            onChange={(value) => setSelectedCode(value)}
+          />
+        </FormControl>
+        <FormControl className="w-2/3">
+          <Input className='ml-2 w-full' placeholder="Enter phone number" {...field} />
+        </FormControl>
+      </div>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
                </div> 
             </div>
             <div className="flex items-center my-4">
@@ -294,7 +292,7 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
                     <FormItem className="flex items-center">
                       <FormLabel className="w-1/2 ml-10">Country</FormLabel>
                       <FormControl>
-                      <CountrySelect value={form.getValues('country')} onChange={(value) => form.setValue('country', value)} />
+                      <CountrySelect {...field} value={selectedCountry} onChange={(value) => setSelectedCountry(value)}  />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
