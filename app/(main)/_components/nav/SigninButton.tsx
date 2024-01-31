@@ -1,7 +1,7 @@
 "use client";
 
 import { Session } from "next-auth";
-import { Button } from "./ui/button";
+import { Button } from "../../../components/ui/button";
 import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

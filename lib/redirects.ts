@@ -64,7 +64,7 @@ export const checkAccessAndRedirect = async (path: string) => {
         permanent: false,
       },
     };
-  } else if (path === '/employee-profile' && (!clientUser.role || !clientUser.role.includes('EMPLOYEE'))) {
+  } else if (path === '/dashboard/employee-profile' && (!clientUser.role || !clientUser.role.includes('EMPLOYEE'))) {
     return {
       redirect: {
         destination: '/profile',

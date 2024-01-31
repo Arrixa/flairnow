@@ -8,16 +8,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from './ui/form';
+} from '../../../components/ui/form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
-import { Button } from './ui/button';
+import { Input } from '../../../components/ui/input';
+import { Label } from '../../../components/ui/label';
+import { Button } from '../../../components/ui/button';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from "react-toastify";
-import { Checkbox } from './ui/checkbox';
+import { Checkbox } from '../../../components/ui/checkbox';
 // import NextAuthProviders from './NextAuthProviders';
 // import GoogleSignInButton from '../GoogleSignInButton';
 

@@ -1,4 +1,5 @@
 'use client';
+import { ScrollArea } from '@/app/components/ui/scroll-area';
 import { Sidebar } from 'flowbite-react';
 import { signOut } from 'next-auth/react';
 import Image from 'next/image';
@@ -27,6 +28,12 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles })  => {
     { role: 'ADMIN', icon: HiUsers, label: 'Users', href: '#' },
     { role: 'EMPLOYEE', icon: HiAdjustmentsHorizontal, label: 'Preferences', href: '#' },
     { role: 'EMPLOYEE', icon: HiCog8Tooth, label: 'Settings', href: '#' },
+    { role: 'EMPLOYEE', icon: HiBriefcase, label: 'Recruitment', href: '#' },
+    { role: 'EMPLOYEE', icon: HiInbox, label: 'Inbox', href: '#' },
+    { role: 'ADMIN', icon: HiUsers, label: 'Users', href: '#' },
+    { role: 'EMPLOYEE', icon: HiAdjustmentsHorizontal, label: 'Preferences', href: '#' },
+    { role: 'EMPLOYEE', icon: HiCog8Tooth, label: 'Settings', href: '#' },
+
   ];
 
   // Get all unique roles of the user
@@ -36,7 +43,7 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles })  => {
   const filteredSidebarItems = sidebarItems.filter(item => uniqueRoles.includes(item.role));
 
   return (
-    <div className='border-r-4 border-secondary'>
+    <div className='border-r-4 border-secondary h-auto'>
       <Sidebar aria-label="Client dashboard sidebar" className='border-none w-auto m-4'>
         <Link href='/dashboard'>
           <Image
@@ -47,6 +54,7 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles })  => {
           />
         </Link>
         <Sidebar.Items>
+        <ScrollArea className="h-[600px]">
           <Sidebar.ItemGroup>
           {filteredSidebarItems.length > 0 ? (
               filteredSidebarItems.map((item, index) => (
@@ -60,12 +68,12 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles })  => {
                 No role access
               </Sidebar.Item>
             )}
-             {/* Sign Out button styled like other sidebar items */}
              <button className="flex items-center mr-5 py-2" onClick={handleSignOut}>
               <HiArrowRightOnRectangle className="mx-2" />
               Sign out
             </button>
           </Sidebar.ItemGroup>
+          </ScrollArea>
         </Sidebar.Items>
       </Sidebar>
     </div>

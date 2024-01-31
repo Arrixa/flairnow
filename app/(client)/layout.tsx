@@ -13,12 +13,13 @@ const ClientLayout = async ({
   }) => {
 
   // const session = await getServerSession(authOptions);
-
-
+  
   return (
     <div className="flex">
-      <Sidebar />
-      <main className="flex-grow p-4">{children}</main>
+      <main className="flex">
+        <Sidebar />
+        {children}
+      </main>
     </div>
   );
 };

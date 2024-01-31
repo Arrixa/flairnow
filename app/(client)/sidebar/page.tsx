@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import SidebarComp from "../_components/Sidebar";
-import UserCard from "../_components/UserCard";
+import SidebarComp from "../_components/common/Sidebar";
+import UserCard from "../_components/common/UserCard";
 
 const Sidebar = async () => {
   const session = await getServerSession(authOptions);

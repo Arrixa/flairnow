@@ -1,7 +1,7 @@
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
-import AdminDashboardForm from '../../_components/AdminDashboardForm';
+import AdminDashboardForm from '../../_components/dashboard/AdminDashboardForm';
 import { checkAccessAndRedirect } from '@/lib/redirects';
 
 const AdminDashboardPage = async () => {

@@ -9,17 +9,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from './ui/form';
+} from '../../../components/ui/form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Input } from './ui/input';
-import { Button } from './ui/button';
+import { Input } from '../../../components/ui/input';
+import { Button } from '../../../components/ui/button';
 import Link from 'next/link';
 import NextAuthProviders from "./NextAuthProviders";
 import { toast } from "react-toastify";
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { Checkbox } from './ui/checkbox';
+import { Checkbox } from '../../../components/ui/checkbox';
 
 interface Props {
   callbackUrl?: string;
@@ -111,7 +111,7 @@ const SignInForm = () => {
           </div>
           <div className='flex justify-between items-center mt-4'>
             <span className='flex items-center'><Checkbox className="col-span-2 mr-2"></Checkbox><p>Remember me</p></span>    
-            <Link href={"/auth/forgotPassword"} className="hover:underline text-accent flex justify-end">Forgot password</Link>
+            <Link href={"/auth/forgotPassword"} className="hover:underline font-medium text-accent flex justify-end">Forgot password</Link>
           </div>
           <Button className='w-full mt-6' type='submit'>
             Sign in

@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../../api/auth/[...nextauth]/route";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/app/components/ui/table";
-import RoleBadges from "../../_components/RoleBadges";
+import RoleBadges from "../../_components/common/RoleBadges";
 import { checkAccessAndRedirect } from "@/lib/redirects";
 
 function capitalizeFirstLetter(str: string): string {

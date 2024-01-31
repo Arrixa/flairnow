@@ -11,8 +11,8 @@ import { toast } from 'react-toastify';
 import CompanyInfo from './CompanyInfo';
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
-import { CountrySelect } from './CountrySelect';
-import { CodeSelect } from './CodeSelect';
+import { CountrySelect } from '../common/CountrySelect';
+import { CodeSelect } from '../common/CodeSelect';
 
 
 interface AdminProps {
@@ -136,7 +136,7 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
       {isEditMode ? (
         <div className='w-full'>
           <div className="flex flex-row mx-auto w-full">
-            <CompanyInfo session={session} formData={formData} />
+            <CompanyInfo />
           </div>
           <Button
             className='mt-4 text-md px-10'
@@ -150,7 +150,7 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
       className='flex flex-col mx-auto w-full'
       >
         <Form {...form}>
-          <form  onSubmit={form.handleSubmit(onSubmit)} className='w-full lg:w-3/4'>
+          <form  onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
             <div className="flex items-center my-4">
               <HiNewspaper />
               <h2 className="text-xl font-semibold ml-6">General Information</h2>
@@ -219,7 +219,7 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
                   <FormItem className="flex items-center">
                     <FormLabel className="w-[75%] ml-10">Phone number</FormLabel>
                     <FormControl>
-                      <CodeSelect {...field} value={form.getValues('countryCode')} onChange={(value) => form.setValue('countryCode', value)} />
+                    <CodeSelect value={form.getValues('countryCode')} onChange={(value) => form.setValue('countryCode', value)} />
                     </FormControl>
                     <FormControl>
                       <Input className='ml-2 w-full' placeholder="Enter phone number" {...field} />
@@ -294,7 +294,7 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
                     <FormItem className="flex items-center">
                       <FormLabel className="w-1/2 ml-10">Country</FormLabel>
                       <FormControl>
-                      <CountrySelect {...field} value={form.getValues('country')} onChange={(value) => form.setValue('country', value)} />
+                      <CountrySelect value={form.getValues('country')} onChange={(value) => form.setValue('country', value)} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

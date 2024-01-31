@@ -104,7 +104,7 @@ export function CodeSelect({ onChange, value }: CodeSelectProps)  {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button variant="combobox" role="combobox" aria-expanded={open} className="w-[40%] justify-between">
-          {displayed ? displayed : "Country code"}
+          {displayed ? displayed : "Code"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>

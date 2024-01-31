@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import PasswordStrength from "./PasswordStrength";
-import { resetPassword } from "../api/user/route";
+import { resetPassword } from "../../../api/user/route";
 import { toast } from "react-toastify";
 
 interface Props {
