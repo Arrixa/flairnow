@@ -15,8 +15,8 @@ const ClientLayout = async ({
   // const session = await getServerSession(authOptions);
   
   return (
-    <div className="flex">
-      <main className="flex">
+    <div className="flex w-full">
+      <main className="flex w-full">
         <Sidebar />
         {children}
       </main>

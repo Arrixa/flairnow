@@ -44,8 +44,8 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles })  => {
 
   return (
     <div className='border-r-4 border-secondary h-auto'>
-      <Sidebar aria-label="Client dashboard sidebar" className='border-none w-auto m-4'>
-        <Link href='/dashboard'>
+      <Sidebar aria-label="Client dashboard sidebar" className='border-none w-auto m-4 pt-6'>
+        <Link href='/'>
           <Image
             src="/FlairNow-Logo-Full-Text.svg"
             alt="Text logo"

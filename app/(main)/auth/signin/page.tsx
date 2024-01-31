@@ -1,4 +1,4 @@
-import SignInForm from "@/app/(main)/_components/SignInForm";
+import SignInForm from "../../_components/auth/SignInForm";
 import Image from "next/image";
 import Link from "next/link";
 

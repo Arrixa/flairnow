@@ -12,14 +12,13 @@ const EmployeePage = async () => {
   const session = await getServerSession(authOptions);
   await checkAccessAndRedirect('/dashboard/employee-profile');
 
-  // if (session && session.clientUser && session.clientUser.role.includes('EMPLOYEE')) {
     const user = session?.user;
     const roles = session?.clientUser.role;
     const company = session?.client?.domain;
   
     return (
-      <main className="flex flex-col items-left space-x-10 mx-20">
-        <h1 className="text-2xl text-left mx-20 font-semibold my-8">Employee profile information</h1>
+      <main className="flex flex-col items-left space-x-10 mx-20 w-full">
+        <h1 className="text-2xl text-left mx-20 font-semibold my-6 pt-6">Employee profile information</h1>
         <Table className="lg:w-1/2 md:w-2/3 w-3/4 space-x-10">
           <TableCaption></TableCaption>
           <TableHeader>
@@ -50,13 +49,7 @@ const EmployeePage = async () => {
         </Table>
       </main>
     );
-
-  // } else {
-  //   <div>Unauthorized access</div>;
-  // }
-  
 };
 
 
 export default EmployeePage;
-// export { protectedRoute };
