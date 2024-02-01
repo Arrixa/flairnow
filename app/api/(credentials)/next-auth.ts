@@ -8,10 +8,12 @@ import * as bcrypt from "bcryptjs";
 import NextAuth from "next-auth/next";
 // import { User } from "@prisma/client";
 import { JWT } from "next-auth/jwt";
-// import { sendVerificationRequest } from "@/utils/sendVerificationRequest";
+import { sendVerificationRequest } from "@/utils/sendVerificationRequest";
 
 export const authOptions: NextAuthOptions = {
-  
+  pages: {
+    signIn: "/auth/signin",
+  },
   session: {
     strategy: "jwt",
   },
@@ -20,24 +22,29 @@ export const authOptions: NextAuthOptions = {
   },
   adapter: PrismaAdapter(prisma),
   providers: [
-    EmailProvider({
-      server: {
-        host: process.env.EMAIL_SERVER_HOST,
-        port: process.env.EMAIL_SERVER_PORT,
-        auth: {
-          user: process.env.EMAIL_SERVER_USER,
-          pass: process.env.EMAIL_SERVER_PASSWORD
-        }
-      },
-      from: process.env.EMAIL_FROM,
-      // sendVerificationRequest: ({
+    // {
+    //   id: 'resend',
+    //   type: 'email',
+    //   sendVerificationRequest
+    // },
+    // EmailProvider({
+    //   server: {
+    //     host: process.env.EMAIL_SERVER_HOST,
+    //     port: process.env.EMAIL_SERVER_PORT,
+    //     auth: {
+    //       user: process.env.EMAIL_SERVER_USER,
+    //       pass: process.env.EMAIL_SERVER_PASSWORD
+    //     }
+    //   },
+    //   from: process.env.EMAIL_FROM,
+      // sendVerificationRequest({
       //   identifier: email,
       //   url,
       //   provider: { server, from },
-      // }) => {
-      //   sendVerificationRequest({ email, url, provider: { server, from } });
+      // }) {
+      //   sendVerificationRequest(params)
       // },
-    }),
+    // }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID ?? "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
@@ -57,18 +64,43 @@ export const authOptions: NextAuthOptions = {
         };
       },
     }),
-  ],
-  callbacks: {
-    async signIn(user) {
-      if (user) {
-        // User already has an account, provide the regular callback URL
-        return Promise.resolve("/");
-      } else {
-        // New user, provide the signup callback URL
-        return Promise.resolve("/auth/signup");
-      }
-    },
+    CredentialsProvider({
+      name: "Credentials",
 
+      credentials: {
+        email: {
+          label: "Email",
+          type: "text",
+          placeholder: "Your email",
+        },
+        password: {
+          label: "Password",
+          type: "password",
+        },
+      },
+      async authorize(credentials) {
+        const user = await prisma.user.findUnique({
+          where: {
+            email: credentials?.email,
+          },
+        });
+
+        if (!user) throw new Error("Email or password is not correct");
+
+        if (!credentials?.password) throw new Error("Please provide your password");
+        const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
+
+        if (!isPasswordCorrect) throw new Error("Email or password is not correct");
+
+        if (!user.emailVerified) throw new Error("Please verify your email first!");
+
+        const { password, ...userWithoutPass } = user;
+        return userWithoutPass;
+      },
+    }),
+  ],
+
+  callbacks: {
     async jwt({ token, user }): Promise<JWT> {
       if (token && user && token.email) {
         console.log('Token email:', token.email);
@@ -155,17 +187,6 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
-  },
-  pages: {
-    signIn: "/auth/signin",
-    newUser: '/profile',
-    error: '/auth/error', 
-  },
-  events: {
-    signIn: ({ user, account, profile, isNewUser }) => {
-      console.log(`isNewUser: ${JSON.stringify(isNewUser)}`);
-    },
-    // updateUser({ user })
   },
 };
 

@@ -22,8 +22,7 @@ const SigninPage = () => {
         <div className="py-5">
           <div className="flex flex-row justify-center items-center">
             <span>
-
-              
+            
               <Image 
             src="/noun-hand-wave.svg"
             width={40}
