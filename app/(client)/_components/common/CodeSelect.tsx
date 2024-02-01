@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
+import { Check, ChevronsUpDown, Search } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/app/components/ui/button"
 import {
@@ -34,7 +34,7 @@ const CustomCommandInput: React.FC<CommandInputProps> = ({ placeholder, onChange
     type="text"
     placeholder={placeholder}
     onChange={onChange}
-    className="w-full border-none focus:outline-none"
+    className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none text-foreground placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
   />
 );
 
@@ -116,12 +116,14 @@ export function CodeSelect({ onChange, value }: CodeSelectProps)  {
       <PopoverContent className="w-auto p-0">
         <ScrollArea className="h-[200px] w-[350px] rounded-md border p-4">
           <Command>
+            <div className="flex items-center border-b px-3" cmdk-input-wrapper="">
+            <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
             <CustomCommandInput
-              
               placeholder="Search country code..."
               onChange={(e) => setSearchText(e.target.value)}
             />
             <CommandEmpty>No country code found.</CommandEmpty>
+            </div>
             <CommandGroup>
               {filteredCountries.map((country) => (
                 <CommandItem

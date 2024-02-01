@@ -11,7 +11,7 @@ const AdminDashboardPage = async () => {
 
   return (
     <main className='mx-20 w-3/4 lg:1/2 xl:1/2'>
-      <h1 className="text-2xl text-left ml-14 font-semibold my-4 pt-6">Company settings</h1>
+      <h1 className="text-2xl text-left ml-14 font-semibold my-4 pt-8">Company settings</h1>
       <div className='w-full flex flex-start'>
         <Tabs defaultValue="info" className="w-full">
           <TabsList>

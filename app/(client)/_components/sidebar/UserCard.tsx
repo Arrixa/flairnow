@@ -18,9 +18,9 @@ const UserCard: React.FC<UserCardProps> = ({ session }) => {
   }
 
   return (
-    <div className="bg-secondary p-6 rounded-b-md border-r-4 border-secondary">
+    <div className="bg-secondary p-6 rounded-b-md border-r-4 border-secondary h-[120px]">
       {session && session.user ? (
-        <div className="flex flex-row gap-6">
+        <div className="flex flex-row gap-4">
           <div className="border rounded-full">
             <Image
               alt="avatar"
@@ -28,13 +28,9 @@ const UserCard: React.FC<UserCardProps> = ({ session }) => {
               width={60}
               height={60}
             ></Image>
-            {/* <Avatar className="border m-2">
-              <AvatarImage src="/Avatar.png" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar> */}
           </div>
           <div>
-            <h4 className="text-lg font-semibold">{`${session.user.username}`}</h4>
+            <h4 className="text-lg font-medium">{`${session.user.username}`}</h4>
             <Separator />
             <p>{`${session.client?.domain ? capitalizeFirstLetter(session.client.domain) : ''}`}</p>
           </div>

@@ -82,7 +82,7 @@ export function CountrySelect({ onChange, value }: { onChange: (value: string) =
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[300px] overflow-y-auto p-0">
+      <PopoverContent className="w-auto overflow-y-auto p-0">
         <ScrollArea className="h-[200px] w-[350px] rounded-md border p-4">
           <Command>
             <CommandInput placeholder="Search country..." />

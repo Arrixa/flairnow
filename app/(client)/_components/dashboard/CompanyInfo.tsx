@@ -48,20 +48,20 @@ const CompanyInfo: React.FC = () => {
     if (countryCode && phoneNumber) {
       const cleanedPhoneNumber = phoneNumber.replace(/\D/g, '');
       if (!cleanedPhoneNumber) {
-        return undefined; // or throw an error, depending on your requirements
+        return undefined; 
       }
       const formattedPhoneNumber = `+${countryCode} ${cleanedPhoneNumber.replace(/^0+/, '').replace(/(\d{2})(\d{2})(\d{2})(\d{2})/, '$1 $2 $3 $4')}`;
   
       return formattedPhoneNumber;
     } else {
-      return undefined; // or throw an error, depending on your requirements
+      return undefined; 
     }
   }
 
   return (
     <section className="flex flex-col w-full">    
       <div className="w-full">
-        <div className="flex items-center my-8">
+        <div className="flex items-center my-4">
           <HiNewspaper />
           <h2 className="text-xl font-semibold ml-6">General Information</h2>
         </div>
