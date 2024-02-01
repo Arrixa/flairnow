@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { Check, ChevronsUpDown } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { cn } from "@/utils/utils"
 import { Button } from "@/app/components/ui/button"
 import {
   Command,
@@ -29,7 +29,7 @@ interface Country {
 export function CountrySelect({ onChange, value }: { onChange: (value: string) => void; value: string }) {
   const [open, setOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(value);
-  const [displayed, setDisplayed] = useState('Select country');
+  const [displayed, setDisplayed] = useState(selectedCountry);
   const [countries, setCountries] = useState<Country[]>([]);
 
   useEffect(() => {

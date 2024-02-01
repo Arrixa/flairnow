@@ -8,7 +8,7 @@ const Sidebar = async () => {
   const userRoles = session?.clientUser?.role ?? [];
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-auto">
       <SidebarComp userRoles={userRoles} /> 
       <UserCard session={session} />    
     </div>

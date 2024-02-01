@@ -7,24 +7,35 @@ import { authOptions } from "../../../api/auth/[...nextauth]/route";
 
 const NavBar = async () => {
   const session = await getServerSession(authOptions);
-  const role = session?.clientUser?.role ?? [];
   
   return (
     <nav className=' bg-background border-b-4 border-secondary py-2 flex flex-row w-full z-10 top-0'>
       <div className='container flex items-center gap-4 '>
-        <Link href='/'>
-          <Image
-            src="/FlairNow-Logo.svg"
-            alt="Logo"
-            width={40} 
-            height={40}
-          />
-        </Link>
+      {session?.clientUser.role ? (
+            <Link href="/dashboard/employee-profile">
+               <Image
+                src="/FlairNow-Logo.svg"
+                alt="Logo"
+                width={40} 
+                height={40}
+              />
+            </Link>
+          ) : (
+            <Link href='/'>
+              <Image
+                src="/FlairNow-Logo.svg"
+                alt="Logo"
+                width={40} 
+                height={40}
+              />
+            </Link>
+          )}
+       
       </div>
       <div className='container flex items-center gap-4'>
         <div className="flex flex-row ml-auto gap-4">
           <ModeToggle />
-          <SigninButton role={role} session={session}/>
+          <SigninButton session={session}/>
         </div>
       </div>
     </nav>

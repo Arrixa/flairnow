@@ -1,6 +1,7 @@
 import SignInForm from "../../_components/auth/SignInForm";
 import Image from "next/image";
 import Link from "next/link";
+import EmailSignIn from "../../_components/auth/EmailSignin";
 
 
 const SigninPage = () => {
@@ -36,7 +37,8 @@ const SigninPage = () => {
             <h3 className="text-lg align-text-bottom">Login to securely access your account</h3>
           </div>
         <div className="w-full md:w-auto mt-10"> 
-          <SignInForm  />
+          <EmailSignIn />
+          {/* <SignInForm  /> */}
         </div>
       <div className="flex justify-center items-center py-2">
         <p className="p-2">Don&apos;t have an account?</p>

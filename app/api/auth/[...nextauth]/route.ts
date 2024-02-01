@@ -1,14 +1,16 @@
 import prisma from "@/lib/prisma";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { AuthOptions, NextAuthOptions } from "next-auth";
+import { NextAuthOptions } from "next-auth";
+import EmailProvider from "next-auth/providers/email";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import * as bcrypt from "bcryptjs";
 import NextAuth from "next-auth/next";
 // import { User } from "@prisma/client";
 import { JWT } from "next-auth/jwt";
+import { sendVerificationRequest } from "@/utils/sendVerificationRequest";
 
-export const authOptions: AuthOptions = {
+export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/auth/signin",
   },
@@ -20,6 +22,29 @@ export const authOptions: AuthOptions = {
   },
   adapter: PrismaAdapter(prisma),
   providers: [
+    {
+      id: 'resend',
+      type: 'email',
+      sendVerificationRequest
+    },
+    // EmailProvider({
+    //   server: {
+    //     host: process.env.EMAIL_SERVER_HOST,
+    //     port: process.env.EMAIL_SERVER_PORT,
+    //     auth: {
+    //       user: process.env.EMAIL_SERVER_USER,
+    //       pass: process.env.EMAIL_SERVER_PASSWORD
+    //     }
+    //   },
+    //   from: process.env.EMAIL_FROM,
+      // sendVerificationRequest({
+      //   identifier: email,
+      //   url,
+      //   provider: { server, from },
+      // }) {
+      //   sendVerificationRequest(params)
+      // },
+    // }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID ?? "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",

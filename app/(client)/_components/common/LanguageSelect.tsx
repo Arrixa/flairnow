@@ -5,7 +5,7 @@ import { Check, ChevronsUpDown } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/utils/utils"
 import { Button } from "@/app/components/ui/button"
 import {
   Command,
