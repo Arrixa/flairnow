@@ -35,16 +35,17 @@ export async function POST(req: Request) {
         email: user.email
       }
     })
-    if (existingUserByEmail) {
-      return NextResponse.json({ user: null, message: "User with this email already exists. Please signin"})
+    if (!existingUserByEmail) {
+      return NextResponse.json({ user: null, message: "Please signin with a email link before creating an account"})
     }
-
-      // New user
-      const newUser = await prisma.user.create({
-      data: {
-        ...user,
-      }
-    });
+    const updateUser = await prisma.user.update({
+        where: {
+          id: existingUserByEmail.id,
+        },
+        data: {
+          ...user,
+        },
+      });
 
     // Check if client domain exists
     const domain = extractEmailDomain(user.email);
@@ -90,16 +91,16 @@ export async function POST(req: Request) {
       const newClientUser = await prisma.clientUser.create({
         data: {
           client: { connect: { id: client.id } },
-          user: { connect: { id: newUser.id } },
+          user: { connect: { id: updateUser.id } },
           role: roles,
         },
       });     
     }
 
-    return NextResponse.json({ user: newUser, message: "User created successfully"}, { status: 201 })
+    return NextResponse.json({ user: updateUser, message: "User account created successfully"}, { status: 201 })
 
   } catch (error) {
-    console.error("Error during user creation:", error);
+    console.error("Error during user account creation:", error);
     return NextResponse.json({ message: "Something went wrong"}, { status: 500 });
   }
 }
