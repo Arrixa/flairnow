@@ -28,7 +28,7 @@ interface Props {
    code?: string
 }
 
-export default function MagicLinkEmail({ url, host }: TextParams) {
+export function MagicLinkEmail({ url, host }: TextParams) {
    const previewText = `Signin with your email.`
 
    return (
