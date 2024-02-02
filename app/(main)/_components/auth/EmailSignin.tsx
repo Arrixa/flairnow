@@ -18,8 +18,9 @@ import { toast } from "react-toastify";
 import { signIn } from 'next-auth/react';
 
 const EmailSignIn= () => {
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl') || '/';
+  // const searchParams = useSearchParams();
+  // const callbackUrl = searchParams.get('callbackUrl') || '/';
+  const callbackUrl = '/auth/validate-auth'
   // const [email, setEmail] = useState('');
 
   const FormSchema = useMemo(() => (
@@ -46,7 +47,7 @@ const EmailSignIn= () => {
     console.log("value", value.email);
     // setEmail(value.email);
     console.log(email, callbackUrl)
-    signIn('email', { email: email });
+    signIn('email', { email: email, callbackUrl });
   }
   
 

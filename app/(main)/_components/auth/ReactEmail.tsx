@@ -43,7 +43,7 @@ export function MagicLinkEmail({ url, host }: TextParams) {
                      We use this easy signin link so you don&apos;t have to remember
                      or type in yet another long password.
                   </Text>
-                  <Button className="w-auto rounded-lg px-6">
+                  <Button className="w-auto rounded-lg px-6 bg-primary">
                     <Link
                       href={url}
                       target='_blank'

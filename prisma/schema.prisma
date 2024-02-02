@@ -41,25 +41,25 @@ model Account {
 }
 
 model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id            String       @id @default(cuid())
+  sessionToken  String       @unique
+  userId        String
+  expires       DateTime
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 
 model VerificationToken {
   identifier    String
-  token         String   @unique
+  token         String      @unique
   expires       DateTime
 
   @@unique([identifier, token])
 }
 model User {
-  id            String     @id @default(cuid())
+  id            String      @id @default(cuid())
   username      String?
-  email         String     @unique
+  email         String      @unique
   emailVerified DateTime?
   password      String?
   image         String?

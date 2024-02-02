@@ -17,7 +17,7 @@ export const checkAccessAndRedirect = async (path: string) => {
   const clientUser = session.clientUser
 
   // If the user does not have a role, redirect to /profile
-  if (session && !session.clientUser || !session.client) {
+  if (session && !session.clientUser || session.clientUser == null || session.client == null || !session.client) {
     return {
       redirect: {
         destination: '/profile',
@@ -26,7 +26,7 @@ export const checkAccessAndRedirect = async (path: string) => {
     };
   }
 
-  if (!clientUser || !clientUser.role) {
+  if (session && !clientUser) {
     return {
       redirect: {
         destination: '/profile',
@@ -38,7 +38,7 @@ export const checkAccessAndRedirect = async (path: string) => {
   const role = clientUser.role;
 
   // If the user has role = EMPLOYEE
-  if (role.includes('EMPLOYEE')) {
+  if (role && role !== null && role?.includes('EMPLOYEE')) {
     return {
       redirect: {
         destination: '/dashboard/employee-profile',
@@ -48,7 +48,7 @@ export const checkAccessAndRedirect = async (path: string) => {
   }
 
   // If the user has role = ADMIN
-  if (role.includes('ADMIN')) {
+  if (role && role !== null && role?.includes('ADMIN')) {
     return {
       redirect: {
         destination: '/dashboard/admin',

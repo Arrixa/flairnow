@@ -18,19 +18,19 @@ const UserCard: React.FC<UserCardProps> = ({ session }) => {
   }
 
   return (
-    <div className="bg-secondary p-6 rounded-b-md border-r-4 border-secondary h-[120px]">
+    <div className="bg-secondary p-6 rounded-b-md border-r-4 border-secondary h-[120px] w-full">
       {session && session.user ? (
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-row gap-2">
           <div className="border rounded-full">
             <Image
               alt="avatar"
               src="/Avatar.png"
-              width={60}
-              height={60}
+              width={80}
+              height={80}
             ></Image>
           </div>
-          <div>
-            <h4 className="text-lg font-medium">{`${session.user.username}`}</h4>
+          <div className="min-w-fit">
+            <h4 className="text-lg font-medium min-w-fit">{`${session.user.username}`}</h4>
             <Separator />
             <p>{`${session.client?.domain ? capitalizeFirstLetter(session.client.domain) : ''}`}</p>
           </div>

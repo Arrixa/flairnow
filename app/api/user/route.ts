@@ -22,7 +22,6 @@ const isDomainInExcludedList = (domain: string): boolean => {
   return excludedDomains.includes(domain);
 }
 
-
 export async function POST(req: Request) {
   try {
     const reqBody = await req.json();
@@ -54,29 +53,29 @@ export async function POST(req: Request) {
     // Check if the domain is part of the excluded list (public domains)
     const isPublicDomain = isDomainInExcludedList(domain);
     console.log(isPublicDomain)
+    if (isPublicDomain) {
+      NextResponse.json({ user: updateUser, message: "User account created successfully"}, { status: 201 })
+    } else {
 
-    if (!isPublicDomain) {
       let roles = [];
       let client;
   
-      if (!isPublicDomain) {
-        const existingClientByDomain = await prisma.client.findUnique({
-          where: { 
+      const existingClientByDomain = await prisma.client.findUnique({
+        where: { 
+          domain: domain 
+        },
+      });
+
+      if (!existingClientByDomain) {
+        client = await prisma.client.create({ 
+          data: { 
             domain: domain 
-          },
+          } 
         });
-  
-        if (!existingClientByDomain) {
-          client = await prisma.client.create({ 
-            data: { 
-              domain: domain 
-            } 
-          });
-          roles.push(Role.ADMIN, Role.EMPLOYEE);
-        } else {
-          client = existingClientByDomain;
-          roles.push(Role.EMPLOYEE);
-        }
+        roles.push(Role.ADMIN, Role.EMPLOYEE);
+      } else {
+        client = existingClientByDomain;
+        roles.push(Role.EMPLOYEE);
       }
   
       if (roles.length === 0) {
@@ -97,7 +96,7 @@ export async function POST(req: Request) {
       });     
     }
 
-    return NextResponse.json({ user: updateUser, message: "User account created successfully"}, { status: 201 })
+    return NextResponse.json({ user: updateUser, message: "User and client account created successfully"}, { status: 201 })
 
   } catch (error) {
     console.error("Error during user account creation:", error);

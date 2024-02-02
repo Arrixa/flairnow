@@ -18,37 +18,16 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from "react-toastify";
 import { Checkbox } from '../../../components/ui/checkbox';
+import { useSession } from 'next-auth/react';
 // import NextAuthProviders from './NextAuthProviders';
 // import GoogleSignInButton from '../GoogleSignInButton';
-
-// const passwordSchema = z.string().refine((password) => {
-//   // At least one digit
-//   const hasDigit = /\d/.test(password);
-//   // At least one lowercase letter
-//   const hasLowercase = /[a-z]/.test(password);
-//   // At least one uppercase letter
-//   const hasUppercase = /[A-Z]/.test(password);
-//   // At least one special character
-//   const hasSpecialChar = /[*.!@$%^&(){}[\]:;<>,.?/~_+-=|\\]/.test(password);
-//   // Overall length between 6 and 30 characters
-//   const isLengthValid = password.length >= 6 && password.length <= 30;
-//   return hasDigit && hasLowercase && hasUppercase && hasSpecialChar && isLengthValid;
-// }, {
-//   message: 'Invalid password. Password must be 6-30 characters and have at least one digit, lowercase letter, uppercase letter and special character.',
-// });
 
 const FormSchema = z
   .object({
     username: z.string().min(1, 'Username is required').max(100),
     email: z.string().min(1, 'Email is required').email('Invalid email'),
-    // accepted: z.boolean
-    // password: passwordSchema,
-    // confirmPassword: z.string().min(1, 'Password confirmation is required'),
   })
-  // .refine((data) => data.password === data.confirmPassword, {
-  //   path: ['confirmPassword'],
-  //   message: 'Password do not match',
-  // });
+
 
 const SignUpForm = () => {
   const router = useRouter();
@@ -57,10 +36,15 @@ const SignUpForm = () => {
     defaultValues: {
       username: '',
       email: '',
-      // password: '',
-      // confirmPassword: '',
     },
   });
+
+  const { data: session, update } = useSession();
+
+  async function updateSession() {
+    // if(session) session.user.username = "UPDATE"
+    
+  }
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     console.log("Save user function called");
@@ -78,7 +62,9 @@ const SignUpForm = () => {
       })
       if (response.ok) {
         toast.success("The user registered successfully.");
-        router.push('/')
+        await update({...session?.user, username: data.username })
+        router.push('/auth/validate-auth')
+        // router.refresh
       } else {
         const errorData = await response.json();
         console.error("Registration failed:", errorData);
