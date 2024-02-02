@@ -40,6 +40,11 @@ export const authOptions: NextAuthOptions = {
       console.log(`isNewUser: ${JSON.stringify(isNewUser)}`);
     },
   },
+  pages: {
+    signIn: "/auth/signin",
+    newUser: '/auth/signup',
+    error: '/auth/error', 
+  },
   theme: {
     colorScheme: "auto",
   },

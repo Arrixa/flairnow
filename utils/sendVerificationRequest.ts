@@ -16,8 +16,6 @@ interface SendVerificationRequestParams {
   identifier: string;
   url: string;
   provider: EmailProvider;
-  // theme: Theme;
-  // email: string
 }
 
 export async function sendVerificationRequest(params: SendVerificationRequestParams): Promise<{ success: boolean; data: any }> {

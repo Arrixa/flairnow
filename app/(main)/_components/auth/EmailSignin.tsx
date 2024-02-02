@@ -20,10 +20,7 @@ import { signIn } from 'next-auth/react';
 const EmailSignIn= () => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') || '/';
-  const [email, setEmail] = useState('');
-
-
-  console.log("email at beginning", email)
+  // const [email, setEmail] = useState('');
 
   const FormSchema = useMemo(() => (
     z.object({
@@ -38,58 +35,106 @@ const EmailSignIn= () => {
     },
   });
 
-  // const onSubmit = async (value: z.infer<typeof FormSchema>, event?: React.BaseSyntheticEvent): Promise<void> => {
-  //   if (form.formState.isSubmitting) {
-  //     return;  // Exit early if the form is already being submitted
-  //   }
-  //   if (event) {
-  //     event.preventDefault();
-  //   } 
+  const onSubmit = async (value: z.infer<typeof FormSchema>, event?: React.BaseSyntheticEvent): Promise<void> => {
+    if (form.formState.isSubmitting) {
+      return;  
+    }
+    if (event) {
+      event.preventDefault();
+    } 
+    const email = value.email
+    console.log("value", value.email);
+    // setEmail(value.email);
+    console.log(email, callbackUrl)
+    signIn('email', { email: email });
+  }
   
-  //   console.log("value", value);
-  //   setEmail(value.email);
-  //   console.log("email after setEmail", email);
+
+  return (
+    <div className="flex flex-col justify-center items-center mx-auto w-full px-4 md:px-6 lg:px-8 xl:w-3/4">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='w-full lg:w-96'>
+          <div className='space-y-2 md:w-full lg:w-96'>
+          <FormField
+            control={form.control}
+            name='email'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder='Enter your email address' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          </div>
+          <div>
+          <Button className='min-w-full w-full mt-6 text-md' type='submit'>
+            Continue with email
+          </Button>
+          </div>
+        </form>
+      </Form>
+    </div>
+  );
+};
+
+export default EmailSignIn;
+
+/*
+  const onSubmit = async (value: z.infer<typeof FormSchema>, event?: React.BaseSyntheticEvent): Promise<void> => {
+    if (form.formState.isSubmitting) {
+      return;  // Exit early if the form is already being submitted
+    }
+    if (event) {
+      event.preventDefault();
+    } 
   
-  //   try {
-  //     const response = await fetch('/api/check-email', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: JSON.stringify({ email: value.email })
-  //     });
+    console.log("value", value);
+    setEmail(value.email);
+    console.log("email after setEmail", email);
   
-  //     let data;
+    try {
+      const response = await fetch('/api/check-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: value.email })
+      });
   
-  //     if (response.ok) {
-  //       try {
-  //         data = await response.json();
-  //         console.log("Data from server:", data);
-  //       } catch (error) {
-  //         console.error('Error parsing JSON:', error);
-  //         // Log the response text in case of JSON parsing error
-  //         console.error('Response text:', await response.text());
-  //       }
-  //     } else {
-  //       console.error('Server returned an error:', response.status, response.statusText);
-  //       // Log the response text in case of server error
-  //       console.error('Response text:', await response.text());
-  //     }
+      let data;
   
-  //     if (data && data.isUnique !== undefined) {
-  //       // Email is unique, set callbackUrl for signup
-  //       const signupCallbackUrl = '/auth/signup';
-  //       console.log("Signing in with unique email. Callback URL:", signupCallbackUrl);
-  //       signIn('email', { email, callbackUrl: '/auth/signup' });
-  //     } else {
-  //       // Email is not unique, proceed with the regular email sign-in
-  //       console.log("Signing in with non-unique email. Callback URL:", callbackUrl);
-  //       signIn('email', { email, callbackUrl: "/" });
-  //     }
-  //   } catch (error) {
-  //     console.error("Registration failed:", error);
-  //   } 
-  // };
+      if (response.ok) {
+        try {
+          data = await response.json();
+          console.log("Data from server:", data);
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
+          // Log the response text in case of JSON parsing error
+          console.error('Response text:', await response.text());
+        }
+      } else {
+        console.error('Server returned an error:', response.status, response.statusText);
+        // Log the response text in case of server error
+        console.error('Response text:', await response.text());
+      }
+  
+      if (data && data.isUnique !== undefined) {
+        // Email is unique, set callbackUrl for signup
+        const signupCallbackUrl = '/auth/signup';
+        console.log("Signing in with unique email. Callback URL:", signupCallbackUrl);
+        signIn('email', { email, callbackUrl: '/auth/signup' });
+      } else {
+        // Email is not unique, proceed with the regular email sign-in
+        console.log("Signing in with non-unique email. Callback URL:", callbackUrl);
+        signIn('email', { email, callbackUrl: "/" });
+      }
+    } catch (error) {
+      console.error("Registration failed:", error);
+    } 
+  };
 
   const onSubmit = async (value: z.infer<typeof FormSchema>, event?: React.BaseSyntheticEvent): Promise<void> => {
     if (form.formState.isSubmitting) {
@@ -163,36 +208,4 @@ const EmailSignIn= () => {
     console.log("Signing in with non-unique email. Callback URL:", callbackUrl);
     signIn('email', { email, callbackUrl: '/' });
   };
-
-
-  return (
-    <div className="flex flex-col justify-center items-center mx-auto w-full px-4 md:px-6 lg:px-8 xl:w-3/4">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='w-full lg:w-96'>
-          <div className='space-y-2 md:w-full lg:w-96'>
-          <FormField
-            control={form.control}
-            name='email'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder='Enter your email address' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          </div>
-          <div>
-          <Button className='min-w-full w-full mt-6 text-md' type='submit'>
-            Continue with email
-          </Button>
-          </div>
-        </form>
-      </Form>
-    </div>
-  );
-};
-
-export default EmailSignIn;
+*/
