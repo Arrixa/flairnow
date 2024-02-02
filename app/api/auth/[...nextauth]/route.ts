@@ -1,14 +1,9 @@
 import prisma from "@/lib/prisma";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { NextAuthOptions } from "next-auth";
+import { NextAuthOptions, AuthOptions } from "next-auth";
 import EmailProvider from "next-auth/providers/email";
-import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
-import * as bcrypt from "bcryptjs";
 import NextAuth from "next-auth/next";
-// import { User } from "@prisma/client";
-import { JWT } from "next-auth/jwt";
-// import { sendVerificationRequest } from "@/utils/sendVerificationRequest";
+
 
 export const authOptions: NextAuthOptions = {
   
@@ -23,51 +18,109 @@ export const authOptions: NextAuthOptions = {
     EmailProvider({
       server: {
         host: process.env.EMAIL_SERVER_HOST,
-        port: process.env.EMAIL_SERVER_PORT,
+        port: Number(process.env.EMAIL_SERVER_PORT),
         auth: {
           user: process.env.EMAIL_SERVER_USER,
           pass: process.env.EMAIL_SERVER_PASSWORD
         }
       },
       from: process.env.EMAIL_FROM,
+    }),
+
+  ],
+  callbacks: {
+
+  },
+  events: {
+    signIn: ({ user, account, profile, isNewUser }) => {
+      console.log(`isNewUser: ${JSON.stringify(isNewUser)}`);
+    },
+  },
+  theme: {
+    colorScheme: "auto",
+  },
+  debug: true
+};
+
+const handler = NextAuth(authOptions);
+
+export { handler as GET, handler as POST };
+
+/*
+import prisma from "@/lib/prisma";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { NextAuthOptions, AuthOptions } from "next-auth";
+import EmailProvider from "next-auth/providers/email";
+import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
+import * as bcrypt from "bcryptjs";
+import NextAuth from "next-auth/next";
+// import { User } from "@prisma/client";
+import { JWT } from "next-auth/jwt";
+import { sendVerificationRequest } from "@/utils/sendVerificationRequest";
+
+export const authOptions: AuthOptions = {
+  
+  session: {
+    strategy: "jwt",
+  },
+  jwt: {
+    secret: process.env.NEXTAUTH_SECRET,
+  },
+  adapter: PrismaAdapter(prisma),
+  providers: [
+    EmailProvider({
+      server: {
+        host: process.env.EMAIL_SERVER_HOST,
+        port: Number(process.env.EMAIL_SERVER_PORT),
+        auth: {
+          user: process.env.EMAIL_SERVER_USER,
+          pass: process.env.EMAIL_SERVER_PASSWORD
+        }
+      },
+      // from: process.env.EMAIL_FROM,
+      // sendVerificationRequest({ identifier, url, provider }) {
+      //   sendVerificationRequest({ identifier, url, provider })
+      // },
+    }),
       // sendVerificationRequest: ({
-      //   identifier: email,
+      //   email,
       //   url,
       //   provider: { server, from },
       // }) => {
       //   sendVerificationRequest({ email, url, provider: { server, from } });
       // },
-    }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
-      idToken: true,
+    // }),
+  //   GoogleProvider({
+  //     clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+  //     clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+  //     idToken: true,
 
-      authorization: {
-        params: {
-          scope: "openid profile email",
-        },
-      },
-      profile(profile) {
-        return {
-          id: profile.sub,
-          username: `${profile.name}`,
-          email: profile.email,
-          image: profile.picture,
-        };
-      },
-    }),
+  //     authorization: {
+  //       params: {
+  //         scope: "openid profile email",
+  //       },
+  //     },
+  //     profile(profile) {
+  //       return {
+  //         id: profile.sub,
+  //         username: `${profile.name}`,
+  //         email: profile.email,
+  //         image: profile.picture,
+  //       };
+  //     },
+  //   }),
   ],
   callbacks: {
-    async signIn(user) {
-      if (user) {
-        // User already has an account, provide the regular callback URL
-        return Promise.resolve("/");
-      } else {
-        // New user, provide the signup callback URL
-        return Promise.resolve("/auth/signup");
-      }
-    },
+    // async signIn(user) {
+    //   if (user) {
+    //     // User already has an account, provide the regular callback URL
+    //     return Promise.resolve("/");
+    //   } else {
+    //     // New user, provide the signup callback URL
+    //     return Promise.resolve("/auth/signup");
+    //   }
+    // },
 
     async jwt({ token, user }): Promise<JWT> {
       if (token && user && token.email) {
@@ -156,20 +209,24 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  pages: {
-    signIn: "/auth/signin",
-    newUser: '/profile',
-    error: '/auth/error', 
+  theme: {
+    colorScheme: "auto",
   },
-  events: {
-    signIn: ({ user, account, profile, isNewUser }) => {
-      console.log(`isNewUser: ${JSON.stringify(isNewUser)}`);
-    },
-    // updateUser({ user })
-  },
+  // pages: {
+    // signIn: "/auth/signin",
+    // newUser: '/profile',
+    // error: '/auth/error', 
+  // },
+  // events: {
+  //   signIn: ({ user, account, profile, isNewUser }) => {
+  //     console.log(`isNewUser: ${JSON.stringify(isNewUser)}`);
+  //   },
+  //   // updateUser({ user })
+  // },
 };
 
 const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
 
+*/

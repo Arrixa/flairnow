@@ -11,7 +11,7 @@ const NavBar = async () => {
   return (
     <nav className=' bg-background border-b-4 border-secondary py-2 flex flex-row w-full z-10 top-0'>
       <div className='container flex items-center gap-4 '>
-      {session?.clientUser.role ? (
+      {/* {session?.clientUser.role ? (
             <Link href="/dashboard/employee-profile">
                <Image
                 src="/FlairNow-Logo.svg"
@@ -29,7 +29,7 @@ const NavBar = async () => {
                 height={40}
               />
             </Link>
-          )}
+          )} */}
        
       </div>
       <div className='container flex items-center gap-4'>

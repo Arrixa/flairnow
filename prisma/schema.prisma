@@ -58,10 +58,10 @@ model VerificationToken {
 }
 model User {
   id            String     @id @default(cuid())
-  username      String
+  username      String?
   email         String     @unique
   emailVerified DateTime?
-  password      String
+  password      String?
   image         String?
   accounts      Account[]
   sessions      Session[]
@@ -69,8 +69,8 @@ model User {
 }
 
 model Client {
-  id              String @id @default(cuid())
-  domain          String @unique
+  id              String    @id @default(cuid())
+  domain          String    @unique
   companyName     String?
   website         String?
   description     String?
