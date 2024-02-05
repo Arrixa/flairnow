@@ -1,9 +1,6 @@
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { checkAccessAndRedirect } from '@/lib/redirects';
 import { getServerSession } from 'next-auth';
-import React from 'react'
 import { redirect } from 'next/navigation';
-import { Skeleton } from '@/app/components/ui/skeleton';
 
 
 const ValidatingAuth = async () => {
@@ -24,9 +21,8 @@ const ValidatingAuth = async () => {
   return (
     <div>
       Validating authorisation
-      <Skeleton className="w-[100px] h-[20px] rounded-full" />
     </div>
   )
 }
 
-export default ValidatingAuth
+export default ValidatingAuth;

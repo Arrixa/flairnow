@@ -19,7 +19,7 @@ export async function POST(req: Request, res: Response) {
   
     return NextResponse.json({ isUnique });
   } catch (error) {
-      console.error("Error during updating client information:", error);
+      console.error("Error checking client information:", error);
       return NextResponse.json({ message: "Something went wrong"}, { status: 500 });
     }
   } 
