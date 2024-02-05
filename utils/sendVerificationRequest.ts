@@ -34,7 +34,7 @@ export async function sendVerificationRequest(params: SendVerificationRequestPar
       // react: MagicLinkEmail({ url, host }),
       // html: html({ url, host, email: identifier}),
     }); 
-    console.log(result);
+    // console.log(result);
     return { success: true, data: result };
   } catch (error) {
     console.error('Error sending verification email:', error);

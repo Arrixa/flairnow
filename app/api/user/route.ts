@@ -50,15 +50,15 @@ export async function POST(req: Request) {
     const domain = extractEmailDomain(user.email);
     console.log("domain", domain)
     
+    let roles = [];
+    let client;
+
     // Check if the domain is part of the excluded list (public domains)
     const isPublicDomain = isDomainInExcludedList(domain);
     console.log(isPublicDomain)
     if (isPublicDomain) {
       NextResponse.json({ user: updateUser, message: "User account created successfully"}, { status: 201 })
     } else {
-
-      let roles = [];
-      let client;
   
       const existingClientByDomain = await prisma.client.findUnique({
         where: { 
@@ -96,6 +96,38 @@ export async function POST(req: Request) {
       });     
     }
 
+    // Fetch the updated user and client information
+    const updatedUser = await prisma.user.findUnique({
+      where: { id: updateUser.id },
+    });
+
+    const updatedClient = await prisma.client.findUnique({
+      where: { id: client.id },
+    });
+
+    // Combine user and client information
+    const updatedInfo = {
+      user: {
+        id: updatedUser.id,
+        username: updatedUser.username,
+        email: updatedUser.email,
+        // Add other user properties as needed
+      },
+      client: {
+        id: updatedClient.id,
+        domain: updatedClient.domain,
+        // Add other client properties as needed
+      },
+    };
+
+    // Trigger a session update by making a request to the dedicated endpoint
+    const updateTriggerUrl = `${process.env.NEXTAUTH_URL}/api/auth/update-session`;
+    await fetch(updateTriggerUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ updatedInfo }),
+    });
+
     return NextResponse.json({ user: updateUser, message: "User and client account created successfully"}, { status: 201 })
 
   } catch (error) {
@@ -103,3 +135,14 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "Something went wrong"}, { status: 500 });
   }
 }
+
+// Trigger a session update
+// export async function sessionUpdate () {
+//   const updateTriggerUrl = `${process.env.NEXTAUTH_URL}/api/auth/callback/update`;
+//   await fetch(updateTriggerUrl, {
+//     method: 'POST',
+//     headers: { 'Content-Type': 'application/json' },
+//     body: JSON.stringify({ userId: updateUser.id }), // Pass any relevant data
+//   });
+
+// }

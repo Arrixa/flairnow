@@ -47,7 +47,7 @@ const EmailSignIn= () => {
     console.log("value", value.email);
     // setEmail(value.email);
     console.log(email, callbackUrl)
-    signIn('email', { email: email, callbackUrl });
+    signIn('email', { email: email, callbackUrl: '/auth/validate-auth' });
   }
   
 

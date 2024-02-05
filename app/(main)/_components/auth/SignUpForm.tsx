@@ -26,9 +26,7 @@ const FormSchema = z
   .object({
     username: z.string().min(1, 'Username is required').max(100),
     email: z.string().min(1, 'Email is required').email('Invalid email'),
-    accepted: z.boolean().refine(value => value === true, {
-      message: 'You must accept the terms and privacy policy',
-    }),
+    // accepted: z.boolean(),
   })
 
 
@@ -39,18 +37,18 @@ const SignUpForm = () => {
     defaultValues: {
       username: '',
       email: '',
-      accepted: false,
     },
   });
 
   const { data: session, update } = useSession();
 
-  async function updateSession() {
+  // async function updateSession() {
     // if(session) session.user.username = "UPDATE"
     
-  }
+  // }
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    console.log('onSubmit clicked', data)
     try {
       const response = await fetch('/api/user', {
         method: 'POST',
@@ -65,7 +63,8 @@ const SignUpForm = () => {
       })
       if (response.ok) {
         toast.success("The user registered successfully.");
-        await update({...session?.user, username: data.username })
+        // await update({...session?.user, username: data.username })
+        await update({...session })
         router.push('/auth/validate-auth')
         // router.refresh
       } else {

@@ -36,9 +36,17 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user, trigger, session }): Promise<JWT> {
 
-      if(trigger === 'update'){
-        return {...token, ...session}
+      if (trigger === 'update') {
+        const { user, client } = session.updatedInfo;
+  
+        // Update the token with the new information
+        return {
+          ...token,
+          user: { ...token.user, ...user },
+          client: { ...token.client, ...client },
+        };
       }
+
       if (token && user && token.email) {
         console.log('Token email:', token.email);
   

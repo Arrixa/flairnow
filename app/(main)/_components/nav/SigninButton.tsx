@@ -5,6 +5,7 @@ import { Button } from "../../../components/ui/button";
 import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { SquareUserRound } from "lucide-react";
 
 interface SigninBtnProps {
   session?: Session | null, 
@@ -21,8 +22,10 @@ const SigninButton: React.FC<SigninBtnProps> = ({ session }) => {
   console.log('role', session?.clientUser.role)
 
   return (
-    <div className="flex items-center gap-2">
-      {session && session.user ? (
+<div className="flex items-center gap-2">
+  {session && session.user ? (
+    <>
+      {session.user.username ? (
         <>
           {session?.clientUser.role ? (
             <Link href="/dashboard/employee-profile">{`${session.user.username}`}</Link>
@@ -32,14 +35,18 @@ const SigninButton: React.FC<SigninBtnProps> = ({ session }) => {
           <Button onClick={handleSignOut}>Sign out</Button>
         </>
       ) : (
-        <>
-          <Button onClick={() => signIn()}>Sign in</Button>
-          <Button variant="flairnowOutline">
-            <Link href="/auth/signup">Sign up</Link>
-          </Button>
-        </>
+        <SquareUserRound />
       )}
-    </div>
+    </>
+  ) : (
+    <>
+      <Button onClick={() => signIn()}>Sign in</Button>
+      <Button variant="flairnowOutline">
+        <Link href="/auth/signup">Sign up</Link>
+      </Button>
+    </>
+  )}
+</div>
   );
 };
 
