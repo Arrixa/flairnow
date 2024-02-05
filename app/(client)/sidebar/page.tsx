@@ -5,7 +5,10 @@ import UserCard from "../_components/sidebar/UserCard";
 
 const Sidebar = async () => {
   const session = await getServerSession(authOptions);
-  const userRoles = session?.clientUser?.role ?? [];
+  let userRoles
+  if (session && session?.clientUser && session.clientUser !== null) {
+    userRoles = session?.clientUser?.role;
+  }
 
   return (
     <div className="flex flex-col h-auto w-auto">

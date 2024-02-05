@@ -1,13 +1,13 @@
 import React from 'react'
 import NavBar from './_components/nav/NavBar';
 
-const mainLayout = ({ 
+const mainLayout = async ({ 
   children,
   }: {
     children: React.ReactNode
   }) => {
 
-  // const session = await getServerSession(authOptions);
+ 
   
   return (
     <div className="flex">

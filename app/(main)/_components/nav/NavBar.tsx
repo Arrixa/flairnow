@@ -1,4 +1,3 @@
-"use client"
 import SigninButton from "./SigninButton";
 import Link from "next/link";
 import { ModeToggle } from "./ModeToggle";
@@ -7,16 +6,15 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../../api/auth/[...nextauth]/route";
 import { useSession } from "next-auth/react";
 
-const NavBar = () => {
-  // const session = await getServerSession(authOptions);
-  const { data: session } = useSession()
-  const { update } = useSession()
-  // console.log('update session in nav', update)
+const NavBar = async () => {
+  const session = await getServerSession(authOptions);
+  // const { data: session } = useSession()
+  // const { update } = useSession()
   
   return (
     <nav className=' bg-background border-b-4 border-secondary py-2 flex flex-row w-full z-10 top-0'>
       <div className='container flex items-center gap-4 '>
-        {session?.clientUser.role !== null ? (
+        {session?.clientUser.role ? (
           <Link href="/dashboard/employee-profile">
               <Image
               src="/FlairNow-Logo.svg"

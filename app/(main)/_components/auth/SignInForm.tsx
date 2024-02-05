@@ -62,7 +62,7 @@ const SignInForm = () => {
       console.log('session data in sign in', userData)
   
       if (role && role.length > 0) {
-        router.push("/dashboard");
+        router.push("/dashboard/employee-profile");
       } else {
         router.push("/profile");
       }

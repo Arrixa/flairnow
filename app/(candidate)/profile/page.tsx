@@ -7,8 +7,8 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 const ProfilePage = async () => {
   const session = await getServerSession(authOptions);
   const user = session?.user;
-  if (!session || !session.user) redirect("/auth/signin");
-  if (!session.clientUser.role) {
+  // if (!session || !session.user || session.clientUser.role) redirect("/auth/validate-auth");
+  // else {
     return (
       <main className="flex flex-col items-left space-x-10 mx-20">
         <h1 className="text-2xl text-left mx-20 font-semibold my-8">User profile information</h1>
@@ -33,8 +33,7 @@ const ProfilePage = async () => {
       </main>
     );
   }
-  
-};
+// };
 
 export default ProfilePage;
 

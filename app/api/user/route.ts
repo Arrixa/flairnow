@@ -26,7 +26,7 @@ export async function POST(req: Request) {
   try {
     const reqBody = await req.json();
     const { emailVerified, image, id, ...user } = reqBody;
-    console.log(reqBody)
+    // console.log(reqBody)
 
     // Check if user email exists
     const existingUserByEmail = await prisma.user.findUnique({

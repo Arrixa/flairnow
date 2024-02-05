@@ -40,7 +40,7 @@ export const authOptions: NextAuthOptions = {
         return {...token, ...session}
       }
 
-      console.log(token, session, 'after trigger update')
+      // console.log(token, session, 'after trigger update')
 
       if (token && user && token.email) {
         console.log('Token email:', token.email);
@@ -51,7 +51,7 @@ export const authOptions: NextAuthOptions = {
           },
         });
   
-        console.log('DB User:', dbUser);
+        // console.log('DB User:', dbUser);
 
         const emailDomain = user?.email?.toLowerCase().split('@').pop()?.split('.')[0]
         console.log(emailDomain)

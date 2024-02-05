@@ -67,11 +67,18 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles })  => {
     
   ];
 
+  let uniqueRoles: string[] = [];
+  let filteredSidebarItems;
+
   // Get all unique roles of the user
-  const uniqueRoles: string[] = userRoles.filter((role: string, index: number, roles: string[]) => roles.indexOf(role) === index);
+  if (userRoles) {
+    uniqueRoles = userRoles?.filter((role: string, index: number, roles: string[]) => roles.indexOf(role) === index);
+  }
 
   // Filter sidebar items based on the user's roles
-  const filteredSidebarItems = sidebarItems.filter(item => uniqueRoles.includes(item.role));
+  if (sidebarItems) {
+    filteredSidebarItems = sidebarItems.filter(item => uniqueRoles.includes(item.role));
+  }
 
   return (
     <div className='border-r-4 border-secondary h-full'>
@@ -88,8 +95,8 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles })  => {
         <Sidebar.Items>
           <ScrollArea ref={scrollAreaRef} style={{ height: `${scrollAreaHeight}px` }}>
             <Sidebar.ItemGroup>
-            {filteredSidebarItems.length > 0 ? (
-                filteredSidebarItems.map((item, index) => (
+            {filteredSidebarItems ? (
+                filteredSidebarItems?.map((item, index) => (
                   <Sidebar.Item key={index} href={item.href} icon={item.icon}>
                     {item.label}
                   </Sidebar.Item>

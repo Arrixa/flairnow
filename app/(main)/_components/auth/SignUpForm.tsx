@@ -26,6 +26,9 @@ const FormSchema = z
   .object({
     username: z.string().min(1, 'Username is required').max(100),
     email: z.string().min(1, 'Email is required').email('Invalid email'),
+    accepted: z.boolean().refine(value => value === true, {
+      message: 'You must accept the terms and privacy policy',
+    }),
   })
 
 
@@ -36,6 +39,7 @@ const SignUpForm = () => {
     defaultValues: {
       username: '',
       email: '',
+      accepted: false,
     },
   });
 
@@ -47,7 +51,6 @@ const SignUpForm = () => {
   }
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    console.log("Save user function called");
     try {
       const response = await fetch('/api/user', {
         method: 'POST',
