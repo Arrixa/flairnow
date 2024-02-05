@@ -1,7 +1,10 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/app/components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
+import UserProfile from "../_components/UserProfile";
+import UploadFile from "../_components/UploadFile";
+import Dropzone from "../_components/Dropzone";
 
 
 const ProfilePage = async () => {
@@ -10,27 +13,29 @@ const ProfilePage = async () => {
   // if (!session || !session.user || session.clientUser.role) redirect("/auth/validate-auth");
   // else {
     return (
-      <main className="flex flex-col items-left space-x-10 mx-20">
-        <h1 className="text-2xl text-left mx-20 font-semibold my-8">User profile information</h1>
-        <Table className="lg:w-1/2 md:w-2/3 w-3/4 space-x-10">
-          <TableCaption></TableCaption>
-          <TableHeader>
-            <TableRow>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableHead className="w-1/3 px-10">Name:</TableHead>
-              <TableCell className="w-2/3 text-left px-10">{user?.username}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableHead className="w-1/3 px-10">Email:</TableHead>
-              <TableCell className="w-2/3 text-left px-10">{user?.email}</TableCell>
-            </TableRow>
-            <TableRow></TableRow>
-          </TableBody>
-        </Table>
+      // <main className="flex flex-col items-left space-x-10 mx-20">
+      <main className='mx-20 w-3/4 lg:1/2 xl:1/2'>
+        <h1 className="text-2xl text-left ml-14 font-semibold my-4 pt-8">User profile information</h1>
+        <div className='w-full flex flex-start'>
+          <Tabs defaultValue="info" className="w-full">
+            <TabsList>
+              <TabsTrigger value="info" className="info-trigger  ml-10">User information</TabsTrigger>
+              <TabsTrigger value="uploads" className="info-trigger">Uploads</TabsTrigger>
+              <TabsTrigger value="drop" className="info-trigger">Uploads</TabsTrigger>
+            </TabsList>
+            <TabsContent value="info">
+              <UserProfile user={user} />
+            </TabsContent>
+            <TabsContent value="uploads">
+              <UploadFile />
+            </TabsContent>
+            <TabsContent value="drop">
+              <Dropzone />
+            </TabsContent>
+          </Tabs>
+        </div>   
       </main>
+      // </main>
     );
   }
 // };

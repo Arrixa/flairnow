@@ -97,7 +97,6 @@ export const authOptions: NextAuthOptions = {
           }
         }
       }
-      console.log(token)
       return token;
     },
 
@@ -146,7 +145,7 @@ export const authOptions: NextAuthOptions = {
   theme: {
     colorScheme: "auto",
   },
-  debug: true
+  // debug: true
 };
 
 const handler = NextAuth(authOptions);

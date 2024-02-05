@@ -11,8 +11,8 @@ import { toast } from 'react-toastify';
 import CompanyInfo from './CompanyInfo';
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
-import { CountrySelect } from '../common/CountrySelect';
-import { CodeSelect } from '../common/CodeSelect';
+import { CountrySelect } from '@/app/components/common/CountrySelect';
+import { CodeSelect } from '@/app/components/common/CodeSelect';
 
 
 interface AdminProps {

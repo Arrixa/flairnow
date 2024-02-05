@@ -19,7 +19,6 @@ const SigninButton: React.FC<SigninBtnProps> = ({ session }) => {
     await signOut({ callbackUrl: '/' }); 
     router.replace('/'); 
   };
-  console.log('role', session?.clientUser.role)
 
   return (
 <div className="flex items-center gap-2">
@@ -28,9 +27,14 @@ const SigninButton: React.FC<SigninBtnProps> = ({ session }) => {
       {session.user.username ? (
         <>
           {session?.clientUser.role ? (
-            <Link href="/dashboard/employee-profile">{`${session.user.username}`}</Link>
+            <Button variant="flairnowOutline">
+              <Link href="/dashboard/employee-profile">{`${session.user.username}`}</Link>
+            </Button>
+
           ) : (
-            <Link href="/profile">{`${session.user.username}`}</Link>
+            <Button variant="flairnowOutline">
+              <Link href="/profile">{`${session.user.username}`}</Link>
+            </Button>
           )}
           <Button onClick={handleSignOut}>Sign out</Button>
         </>

@@ -59,7 +59,6 @@ const SignInForm = () => {
       const session = await getSession(); 
       const role = session?.clientUser.role;
       const userData = session?.user;
-      console.log('session data in sign in', userData)
   
       if (role && role.length > 0) {
         router.push("/dashboard/employee-profile");

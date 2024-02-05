@@ -12,7 +12,6 @@ const ValidatingAuth = async () => {
   const user = session?.user
   const role = session?.clientUser.role
   const client = session?.client
-  console.log('session validate auth', session)
 
   if (!user) {
     redirect('/auth/signin')

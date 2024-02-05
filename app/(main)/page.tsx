@@ -2,6 +2,18 @@
 import Image from "next/image";
 import { Button } from "../components/ui/button";
 import { useSession } from "next-auth/react";
+import AddFile from "../components/common/AddFile";
+import { useEffect, useState } from "react";
+
+interface File {
+  id: string;
+  filename: string;
+  fileType: string;
+  fileSize: number;
+  downloadCount: number;
+  filePath: string;
+  createdAt: number;
+}
 
 export default function Home() {
   const { data: session, update } = useSession();
@@ -12,6 +24,30 @@ export default function Home() {
       username: "UPDATE SESSION"
     })
   }
+  const [files, setFiles] = useState<File[]>([]);
+
+  const fetchFiles = async () => {
+    try {
+      console.log('Not fetching yet')
+      // const response = await fetch("/api/files");
+      // const data = await response.json();
+      // console.log(data)
+      // // Sort Files by createdAt in descending order
+      // const sortedFiles: File[] = data.sort(
+      //   (a: File, b: File) =>
+      //     new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      // );
+      // setFiles(sortedFiles);
+    } catch (error) {
+      console.error("Error fetching files:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchFiles();
+  }, []);
+
+
   return (
     <main className="p-10">
       <div className='flex items-center justify-center'>
@@ -22,6 +58,7 @@ export default function Home() {
           width={300}
           height={100}
         />
+        <AddFile fetchFiles={fetchFiles} />
         {/* How to update session on the client side */}
         {/* <div>
           <Button variant='flairnow' onClick={updateSession}>
