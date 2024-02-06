@@ -107,9 +107,6 @@ dependencies:
   flowbite-react:
     specifier: 0.7.2
     version: 0.7.2(@types/react@18.2.48)(esbuild@0.19.12)(next@14.0.4)(react-dom@18.2.0)(react@18.2.0)(tailwindcss@3.4.1)
-  formidable:
-    specifier: 3.5.1
-    version: 3.5.1
   framer-motion:
     specifier: ^10.18.0
     version: 10.18.0(react-dom@18.2.0)(react@18.2.0)
@@ -128,9 +125,6 @@ dependencies:
   next-auth:
     specifier: ^4.24.5
     version: 4.24.5(next@14.0.4)(nodemailer@6.9.8)(react-dom@18.2.0)(react@18.2.0)
-  next-cloudinary:
-    specifier: 5.20.0
-    version: 5.20.0(next@14.0.4)(react@18.2.0)
   next-themes:
     specifier: 0.2.1
     version: 0.2.1(next@14.0.4)(react-dom@18.2.0)(react@18.2.0)
@@ -296,34 +290,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.14.1
-
-  /@cloudinary-util/url-loader@4.2.0:
-    resolution: {integrity: sha512-fpCFqFPAN/f9Gt//25qLXNDYwy5EcOudRzDPOrsEBH6aMwEdFaJuPxvLiP0IP5MCihKji/XDr9QJQ9Wa+amNSA==}
-    dependencies:
-      '@cloudinary-util/util': 3.0.0
-      '@cloudinary/url-gen': 1.15.0
-      zod: 3.22.4
-    dev: false
-
-  /@cloudinary-util/util@2.4.0:
-    resolution: {integrity: sha512-RJW/K1hvm+qL2civTWgg7iKdTPDMLmpFBvH03KUkDxuDk/xi9E9x9nPthEsmdDy65GdCcZm0UKnErXXgKzMOQQ==}
-    dev: false
-
-  /@cloudinary-util/util@3.0.0:
-    resolution: {integrity: sha512-o6cJsN49OIelLcSkqUf4WzgefpePDFsAaeQfJbpcKhVdtvmWv71K0oZwMXuX62IY1OolqIg0etMiHtWZPhvPNA==}
-    dev: false
-
-  /@cloudinary/transformation-builder-sdk@1.10.3:
-    resolution: {integrity: sha512-ybLvj4+WDK50BcPAa1aBKJ/etWiesmBzcEJxVorMjus+fKej10TlHmsUIqFltKAj55MRodXijV+iuzKeErU1Zg==}
-    dependencies:
-      '@cloudinary/url-gen': 1.15.0
-    dev: false
-
-  /@cloudinary/url-gen@1.15.0:
-    resolution: {integrity: sha512-bjU67eZxLUgoRy/Plli4TQio7q6P31OYqnEgXxeN9TKXrzr6h0DeEdIUhKI9gy3HkEBWXWWJIPh7j7gkOJPnyA==}
-    dependencies:
-      '@cloudinary/transformation-builder-sdk': 1.10.3
-    dev: false
 
   /@contentlayer/cli@0.3.4(esbuild@0.19.12):
     resolution: {integrity: sha512-vNDwgLuhYNu+m70NZ3XK9kexKNguuxPXg7Yvzj3B34cEilQjjzSrcTY/i+AIQm9V7uT5GGshx9ukzPf+SmoszQ==}
@@ -6159,10 +6125,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /asap@2.0.6:
-    resolution: {integrity: sha512-BSHWgDSAiKs50o2Re8ppvp3seVHXSRM44cdSsT9FfNEUUZLOGWVCsiWaRPWM1Znn+mqZ1OfVZ3z3DWEzSp7hRA==}
-    dev: false
-
   /ast-types-flow@0.0.8:
     resolution: {integrity: sha512-OH/2E5Fg20h2aPrbe+QL8JZQFko0YZaF+j4mnQ7BGhfavO7OpSLa8a0y9sBwomHdSbkhTS8TQNayBfnW5DwbvQ==}
     dev: true
@@ -6875,13 +6837,6 @@ packages:
     resolution: {integrity: sha512-RWmIqhcFf1lRYBvNmr7qTNuyCt/7/ns2jbpp1+PalgE/rDQcBT0fioSMUpJ93irlUhC5hrg4cYqe6U+0ImW0rA==}
     dependencies:
       dequal: 2.0.3
-    dev: false
-
-  /dezalgo@1.0.4:
-    resolution: {integrity: sha512-rXSP0bf+5n0Qonsb+SVVfNfIsimO4HEtmnIpPHY8Q1UCzKlQrDMfdobr8nJOOsRgWCyMRqeSBQzmWUMq7zvVig==}
-    dependencies:
-      asap: 2.0.6
-      wrappy: 1.0.2
     dev: false
 
   /diacritics-map@0.1.0:
@@ -7783,14 +7738,6 @@ packages:
       fetch-blob: 3.2.0
     dev: false
 
-  /formidable@3.5.1:
-    resolution: {integrity: sha512-WJWKelbRHN41m5dumb0/k8TeAx7Id/y3a+Z7QfhxP/htI9Js5zYaEDtG8uMgG0vM0lOlqnmjE99/kfpOYi/0Og==}
-    dependencies:
-      dezalgo: 1.0.4
-      hexoid: 1.0.0
-      once: 1.4.0
-    dev: false
-
   /fraction.js@4.3.7:
     resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
 
@@ -8264,11 +8211,6 @@ packages:
       hast-util-parse-selector: 3.1.1
       property-information: 6.4.0
       space-separated-tokens: 2.0.2
-    dev: false
-
-  /hexoid@1.0.0:
-    resolution: {integrity: sha512-QFLV0taWQOZtvIRIAdBChesmogZrtuXvVWsFHZTk2SU+anspqZ2vMnoLg7IE1+Uk16N19APic1BuF8bC8c2m5g==}
-    engines: {node: '>=8'}
     dev: false
 
   /hosted-git-info@2.8.9:
@@ -10020,18 +9962,6 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       uuid: 8.3.2
-    dev: false
-
-  /next-cloudinary@5.20.0(next@14.0.4)(react@18.2.0):
-    resolution: {integrity: sha512-oEe//iguL/fZAJH2zTSs0Kyfv6k0vhXoA07L1rX4UzQrqEmyT741UwwasnYN1qOYSZuLdum97CbJO9JkDARwIQ==}
-    peerDependencies:
-      next: ^12 || ^13 || ^14
-      react: ^17 || ^18
-    dependencies:
-      '@cloudinary-util/url-loader': 4.2.0
-      '@cloudinary-util/util': 2.4.0
-      next: 14.0.4(@opentelemetry/api@1.7.0)(react-dom@18.2.0)(react@18.2.0)
-      react: 18.2.0
     dev: false
 
   /next-contentlayer@0.3.4(contentlayer@0.3.4)(esbuild@0.19.12)(next@14.0.4)(react-dom@18.2.0)(react@18.2.0):

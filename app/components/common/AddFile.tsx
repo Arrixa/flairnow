@@ -1,4 +1,84 @@
-import { useState } from "react";
+// Import necessary dependencies
+import { useState } from 'react';
+import { Button } from '@/app/components/ui/button';
+
+// Cloudinary upload function for client-side
+// const fileUpload = async (formData: FormData) => {
+//   try {
+//     // Perform fetch to server-side API route
+//     const response = await fetch('/api/upload', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({ image: formData.get('image') }),
+//     });
+
+//     // Check if the response is successful (status code 2xx)
+//     if (response.ok) {
+//       const result = await response.json();
+//       console.log('Server response:', result);
+//       // Handle successful response, if needed
+//     } else {
+//       // Handle error response
+//       const errorData = await response.json();
+//       console.error('Server error:', errorData);
+//     }
+//   } catch (error) {
+//     console.error('Client error:', error);
+//   }
+// };
+
+// // Main component
+// export default function AddFile() {
+//   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+//   // Handle file change
+//   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     if (e.target.files) {
+//       setSelectedFile(e.target.files[0]);
+//     }
+//   };
+
+//   // Handle form submission
+//   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+//     e.preventDefault();
+
+//     if (selectedFile) {
+//       const formData = new FormData();
+//       formData.append('image', selectedFile);
+
+//       // Call the client-side Cloudinary upload function
+//       fileUpload(formData);
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <h2 className="text-xl font-bold mb-4">Add a profile photo</h2>
+//       <form onSubmit={handleSubmit} className="bg-white border border-slate-200 dark:border-slate-500 rounded p-6 mb-6">
+//         <p className="mb-6">
+//           <label htmlFor="image" className="block font-semibold text-sm mb-2">
+//             Select an image to upload
+//           </label>
+//           <input
+//             id="image"
+//             className="block w-full border-slate-400 rounded focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+//             type="file"
+//             name="image"
+//             onChange={handleFileChange}
+//             required
+//           />
+//         </p>
+//         <Button type="submit">Submit</Button>
+//       </form>
+//     </div>
+//   );
+// };
+
+
+
+
 import { HiPlus } from "react-icons/hi";
 import { MdClose } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
@@ -31,7 +111,7 @@ export default function AddFile({ fetchFiles }: Props) {
     try {
       if (!selectedFile) return;
       const formData = new FormData();
-      formData.append("uploadedFile", selectedFile);
+      formData.append("image", selectedFile);
       const res = await fetch("/api/upload", {
         method: "POST",
         body: formData,
@@ -104,6 +184,7 @@ export default function AddFile({ fetchFiles }: Props) {
                 <div className="mb-1 text-sm font-medium">Upload File</div>
                 <input
                   type="file"
+                  name="image"
                   className="text-grey-500 w-full cursor-pointer rounded-lg border-2 border-gray-900 bg-gray-50 pr-20 text-sm file:mr-5 file:border-0 file:bg-gray-900
              file:px-6 file:py-2 file:text-sm file:font-medium file:text-white hover:file:cursor-pointer"
                   onChange={handleFileChange}

@@ -92,3 +92,13 @@ model ClientUser {
   userId          String
   role            Role[]
 }
+
+model File {
+  id            String   @id @default(cuid())
+  filename      String
+  fileType      String
+  fileSize      Int
+  filePath      String
+  downloadCount Int      @default(0)
+  createdAt     DateTime @default(now())
+}

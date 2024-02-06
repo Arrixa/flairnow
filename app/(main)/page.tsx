@@ -28,16 +28,17 @@ export default function Home() {
 
   const fetchFiles = async () => {
     try {
-      console.log('Not fetching yet')
-      // const response = await fetch("/api/files");
-      // const data = await response.json();
-      // console.log(data)
-      // // Sort Files by createdAt in descending order
+      const response = await fetch("/api/files");
+      const data = await response.json();
+      console.log('data', data)
+      setFiles(data);
+      // Sort Files by createdAt in descending order
       // const sortedFiles: File[] = data.sort(
       //   (a: File, b: File) =>
-      //     new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      // );
+      //   new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      //   );
       // setFiles(sortedFiles);
+      // console.log('Trying to fetch', sortedFiles)
     } catch (error) {
       console.error("Error fetching files:", error);
     }

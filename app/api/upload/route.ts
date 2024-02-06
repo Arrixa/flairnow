@@ -1,72 +1,215 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import formidable from "formidable";
-import { v2 as cloudinary } from "cloudinary";
-import { prisma } from "@/lib/prisma";
+import { NextRequest, NextResponse } from 'next/server';
+import fs from 'fs/promises';
+import path from 'path';
+import { prisma } from '@/lib/prisma';
+import { v2 as cloudinary } from 'cloudinary';
 
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+// Cloudinary upload function for server-side
+export async function POST(request: NextRequest) {
+  const cloudinaryCloudName = process.env.CLOUDINARY_CLOUD_NAME;
+  const cloudinaryUploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET;
+
+  if (!cloudinaryCloudName || !cloudinaryUploadPreset) {
+    return NextResponse.json({ message: 'Cloudinary credentials not provided' }, { status: 401 });
+  }
+
+  const contentType = request.headers.get('content-type');
+  if (!contentType || !contentType.startsWith('multipart/form-data')) {
+    return NextResponse.json({ message: 'Invalid content type' }, { status: 415 });
+  }
+
+  const formData = await request.formData();
+  console.log(formData, 'formData value')
+  // const file = formData.getAll('image');
+  const file = formData.get('image') as File;
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = new Uint8Array(arrayBuffer);
+
+  try {
+    const cloudinaryResponse = await new Promise((resolve, reject) => {
+      cloudinary.uploader.upload_stream({
+        tags: ['nextjs-server-actions-upload-profile-photo']
+      }, function (error, result) {
+        if (error) {
+          reject(error);
+          return;
+        }
+        resolve(result);
+      })
+      .end(buffer);
+    })
+
+    // Handle successful upload
+    return NextResponse.json({ message: 'Successfully uploaded', data: cloudinaryResponse }, { status: 201 });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: 'Image upload failed in catch' }, { status: 500 });
+  }
+}
+
+  // const cloudinaryUploadUrl = `https://api-eu.cloudinary.com/v1_1/${cloudinaryCloudName}/upload`;
+
+  // const formData = new FormData();
+
+  // // Create a Blob from the provided fileBuffer
+  // const blob = new Blob([fileBuffer], { type: 'image/png' });
+
+  // // Append the file to the FormData with the key 'file'
+  // formData.append('file', blob, 'file');
+  // formData.append('upload_preset', cloudinaryUploadPreset);
+
+      // // Perform the Cloudinary upload using fetch
+    // const cloudinaryResponse = await cloudinary.uploader.upload(formData.get('file') as string, {
+    //   upload_preset: cloudinaryUploadPreset,
+    // });
+
+
+
+
+// import { v2 as cloudinary } from 'cloudinary';
+
+// export async function POST(fileBuffer: Buffer, response: NextResponse) {
+//   const cloudinaryCloudName = process.env.CLOUDINARY_CLOUD_NAME;
+//   const cloudinaryUploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET;
+
+//   if (!cloudinaryCloudName || !cloudinaryUploadPreset) {
+//     return NextResponse.json({ message: 'Cloudinary credentials not provided' }, { status: 401 });
+//   }
+
+//   const cloudinaryUploadUrl = `https://api-eu.cloudinary.com/v1_1/${cloudinaryCloudName}/upload`;
+
+//   const formData = new FormData();
+  
+//   const blob = new Blob([fileBuffer], { type: 'image/png' });
+
+//   formData.append('file', blob, 'file'); 
+//   formData.append('upload_preset', cloudinaryUploadPreset);
+
+//   try {
+//     const response = await fetch(cloudinaryUploadUrl, {
+//       method: 'POST',
+//       body: formData,
+//       headers: {
+//         // Specify the Content-Type header
+//         'Content-Type': 'multipart/form-data',
+//       },
+//     });
+
+//     if (!response.ok) {
+//       return NextResponse.json({ message: 'Image upload failed' }, { status: 500 });
+//     }
+
+//     return NextResponse.json({message: 'Successfully uploaded'}, { status: 201 });
+//   } catch (error) {
+//     return NextResponse.json({ message: 'Image upload failed' }, { status: 500 });
+//   }
+// }
+
+
+/*
 export const config = {
   api: {
     bodyParser: false,
   },
 };
 
-const getFileData = async (
-  req: NextApiRequest
-): Promise<{ fields: formidable.Fields; files: formidable.Files }> => {
-  const options: formidable.Options = {};
-  options.maxFileSize = 4000 * 1024 * 1024;
-  const form = formidable(options);
+async function getFileData(request: NextRequest) {
 
-  return new Promise<{ fields: formidable.Fields; files: formidable.Files }>(
-    (resolve, reject) => {
-      form.parse(req, (err, fields, files) => {
-        if (err) {
-          reject(err);
-        } else {
-          // Access the fields under the "product" key
-          const productFields = JSON.parse(fields.product[0]);
-          resolve({ fields: productFields, files });
-        }
-      });
-    }
-  );
-};
+  const contentType = request.headers.get('content-type');
+  if (contentType && contentType.startsWith('multipart/form-data')) {
+    const formData = await request.formData();
+    console.log(formData, 'formData value')
+    const files = formData.getAll('uploadedFile');
+    console.log(files, 'files')
+    return { fields: {}, files: { uploadedFile: files } };
+  } else {
+    throw new Error('Invalid content type');
+  }
+}
 
-export default async function POST(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method !== "POST")
-    return res.status(405).json({ message: "Method Not Allowed" });
+export async function POST(request: NextRequest) {
+  if (request.method !== 'POST') {
+    return NextResponse.json({ message: 'Method Not Allowed' }, { status: 405 });
+  }
 
   try {
-    const { fields, files } = await getFileData(req);
+    const { fields, files } = await getFileData(request);
+    console.log('request', request.body, fields, files)
 
-    const myFiles = files.picture as formidable.File[];
-    const file = myFiles[0];
+    const myFiles = files.uploadedFile as any; 
+    console.log(myFiles, 'myFiles')
 
-    const uploadedImage = await cloudinary.uploader.upload(file.filepath, {
-      upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET,
-    });
+    let file;
+    if (myFiles && myFiles.length > 0) {
+      file = myFiles[0]; 
+      console.log(file, 'file from myFiles[0]')
 
-    if (!uploadedImage)
-      return res.status(500).json({ message: "Image upload failed" });
+      // const fileBuffer = await fs.readFile(file.path);
+      const fileBuffer = await file.arrayBuffer();
+      console.log(fileBuffer, 'fileBuffer')
+      const uploadedImage = await uploadToCloudinary(fileBuffer);
+
+      if (!uploadedImage) {
+        return NextResponse.json({ message: 'Image upload failed' }, { status: 500 });
+      }
+    } else {
+      return NextResponse.json({ message: 'No file uploaded' }, { status: 400 });
+    }
 
     const file_uploaded = await prisma.file.create({
       data: {
-        filename: file.newFilename,
-        fileType: file.mimetype as string,
+        filename: file.name,
+        fileType: file.type,
         fileSize: file.size,
-        filePath: file.filepath,
       },
     });
 
     if (!file_uploaded) {
-      return res.status(500).json({ message: "File upload failed" });
+      return NextResponse.json({ message: 'File upload failed' }, { status: 500 });
     } else {
-      return res.status(201).json({ message: "File uploaded successfully" });
+      return NextResponse.json(file_uploaded, { status: 201 });
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Internal Server Error" });
+    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 }
+
+
+
+async function uploadToCloudinary(fileBuffer: Buffer) {
+  const cloudinaryUrl = 'https://api.cloudinary.com/v1_1/dsbvy1t2i/image/upload';
+  const uploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET;
+
+  if (!cloudinaryUrl || !uploadPreset) {
+    throw new Error('Cloudinary credentials are missing');
+  }
+
+  const cloudinaryResponse = await fetch(cloudinaryUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      file: fileBuffer.toString('base64'),
+      upload_preset: uploadPreset,
+    }),
+  });
+
+  const cloudinaryData = await cloudinaryResponse.json();
+
+  if (cloudinaryData.error) {
+    throw new Error(`Cloudinary upload failed: ${cloudinaryData.error.message}`);
+  }
+
+  return cloudinaryData;
+}
+
+*/

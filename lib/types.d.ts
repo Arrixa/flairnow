@@ -1,4 +1,4 @@
-import { User, Role } from "@prisma/client";
+import { User, Role, File } from "@prisma/client";
 import { JWT } from "next-auth/jwt";
 
 declare module "next-auth" {
@@ -38,4 +38,14 @@ declare module NodeJS {
     SMPT_EMAIL: string;
     SMTP_GMAIL_PASS: string;
   }
+}
+
+export default interface File {
+  id: string;
+  filename: string;
+  fileType: string;
+  fileSize: number;
+  downloadCount: number;
+  filePath: string;
+  createdAt: number;
 }

@@ -1,14 +1,14 @@
 import { prisma } from "@/lib/prisma";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
+export async function GET(
+  req: NextRequest,
+  res: NextResponse
 ) {
   if (req.method !== "GET")
-    return res.status(405).json({ message: "Method not allowed" });
+    return NextResponse.json({ message: "Method not allowed" }, { status: 405 });
 
   const files = await prisma.file.findMany();
 
-  res.status(200).json(files);
+  return NextResponse.json({ files }, { status: 201 });
 }
