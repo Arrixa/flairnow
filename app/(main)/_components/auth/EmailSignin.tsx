@@ -1,7 +1,6 @@
 'use client'
-import React, { useMemo, useState } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { Controller, useForm } from 'react-hook-form';
+import React, { useMemo } from 'react';
+import { useForm } from 'react-hook-form';
 import {
   Form,
   FormControl,
@@ -14,14 +13,9 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../../../components/ui/input';
 import { Button } from '../../../components/ui/button';
-import { toast } from "react-toastify";
 import { signIn } from 'next-auth/react';
 
 const EmailSignIn= () => {
-  // const searchParams = useSearchParams();
-  // const callbackUrl = searchParams.get('callbackUrl') || '/';
-  const callbackUrl = '/auth/validate-auth'
-  // const [email, setEmail] = useState('');
 
   const FormSchema = useMemo(() => (
     z.object({
@@ -44,12 +38,8 @@ const EmailSignIn= () => {
       event.preventDefault();
     } 
     const email = value.email
-    console.log("value", value.email);
-    // setEmail(value.email);
-    console.log(email, callbackUrl)
     signIn('email', { email: email, callbackUrl: '/auth/validate-auth' });
   }
-  
 
   return (
     <div className="flex flex-col justify-center items-center mx-auto w-full px-4 md:px-6 lg:px-8 xl:w-3/4">
@@ -61,7 +51,7 @@ const EmailSignIn= () => {
             name='email'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel className='ml-3 text-md'>Email</FormLabel>
                 <FormControl>
                   <Input placeholder='Enter your email address' {...field} />
                 </FormControl>

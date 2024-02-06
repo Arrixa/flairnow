@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "../auth/[...nextauth]/route";
+import { authOptions } from "../../auth/[...nextauth]/route";
 
 export async function GET(req: NextRequest, res: NextResponse) {
   if (req.method !== "GET")
@@ -17,7 +17,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
   try {
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: { image: true }, // Select only the 'image' field
+      select: { image: true }, 
     });
 
     if (!user) {
@@ -32,4 +32,3 @@ export async function GET(req: NextRequest, res: NextResponse) {
     return NextResponse.json({ message: "Error fetching user data" }, { status: 500 });
   }
 }
-

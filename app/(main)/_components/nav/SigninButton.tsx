@@ -45,9 +45,6 @@ const SigninButton: React.FC<SigninBtnProps> = ({ session }) => {
   ) : (
     <>
       <Button onClick={() => signIn()}>Sign in</Button>
-      <Button variant="flairnowOutline">
-        <Link href="/auth/signup">Sign up</Link>
-      </Button>
     </>
   )}
 </div>

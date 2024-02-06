@@ -25,24 +25,24 @@ const isDomainInExcludedList = (domain: string): boolean => {
 export async function POST(req: Request) {
   try {
     const reqBody = await req.json();
-    const { emailVerified, image, id, ...user } = reqBody;
+    const { emailVerified, image, id, ...userInfo } = reqBody;
     // console.log(reqBody)
 
     // Check if user email exists
     const existingUserByEmail = await prisma.user.findUnique({
       where: {
-        email: user.email
+        email: userInfo.email
       }
     })
     if (!existingUserByEmail) {
-      return NextResponse.json({ user: null, message: "Please signin with a email link before creating an account"})
+      return NextResponse.json({ user: null, message: "Please signin with a email link before creating a profile"})
     }
-    const updateUser = await prisma.user.update({
+    const user = await prisma.user.update({
         where: {
           id: existingUserByEmail.id,
         },
         data: {
-          ...user,
+          ...userInfo,
         },
       });
 
@@ -52,12 +52,13 @@ export async function POST(req: Request) {
     
     let roles = [];
     let client;
+    let clientUser;
 
     // Check if the domain is part of the excluded list (public domains)
     const isPublicDomain = isDomainInExcludedList(domain);
     console.log(isPublicDomain)
     if (isPublicDomain) {
-      NextResponse.json({ user: updateUser, message: "User account created successfully"}, { status: 201 })
+      NextResponse.json({ user: user, message: "User profile created successfully"}, { status: 201 })
     } else {
   
       const existingClientByDomain = await prisma.client.findUnique({
@@ -87,62 +88,59 @@ export async function POST(req: Request) {
       console.log('Client:', client);
   
       // New record in ClientUser table
-      const newClientUser = await prisma.clientUser.create({
+      clientUser = await prisma.clientUser.create({
         data: {
           client: { connect: { id: client.id } },
-          user: { connect: { id: updateUser.id } },
+          user: { connect: { id: user.id } },
           role: roles,
         },
       });     
     }
 
-    // Fetch the updated user and client information
-    const updatedUser = await prisma.user.findUnique({
-      where: { id: updateUser.id },
-    });
-
-    const updatedClient = await prisma.client.findUnique({
-      where: { id: client.id },
-    });
-
-    // Combine user and client information
     const updatedInfo = {
-      user: {
-        id: updatedUser.id,
-        username: updatedUser.username,
-        email: updatedUser.email,
-        // Add other user properties as needed
-      },
-      client: {
-        id: updatedClient.id,
-        domain: updatedClient.domain,
-        // Add other client properties as needed
-      },
-    };
+      user,
+      client,
+      clientUser,
+    }
 
-    // Trigger a session update by making a request to the dedicated endpoint
-    const updateTriggerUrl = `${process.env.NEXTAUTH_URL}/api/auth/update-session`;
-    await fetch(updateTriggerUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ updatedInfo }),
-    });
+    // // Fetch the updated user and client information
+    // const updatedUser = await prisma.user.findUnique({
+    //   where: { id: updateUser.id },
+    // });
 
-    return NextResponse.json({ user: updateUser, message: "User and client account created successfully"}, { status: 201 })
+    // const updatedClient = await prisma.client.findUnique({
+    //   where: { id: client.id },
+    // });
+
+    // // Combine user and client information
+    // const updatedInfo = {
+    //   user: {
+    //     id: updatedUser.id,
+    //     username: updatedUser.username,
+    //     email: updatedUser.email,
+    //     // Add other user properties as needed
+    //   },
+    //   client: {
+    //     id: updatedClient?.id,
+    //     domain: updatedClient?.domain,
+    //     // Add other client properties as needed
+    //   },
+    // };
+
+    if (updatedInfo) {
+      // Trigger a session update by making a request to the dedicated endpoint
+      const updateTriggerUrl = `${process.env.NEXTAUTH_URL}/api/auth/update-session`;
+      await fetch(updateTriggerUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ updatedInfo }),
+      });
+    }
+
+    return NextResponse.json({ updatedInfo, message: "User and client profile created successfully"}, { status: 201 })
 
   } catch (error) {
-    console.error("Error during user account creation:", error);
+    console.error("Error during profile creation:", error);
     return NextResponse.json({ message: "Something went wrong"}, { status: 500 });
   }
 }
-
-// Trigger a session update
-// export async function sessionUpdate () {
-//   const updateTriggerUrl = `${process.env.NEXTAUTH_URL}/api/auth/callback/update`;
-//   await fetch(updateTriggerUrl, {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify({ userId: updateUser.id }), // Pass any relevant data
-//   });
-
-// }

@@ -3,8 +3,8 @@ import { authOptions } from "../../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
 import UserProfile from "../_components/UserProfile";
-import UploadFile from "../_components/UploadFile";
-import Dropzone from "../_components/Dropzone";
+import UploadFile from "../../components/common/UploadFile";
+import AddFile from "@/app/components/common/AddFile";
 
 
 const ProfilePage = async () => {
@@ -27,10 +27,10 @@ const ProfilePage = async () => {
               <UserProfile user={user} />
             </TabsContent>
             <TabsContent value="uploads">
-              <UploadFile />
+              <AddFile />
             </TabsContent>
             <TabsContent value="drop">
-              <Dropzone />
+              <UploadFile />
             </TabsContent>
           </Tabs>
         </div>   

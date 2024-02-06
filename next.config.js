@@ -4,6 +4,9 @@ const nextConfig = {}
 // module.exports = nextConfig
 
 module.exports = {
+  images: {
+    domains: ['res.cloudinary.com'],
+  },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // Exclude handlebars from bundling
     config.externals = config.externals || {};

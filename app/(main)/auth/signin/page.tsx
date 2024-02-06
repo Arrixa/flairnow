@@ -2,6 +2,7 @@ import SignInForm from "../../_components/auth/SignInForm";
 import Image from "next/image";
 import Link from "next/link";
 import EmailSignIn from "../../_components/auth/EmailSignin";
+import { Label } from "@/app/components/ui/label";
 
 
 const SigninPage = () => {
@@ -21,30 +22,17 @@ const SigninPage = () => {
       <section className="flex flex-col justify-center items-center xl:w-1/2 lg:w-2/3 mx-auto ">
         <div className="py-5">
           <div className="flex flex-row justify-center items-center">
-            <span>
-            
-              <Image 
-            src="/noun-hand-wave.svg"
-            width={40}
-            height={40}
-            className="fill-white"
-            alt="Hand wave by Andy Horvath from 'https://thenounproject.com/browse/icons/term/hand-wave/' Noun Project (CC BY 3.0)"
-            /></span> 
-            <h2 className="text-3xl font-bold text-center py-5">&nbsp;Welcome back!</h2>
+            <h2 className="text-3xl font-bold text-center py-5">Get started!</h2>
           </div>
           <div className="flex items-center justify-center">
-            <h3 className="text-lg align-text-bottom">Login to securely access your account</h3>
+            <h3 className="text-lg align-text-bottom text-center">Enter your email to get a sign in link sent to your inbox.</h3>
           </div>
         <div className="w-full md:w-auto mt-10"> 
           <EmailSignIn />
-          {/* <SignInForm  /> */}
         </div>
-      <div className="flex justify-center items-center py-2">
-        <p className="p-2">Don&apos;t have an account?</p>
-        <Link className="hover:underline text-accent font-medium" href={"/auth/signup"}>
-          Sign up
-        </Link>
-      </div>
+        <div className="flex items-center justify-center">
+        <Label className="mx-4">By continuing you agree to the FlairNow <Link href="/terms" className='hover:underline'>Terms </Link>and <Link href="/policy" className='hover:underline'>Privacy Policy </Link></Label>
+        </div>
       </div>
     </section>
   </main>
@@ -52,5 +40,3 @@ const SigninPage = () => {
 };
 
 export default SigninPage;
-
-// callbackUrl={searchParams.callbackUrl}

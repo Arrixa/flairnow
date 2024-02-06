@@ -17,7 +17,7 @@ const SignupPage = () => {
       </section>
       <section className="flex flex-col justify-center items-center xl:w-1/2 lg:w-2/3 mx-auto ">
         <div className="py-5">
-          <h2 className="text-3xl font-bold text-center py-10">Sign up</h2>
+          <h2 className="text-3xl font-bold text-center py-10">Welcome</h2>
           <div className="flex items-center justify-center">
             <h3 className="text-lg align-text-bottom">Create your &nbsp;</h3>
             <span className="inline-block align-text-bottom"> 
@@ -28,17 +28,11 @@ const SignupPage = () => {
               height={50}
               />
             </span>
-            <h3 className="text-lg align-text-bottom">&nbsp; account.</h3></div>
+            <h3 className="text-lg align-text-bottom">&nbsp; profile.</h3></div>
           </div>
         <div className="w-full md:w-auto"> 
           <SignUpForm />
         </div>
-      <div className="flex justify-center items-center py-2">
-        <p className="p-2">Already have an account?</p>
-        <Link className="hover:underline text-primary" href={"/auth/signin"}>
-          Sign in
-        </Link>
-      </div>
       </section>
     </main>
   );

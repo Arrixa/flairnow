@@ -37,13 +37,14 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user, trigger, session }): Promise<JWT> {
 
       if (trigger === 'update') {
-        const { user, client } = session.updatedInfo;
+        const { user, client, clientUser } = session.updatedInfo;
   
         // Update the token with the new information
         return {
           ...token,
           user: { ...token.user, ...user },
           client: { ...token.client, ...client },
+          clientUser: { ...token.clientUser, ...clientUser },
         };
       }
 
@@ -105,7 +106,8 @@ export const authOptions: NextAuthOptions = {
         session.user = {
           id: token.id,
           username: token.username,
-          email: token.email
+          email: token.email,
+          image: token.image,
         };
 
         session.clientUser = {

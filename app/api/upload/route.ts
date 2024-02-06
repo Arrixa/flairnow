@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
 import { prisma } from '@/lib/prisma';
 import { v2 as cloudinary } from 'cloudinary';
 import { getServerSession } from 'next-auth';
