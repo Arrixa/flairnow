@@ -3,6 +3,8 @@ import fs from 'fs/promises';
 import path from 'path';
 import { prisma } from '@/lib/prisma';
 import { v2 as cloudinary } from 'cloudinary';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../auth/[...nextauth]/route';
 
 // Configure Cloudinary
 cloudinary.config({
@@ -11,7 +13,11 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Cloudinary upload function for server-side
+interface CloudinaryResponse {
+  public_id: string;
+  secure_url: string;
+}
+
 export async function POST(request: NextRequest) {
   const cloudinaryCloudName = process.env.CLOUDINARY_CLOUD_NAME;
   const cloudinaryUploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET;
@@ -32,19 +38,33 @@ export async function POST(request: NextRequest) {
   const arrayBuffer = await file.arrayBuffer();
   const buffer = new Uint8Array(arrayBuffer);
 
+  const session = await getServerSession(authOptions);
+  const userId = session?.user.id || null;
+
+  if (!userId) {
+    return NextResponse.json({ message: 'User ID not found in session. Please sign in again' }, { status: 401 });
+  }
+
   try {
-    const cloudinaryResponse = await new Promise((resolve, reject) => {
+    const cloudinaryResponse = await new Promise<CloudinaryResponse>((resolve, reject) => {
       cloudinary.uploader.upload_stream({
-        tags: ['nextjs-server-actions-upload-profile-photo']
+        tags: ['flairnow-profile-photo'],
+        public_id: userId
       }, function (error, result) {
         if (error) {
           reject(error);
           return;
         }
-        resolve(result);
+        resolve(result as CloudinaryResponse);
       })
       .end(buffer);
     })
+
+    // Update user in Prisma with Cloudinary image URL
+    await prisma.user.update({
+      where: { id: userId },
+      data: { image: cloudinaryResponse.secure_url },
+    });
 
     // Handle successful upload
     return NextResponse.json({ message: 'Successfully uploaded', data: cloudinaryResponse }, { status: 201 });
@@ -53,6 +73,25 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: 'Image upload failed in catch' }, { status: 500 });
   }
 }
+
+      // // Check if user email exists
+      // const existingUserByEmail = await prisma.user.findUnique({
+      //   where: {
+      //     email: user.email
+      //   }
+      // })
+      // if (!existingUserByEmail) {
+      //   return NextResponse.json({ user: null, message: "Please signin with a email link before creating an account"})
+      // }
+      // const updateUser = await prisma.user.update({
+      //     where: {
+      //       id: existingUserByEmail.id,
+      //     },
+      //     data: {
+      //       ...user,
+      //     },
+      //   });
+
 
   // const cloudinaryUploadUrl = `https://api-eu.cloudinary.com/v1_1/${cloudinaryCloudName}/upload`;
 
