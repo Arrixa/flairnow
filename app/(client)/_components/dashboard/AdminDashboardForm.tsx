@@ -136,7 +136,7 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
   };
 
   return (
-    <section className="flex flex-col w-full p-4">
+    <section className="flex flex-col w-full">
       {isEditMode ? (
         <div className='w-full'>
           <div className="flex flex-row mx-auto w-full">

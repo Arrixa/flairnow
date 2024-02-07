@@ -21,22 +21,21 @@ const FormSchema = z
   .object({
     firstName: z.string().min(1, 'First name is required').max(100),
     lastName: z.string().min(1, 'Last name is required').max(100),
-    email: z.string().min(1, 'Email is required').email('Invalid email'),
   })
 
 
 const SignUpForm = () => {
   const router = useRouter();
+  const { data: session, update } = useSession();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       firstName: '',
       lastName: '',
-      email: '',
     },
   });
 
-  const { data: session, update } = useSession();
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     console.log('onSubmit clicked', data)
@@ -49,7 +48,7 @@ const SignUpForm = () => {
         body: JSON.stringify({
           firstName: data.firstName,
           lastName: data.lastName,
-          email: data.email,
+          email: session?.user.email,
         })
       })
       if (response.ok) {
@@ -67,7 +66,7 @@ const SignUpForm = () => {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center mx-auto w-full px-4 md:px-6 lg:px-8 xl:w-3/4">
+    <div className="flex flex-col justify-center items-center mx-auto w-full px-4 ">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
           <div className='space-y-2 md:w-full'>
@@ -99,12 +98,12 @@ const SignUpForm = () => {
             />
             <FormField
               control={form.control}
-              name='email'
+              name=''
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input disabled placeholder={session?.user.email} {...field} />
+                    <Input disabled placeholder={session?.user.email} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

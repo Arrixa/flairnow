@@ -46,10 +46,11 @@ export default function AddFile() {
 
   return (
     <>
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-1 flex items-center justify-between w-full">
         <Button
           onClick={handleModalToggle}
-          className="flex items-center rounded-lg border border-gray-400 bg-transparent px-5 py-2.5 text-sm font-medium text-gray-700 hover:border-gray-800 hover:bg-gray-800 hover:text-gray-100 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200">
+          className="w-full flex items-center "
+            variant="flairnowOutline">
           <HiPlus className="mr-1 h-5 w-5" />
           Upload file
         </Button>

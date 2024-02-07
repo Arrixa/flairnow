@@ -2,9 +2,10 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
-import UserProfile from "./user-profile/page";
+import UserProfile from "../_components/user-profile/ProfileTable";
 import UploadFile from "../../components/common/UploadFile";
 import AddFile from "@/app/components/common/AddFile";
+import ProfileForm from "../_components/user-profile/ProfileForm";
 
 
 const ProfilePage = async () => {
@@ -17,17 +18,12 @@ const ProfilePage = async () => {
           <Tabs defaultValue="info" className="w-min-fit">
             <TabsList>
               <TabsTrigger value="info" className="info-trigger  ml-6">User information</TabsTrigger>
-              <TabsTrigger value="uploads" className="info-trigger">Uploads</TabsTrigger>
-              <TabsTrigger value="drop" className="info-trigger">Uploads</TabsTrigger>
+              <TabsTrigger value="applications" className="info-trigger">Applications</TabsTrigger>
             </TabsList>
             <TabsContent value="info">
-              <UserProfile user={user} />
+              <ProfileForm session={session} user={user} />
             </TabsContent>
-            <TabsContent value="uploads">
-              <AddFile />
-            </TabsContent>
-            <TabsContent value="drop">
-              <UploadFile />
+            <TabsContent value="applications">
             </TabsContent>
           </Tabs>
         </div>   
@@ -37,3 +33,5 @@ const ProfilePage = async () => {
   }
 
 export default ProfilePage;
+
+{/* <UploadFile /> */}
