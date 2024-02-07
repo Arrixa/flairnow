@@ -13,8 +13,8 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: '/FlairNow-Logo-Square.svg',
-        href: '/FlairNow-Logo-Square.svg',
+        url: '/favicons/favicon.ico',
+        href: '/favicons/favicon.ico',
       },
     ],
   },

@@ -67,7 +67,7 @@ const SignUpForm = () => {
     <div className="flex flex-col justify-center items-center mx-auto w-full px-4 md:px-6 lg:px-8 xl:w-3/4">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
-          <div className='space-y-2 md:w-full lg:w-96'>
+          <div className='space-y-2 md:w-full'>
             <FormField
               control={form.control}
               name='username'

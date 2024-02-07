@@ -37,12 +37,12 @@ const ValidatingAuth = async () => {
   };
 
   // fetchData();
+  const updatedUserData: UserInfo = await fetchData();
 
   if (!session) {
     redirect('/auth/signin')
   }
 
-  let updatedUserData: UserInfo | null = await fetchData();
 
   if (updatedUserData && updatedUserData !== null) {
     const role = updatedUserData.clientUser.role;
@@ -56,7 +56,7 @@ const ValidatingAuth = async () => {
       redirect('/dashboard/employee-profile');
     }
   } else {
-    redirect('/auth/signin');
+    redirect('/');
   }
 
   

@@ -23,14 +23,14 @@ const SigninPage = () => {
           <div className="flex flex-row justify-center items-center">
             <h2 className="text-3xl font-bold text-center py-5">Get started!</h2>
           </div>
-          <div className="flex items-center justify-center">
-            <h3 className="text-lg align-text-bottom text-center">Enter your email to get a sign in link sent to your inbox.</h3>
+          <div className="flex items-center justify-center ">
+            <h3 className="px-8 text-md align-text-bottom text-center">Enter your email to get a sign in link sent to your inbox.</h3>
           </div>
         <div className="w-full md:w-auto mt-10"> 
           <EmailSignIn />
         </div>
         <div className="flex items-center justify-center">
-        <Label className="m-6 text-center text-sm">By continuing you agree to the FlairNow <Link href="/terms" className='hover:underline text-primary'>Terms </Link>and <Link href="/policy" className='hover:underline text-primary'>Privacy Policy </Link></Label>
+        <Label className="px-3 m-6 text-center text-sm">By continuing you agree to the FlairNow <Link href="/terms" className='hover:underline text-primary'>Terms </Link>and <Link href="/policy" className='hover:underline text-primary'>Privacy Policy </Link></Label>
         </div>
       </div>
     </section>

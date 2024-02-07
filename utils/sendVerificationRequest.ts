@@ -2,7 +2,6 @@
 import { MagicLinkEmail } from '@/app/(main)/_components/auth/ReactEmail'
 import nodemailer from "nodemailer"
 import { createTransport } from "nodemailer"
-import { Theme } from 'next-auth';
 import { render } from '@react-email/render';
 
 interface EmailProvider {
