@@ -1,11 +1,10 @@
 "use client";
 
 import { Session } from "next-auth";
-import { Button } from "../../../components/ui/button";
+import { Button } from "../ui/button";
 import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { SquareUserRound } from "lucide-react";
 
 interface SigninBtnProps {
   session?: Session | null, 
@@ -39,7 +38,10 @@ const SigninButton: React.FC<SigninBtnProps> = ({ session }) => {
           <Button onClick={handleSignOut}>Sign out</Button>
         </>
       ) : (
-        <SquareUserRound />
+        <>
+        <Button onClick={handleSignOut}>Sign out</Button>
+        </>
+
       )}
     </>
   ) : (

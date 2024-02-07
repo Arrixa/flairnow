@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { excludedDomains } from "@/lib/excludedDomains";
 import { NextResponse } from "next/server";
 import { Role } from "@prisma/client";
+import { triggerSessionUpdate } from "@/utils/sessionTrigger";
 
 type Email = string;
 
@@ -98,43 +99,13 @@ export async function POST(req: Request) {
     }
 
     const updatedInfo = {
-      user,
-      client,
-      clientUser,
+      ...user,
+      ...client,
+      ...clientUser,
     }
 
-    // // Fetch the updated user and client information
-    // const updatedUser = await prisma.user.findUnique({
-    //   where: { id: updateUser.id },
-    // });
-
-    // const updatedClient = await prisma.client.findUnique({
-    //   where: { id: client.id },
-    // });
-
-    // // Combine user and client information
-    // const updatedInfo = {
-    //   user: {
-    //     id: updatedUser.id,
-    //     username: updatedUser.username,
-    //     email: updatedUser.email,
-    //     // Add other user properties as needed
-    //   },
-    //   client: {
-    //     id: updatedClient?.id,
-    //     domain: updatedClient?.domain,
-    //     // Add other client properties as needed
-    //   },
-    // };
-
     if (updatedInfo) {
-      // Trigger a session update by making a request to the dedicated endpoint
-      const updateTriggerUrl = `${process.env.NEXTAUTH_URL}/api/auth/update-session`;
-      await fetch(updateTriggerUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ updatedInfo }),
-      });
+      await triggerSessionUpdate()
     }
 
     return NextResponse.json({ updatedInfo, message: "User and client profile created successfully"}, { status: 201 })

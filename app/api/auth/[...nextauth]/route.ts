@@ -36,17 +36,10 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user, trigger, session }): Promise<JWT> {
 
-      if (trigger === 'update') {
-        const { user, client, clientUser } = session.updatedInfo;
-  
-        // Update the token with the new information
-        return {
-          ...token,
-          user: { ...token.user, ...user },
-          client: { ...token.client, ...client },
-          clientUser: { ...token.clientUser, ...clientUser },
-        };
+      if(trigger === 'update'){
+        return {...token, ...session}
       }
+
 
       if (token && user && token.email) {
         console.log('Token email:', token.email);
@@ -57,8 +50,6 @@ export const authOptions: NextAuthOptions = {
           },
         });
   
-        // console.log('DB User:', dbUser);
-
         const emailDomain = user?.email?.toLowerCase().split('@').pop()?.split('.')[0]
         console.log(emailDomain)
         const dbClient = await prisma.client.findFirst({
@@ -75,7 +66,11 @@ export const authOptions: NextAuthOptions = {
 
         if (dbUser || dbClientUser || dbClient) {
           return {
-            user,
+            user: {
+              id: dbUser.id,
+              username: dbUser.username,
+              email: dbUser.email,
+            },
             id: dbUser.id,
             username: dbUser.username,
             email: dbUser.email,
@@ -98,6 +93,7 @@ export const authOptions: NextAuthOptions = {
           }
         }
       }
+      console.log(token)
       return token;
     },
 
@@ -106,8 +102,7 @@ export const authOptions: NextAuthOptions = {
         session.user = {
           id: token.id,
           username: token.username,
-          email: token.email,
-          image: token.image,
+          email: token.email
         };
 
         session.clientUser = {
@@ -141,7 +136,7 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/auth/signin",
     newUser: '/auth/signup',
-    error: '/auth/error', 
+    // error: '/auth/error', 
     verifyRequest: "/auth/verify"
   },
   theme: {

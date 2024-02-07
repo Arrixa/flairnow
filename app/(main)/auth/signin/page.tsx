@@ -19,7 +19,7 @@ const SigninPage = () => {
           style={{objectFit: "cover"}}
         />
       </section>
-      <section className="flex flex-col justify-center items-center xl:w-1/2 lg:w-2/3 mx-auto ">
+      <section className="flex flex-col justify-center items-center xl:w-1/2 lg:w-2/3 w-3/4 mx-auto ">
         <div className="py-5">
           <div className="flex flex-row justify-center items-center">
             <h2 className="text-3xl font-bold text-center py-5">Get started!</h2>
@@ -31,7 +31,7 @@ const SigninPage = () => {
           <EmailSignIn />
         </div>
         <div className="flex items-center justify-center">
-        <Label className="mx-4">By continuing you agree to the FlairNow <Link href="/terms" className='hover:underline'>Terms </Link>and <Link href="/policy" className='hover:underline'>Privacy Policy </Link></Label>
+        <Label className="m-6 text-center text-sm">By continuing you agree to the FlairNow <Link href="/terms" className='hover:underline text-primary'>Terms </Link>and <Link href="/policy" className='hover:underline text-primary'>Privacy Policy </Link></Label>
         </div>
       </div>
     </section>

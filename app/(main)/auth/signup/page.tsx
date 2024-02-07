@@ -1,6 +1,5 @@
 import SignUpForm from "../../_components/auth/SignUpForm";
 import Image from "next/image";
-import Link from "next/link";
 
 const SignupPage = () => {
   return (
@@ -15,7 +14,7 @@ const SignupPage = () => {
           style={{objectFit: "cover"}}
         />
       </section>
-      <section className="flex flex-col justify-center items-center xl:w-1/2 lg:w-2/3 mx-auto ">
+      <section className="flex flex-col justify-center items-center xl:w-1/2 lg:w-2/3 w-3/4 mx-auto ">
         <div className="py-5">
           <h2 className="text-3xl font-bold text-center py-10">Welcome</h2>
           <div className="flex items-center justify-center">

@@ -44,7 +44,6 @@ export async function GET(request: Request) {
   }
 }
 
-// Helper function to fetch client data (replace this with your actual logic)
 async function getClientData(request: Request) {
   const session = await getServerSession(authOptions);
   const clientId = session?.clientUser?.clientId;

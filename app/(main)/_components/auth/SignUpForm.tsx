@@ -1,6 +1,6 @@
 'use client';
 
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import {
   Form,
   FormControl,
@@ -12,21 +12,15 @@ import {
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../../../components/ui/input';
-import { Label } from '../../../components/ui/label';
 import { Button } from '../../../components/ui/button';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from "react-toastify";
-import { Checkbox } from '../../../components/ui/checkbox';
 import { useSession } from 'next-auth/react';
-// import NextAuthProviders from './NextAuthProviders';
-// import GoogleSignInButton from '../GoogleSignInButton';
 
 const FormSchema = z
   .object({
     username: z.string().min(1, 'Username is required').max(100),
     email: z.string().min(1, 'Email is required').email('Invalid email'),
-    // accepted: z.boolean(),
   })
 
 
@@ -42,11 +36,6 @@ const SignUpForm = () => {
 
   const { data: session, update } = useSession();
 
-  // async function updateSession() {
-    // if(session) session.user.username = "UPDATE"
-    
-  // }
-
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     console.log('onSubmit clicked', data)
     try {
@@ -58,15 +47,13 @@ const SignUpForm = () => {
         body: JSON.stringify({
           username: data.username,
           email: data.email,
-          // password: data.password
         })
       })
       if (response.ok) {
         toast.success("The user registered successfully.");
-        // await update({...session?.user, username: data.username })
-        await update({...session })
-        router.push('/auth/validate-auth')
-        // router.refresh
+        await update({ ...session?.user, username: data.username})
+        // router.push('/auth/validate-auth')
+        router.push('/auth/signin')
       } else {
         const errorData = await response.json();
         console.error("Registration failed:", errorData);
@@ -79,7 +66,7 @@ const SignUpForm = () => {
   return (
     <div className="flex flex-col justify-center items-center mx-auto w-full px-4 md:px-6 lg:px-8 xl:w-3/4">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='w-full lg:w-96'>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
           <div className='space-y-2 md:w-full lg:w-96'>
             <FormField
               control={form.control}

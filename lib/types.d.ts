@@ -1,4 +1,4 @@
-import { User, Role, File } from "@prisma/client";
+import { User, Role, ClientUser } from "@prisma/client";
 import { JWT } from "next-auth/jwt";
 
 declare module "next-auth" {
@@ -7,10 +7,6 @@ declare module "next-auth" {
     clientUser?: ClientUser
     role: Role[]
     client?: Client
-    id: User.id,
-    username: User.username,
-    email: User.email,
-    clientId: ClientUser.clientId,
   }
 }
 
@@ -20,10 +16,6 @@ declare module "next-auth/jwt" {
     clientUser?: ClientUser
     role: Role[]
     client?: Client
-    id: User.id,
-    username: User.username,
-    email: User.email,
-    clientId: ClientUser.clientId,
   }
 }
 
