@@ -7,7 +7,6 @@ const NextAuthProviders = () => {
     const result = await signIn("google", {
       callbackUrl: "/",
     });
-    console.log({ result });
   };
   return (
     <div className="flex justify-center items-center p-4 border-t m-3">

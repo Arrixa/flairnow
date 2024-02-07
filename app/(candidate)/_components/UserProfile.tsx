@@ -3,7 +3,6 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { Avatar, AvatarFallback, AvatarImage } from '@/app/components/ui/avatar';
 
 const UserProfile = ({ user }) => {
-  console.log(user)
   return (
     <>
       <Table className="lg:w-1/2 md:w-2/3 w-3/4 space-x-10">

@@ -1,8 +1,53 @@
-// import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-// import { getServerSession } from "next-auth";
-// import prisma from "@/lib/prisma";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
+import prisma from "@/lib/prisma";
+import { NextResponse } from "next/server";
 
 
+export async function GET() {
+  try {
+    const session = await getServerSession(authOptions);
+    const user = session?.user;
+    const client = session?.client;
+    const clientUser = session?.clientUser;
+
+    // Fetch the updated user and client information
+    const dbUser = await prisma.user.findUnique({
+      where: {
+        email: user.email,
+      },
+    });
+
+    const emailDomain = user?.email?.toLowerCase().split('@').pop()?.split('.')[0]
+    console.log(emailDomain)
+    const dbClient = await prisma.client.findFirst({
+      where: {
+        domain: emailDomain
+      }
+    })
+
+    const dbClientUser = await prisma.clientUser.findFirst({
+      where: {
+        userId: user.id
+      }
+    })
+
+    const updatedInfo = {
+      user: { ...dbUser },
+      client: { ...dbClient },
+      clientUser: { ...dbClientUser },
+    };
+
+    return NextResponse.json(updatedInfo, { status: 200 });
+
+   
+  } catch (error) {
+    console.error("Error during updating information:", error);
+    return NextResponse.json({ message: "Something went wrong"}, { status: 500 });
+  };
+};
+
+// Trying to trigger a session update by making a request to the dedicated endpoint
 // export async function POST() {{
 //   try {
 //     const session = await getServerSession(authOptions);

@@ -52,8 +52,8 @@ const SignUpForm = () => {
       if (response.ok) {
         toast.success("The user registered successfully.");
         await update({ ...session?.user, username: data.username})
-        // router.push('/auth/validate-auth')
-        router.push('/auth/signin')
+        router.push('/auth/validate-auth')
+        // router.push('/auth/signin')
       } else {
         const errorData = await response.json();
         console.error("Registration failed:", errorData);

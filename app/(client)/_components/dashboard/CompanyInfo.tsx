@@ -29,7 +29,6 @@ const CompanyInfo: React.FC = () => {
         }
   
         const data = await response.json();  
-        console.log(data);
         setFormData(data)
   
       } catch (error) {

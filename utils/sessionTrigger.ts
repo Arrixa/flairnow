@@ -46,14 +46,10 @@ export const triggerSessionUpdate = async () => {
       body: JSON.stringify(updatedInfo),
     });
     console.log('triggerSessionUpdate - updatedInfo:', updatedInfo);
-    console.log('Session update triggered successfully');
   } catch (error) {
     console.error('Error triggering session update:', error);
   }
 };
-
-//The function above does not work. Even though the updatedInfo is sent to the api/auth it is always undefined. Please provide an alternative solution to this problem.
-
 
 
     // // Combine user and client information
