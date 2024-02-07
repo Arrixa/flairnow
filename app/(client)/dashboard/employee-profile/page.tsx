@@ -27,8 +27,12 @@ const EmployeePage = async () => {
           </TableHeader>
           <TableBody>
             <TableRow>
-              <TableHead className="w-1/3 px-10">Name:</TableHead>
-              <TableCell className="w-2/3 text-left px-10">{user?.username}</TableCell>
+              <TableHead className="w-1/3 px-10">First name:</TableHead>
+              <TableCell className="w-2/3 text-left px-10">{user?.firstName}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableHead className="w-1/3 px-10">Last name:</TableHead>
+              <TableCell className="w-2/3 text-left px-10">{user?.lastName}</TableCell>
             </TableRow>
             <TableRow>
               <TableHead className="w-1/3 px-10">Email:</TableHead>

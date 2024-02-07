@@ -23,16 +23,16 @@ const SigninButton: React.FC<SigninBtnProps> = ({ session }) => {
 <div className="flex items-center gap-2">
   {session && session.user ? (
     <>
-      {session.user.username ? (
+      {session.user.firstName ? (
         <>
           {session?.clientUser.role ? (
             <Button variant="flairnowOutline">
-              <Link href="/dashboard/employee-profile">{`${session.user.username}`}</Link>
+              <Link href="/dashboard/employee-profile">{`${session.user.firstName}`}</Link>
             </Button>
 
           ) : (
             <Button variant="flairnowOutline">
-              <Link href="/profile">{`${session.user.username}`}</Link>
+              <Link href="/profile">{`${session.user.firstName}`}</Link>
             </Button>
           )}
           <Button onClick={handleSignOut}>Sign out</Button>

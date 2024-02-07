@@ -9,7 +9,7 @@ const Helper = () => {
   async function updateSession() {
     await update({
       ...session?.user,
-      username: "UPDATE SESSION"
+      firstName: "UPDATE", lastName: "SESSION"
     })
   }
   return (

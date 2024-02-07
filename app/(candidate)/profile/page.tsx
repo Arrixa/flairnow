@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
-import UserProfile from "../_components/UserProfile";
+import UserProfile from "./user-profile/page";
 import UploadFile from "../../components/common/UploadFile";
 import AddFile from "@/app/components/common/AddFile";
 

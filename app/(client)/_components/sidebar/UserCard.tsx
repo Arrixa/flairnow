@@ -30,7 +30,7 @@ const UserCard: React.FC<UserCardProps> = ({ session }) => {
             ></Image>
           </div>
           <div className="min-w-fit">
-            <h4 className="text-lg font-medium min-w-fit">{`${session.user.username}`}</h4>
+            <h4 className="text-lg font-medium min-w-fit">{`${session.user.firstName} ${session.user.lastName}`}</h4>
             <Separator />
             <p>{`${session.client?.domain ? capitalizeFirstLetter(session.client.domain) : ''}`}</p>
           </div>

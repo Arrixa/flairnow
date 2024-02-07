@@ -19,7 +19,8 @@ import { useSession } from 'next-auth/react';
 
 const FormSchema = z
   .object({
-    username: z.string().min(1, 'Username is required').max(100),
+    firstName: z.string().min(1, 'First name is required').max(100),
+    lastName: z.string().min(1, 'Last name is required').max(100),
     email: z.string().min(1, 'Email is required').email('Invalid email'),
   })
 
@@ -29,7 +30,8 @@ const SignUpForm = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      username: '',
+      firstName: '',
+      lastName: '',
       email: '',
     },
   });
@@ -45,15 +47,16 @@ const SignUpForm = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          username: data.username,
+          firstName: data.firstName,
+          lastName: data.lastName,
           email: data.email,
         })
       })
       if (response.ok) {
         toast.success("The user registered successfully.");
-        await update({ ...session?.user, username: data.username})
-        // router.push('/auth/validate-auth')
-        router.push('/auth/signin')
+        await update({ ...session?.user, firstName: data.firstName, lastName: data.lastName})
+        router.push('/auth/validate-auth')
+        // router.push('/auth/signin')
       } else {
         const errorData = await response.json();
         console.error("Registration failed:", errorData);
@@ -70,12 +73,25 @@ const SignUpForm = () => {
           <div className='space-y-2 md:w-full'>
             <FormField
               control={form.control}
-              name='username'
+              name='firstName'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Full name</FormLabel>
+                  <FormLabel>First name</FormLabel>
                   <FormControl>
-                    <Input placeholder='Enter your full name' {...field} />
+                    <Input placeholder='Enter your first name' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='lastName'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Last name</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Enter your last name' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -88,7 +104,7 @@ const SignUpForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder='Confirm your email address' {...field} />
+                    <Input disabled placeholder={session?.user.email} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

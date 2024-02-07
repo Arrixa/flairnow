@@ -50,21 +50,3 @@ export const triggerSessionUpdate = async () => {
     console.error('Error triggering session update:', error);
   }
 };
-
-
-    // // Combine user and client information
-    // const updatedInfo = {
-    //   user: {
-    //     id: updatedUser.id,
-    //     username: updatedUser.username,
-    //     email: updatedUser.email,
-    //     // Add other user properties as needed
-    //   },
-    //   client: {
-    //     id: updatedClient?.id,
-    //     domain: updatedClient?.domain,
-    //     // Add other client properties as needed
-    //   },
-    // };
-    // console.log(updatedInfo)
-

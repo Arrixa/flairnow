@@ -68,11 +68,13 @@ export const authOptions: NextAuthOptions = {
           return {
             user: {
               id: dbUser.id,
-              username: dbUser.username,
+              firstName: dbUser.firstName,
+              lastName: dbUser.lastName,
               email: dbUser.email,
             },
             id: dbUser.id,
-            username: dbUser.username,
+            firstName: dbUser.firstName,
+            lastName: dbUser.lastName,
             email: dbUser.email,
             role: dbClientUser?.role,
             clientId: dbClientUser?.clientId,
@@ -101,7 +103,8 @@ export const authOptions: NextAuthOptions = {
       if (token) {
         session.user = {
           id: token.id,
-          username: token.username,
+          firstName: token.firstName,
+          lastName: token.lastName,
           email: token.email
         };
 
