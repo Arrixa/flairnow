@@ -3,6 +3,8 @@ import { excludedDomains } from "@/lib/excludedDomains";
 import { NextResponse } from "next/server";
 import { Role } from "@prisma/client";
 import { triggerSessionUpdate } from "@/utils/sessionTrigger";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/route";
 
 type Email = string;
 
@@ -113,5 +115,39 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("Error during profile creation:", error);
     return NextResponse.json({ message: "Something went wrong"}, { status: 500 });
+  }
+}
+
+export async function GET(request: Request) {
+  try {
+    const userData = await getUserData(request);
+
+    // Respond with the user data
+    return Response.json(userData);
+  } catch (error) {
+    console.error("Error during handling GET request:", error);
+    return Response.json({ message: "Something went wrong" }, { status: 500 });
+  }
+}
+
+async function getUserData(request: Request) {
+  const session = await getServerSession(authOptions);
+  const userId = session?.user?.id;
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  if (!user) {
+    return { message: "User does not exist" };
+  }
+
+  // Extract and return the relevant data
+  return {
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    image: user.image,  
   }
 }

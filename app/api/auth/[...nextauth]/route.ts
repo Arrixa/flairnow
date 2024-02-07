@@ -71,6 +71,7 @@ export const authOptions: NextAuthOptions = {
               firstName: dbUser.firstName,
               lastName: dbUser.lastName,
               email: dbUser.email,
+              image: dbUser.image,
             },
             id: dbUser.id,
             firstName: dbUser.firstName,
@@ -105,7 +106,8 @@ export const authOptions: NextAuthOptions = {
           id: token.id,
           firstName: token.firstName,
           lastName: token.lastName,
-          email: token.email
+          email: token.email,
+          image: token.image,
         };
 
         session.clientUser = {

@@ -4,7 +4,19 @@ import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 
-export async function GET() {
+export async function GET(request: Request) {
+  try {
+    const userData = await getUserData(request);
+
+    // Respond with the user data
+    return Response.json(userData);
+  } catch (error) {
+    console.error("Error during handling GET request:", error);
+    return Response.json({ message: "Something went wrong" }, { status: 500 });
+  }
+}
+
+async function getUserData(request: Request) {
   try {
     const session = await getServerSession(authOptions);
     const user = session?.user;
@@ -37,15 +49,13 @@ export async function GET() {
       client: { ...dbClient },
       clientUser: { ...dbClientUser },
     };
-
+    console.log(updatedInfo, 'updatedInfo in /api/role')
     return NextResponse.json(updatedInfo, { status: 200 });
-
-   
   } catch (error) {
-    console.error("Error during updating information:", error);
-    return NextResponse.json({ message: "Something went wrong"}, { status: 500 });
-  };
-};
+    return NextResponse.json({error, message: 'Error triggering session update:'}, { status: 500 });
+  }
+} 
+
 
 // Trying to trigger a session update by making a request to the dedicated endpoint
 // export async function POST() {{

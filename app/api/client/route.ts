@@ -34,7 +34,6 @@ export async function POST(req: Request) {
 export async function GET(request: Request) {
   try {
     const clientData = await getClientData(request);
-    console.log('Received client data from API endpoint:', clientData);
 
     // Respond with the client data
     return Response.json(clientData);

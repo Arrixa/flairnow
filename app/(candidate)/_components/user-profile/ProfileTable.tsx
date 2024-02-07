@@ -5,9 +5,11 @@ import { User } from "@prisma/client";
 
 interface UserInfo {
   user: User;
+  formData: User;
 }
 
-const UserProfile = ({ user }: UserInfo) => {
+const UserProfile = ({ user, formData }: UserInfo) => {
+  console.log('image', user.img)
   return (
     <>
       <Table className="w-full space-x-10">
@@ -21,7 +23,7 @@ const UserProfile = ({ user }: UserInfo) => {
             <TableHead className="w-1/2 pl-10">Profile image:</TableHead>
             <TableCell className="w-1/2 text-left pl-10">
             <Avatar>
-              <AvatarImage src={user?.image} />
+              <AvatarImage src={formData?.image} className='w-[50px] h-[50px] object-fill' />
               <AvatarFallback>FN</AvatarFallback>
             </Avatar>
             </TableCell>

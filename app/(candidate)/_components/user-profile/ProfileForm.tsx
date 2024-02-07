@@ -40,6 +40,7 @@ const ProfileForm: React.FC<UserProps> = ({ session, user }) => {
 
   const [isEditMode, setIsEditMode] = useState(true);
   const [formData, setFormData] = useState({});
+  console.log(formData)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,9 +53,9 @@ const ProfileForm: React.FC<UserProps> = ({ session, user }) => {
   
         const data = await response.json();
         setFormData(data)
-  
+        console.log(data.user, 'data user')
         // Set form data with fetched values
-        console.log(data);
+        console.log(data, 'data fetch');
   
         const mappedData = {
           firstName: data.firstName,
@@ -89,7 +90,7 @@ const ProfileForm: React.FC<UserProps> = ({ session, user }) => {
       console.log('Form submission response:', response);
 
       if (response.ok) {
-        toast.success("The client infomation saved successfully.");
+        toast.success("The user infomation saved successfully.");
         setIsEditMode(true)
       } else {
         console.error("Save failed");
@@ -104,7 +105,7 @@ const ProfileForm: React.FC<UserProps> = ({ session, user }) => {
       {isEditMode ? (
         <div className='w-full'>
           <div className="flex flex-row mx-auto w-full">
-            <UserProfile user={user} />
+            <UserProfile user={user} formData={formData} />
           </div>
           <Button
             className='mt-4 text-md px-10 ml-10'
