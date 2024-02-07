@@ -25,7 +25,7 @@ const UserProfile = ({ user }) => {
             <TableCell className="w-2/3 text-left px-10">
             <Avatar>
               <AvatarImage src={user?.image} />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarFallback>FN</AvatarFallback>
             </Avatar>
             </TableCell>
           </TableRow>

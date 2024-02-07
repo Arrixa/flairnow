@@ -1,4 +1,3 @@
-import SignInForm from "../../_components/auth/SignInForm";
 import Image from "next/image";
 import Link from "next/link";
 import EmailSignIn from "../../_components/auth/EmailSignin";
@@ -12,7 +11,7 @@ const SigninPage = () => {
     {/* Desktop-only image */}
       <section className="hidden md:block">
         <Image
-          src="/undraw_sign_in.svg"
+          src="/images/undraw_sign_in.svg"
           alt="Image"
           width={500} 
           height={300} 

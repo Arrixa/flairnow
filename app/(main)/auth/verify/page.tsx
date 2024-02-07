@@ -18,7 +18,7 @@ const validatePage = () => {
         </CardDescription>
         <span className="inline-block p-1">
           <Image
-            src="/FlairNow-Logo-Full-Text.svg"
+            src="/logos/FlairNow-Logo-Full-Text.svg"
             alt="Text logo"
             width={90} 
             height={60} 

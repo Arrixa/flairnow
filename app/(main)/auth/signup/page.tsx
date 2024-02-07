@@ -1,4 +1,4 @@
-import SignUpForm from "../../_components/auth/SignUpForm";
+import SignUpForm from "../../_components/auth/SignupForm";
 import Image from "next/image";
 
 const SignupPage = () => {
@@ -7,7 +7,7 @@ const SignupPage = () => {
       {/* Desktop-only image */}
       <section className="hidden md:block">
         <Image
-          src="/undraw_sign_up.svg"
+          src="/images/undraw_sign_up.svg"
           alt="Image"
           width={500} 
           height={300} 
@@ -21,7 +21,7 @@ const SignupPage = () => {
             <h3 className="text-lg align-text-bottom">Create your &nbsp;</h3>
             <span className="inline-block align-text-bottom"> 
               <Image
-              src="/FlairNow-Logo-Full-Text.svg"
+              src="/logos/FlairNow-Logo-Full-Text.svg"
               alt="Image"
               width={80} 
               height={50}

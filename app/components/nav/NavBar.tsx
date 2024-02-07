@@ -14,7 +14,7 @@ const NavBar = async () => {
         {session?.clientUser.role ? (
           <Link href="/dashboard/employee-profile">
               <Image
-              src="/FlairNow-Logo.svg"
+              src="/logos/FlairNow-Logo.svg"
               alt="Logo"
               width={40} 
               height={40}
@@ -23,7 +23,7 @@ const NavBar = async () => {
         ) : (
           <Link href='/'>
             <Image
-              src="/FlairNow-Logo.svg"
+              src="/logos/FlairNow-Logo.svg"
               alt="Logo"
               width={40} 
               height={40}
