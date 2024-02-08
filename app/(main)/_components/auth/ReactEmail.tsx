@@ -39,7 +39,7 @@ export function MagicLinkEmail({ url, host }: TextParams) {
             <Body className="my-auto mx-auto w-full max-w-lg bg-background">
                <Container className="border border-solid border-zinc-500 rounded-md mx-auto p-6">
                   {/* Add Cloudinary image link */}
-                  {/* <Img src="./logos/FlairNow-Logo-Full.png" alt="FlairNow Logo" /> */}
+                  {/* <Img src="public/logos/FlairNow-Logo-Full.png" alt="FlairNow Logo" /> */}
                   <Heading className="mt-0 text-zinc-900 p-4" >Let&apos;s get you signed in</Heading>
                   <Text className="text-justify text-zinc-950 p-4">
                      We use this easy sign in link so you don&apos;t have to remember

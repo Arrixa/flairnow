@@ -1,4 +1,4 @@
-import renderLogo from "../components/common/logos/Logo-Full";
+import renderLogo from "../components/common/logos/LogoFull";
 
 export default function Home() {
   return (
