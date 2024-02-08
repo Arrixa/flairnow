@@ -17,7 +17,7 @@ const EmployeePage = async () => {
     const company = session?.client?.domain;
   
     return (
-      <main className="flex flex-col items-left space-x-10 mx-10 w-full">
+      <main className="flex flex-col items-left space-x-10 mx-10">
         <h1 className="text-2xl text-left mx-20 font-semibold my-6 pt-8">Employee profile information</h1>
         <Table className="lg:w-1/2 md:w-2/3 w-3/4 space-x-10 mt-6 border-t">
           <TableCaption></TableCaption>

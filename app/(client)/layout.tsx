@@ -18,8 +18,8 @@ const ClientLayout = async ({
   else {
     return (
       <div className="flex w-full">
-        <main className="flex w-full">
-          <Sidebar />
+        <Sidebar />
+        <main className="flex-grow">
           {children}
         </main>
       </div>
