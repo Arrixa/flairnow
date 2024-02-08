@@ -50,7 +50,14 @@ async function getUserData(request: Request) {
       clientUser: { ...dbClientUser },
     };
     console.log(updatedInfo, 'updatedInfo in /api/role')
-    return NextResponse.json(updatedInfo, { status: 200 });
+      return {
+        domain: client?.domain || '',
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        image: user.image || '',  
+        role: clientUser?.role || [],
+      };
   } catch (error) {
     return NextResponse.json({error, message: 'Error triggering session update:'}, { status: 500 });
   }

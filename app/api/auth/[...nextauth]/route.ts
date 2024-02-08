@@ -66,6 +66,14 @@ export const authOptions: NextAuthOptions = {
 
         if (dbUser || dbClientUser || dbClient) {
           return {
+            id: dbUser.id,
+            firstName: dbUser.firstName,
+            lastName: dbUser.lastName,
+            email: dbUser.email,
+            image: dbUser.image,
+            role: dbClientUser?.role,
+            clientId: dbClientUser?.clientId,
+            domain: dbClient?.domain,
             user: {
               id: dbUser.id,
               firstName: dbUser.firstName,
@@ -73,12 +81,6 @@ export const authOptions: NextAuthOptions = {
               email: dbUser.email,
               image: dbUser.image,
             },
-            id: dbUser.id,
-            firstName: dbUser.firstName,
-            lastName: dbUser.lastName,
-            email: dbUser.email,
-            role: dbClientUser?.role,
-            clientId: dbClientUser?.clientId,
             client: {
               domain: dbClient?.domain,
               id: dbClient?.id,

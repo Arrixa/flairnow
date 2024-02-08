@@ -138,6 +138,11 @@ async function getUserData(request: Request) {
       id: userId,
     },
   });
+  const clientUser = await prisma.clientUser.findFirst({
+    where: {
+      userId: userId,
+    },
+  })
 
   if (!user) {
     return { message: "User does not exist" };
@@ -149,5 +154,6 @@ async function getUserData(request: Request) {
     lastName: user.lastName,
     email: user.email,
     image: user.image,  
+    role: clientUser?.role || [],
   }
 }

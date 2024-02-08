@@ -1,4 +1,4 @@
-import { User, Role, ClientUser } from "@prisma/client";
+import { User, Role, ClientUser, CLient } from "@prisma/client";
 import { JWT } from "next-auth/jwt";
 
 declare module "next-auth" {
@@ -18,12 +18,6 @@ declare module "next-auth/jwt" {
     client?: Client
   }
 }
-
-// declare module "next-auth/jwt" {
-//   interface JWT {
-//     user: User;
-//   }
-// }
 
 declare module NodeJS {
   interface ProcessEnv {
