@@ -1,4 +1,5 @@
-import renderLogo from "@/app/components/common/logos/LogoInline";
+import renderLogoInline from "@/app/components/common/logos/LogoInline";
+import renderLogo from "@/app/components/common/logos/LogoFull";
 import {
   Card,
   CardContent,
@@ -7,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/components/ui/card"
+import Link from "next/link";
 
 const validatePage = () => {
   return (
@@ -17,16 +19,20 @@ const validatePage = () => {
         <CardDescription className="text-lg align-text-top pt-4">to sign in to&nbsp;
         </CardDescription>
         <span className="inline-block p-1 pb-4">
-         {renderLogo()}
+         {renderLogoInline()}
         </span>
       </div>
     </CardHeader>
     <CardContent>
       <p className="text-md text-center font-medium">A sign in link has been sent to your email address</p>
     </CardContent>
-    <CardFooter>
-     
-    </CardFooter>
+    <CardFooter className="mx-auto">
+        <Link href='/'>
+          <span className="p-6">
+            {renderLogo()}
+          </span>
+        </Link>
+      </CardFooter>
   </Card>
   )
 }

@@ -185,9 +185,17 @@ export const authOptions: NextAuthOptions = {
 
   ],
   callbacks: {
+    async onError(error, _, res) {
+      const isValidationError = error.message === 'Validation error';
+      const isSessionExpiredError = error.message === 'Session expired';
+
+      if (isValidationError) {
+          res.redirect('/validation_error');
+      } else if (isSessionExpiredError) {
+          res.redirect('/session_expired');
+      }
+    },
     async jwt({ token, user, trigger, session }): Promise<JWT> {
-
-
       
       if(trigger === 'update'){
         token = session
@@ -299,7 +307,7 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/auth/signin",
     newUser: '/auth/signup',
-    // error: '/auth/error', 
+    error: '/auth/error', 
     verifyRequest: "/auth/verify"
   },
   theme: {

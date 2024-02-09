@@ -53,6 +53,7 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Skeleton } from '@/app/components/ui/skeleton';
+import { Card, CardContent, CardDescription, CardFooter, CardTitle } from '@/app/components/ui/card'
 
 interface UserInfo {
     domain: string | null;
@@ -111,12 +112,11 @@ const ValidatingAuth = () => {
         // } else {
         //   router.push('/auth/signin');
         // }
-
           
       };
   
       fetchData();
-    }, []);
+    }, [session, update, router]);
           // Step 2: Trigger a session update
   
 
@@ -139,14 +139,15 @@ const ValidatingAuth = () => {
 
 
   return (
-    <div className='h-screen flex flex-col items-center justify-center gap-5'>
-      <h1 className="text-muted text-2xl">Validating the user authorisation</h1>
-      <p></p>
-      <Skeleton className="w-[100px] h-[20px] rounded-full" />
-
-    </div>
+    <Card className="p-6 my-20 flex items-center justify-center flex-col bg-background w-2/3 lg:w-1/3 mx-auto">
+      <CardTitle className="text-4xl py-6 text-center">Loading...</CardTitle>
+      <CardDescription className="text-lg text-center">Please wait while validatign authorisation.</CardDescription>
+      <CardContent>
+        <Skeleton className="w-[200px] h-[40px] rounded-full my-10" />
+      </CardContent>
+    </Card>
   );
-};
+}
 
 export default ValidatingAuth;
 

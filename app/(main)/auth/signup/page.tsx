@@ -1,5 +1,5 @@
 'use server'
-import renderLogo from "@/app/components/common/logos/LogoInline";
+import renderLogoInline from "@/app/components/common/logos/LogoInline";
 import SignUpForm from "../../_components/auth/SignupForm";
 import Image from "next/image";
 
@@ -22,7 +22,7 @@ const SignupPage = () => {
           <div className="flex items-center justify-center">
             <h3 className="text-lg align-text-bottom">Create your &nbsp;</h3>
             <span className="inline-block align-text-bottom"> 
-             {renderLogo()}
+             {renderLogoInline()}
             </span>
             <h3 className="text-lg align-text-bottom">&nbsp; profile.</h3></div>
           </div>
