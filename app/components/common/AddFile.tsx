@@ -91,7 +91,6 @@ export default function AddFile() {
                 <Button
                   type="submit"
                   disabled={uploading}
-                  style={{ opacity: uploading ? ".5" : "1" }}
                   variant='flairnow'>
                   {uploading ? "Uploading..." : "Upload"}
                 </Button>

@@ -41,7 +41,7 @@ export function MagicLinkEmail({ url, host }: TextParams) {
                   <Heading className="mt-0 text-zinc-900 p-4 mx-auto text-center">
                      Let&apos;s get you signed in
                   </Heading>
-                  <Text className="text-justify text-zinc-950 p-4 text-xl">
+                  <Text className="text-justify text-zinc-950 p-4 text-lg">
                      We use this easy sign-in link so you don&apos;t have to remember
                      or type in yet another long password.
                   </Text>
@@ -54,7 +54,7 @@ export function MagicLinkEmail({ url, host }: TextParams) {
                            Click here to sign in
                         </Link>
                   </Container>
-                  <Text className="text-justify text-zinc-950 p-4 text-xl">
+                  <Text className="text-justify text-zinc-950 p-4 text-lg">
                      If you didn&apos;t try to log in, you can safely ignore this
                      email.
                   </Text>

@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma"; 
 import { excludedDomains } from "@/lib/excludedDomains";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { Role } from "@prisma/client";
 import { triggerSessionUpdate } from "@/utils/sessionTrigger";
 import { getServerSession } from "next-auth";
@@ -25,7 +25,7 @@ const isDomainInExcludedList = (domain: string): boolean => {
   return excludedDomains.includes(domain);
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const reqBody = await req.json();
     const { emailVerified, image, id, ...userInfo } = reqBody;
@@ -59,8 +59,10 @@ export async function POST(req: Request) {
 
     // Check if the domain is part of the excluded list (public domains)
     const isPublicDomain = isDomainInExcludedList(domain);
-    console.log(isPublicDomain)
+    console.log(isPublicDomain);
+
     if (isPublicDomain) {
+      // Return the updated session without creating clientUser and client
       NextResponse.json({ user: user, message: "User profile created successfully"}, { status: 201 })
     } else {
   
@@ -104,12 +106,7 @@ export async function POST(req: Request) {
       ...user,
       ...client,
       ...clientUser,
-    }
-
-    if (updatedInfo) {
-      await triggerSessionUpdate()
-    }
-
+    }    
     return NextResponse.json({ updatedInfo, message: "User and client profile created successfully"}, { status: 201 })
 
   } catch (error) {
@@ -120,8 +117,9 @@ export async function POST(req: Request) {
 
 export async function GET(request: Request) {
   try {
+    console.log('Request received at /api/user:', request);
     const userData = await getUserData(request);
-
+    console.log('User data:', userData);
     // Respond with the user data
     return Response.json(userData);
   } catch (error) {
@@ -143,10 +141,28 @@ async function getUserData(request: Request) {
       userId: userId,
     },
   })
+  let client;
+  if (clientUser) {
+    client = await prisma.client.findFirst({
+      where: {
+        id: clientUser?.clientId,
+      },
+    })
+
+  }
 
   if (!user) {
     return { message: "User does not exist" };
   }
+
+  console.log({
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    image: user.image,  
+    role: clientUser.role,
+    domain: client.domain,
+  }, 'user data in getUserData')
 
   // Extract and return the relevant data
   return {
@@ -154,6 +170,7 @@ async function getUserData(request: Request) {
     lastName: user.lastName,
     email: user.email,
     image: user.image,  
-    role: clientUser?.role || [],
+    role: clientUser?.role ?? undefined,
+    domain: client?.domain ?? undefined,
   }
 }

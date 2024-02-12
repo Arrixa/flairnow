@@ -116,8 +116,7 @@ export default function AddFile({ fetchFiles }: Props) {
                 <button
                   type="submit"
                   disabled={uploading}
-                  style={{ opacity: uploading ? ".5" : "1" }}
-                  className="mt-4 w-32 rounded bg-red-600 py-2 text-center text-white">
+                  className="mt-4 w-32 rounded bg-primary py-2 text-center text-white">
                   {uploading ? "Uploading..." : "Upload"}
                 </button>
               </form>

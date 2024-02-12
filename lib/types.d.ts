@@ -5,8 +5,12 @@ declare module "next-auth" {
   interface Session {
     user: User
     clientUser?: ClientUser
-    role: Role[]
+    role: ClientUser[]
     client?: Client
+    firstName: User
+    lastName: User
+    email: User
+    domain?: Client
   }
 }
 

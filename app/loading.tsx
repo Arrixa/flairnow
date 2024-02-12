@@ -7,7 +7,7 @@ const LoadingPage = () => {
       <CardTitle className="text-4xl py-6 text-center">Loading...</CardTitle>
       <CardDescription className="text-lg text-center">Please wait while the content is loading.</CardDescription>
       <CardContent>
-        <Skeleton className="w-[200px] h-[40px] rounded-full" />
+        <Skeleton className="w-[200px] h-[40px] rounded-full my-10" />
       </CardContent>
     </Card>
   );

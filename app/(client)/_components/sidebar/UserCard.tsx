@@ -18,7 +18,7 @@ const UserCard: React.FC<UserCardProps> = ({ session }) => {
   }
 
   return (
-    <div className="mx-auto bg-background h-[100px] w-full">
+    <div className="mx-auto bg-background h-[100px] w-full py-2">
       {session && session.user ? (
         <div className="flex flex-row gap-2 p-2 ml-4">
           <div className="min-w-fit">

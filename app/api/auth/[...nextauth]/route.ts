@@ -185,21 +185,11 @@ export const authOptions: NextAuthOptions = {
 
   ],
   callbacks: {
-    async onError(error, _, res) {
-      const isValidationError = error.message === 'Validation error';
-      const isSessionExpiredError = error.message === 'Session expired';
-
-      if (isValidationError) {
-          res.redirect('/validation_error');
-      } else if (isSessionExpiredError) {
-          res.redirect('/session_expired');
-      }
-    },
     async jwt({ token, user, trigger, session }): Promise<JWT> {
       
-      if(trigger === 'update'){
-        token = session
-      }
+      // if(trigger === 'update'){
+      //   token = session
+      // }
 
 
       if (token && user && token.email) {
@@ -231,7 +221,6 @@ export const authOptions: NextAuthOptions = {
             firstName: dbUser.firstName,
             lastName: dbUser.lastName,
             email: dbUser.email,
-            image: dbUser.image,
             role: dbClientUser?.role,
             clientId: dbClientUser?.clientId,
             domain: dbClient?.domain,
@@ -268,6 +257,11 @@ export const authOptions: NextAuthOptions = {
         session = newSession
       }
       if (token) {
+        session.role = token.role;
+        session.firstName = token.firstName;
+        session.lastName = token.lastName;
+        session.email = token.email;
+        session.domain = token.domain;
         session.user = {
           id: token.id,
           firstName: token.firstName,
@@ -282,18 +276,18 @@ export const authOptions: NextAuthOptions = {
         };
 
         session.client = {
-          domain: token.client?.domain,
-          id: token.client?.id,
-          name: token.client?.name,
-          website: token.client?.website,
-          description: token.client?.description,
-          countryCode: token.client?.countryCode,
-          phoneNumber: token.client?.phoneNumber,
-          streetNo: token.client?.streetNo,
-          streetAddress: token.client?.streetAddress,
-          province: token.client?.province,
-          zipCode: token.client?.zipCode,
-          country: token.client?.country
+          domain: token.domain,
+          id: token.id,
+          name: token.name,
+          website: token.website,
+          description: token.description,
+          countryCode: token.countryCode,
+          phoneNumber: token.phoneNumber,
+          streetNo: token.streetNo,
+          streetAddress: token.streetAddress,
+          province: token.province,
+          zipCode: token.zipCode,
+          country: token.country
         }
       }
       return session;

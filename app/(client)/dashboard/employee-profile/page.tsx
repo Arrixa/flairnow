@@ -2,7 +2,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../../api/auth/[...nextauth]/route";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/app/components/ui/table";
 import RoleBadges from "../../../components/common/RoleBadges";
-import { checkAccessAndRedirect } from "@/lib/redirects";
 
 function capitalizeFirstLetter(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -10,7 +9,6 @@ function capitalizeFirstLetter(str: string): string {
 
 const EmployeePage = async () => {
   const session = await getServerSession(authOptions);
-  await checkAccessAndRedirect('/dashboard/employee-profile');
 
     const user = session?.user;
     const roles = session?.clientUser.role;

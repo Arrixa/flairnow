@@ -23,7 +23,6 @@ interface SidebarCompProps {
 
 
 const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
-  const [isLargeScreen, setIsLargeScreen] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(true);
   const router = useRouter();
   const [scrollAreaHeight, setScrollAreaHeight] = useState<number | undefined>(undefined);
@@ -31,12 +30,11 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
 
   useEffect(() => {
     // Check screen size on mount
-    setIsLargeScreen(window.innerWidth >= 768);
-    // Check screen size on resize
     const handleResize = () => {
-      setIsLargeScreen(window.innerWidth >= 768); 
+      const isLargeScreen = window.innerWidth >= 768;
+      setIsMenuOpen(isLargeScreen);
     };
-
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -80,24 +78,22 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
 
   
   return (
-    <div className="bg-secondary text-foreground relative h-full min-h-screen w-[240px] transition-all ease-in-out duration-300" style={{ left: isMenuOpen ? '0' : '-180px' }}>
-
-      {/* Sidebar Content */}
+    <div className={`bg-secondary text-foreground relative h-full min-h-screen w-[240px] transition-all ease-in-out duration-300 ${isMenuOpen ? 'left-0' : '-180px'}`}>
       <div className="flex flex-col h-full">
-        {/* Logo */}
         <Link href='/'>
           <div className="ml-6 my-4">
             {renderLogo()}
           </div>
         </Link>
-
         {/* Dashboard Label */}
         <div className="mb-4">
           <span className="text-lg font-bold ml-6">Dashboard</span>
         </div>
 
         {/* Sidebar Items */}
-        <ScrollArea ref={scrollAreaRef} style={{ height: `${scrollAreaHeight}px` }}> 
+        <ScrollArea ref={scrollAreaRef} style={{ height: `${scrollAreaHeight}px` }} 
+        // className="h-[`${scrollAreaHeight}px`]"
+        > 
           {renderSidebarItems()}
         </ScrollArea>
 

@@ -49,7 +49,7 @@ model Session {
   expires           DateTime
   user              User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   client            Client       @relation(fields: [clientId], references: [id])
-  clientUser        ClientUser  @relation(fields: [clientUserId], references: [id])
+  clientUser        ClientUser   @relation(fields: [clientUserId], references: [id])
 }
 
 

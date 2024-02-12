@@ -15,7 +15,7 @@ const SigninPage = () => {
           alt="Image"
           width={500} 
           height={300} 
-          style={{objectFit: "cover"}}
+          className="object-cover"
         />
       </section>
       <section className="flex flex-col justify-center items-center xl:w-1/2 lg:w-2/3 w-3/4 mx-auto ">

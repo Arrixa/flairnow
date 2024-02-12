@@ -20,8 +20,6 @@ async function getUserData(request: Request) {
   try {
     const session = await getServerSession(authOptions);
     const user = session?.user;
-    const client = session?.client;
-    const clientUser = session?.clientUser;
 
     // Fetch the updated user and client information
     const dbUser = await prisma.user.findUnique({
@@ -30,33 +28,45 @@ async function getUserData(request: Request) {
       },
     });
 
-    const emailDomain = user?.email?.toLowerCase().split('@').pop()?.split('.')[0]
-    console.log(emailDomain)
-    const dbClient = await prisma.client.findFirst({
-      where: {
-        domain: emailDomain
-      }
-    })
-
-    const dbClientUser = await prisma.clientUser.findFirst({
+    const dbClientUser = await prisma.clientUser.findUnique({
       where: {
         userId: user.id
       }
     })
 
-    const updatedInfo = {
-      user: { ...dbUser },
-      client: { ...dbClient },
-      clientUser: { ...dbClientUser },
-    };
-    console.log(updatedInfo, 'updatedInfo in /api/role')
+    // const dbClient = await prisma.client.findUnique({
+
+    const emailDomain = user?.email?.toLowerCase().split('@').pop()?.split('.')[0]
+    console.log(emailDomain)
+    const dbClient = await prisma.client.findUnique({
+      where: {
+        domain: emailDomain
+      }
+    })
+
+
+    console.log('DB DATA IN API/ROLE', dbClient, dbUser, dbClientUser, 'DB DATA IN API/ROLE')
+
+    // const updatedInfo = {
+    //   user: { ...dbUser },
+    //   client: { ...dbClient },
+    //   clientUser: { ...dbClientUser },
+    // };
+    console.log(
+      dbClient.domain,
+      dbUser.firstName,
+      dbUser.lastName,
+      dbUser.email,
+      dbUser.image,  
+      dbClientUser.role
+      , 'updatedInfo in /api/role')
       return {
-        domain: client?.domain || '',
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        image: user.image || '',  
-        role: clientUser?.role || [],
+        domain: dbClient?.domain || '',
+        firstName: dbUser.firstName,
+        lastName: dbUser.lastName,
+        email: dbUser.email,
+        image: dbUser.image || '',  
+        role: dbClientUser?.role || [],
       };
   } catch (error) {
     return NextResponse.json({error, message: 'Error triggering session update:'}, { status: 500 });

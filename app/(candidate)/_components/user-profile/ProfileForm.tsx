@@ -13,8 +13,6 @@ import { useEffect, useState } from "react";
 import AddFile from '@/app/components/common/AddFile';
 import { Label } from '@/app/components/ui/label';
 
-
-
 interface UserProps {
   session?: Session | null, 
   user?: User | null, 

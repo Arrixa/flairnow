@@ -2,12 +2,9 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
 import AdminDashboardForm from '../../_components/dashboard/AdminDashboardForm';
-import { checkAccessAndRedirect } from '@/lib/redirects';
 
 const AdminDashboardPage = async () => {
   const session = await getServerSession(authOptions);
-  await checkAccessAndRedirect('/dashboard/admin');
-
 
   return (
     <main className='mx-20 w-3/4 lg:1/2 xl:1/2'>

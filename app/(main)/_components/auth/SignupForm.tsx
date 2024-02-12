@@ -16,11 +16,12 @@ import { Button } from '../../../components/ui/button';
 import { useRouter } from 'next/navigation';
 import { toast } from "react-toastify";
 import { useSession } from 'next-auth/react';
+import { Label } from '@/app/components/ui/label';
 
 const FormSchema = z
   .object({
-    firstName: z.string().min(1, 'First name is required').max(100),
-    lastName: z.string().min(1, 'Last name is required').max(100),
+    firstName: z.string().min(2, 'First name is required with a minimum of 2 characters').max(100),
+    lastName: z.string().min(2, 'Last name is required with a minimum of 2 characters').max(100),
   })
 
 
@@ -54,8 +55,9 @@ const SignUpForm = () => {
       if (response.ok) {
         toast.success("The user registered successfully.");
         await update({ ...session?.user, firstName: data.firstName, lastName: data.lastName})
-        router.push('/auth/validate-auth')
-        // router.push('/auth/signin')
+        // router.push('/auth/update-session')
+        // router.push('/auth/validate-auth')
+        router.push('/auth/signin')
       } else {
         const errorData = await response.json();
         console.error("Registration failed:", errorData);
@@ -67,6 +69,10 @@ const SignUpForm = () => {
 
   return (
     <div className="flex flex-col justify-center items-center mx-auto w-full px-4 ">
+      <div className="flex flex-col mx-auto w-full my-2">
+        <Label className='text-left ml-2 p-2'>Email</Label>
+        <Input className='text-foreground' disabled placeholder={session?.user.email} />
+    </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
           <div className='space-y-2 md:w-full'>
@@ -75,7 +81,7 @@ const SignUpForm = () => {
               name='firstName'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>First name</FormLabel>
+                  <FormLabel className='ml-3'>First name</FormLabel>
                   <FormControl>
                     <Input placeholder='Enter your first name' {...field} />
                   </FormControl>
@@ -88,22 +94,9 @@ const SignUpForm = () => {
               name='lastName'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Last name</FormLabel>
+                  <FormLabel className='ml-3'>Last name</FormLabel>
                   <FormControl>
                     <Input placeholder='Enter your last name' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name=''
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input disabled placeholder={session?.user.email} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
