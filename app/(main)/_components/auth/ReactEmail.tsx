@@ -36,10 +36,9 @@ export function MagicLinkEmail({ url, host }: TextParams) {
          <Head />
          <Preview>{previewText}</Preview>
          <Tailwind>
-            <Body className="flex items-center justify-center flex-col my-2 mx-auto w-full max-w-lg">
+            <Body className="font-sans flex items-center justify-center flex-col my-2 p-4 mx-auto w-full max-w-lg">
                <Container className="border border-solid border-zinc-400 rounded-md bg-zinc-50 mx-auto p-6 flex items-center justify-center flex-col gap-4">
                   <Heading className="mt-0 text-zinc-900 p-4 mx-auto text-center">
-                     <Img src="https://res.cloudinary.com/dsbvy1t2i/image/upload/f_auto,q_auto/iwg6nqtxumw3jmutws5l" alt="FlairNow" />
                      Let&apos;s get you signed in
                   </Heading>
                   <Text className="text-justify text-zinc-950 p-4 text-lg">
@@ -60,6 +59,7 @@ export function MagicLinkEmail({ url, host }: TextParams) {
                      email.
                   </Text>
                   <Hr className="border border-solid border-zinc-500 my-4 mx-0 w-full" />
+                  <Img src="https://res.cloudinary.com/dsbvy1t2i/image/upload/f_auto,q_auto/iwg6nqtxumw3jmutws5l" alt="FlairNow" className='my-2 p-2'/>
                   <Text className="text-xs text-zinc-500/75 p-4">
                      © {new Date().getFullYear()} FlairNow. All Rights Reserved.
                   </Text>

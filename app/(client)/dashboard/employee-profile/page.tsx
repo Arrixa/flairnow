@@ -12,7 +12,9 @@ const EmployeePage = async () => {
 
     const user = session?.user;
     const roles = session?.clientUser.role;
+    console.log(session, user, roles, 'user and roles in employee page')
     const company = session?.client?.domain;
+    const domain = session?.user.userDomain || session?.client?.domain;
   
     return (
       <main className="flex flex-col items-left space-x-10 mx-10">
@@ -44,7 +46,7 @@ const EmployeePage = async () => {
             </TableRow>
             <TableRow>
               <TableHead className="w-1/3 px-10">Company:</TableHead>
-              <TableCell className="w-2/3 text-left px-10">{`${company ? capitalizeFirstLetter(company) : ''}`}</TableCell>
+              <TableCell className="w-2/3 text-left px-10">{`${user?.userDomain ? capitalizeFirstLetter(user?.userDomain) : ''}`}</TableCell>
             </TableRow>
             <TableRow></TableRow>
           </TableBody>

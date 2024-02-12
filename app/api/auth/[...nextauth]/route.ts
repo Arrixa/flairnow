@@ -187,10 +187,11 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user, trigger, session }): Promise<JWT> {
       
-      if(trigger === 'update'){
-        token = session
+      if(trigger === 'update'){ 
+        return {
+          ...token, ...session
+        }
       }
-
 
       if (token && user && token.email) {
         console.log('Token email:', token.email);
@@ -221,16 +222,16 @@ export const authOptions: NextAuthOptions = {
             firstName: dbUser.firstName,
             lastName: dbUser.lastName,
             email: dbUser.email,
+            userDomain: dbUser.userDomain,
             role: dbClientUser?.role,
             clientId: dbClientUser?.clientId,
-            domain: dbUser?.domain,
             user: {
               id: dbUser.id,
               firstName: dbUser.firstName,
               lastName: dbUser.lastName,
               email: dbUser.email,
               image: dbUser.image,
-              domain: dbUser.domain,
+              userDomain: dbUser.userDomain,
             },
             client: {
               domain: dbClient?.domain,
@@ -254,22 +255,22 @@ export const authOptions: NextAuthOptions = {
     },
 
     async session({ token, session, trigger, newSession }) {
-      // if (trigger === "update" && newSession) {
-      //   session = newSession
-      // }
+      if (trigger === "update" && newSession) {
+        session = newSession
+      }
       if (token) {
+        session.userDomain = token.userDomain;
         session.role = token.role;
         session.firstName = token.firstName;
         session.lastName = token.lastName;
         session.email = token.email;
-        session.domain = token.domain;
         session.user = {
           id: token.id,
           firstName: token.firstName,
           lastName: token.lastName,
           email: token.email,
           image: token.image,
-          domain: token.domain
+          userDomain: token.userDomain
         };
 
         session.clientUser = {

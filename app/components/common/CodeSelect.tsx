@@ -93,10 +93,7 @@ export function CodeSelect({ onChange, value }: CodeSelectProps)  {
     (country.name.toLowerCase().includes(searchText.toLowerCase()) ||
     country.dialCode.toLowerCase().includes(searchText.toLowerCase())) &&
     country.dialCode
-  );
-  
-  console.log(filteredCountries);
-  
+  );  
 
   const handleSelect = (country: Country) => {
     setSelectedCode(country.dialCode);

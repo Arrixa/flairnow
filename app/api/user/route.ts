@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
   try {
     const reqBody = await req.json();
     const { emailVerified, image, id, ...userInfo } = reqBody;
-    console.log(reqBody)
+    console.log(reqBody, 'reqBody in user route - check for userDomain')
 
     // Check if user email exists
     const existingUserByEmail = await prisma.user.findUnique({
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
 
     if (isPublicDomain) {
       // Return the updated session without creating clientUser and client
-      NextResponse.json({ user: user, message: "User profile created successfully"}, { status: 201 })
+      NextResponse.json({ message: "User profile created successfully"}, { status: 201 })
     } else {
   
       const existingClientByDomain = await prisma.client.findUnique({
@@ -89,7 +89,7 @@ export async function POST(req: NextRequest) {
       ...client,
       ...clientUser,
     }    
-    return NextResponse.json({ updatedInfo, message: "User and client profile created successfully"}, { status: 201 })
+    return NextResponse.json({ message: "User and client profile created successfully"}, { status: 201 })
 
   } catch (error) {
     console.error("Error during profile creation:", error);
@@ -127,20 +127,32 @@ async function getUserData(request: Request) {
     },
   })
 
+  // console.log({
+  //   firstName: user.firstName,
+  //   lastName: user.lastName,
+  //   email: user.email,
+  //   image: user.image,  
+  //   role: clientUser.role,
+  //   clientId: clientUser.id,
+  //   userDomain: user.userDomain,
+  // }, 'user data in getUserData')
+
 
   if (!user) {
     return { message: "User does not exist" };
   }
 
-  console.log({
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-    image: user.image,  
-    role: clientUser.role,
-    clientId: clientUser.id,
-    domain: user.domain,
-  }, 'user data in getUserData')
+  if (clientUser) {
+    return { 
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      image: user.image,  
+      userDomain: user.userDomain,
+      role: clientUser?.role,
+      clientId: clientUser?.id,
+     };
+  }
 
   // Extract and return the relevant data
   return {
@@ -148,8 +160,6 @@ async function getUserData(request: Request) {
     lastName: user.lastName,
     email: user.email,
     image: user.image,  
-    role: clientUser?.role ?? [],
-    clientId: clientUser?.id ?? '',
-    domain: user.domain,
+    userDomain: user.userDomain,
   }
 }

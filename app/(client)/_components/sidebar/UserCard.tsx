@@ -16,19 +16,21 @@ const UserCard: React.FC<UserCardProps> = ({ session }) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
+  const user = session?.user;
+
   return (
     <div className="mx-auto bg-background h-[100px] w-full py-2">
       {session && session.user ? (
-        <div className="flex flex-row gap-2 p-2 ml-4">
+        <div className="flex flex-row space-x-2 p-2 ml-4">
           <div className="">
-            <h4 className="text-lg font-medium text-foreground min-w-fit">{`${session.user.firstName} ${session.user.lastName}`}</h4>
+            <h4 className="text-lg font-sm text-foreground min-w-fit">{`${user.firstName} ${user.lastName}`}</h4>
             <Separator />
-            <p className="text-foreground">{`${session.client?.domain ? capitalizeFirstLetter(session.client.domain) : ''}`}</p>
+            <p className="text-foreground">{`${user.userDomain ? capitalizeFirstLetter(user.userDomain) : ''}`}</p>
           </div>
           <div className="border rounded-full w-[60px] h-[60px] flex items-center justify-center">            
-              {session.user.image ? (
+              {user.image ? (
                 <Avatar>
-                  <AvatarImage src={session.user.image} className='' />
+                  <AvatarImage src={user.image} className='' />
                   <AvatarFallback>FN</AvatarFallback>
                 </Avatar>
 

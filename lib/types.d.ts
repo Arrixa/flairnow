@@ -10,7 +10,7 @@ declare module "next-auth" {
     firstName: User
     lastName: User
     email: User
-    domain?: Client
+    userDomain?: User
   }
 }
 

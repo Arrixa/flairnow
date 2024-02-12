@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 interface UpdatedUserInfo {
-  domain: string;
+  userDomain: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -40,7 +40,7 @@ export default function UpdateSession() {
     
       await update({
         ...session,
-        domain: updatedUserInfo?.domain || '',
+        userDomain: updatedUserInfo.userDomain,
         firstName: updatedUserInfo.firstName,
         lastName: updatedUserInfo.lastName,
         email: updatedUserInfo.email,

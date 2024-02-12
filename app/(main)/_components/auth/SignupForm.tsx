@@ -24,7 +24,7 @@ const FormSchema = z
   .object({
     firstName: z.string().min(2, 'First name is required with a minimum of 2 characters').max(100),
     lastName: z.string().min(2, 'Last name is required with a minimum of 2 characters').max(100),
-    domain: z.string()
+    userDomain: z.string()
   })
 
 
@@ -46,18 +46,19 @@ const SignUpForm = () => {
       }
     }
   }, [session]);
+  console.log(domain, 'domain in sign up form')
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       firstName: '',
       lastName: '',
-      domain: domain,
+      userDomain: domain,
     },
   });
 
   useEffect(() => {
-    form.setValue("domain", domain);
+    form.setValue("userDomain", domain);
   }, [domain, form]);
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
@@ -72,12 +73,12 @@ const SignUpForm = () => {
           firstName: data.firstName,
           lastName: data.lastName,
           email: session?.user.email,
-          domain: domain
+          userDomain: domain
         })
       })
       if (response.ok) {
         toast.success("The user registered successfully.");
-        await update({ ...session?.user, firstName: data.firstName, lastName: data.lastName, domain: domain})
+        await update({ ...session?.user, firstName: data.firstName, lastName: data.lastName, userDomain: domain})
         // router.push('/auth/update-session')
         router.push('/auth/validate-auth')
         // router.push('/auth/signin')

@@ -1,9 +1,12 @@
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/app/components/ui/table"
 import { Session } from "next-auth";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { HiBuildingOffice, HiNewspaper } from "react-icons/hi2";
+import { CldImage } from 'next-cloudinary';
 
 interface ClientData {
+  domain?: string;
   companyName?: string;
   website?: string;
   description?: string;
@@ -19,7 +22,7 @@ interface ClientData {
 const CompanyInfo: React.FC<ClientData & { formData?: ClientData }> = ({ formData }) => {
 
   const client = formData
-  console.log(client)
+  console.log(client, 'client data in client info')
 
   function formatPhoneNumber(countryCode: string | undefined, phoneNumber: string | undefined): string | undefined {
     if (countryCode && phoneNumber) {
@@ -35,9 +38,17 @@ const CompanyInfo: React.FC<ClientData & { formData?: ClientData }> = ({ formDat
     }
   }
 
+  
+
   return (
     <section className="flex flex-col w-full">    
       <div className="w-full">
+      {/* <CldImage
+        width={100}
+        height={100}
+        src={client?.domain} 
+        alt='Client logo' 
+      /> */}
         <div className="flex items-center my-4">
           <HiNewspaper />
           <h2 className="text-xl font-semibold ml-6">General Information</h2>

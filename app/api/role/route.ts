@@ -22,11 +22,11 @@ async function getUserData(request: Request) {
     const user = session?.user;
 
     // Fetch the updated user and client information
-    const dbUser = await prisma.user.findUnique({
-      where: {
-        email: user.email,
-      },
-    });
+    // const dbUser = await prisma.user.findUnique({
+    //   where: {
+    //     email: user.email,
+    //   },
+    // });
 
     const dbClientUser = await prisma.clientUser.findUnique({
       where: {
@@ -36,16 +36,16 @@ async function getUserData(request: Request) {
 
     // const dbClient = await prisma.client.findUnique({
 
-    const emailDomain = user?.email?.toLowerCase().split('@').pop()?.split('.')[0]
-    console.log(emailDomain)
-    const dbClient = await prisma.client.findUnique({
-      where: {
-        domain: emailDomain
-      }
-    })
+    // const emailDomain = user?.email?.toLowerCase().split('@').pop()?.split('.')[0]
+    // console.log(emailDomain)
+    // const dbClient = await prisma.client.findUnique({
+    //   where: {
+    //     domain: emailDomain
+    //   }
+    // })
 
 
-    console.log('DB DATA IN API/ROLE', dbClient, dbUser, dbClientUser, 'DB DATA IN API/ROLE')
+    console.log('DB DATA IN API/ROLE', dbClientUser, 'DB DATA IN API/ROLE')
 
     // const updatedInfo = {
     //   user: { ...dbUser },
@@ -53,20 +53,11 @@ async function getUserData(request: Request) {
     //   clientUser: { ...dbClientUser },
     // };
     console.log(
-      dbClient.domain,
-      dbUser.firstName,
-      dbUser.lastName,
-      dbUser.email,
-      dbUser.image,  
       dbClientUser.role
       , 'updatedInfo in /api/role')
-      return {
-        domain: dbClient?.domain || '',
-        firstName: dbUser.firstName,
-        lastName: dbUser.lastName,
-        email: dbUser.email,
-        image: dbUser.image || '',  
-        role: dbClientUser?.role || [],
+      return { 
+        role: dbClientUser?.role,
+        clientId: dbClientUser?.clientId,
       };
   } catch (error) {
     return NextResponse.json({error, message: 'Error triggering session update:'}, { status: 500 });

@@ -68,7 +68,7 @@ model User {
   emailVerified     DateTime?
   password          String?
   image             String?
-  domain            String?
+  userDomain        String?
   accounts          Account[]
   sessions          Session[]
   client            ClientUser[]

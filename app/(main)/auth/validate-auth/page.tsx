@@ -15,10 +15,10 @@ const ValidatingAuth = async () => {
   if (!session) {
     redirect('/auth/signin')
   }
-  if (user && user.domain === 'public') {
+  if (user && user.userDomain === 'public') {
     redirect('/profile');
   } 
-  if (user.domain !== 'public') {
+  if (user.userDomain !== 'public') {
     redirect('/dashboard/employee-profile');
   }
 
@@ -114,7 +114,7 @@ export default ValidatingAuth;
 // import { excludedDomains } from '@/lib/excludedDomains';
 
 // interface UserInfo {
-//     domain: string | null;
+//     userDomain: string | null;
 //     firstName: string;
 //     lastName: string;
 //     email: string;

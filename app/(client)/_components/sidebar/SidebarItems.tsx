@@ -16,23 +16,6 @@ const SidebarItemRenderer: React.FC<SidebarItemRendererProps> = ({ userRoles }) 
     { role: 'ADMIN', label: 'Users', href: '#' },
     { role: 'EMPLOYEE', label: 'Preferences', href: '#' },
     { role: 'EMPLOYEE', label: 'Settings', href: '#' },
-    { role: 'EMPLOYEE', label: 'Recruitment', href: '#' },
-    { role: 'EMPLOYEE', label: 'Recruitment', href: '#' },
-    { role: 'EMPLOYEE', label: 'Inbox', href: '#' },
-    { role: 'ADMIN', label: 'Users', href: '#' },
-    { role: 'EMPLOYEE', label: 'Preferences', href: '#' },
-    { role: 'EMPLOYEE', label: 'Settings', href: '#' },
-    { role: 'EMPLOYEE', label: 'Recruitment', href: '#' },
-    { role: 'EMPLOYEE', label: 'Inbox', href: '#' },
-    { role: 'ADMIN', label: 'Users', href: '#' },
-    { role: 'EMPLOYEE', label: 'Preferences', href: '#' },
-    { role: 'EMPLOYEE', label: 'Settings', href: '#' },
-    { role: 'EMPLOYEE', label: 'Recruitment', href: '#' },
-    { role: 'EMPLOYEE', label: 'Inbox', href: '#' },
-    { role: 'ADMIN', label: 'Users', href: '#' },
-    { role: 'EMPLOYEE', label: 'Preferences', href: '#' },
-    { role: 'EMPLOYEE', label: 'Settings', href: '#' },
-    { role: 'EMPLOYEE', label: 'Recruitment', href: '#' },
   ];
 
   let uniqueRoles: string[] = [];
@@ -57,7 +40,7 @@ const SidebarItemRenderer: React.FC<SidebarItemRendererProps> = ({ userRoles }) 
       {filteredSidebarItems ? (
         filteredSidebarItems.map((item, index) => (
           <Link key={index} href={item.href}>
-            <div className="flex items-center my-4 cursor-pointer ml-4">
+            <div className="flex items-center my-8 cursor-pointer ml-4">
               <span className="ml-2 leading-5">{item.label}</span>
               {getIconComponent(item.label)}
             </div>

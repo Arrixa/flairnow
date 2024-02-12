@@ -45,14 +45,18 @@ export async function GET(request: Request) {
 
 async function getClientData(request: Request) {
   const session = await getServerSession(authOptions);
-  const userDomain = session?.user.domain;
+  // const userDomain = session?.user.domain;
+  const clientId = session?.clientUser.clientId
   const client = await prisma.client.findUnique({
     where: {
-      domain: userDomain,
+      id: clientId,
+      // domain: userDomain,
     },
   });
 
   console.log('Processed client data:', {
+    // domain: client.domain,
+    // logo: client.logo,
     companyName: client.companyName,
     website: client.website,
     description: client.description,
@@ -71,15 +75,17 @@ async function getClientData(request: Request) {
 
   // Extract and return the relevant data
   return {
-    companyName: client.companyName,
-    website: client.website,
-    description: client.description,
-    countryCode: client.countryCode,
-    phoneNumber: client.phoneNumber,
-    streetNo: client.streetNo,
-    streetAddress: client.streetAddress,
-    province: client.province,
-    zipCode: client.zipCode,
-    country: client.country,
+    id: client?.id,
+    domain: client?.domain,
+    companyName: client?.companyName,
+    website: client?.website,
+    description: client?.description,
+    countryCode: client?.countryCode,
+    phoneNumber: client?.phoneNumber,
+    streetNo: client?.streetNo,
+    streetAddress: client?.streetAddress,
+    province: client?.province,
+    zipCode: client?.zipCode,
+    country: client?.country,
   };
 }

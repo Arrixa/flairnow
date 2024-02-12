@@ -5,7 +5,7 @@ import { Button } from '@/app/components/ui/button';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { HiBuildingOffice, HiNewspaper } from 'react-icons/hi2';
+import { HiBuildingOffice, HiNewspaper, HiUserCircle } from 'react-icons/hi2';
 import { Textarea } from '@/app/components/ui/textarea';
 import { toast } from 'react-toastify';
 import CompanyInfo from './CompanyInfo';
@@ -13,6 +13,11 @@ import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import { CountrySelect } from '@/app/components/common/CountrySelect';
 import { CodeSelect } from '@/app/components/common/CodeSelect';
+import { Label } from '@/app/components/ui/label';
+import AddLogo from './AddLogo';
+import { useSession } from 'next-auth/react';
+import { CldImage } from 'next-cloudinary';
+import { Skeleton } from '@/app/components/ui/skeleton';
 
 
 interface AdminProps {
@@ -55,23 +60,25 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
   const [selectedCountry, setSelectedCountry] = useState<string>(''); 
   const [isEditMode, setIsEditMode] = useState(true);
   const [formData, setFormData] = useState({});
+  const { update } = useSession();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Fetch data from your API endpoint
         const response = await fetch('/api/client');
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+        // if (!response.ok) {
+        //   throw new Error(`HTTP error! Status: ${response.status}`);
+        // }
   
         const data = await response.json();
-        setFormData(data)
-  
+        
         // Set form data with fetched values
-        console.log(data);
+        setFormData(data)
+        console.log(data, 'Set form data with fetched values');
   
         const mappedData = {
+          // domain: session?.user.userDomain ?? data.domain,
           companyName: data.companyName,
           website: data.website,
           description: data.description,
@@ -84,8 +91,21 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
           country: selectedCountry,
         };
         form.reset(mappedData)
-        console.log('form reset data', data)
-        console.log(selectedCountry, selectedCode)
+        await update({ ...session, 
+          ...session?.user,
+          ...session?.client, 
+          // domain: data.domain,
+          companyName: data.companyName,
+          website: data.website,       
+          description: data.description,
+          countryCode: data.countryCode,
+          phoneNumber: data.phoneNumber,
+          streetNo: data.streetNo,
+          streetAddress: data.streetAddress,
+          province: data.province,
+          zipCode: data.zipCode, 
+          country: data.country, 
+        });
       } catch (error) {
         console.error('Error fetching form data:', error);
       }
@@ -153,6 +173,31 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
       <div 
       className='flex flex-col mx-auto w-full'
       >
+        <div className="flex items-center my-4">
+          <HiUserCircle />
+          <h2 className="text-xl font-semibold ml-6">Company assets</h2>
+        </div>
+        <div className="flex items-center">
+          <Label className="w-1/2 ml-10">Logo</Label>
+          <div className="w-full flex">
+            {/* <div className=''>
+              {formData.domain ? (
+                <CldImage
+                    width="100"
+                    height="100"
+                    src={formData.domain} 
+                    alt='Client logo' 
+                  />
+
+              ) : (
+                <></>
+              )}
+            </div> */}
+            {/* <div className='w-full mt-6 text-md'>
+              <AddLogo  />
+            </div> */}
+          </div>
+        </div>  
         <Form {...form}>
           <form  onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
             <div className="flex items-center my-4">

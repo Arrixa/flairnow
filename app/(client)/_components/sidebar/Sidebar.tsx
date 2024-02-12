@@ -23,7 +23,6 @@ interface SidebarCompProps {
 
 
 const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
-  console.log(userRoles, 'user roles in Side Bar Comp')
   const [isMenuOpen, setIsMenuOpen] = useState(true);
   const router = useRouter();
   const [scrollAreaHeight, setScrollAreaHeight] = useState<number | undefined>(undefined);
@@ -98,16 +97,16 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
           {renderSidebarItems()}
         </ScrollArea>
 
+        {/* UserCard */}
+        <UserCard session={session} />
+
         {/* Sign Out */}
-        <div className="mt-2 mb-4 ml-6">
+        <div className="mt-4 ml-6">
           <button className="flex items-center cursor-pointer" onClick={handleSignOut}>
             <span>Sign out</span>
             <LogOut className="absolute right-0 mr-4 h-4 w-4" />
           </button>
         </div>
-
-        {/* UserCard */}
-        <UserCard session={session} />
       </div>
       <div className="absolute top-0 right-0">
         <button
