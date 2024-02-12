@@ -1,8 +1,3 @@
-// Relys of getting the session from the server and then redirecting the user to the appropriate page based on the role
-// Works well when an exisiting user logs in and the session is updated with the user data
-// However, if the user logs in for the first time and then signs up it does not work as expected
-// To get around this, users from the sign up page are routed to the sign in page 
-
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
@@ -17,28 +12,25 @@ const ValidatingAuth = async () => {
   const clientUser = session?.clientUser
   const role = clientUser?.role
   
-  // if (!session) {
-  //   redirect('/auth/signin')
-  // }
-  // if (user && !role || role == null || !clientUser || !client) {
-  //   redirect('/profile');
-  // } 
-  // if (role && role.includes("EMPLOYEE")) {
-  //   redirect('/dashboard/employee-profile');
-  // }
-  // if (role && role.includes("ADMIN")) {
-  //   redirect('/dashboard/admin');
-  // }
-
-  if (role && role.includes("EMPLOYEE")) {
-    redirect('/dashboard/employee-profile');
-  } else if (!role || role.length === 0) {
-    redirect('/profile');
-  } else if (user && user.firstName) {
-    redirect('/');
-  } else {
+  if (!session) {
     redirect('/auth/signin')
   }
+  if (user && user.domain === 'public') {
+    redirect('/profile');
+  } 
+  if (user.domain !== 'public') {
+    redirect('/dashboard/employee-profile');
+  }
+
+  // if (role && role.includes("EMPLOYEE")) {
+  //   redirect('/dashboard/employee-profile');
+  // } else if (!role || role.length === 0) {
+  //   redirect('/profile');
+  // } else if (user && user.firstName) {
+  //   redirect('/');
+  // } else {
+  //   redirect('/auth/signin')
+  // }
 
   
   return (
@@ -53,6 +45,62 @@ const ValidatingAuth = async () => {
 }
 
 export default ValidatingAuth;
+
+// Relys of getting the session from the server and then redirecting the user to the appropriate page based on the role
+// Works well when an exisiting user logs in and the session is updated with the user data
+// However, if the user logs in for the first time and then signs up it does not work as expected
+// To get around this, users from the sign up page are routed to the sign in page 
+
+// import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+// import { getServerSession } from 'next-auth';
+// import { redirect } from 'next/navigation';
+// import { Skeleton } from '@/app/components/ui/skeleton';
+// import { Card, CardContent, CardDescription, CardFooter, CardTitle } from '@/app/components/ui/card'
+
+// const ValidatingAuth = async () => {
+//   const session = await getServerSession(authOptions);
+
+//   const user = session?.user
+//   const client = session?.client
+//   const clientUser = session?.clientUser
+//   const role = clientUser?.role
+  
+//   // if (!session) {
+//   //   redirect('/auth/signin')
+//   // }
+//   // if (user && !role || role == null || !clientUser || !client) {
+//   //   redirect('/profile');
+//   // } 
+//   // if (role && role.includes("EMPLOYEE")) {
+//   //   redirect('/dashboard/employee-profile');
+//   // }
+//   // if (role && role.includes("ADMIN")) {
+//   //   redirect('/dashboard/admin');
+//   // }
+
+//   if (role && role.includes("EMPLOYEE")) {
+//     redirect('/dashboard/employee-profile');
+//   } else if (!role || role.length === 0) {
+//     redirect('/profile');
+//   } else if (user && user.firstName) {
+//     redirect('/');
+//   } else {
+//     redirect('/auth/signin')
+//   }
+
+  
+//   return (
+//     <Card className="p-6 my-20 flex items-center justify-center flex-col bg-background w-2/3 lg:w-1/3 mx-auto">
+//       <CardTitle className="text-4xl py-6 text-center">Loading...</CardTitle>
+//       <CardDescription className="text-lg text-center">Please wait while validating authorisation.</CardDescription>
+//       <CardContent>
+//         <Skeleton className="w-[200px] h-[40px] rounded-full my-10" />
+//       </CardContent>
+//     </Card>
+//   )
+// }
+
+// export default ValidatingAuth;
 
 // From sign up page user is routed to update-session page to update session with user data and once data is fetched and updated user is routed to this page to validate authorisation
 // Method is not working as expected

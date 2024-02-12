@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import IconRenderer from './Icons';
+import { Skeleton } from '@/app/components/ui/skeleton';
 
 interface SidebarItemRendererProps {
   userRoles: string[];
@@ -63,7 +64,7 @@ const SidebarItemRenderer: React.FC<SidebarItemRendererProps> = ({ userRoles }) 
           </Link>
         ))
       ) : (
-        <div className="">No role access</div>
+        <Skeleton>Loading...</Skeleton>
       )}
     </>
   );

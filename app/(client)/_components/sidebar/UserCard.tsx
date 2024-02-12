@@ -7,7 +7,6 @@ import { signIn } from "next-auth/react";
 import Image from "next/image";
 
 interface UserCardProps {
-  // role: string[];
   session?: Session | null, 
   onClick?: () => void;
 }
@@ -21,18 +20,24 @@ const UserCard: React.FC<UserCardProps> = ({ session }) => {
     <div className="mx-auto bg-background h-[100px] w-full py-2">
       {session && session.user ? (
         <div className="flex flex-row gap-2 p-2 ml-4">
-          <div className="min-w-fit">
+          <div className="">
             <h4 className="text-lg font-medium text-foreground min-w-fit">{`${session.user.firstName} ${session.user.lastName}`}</h4>
             <Separator />
             <p className="text-foreground">{`${session.client?.domain ? capitalizeFirstLetter(session.client.domain) : ''}`}</p>
           </div>
-          <div className="border rounded-full">
-            <Image
-              alt="avatar"
-              src="/Avatar.png"
-              width={60}
-              height={60}
-            ></Image>
+          <div className="border rounded-full w-[60px] h-[60px] flex items-center justify-center">            
+              {session.user.image ? (
+                <Avatar>
+                  <AvatarImage src={session.user.image} className='' />
+                  <AvatarFallback>FN</AvatarFallback>
+                </Avatar>
+
+              ) : (
+                <Avatar>
+                  <AvatarImage src="/default/avatar.png"  className='' />
+                  <AvatarFallback>FN</AvatarFallback>
+                </Avatar>
+              )}  
           </div>
         </div>
       ) : (

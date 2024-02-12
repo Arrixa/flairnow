@@ -23,6 +23,7 @@ interface SidebarCompProps {
 
 
 const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
+  console.log(userRoles, 'user roles in Side Bar Comp')
   const [isMenuOpen, setIsMenuOpen] = useState(true);
   const router = useRouter();
   const [scrollAreaHeight, setScrollAreaHeight] = useState<number | undefined>(undefined);
@@ -78,7 +79,7 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
 
   
   return (
-    <div className={`bg-secondary text-foreground relative h-full min-h-screen w-[240px] transition-all ease-in-out duration-300 ${isMenuOpen ? 'left-0' : '-180px'}`}>
+    <div className={`bg-secondary text-foreground relative h-full min-h-screen w-[240px] ${isMenuOpen ? 'transition-all ease-in-out duration-300 left-0' : 'transition-none left-[-180px]'}`}>
       <div className="flex flex-col h-full">
         <Link href='/'>
           <div className="ml-6 my-4">

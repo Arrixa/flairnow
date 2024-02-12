@@ -45,10 +45,10 @@ export async function GET(request: Request) {
 
 async function getClientData(request: Request) {
   const session = await getServerSession(authOptions);
-  const clientId = session?.clientUser?.clientId;
+  const userDomain = session?.user.domain;
   const client = await prisma.client.findUnique({
     where: {
-      id: clientId,
+      domain: userDomain,
     },
   });
 

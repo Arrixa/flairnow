@@ -187,9 +187,9 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user, trigger, session }): Promise<JWT> {
       
-      // if(trigger === 'update'){
-      //   token = session
-      // }
+      if(trigger === 'update'){
+        token = session
+      }
 
 
       if (token && user && token.email) {
@@ -223,13 +223,14 @@ export const authOptions: NextAuthOptions = {
             email: dbUser.email,
             role: dbClientUser?.role,
             clientId: dbClientUser?.clientId,
-            domain: dbClient?.domain,
+            domain: dbUser?.domain,
             user: {
               id: dbUser.id,
               firstName: dbUser.firstName,
               lastName: dbUser.lastName,
               email: dbUser.email,
               image: dbUser.image,
+              domain: dbUser.domain,
             },
             client: {
               domain: dbClient?.domain,
@@ -253,9 +254,9 @@ export const authOptions: NextAuthOptions = {
     },
 
     async session({ token, session, trigger, newSession }) {
-      if (trigger === "update" && newSession) {
-        session = newSession
-      }
+      // if (trigger === "update" && newSession) {
+      //   session = newSession
+      // }
       if (token) {
         session.role = token.role;
         session.firstName = token.firstName;
@@ -268,6 +269,7 @@ export const authOptions: NextAuthOptions = {
           lastName: token.lastName,
           email: token.email,
           image: token.image,
+          domain: token.domain
         };
 
         session.clientUser = {

@@ -2,34 +2,16 @@ import { prisma } from "@/lib/prisma";
 import { excludedDomains } from "@/lib/excludedDomains";
 import { NextRequest, NextResponse } from "next/server";
 import { Role } from "@prisma/client";
-import { triggerSessionUpdate } from "@/utils/sessionTrigger";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
+import { extractEmailDomain, isDomainInExcludedList } from "@/lib/extractDomain";
 
-type Email = string;
-
-function extractEmailDomain(email: Email): string {
-  const [user, domain] = email.toLowerCase().split('@');
-  const domainParts = domain.split('.');
-  // Check if the domain is not in the excluded list
-  console.log(domainParts)
-  if (!excludedDomains.includes(domainParts[0])) {
-    return domainParts[0];
-  } 
-  const isolatedDomain = domainParts[0];
-  console.log(isolatedDomain)
-  return isolatedDomain;
-}
-
-const isDomainInExcludedList = (domain: string): boolean => {
-  return excludedDomains.includes(domain);
-}
 
 export async function POST(req: NextRequest) {
   try {
     const reqBody = await req.json();
     const { emailVerified, image, id, ...userInfo } = reqBody;
-    // console.log(reqBody)
+    console.log(reqBody)
 
     // Check if user email exists
     const existingUserByEmail = await prisma.user.findUnique({
@@ -130,26 +112,21 @@ export async function GET(request: Request) {
 
 async function getUserData(request: Request) {
   const session = await getServerSession(authOptions);
-  const userId = session?.user?.id;
+  const userEmail = session?.user?.email;
+  if (!userEmail) {
+    return { message: "User email is undefined" };
+  }
   const user = await prisma.user.findUnique({
     where: {
-      id: userId,
+      email: userEmail,
     },
   });
   const clientUser = await prisma.clientUser.findFirst({
     where: {
-      userId: userId,
+      userId: user.id,
     },
   })
-  let client;
-  if (clientUser) {
-    client = await prisma.client.findFirst({
-      where: {
-        id: clientUser?.clientId,
-      },
-    })
 
-  }
 
   if (!user) {
     return { message: "User does not exist" };
@@ -161,7 +138,8 @@ async function getUserData(request: Request) {
     email: user.email,
     image: user.image,  
     role: clientUser.role,
-    domain: client.domain,
+    clientId: clientUser.id,
+    domain: user.domain,
   }, 'user data in getUserData')
 
   // Extract and return the relevant data
@@ -170,7 +148,8 @@ async function getUserData(request: Request) {
     lastName: user.lastName,
     email: user.email,
     image: user.image,  
-    role: clientUser?.role ?? undefined,
-    domain: client?.domain ?? undefined,
+    role: clientUser?.role ?? [],
+    clientId: clientUser?.id ?? '',
+    domain: user.domain,
   }
 }

@@ -140,7 +140,7 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
       {isEditMode ? (
         <div className='w-full'>
           <div className="flex flex-row mx-auto w-full">
-            <CompanyInfo />
+            <CompanyInfo formData={formData}/>
           </div>
           <Button
             className='mt-4 text-md px-10'

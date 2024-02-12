@@ -16,29 +16,7 @@ interface ClientData {
   country?: string;
 }
 
-const CompanyInfo: React.FC = () => {
-  const [formData, setFormData] = useState<ClientData | null>(null)
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch data from your API endpoint
-        const response = await fetch('/api/client');
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-  
-        const data = await response.json();  
-        setFormData(data)
-  
-      } catch (error) {
-        console.error('Error fetching form data:', error);
-      }
-    };
-  
-    // Call fetchData when the component mounts
-    fetchData();
-  }, []);
+const CompanyInfo: React.FC<ClientData & { formData?: ClientData }> = ({ formData }) => {
 
   const client = formData
   console.log(client)
