@@ -8,7 +8,7 @@ interface UserInfo {
   formData: User;
 }
 
-const UserProfile = ({ user, formData }: UserInfo) => {
+const UserProfile = ({ user }: UserInfo) => {
   return (
     <>
       <Table className="w-full space-x-10">
@@ -22,7 +22,7 @@ const UserProfile = ({ user, formData }: UserInfo) => {
             <TableHead className="w-1/2 pl-10">Profile image:</TableHead>
             <TableCell className="w-1/2 text-left pl-10">
             <Avatar>
-              <AvatarImage src={formData?.image} className='w-[50px] h-[50px] object-fill' />
+              <AvatarImage src={user?.image} className='w-[50px] h-[50px] object-fill' />
               <AvatarFallback>FN</AvatarFallback>
             </Avatar>
             </TableCell>

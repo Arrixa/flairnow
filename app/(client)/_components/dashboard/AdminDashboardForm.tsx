@@ -164,12 +164,18 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
           <div className="flex flex-row mx-auto w-full">
             <CompanyInfo formData={formData}/>
           </div>
-          <Button
-            className='mt-4 text-md px-10'
-            onClick={() => setIsEditMode(false)}
-          >
-            Edit
-          </Button>
+          <div className="lg:w-2/3 md:w-10/12 w-full lg:space-x-10 flex flex-row">
+              <div className="w-1/2 ml-10">
+              </div>            
+              <div className="w-2/3 px-10 ">
+                <Button
+                  className='w-full mt-2 text-md'
+                  onClick={() => setIsEditMode(false)}
+                >
+                  Edit
+                </Button>
+              </div>
+            </div>
         </div>
       ) : (
       <div 
@@ -190,7 +196,6 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
                     src={session.userDomain} 
                     alt='Client logo' 
                   />
-
               ) : (
                 <></>
               )}
