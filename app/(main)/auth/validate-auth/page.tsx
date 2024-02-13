@@ -11,27 +11,16 @@ const ValidatingAuth = async () => {
   const client = session?.client
   const clientUser = session?.clientUser
   const role = clientUser?.role
-  
-  // if (!session) {
-  //   redirect('/auth/signin')
-  // }
-  // if (user && user.userDomain === 'public') {
-  //   redirect('/profile');
-  // } 
-  // if (user.userDomain !== 'public') {
-  //   redirect('/dashboard/employee-profile');
-  // }
 
-  if (role && role.includes("EMPLOYEE")) {
+  if (role && role.includes("EMPLOYEE") || user.userDomain !== 'public') {
     redirect('/dashboard/employee-profile');
-  } else if (!role || role.length === 0) {
+  } else if (!role || role.length === 0 || user.userDomain === 'public') {
     redirect('/profile');
   } else if (user && user.firstName) {
     redirect('/');
   } else {
     redirect('/auth/signin')
   }
-
   
   return (
     <Card className="p-6 my-20 flex items-center justify-center flex-col bg-background w-2/3 lg:w-1/3 mx-auto">

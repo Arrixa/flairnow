@@ -1,10 +1,10 @@
 'use client'
  
-import { Button } from './components/ui/button';
+import { Button } from '../components/ui/button';
 import { useEffect } from 'react'
-import { Card, CardContent, CardFooter, CardTitle } from './components/ui/card'
+import { Card, CardContent, CardFooter, CardTitle } from '../components/ui/card'
 import Link from 'next/link'
-import renderLogo from './components/common/logos/LogoFull'
+import renderLogo from '../components/common/logos/LogoFull'
  
 export default function Error({
   error,
