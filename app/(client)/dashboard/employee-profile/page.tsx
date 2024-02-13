@@ -13,8 +13,6 @@ const EmployeePage = async () => {
     const user = session?.user;
     const roles = session?.clientUser.role;
     console.log(session, user, roles, 'user and roles in employee page')
-    const company = session?.client?.domain;
-    const domain = session?.user.userDomain || session?.client?.domain;
   
     return (
       <main className="flex flex-col items-left space-x-10 mx-10">

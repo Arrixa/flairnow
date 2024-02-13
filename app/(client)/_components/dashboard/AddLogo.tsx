@@ -84,7 +84,7 @@ export default function AddLogo() {
                   onChange={handleFileChange}
                   required
                 />
-                <p className="my-2 text-sm text-  ">
+                <p className="my-2 text-sm">
                   Images in png, jpg, jpeg and svg format are supported. Dimensions should be 100x100px.
                 </p>
                 <Button

@@ -9,7 +9,6 @@ interface UserInfo {
 }
 
 const UserProfile = ({ user, formData }: UserInfo) => {
-  console.log('image', user.img)
   return (
     <>
       <Table className="w-full space-x-10">

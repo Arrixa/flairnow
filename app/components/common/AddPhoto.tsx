@@ -1,13 +1,7 @@
-import { HiPlus } from "react-icons/hi";
-import { MdClose } from "react-icons/md";
-import { FaSearch } from "react-icons/fa";
 import { useState } from "react";
+import { Plus, Search, X } from "lucide-react";
 
-type Props = {
-  fetchFiles: () => void;
-};
-
-export default function AddFile({ fetchFiles }: Props) {
+export default function AddFile() {
   const [showModal, setShowModal] = useState(false);
 
   const handleModalToggle = () => {
@@ -32,13 +26,12 @@ export default function AddFile({ fetchFiles }: Props) {
       if (!selectedFile) return;
       const formData = new FormData();
       formData.append("image", selectedFile);
-      const res = await fetch("/api/upload", {
+      const res = await fetch("/api/upload/photo", {
         method: "POST",
         body: formData,
       });
       if (res.status === 201) {
-        // Assuming fetchFiles is a function that triggers refetch of files
-        fetchFiles();
+        console.log('File uploaded successfully')
       }
     } catch (error: any) {
       console.log(error.response?.data);
@@ -52,7 +45,7 @@ export default function AddFile({ fetchFiles }: Props) {
         <button
           onClick={handleModalToggle}
           className="flex items-center rounded-lg border border-gray-400 bg-transparent px-5 py-2.5 text-sm font-medium text-gray-700 hover:border-gray-800 hover:bg-gray-800 hover:text-gray-100 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200">
-          <HiPlus className="mr-1 h-5 w-5" />
+          <Plus className="mr-1 h-5 w-5" />
           Upload File
         </button>
 
@@ -62,7 +55,7 @@ export default function AddFile({ fetchFiles }: Props) {
           id="navbar-search">
           <div className="relative hidden md:block">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
-              <FaSearch />
+              <Search />
               <span className="sr-only">Search icon</span>
             </div>
             <input
@@ -94,7 +87,7 @@ export default function AddFile({ fetchFiles }: Props) {
                 onClick={handleModalToggle}
                 className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900"
                 data-modal-toggle="defaultModal">
-                <MdClose className="h-6 w-6" />
+                <X className="h-6 w-6" />
                 <span className="sr-only">Close modal</span>
               </button>
             </div>
@@ -110,8 +103,8 @@ export default function AddFile({ fetchFiles }: Props) {
                   onChange={handleFileChange}
                   required
                 />
-                <p className="mt-1 text-xs text-gray-500">
-                  IMG, DOCX, PDF or mp3 (MAX. 4GB).
+                <p className="my-2 text-sm">
+                  Images in png, jpg and jpeg format are supported. Square images are recommended.
                 </p>
                 <button
                   type="submit"
