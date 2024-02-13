@@ -2,6 +2,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/app/components/ui/avatar";
 import { Button } from "@/app/components/ui/button";
 import { Separator } from "@/app/components/ui/separator";
+import { SquareUserRound } from "lucide-react";
 import { Session } from "next-auth";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
@@ -27,19 +28,11 @@ const UserCard: React.FC<UserCardProps> = ({ session }) => {
             <Separator />
             <p className="text-foreground">{`${user.userDomain ? capitalizeFirstLetter(user.userDomain) : ''}`}</p>
           </div>
-          <div className="border rounded-full w-[60px] h-[60px] flex items-center justify-center">            
-              {user.image ? (
+          <div className="rounded-full w-[60px] h-[60px] flex items-center justify-center">            
                 <Avatar>
                   <AvatarImage src={user.image} className='' />
-                  <AvatarFallback>FN</AvatarFallback>
-                </Avatar>
-
-              ) : (
-                <Avatar>
-                  <AvatarImage src="/default/avatar.png"  className='' />
-                  <AvatarFallback>FN</AvatarFallback>
-                </Avatar>
-              )}  
+                  <AvatarFallback><SquareUserRound /></AvatarFallback>
+                </Avatar> 
           </div>
         </div>
       ) : (
@@ -50,5 +43,4 @@ const UserCard: React.FC<UserCardProps> = ({ session }) => {
     </div>
   )
 }
-
 export default UserCard

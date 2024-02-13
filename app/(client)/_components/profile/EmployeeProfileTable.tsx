@@ -11,8 +11,9 @@ interface UserProps {
   onClick?: () => void;
 }
 
-const EmployeeProfileTable: React.FC<UserProps> = ({ session }) => {
+const EmployeeProfileTable: React.FC<UserProps> = ({ session, formData }) => {
   const user = session?.user;
+  console.log(formData, 'form data user data in employee profile table')
   const roles = session?.clientUser.role;
 
   function capitalizeFirstLetter(str: string): string {
@@ -32,22 +33,22 @@ const EmployeeProfileTable: React.FC<UserProps> = ({ session }) => {
             <TableHead className="w-1/2">Profile image:</TableHead>
             <TableCell className="w-1/2 text-left pl-10">
             <Avatar>
-              <AvatarImage src={user?.image} className='w-[60px] h-[60px] object-fill' />
+              <AvatarImage src={formData.image} className='w-[60px] h-[60px] object-fill' />
               <AvatarFallback><SquareUserRound /></AvatarFallback>
             </Avatar>
             </TableCell>
           </TableRow>
           <TableRow>
             <TableHead className="w-1/3">First name:</TableHead>
-            <TableCell className="w-2/3 text-left px-10">{user?.firstName}</TableCell>
+            <TableCell className="w-2/3 text-left px-10">{formData?.firstName}</TableCell>
           </TableRow>
           <TableRow>
             <TableHead className="w-1/3">Last name:</TableHead>
-            <TableCell className="w-2/3 text-left px-10">{user?.lastName}</TableCell>
+            <TableCell className="w-2/3 text-left px-10">{formData?.lastName}</TableCell>
           </TableRow>
           <TableRow>
             <TableHead className="w-1/3">Email:</TableHead>
-            <TableCell className="w-2/3 text-left px-10">{user?.email}</TableCell>
+            <TableCell className="w-2/3 text-left px-10">{formData?.email}</TableCell>
           </TableRow>
           <TableRow>
             <TableHead className="w-1/3">Role:</TableHead>

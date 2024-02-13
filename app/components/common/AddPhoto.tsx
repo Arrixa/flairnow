@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { Plus, Search, X } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { Button } from "../ui/button";
+import { useSession } from "next-auth/react";
 
 export default function AddFile() {
   const [showModal, setShowModal] = useState(false);
+  const { data: session, update } = useSession();
 
   const handleModalToggle = () => {
     setShowModal(!showModal);
@@ -32,7 +34,17 @@ export default function AddFile() {
         body: formData,
       });
       if (res.status === 201) {
-        console.log('File uploaded successfully')
+        const responseData = await res.json();
+        console.log('File uploaded successfully');
+        console.log('Image URL:', responseData.data.secure_url);
+        const imageURL = responseData.data.secure_url;
+        await update({ 
+          ...session, 
+          ...session?.user,
+          image: imageURL,
+        });
+      } else {
+        console.error('File upload failed');
       }
     } catch (error: any) {
       console.log(error.response?.data);

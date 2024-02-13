@@ -16,8 +16,8 @@ import { CodeSelect } from '@/app/components/common/CodeSelect';
 import { Label } from '@/app/components/ui/label';
 import AddLogo from './AddLogo';
 import { useSession } from 'next-auth/react';
-import { CldImage } from 'next-cloudinary';
-import { Skeleton } from '@/app/components/ui/skeleton';
+import { Avatar, AvatarFallback, AvatarImage } from '@/app/components/ui/avatar';
+import { Frame, SquareUserRound } from 'lucide-react';
 
 
 interface AdminProps {
@@ -28,15 +28,14 @@ interface AdminProps {
 const FormSchema = z.object({
   companyName: z.string().min(1, 'Name is required'),
   website: z.string().url('Invalid URL'),
-  description: z.string(),
+  description: z.string(). max(500, 'Description is too long'),
   countryCode: z.string().min(1, 'Country code is required'),
   phoneNumber: z.string().min(1, 'Phone number is required'),
   streetNo: z.string(),
   streetAddress: z.string(),
   province: z.string(),
   zipCode: z.string(),
-  country: z.string(),
-  // domain: z.string(),
+  country: z.undefined(),
 });
 
 
@@ -54,7 +53,6 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
       province: '',
       zipCode: '',
       country: '',
-      // domain: '',
     },
   });
 
@@ -69,18 +67,18 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
       try {
         // Fetch data from your API endpoint
         const response = await fetch('/api/client');
-        // if (!response.ok) {
-        //   throw new Error(`HTTP error! Status: ${response.status}`);
-        // }
-  
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
         const data = await response.json();
-        
         // Set form data with fetched values
         setFormData(data)
         console.log(data, 'Set form data with fetched values');
+
+        setSelectedCode(data.countryCode);
+        setSelectedCountry(data.country);
   
         const mappedData = {
-          domain: session?.user.userDomain ?? data.domain,
           companyName: data.companyName,
           website: data.website,
           description: data.description,
@@ -90,13 +88,12 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
           streetAddress: data.streetAddress,
           province: data.province,
           zipCode: data.zipCode,
-          country: selectedCountry,
+          country: data.Country,
         };
         form.reset(mappedData)
         await update({ ...session, 
           ...session?.user,
           ...session?.client, 
-          domain: data.domain,
           companyName: data.companyName,
           website: data.website,       
           description: data.description,
@@ -107,6 +104,7 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
           province: data.province,
           zipCode: data.zipCode, 
           country: data.country, 
+          logo: data.logo,
         });
       } catch (error) {
         console.error('Error fetching form data:', error);
@@ -134,27 +132,26 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
           companyName: data.companyName,
           website: data.website,       
           description: data.description,
-          countryCode: data.countryCode,
+          countryCode: selectedCode,
           phoneNumber: data.phoneNumber,
           streetNo: data.streetNo,
           streetAddress: data.streetAddress,
           province: data.province,
           zipCode: data.zipCode, 
-          country: data.country,    
+          country: selectedCountry,    
         })
       })
-
-      console.log('Form submission response:', response);
-
-      if (response.ok) {
-        toast.success("The client infomation saved successfully.");
-        setIsEditMode(true)
-      } else {
-        console.error("Save failed");
+        
+        if (response.ok) {
+          toast.success("The client information saved successfully.");
+          setIsEditMode(true)
+          window.location.reload();
+        } else {
+          console.error("Save failed");
+        }
+      } catch (error) {
+        console.error("Save failed:", error);
       }
-    } catch (error) {
-      console.error("Save failed:", error);
-    }
   };
 
   return (
@@ -177,34 +174,18 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
               </div>
             </div>
         </div>
-      ) : (
+      ) : ( 
+
       <div 
       className='flex flex-col mx-auto w-full'
       >
-        <div className="flex items-center my-4">
-          <HiUserCircle />
-          <h2 className="text-xl font-semibold ml-6">Company assets</h2>
-        </div>
-        <div className="flex items-center">
-          <Label className="w-1/2 ml-10">Logo</Label>
-          <div className="w-full flex">
-            <div className=''>
-              {session?.userDomain ? (
-                <CldImage
-                    width="100"
-                    height="100"
-                    src={session.userDomain} 
-                    alt='Client logo' 
-                  />
-              ) : (
-                <></>
-              )}
-            </div>
-            <div className='w-full mt-6 text-md'>
-              <AddLogo  />
-            </div>
+        <>
+          <div className="flex items-center my-4">
+            <HiUserCircle />
+            <h2 className="text-xl font-semibold ml-6">Company assets</h2>
           </div>
-        </div>  
+
+        </>
         <Form {...form}>
           <form  onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
             <div className="flex items-center my-4">
@@ -221,6 +202,7 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
                       <FormLabel className="w-1/2 ml-10">Name</FormLabel>
                       <FormControl className="">
                         <Input placeholder='Enter company name' 
+                        
                          {...field} />
                       </FormControl>
                       <FormMessage />
@@ -236,7 +218,8 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
                   <FormItem className="flex items-center">
                     <FormLabel className="w-1/2 ml-10">Website</FormLabel>
                     <FormControl>
-                      <Input placeholder='Enter website URL' {...field} />
+                      <Input placeholder='Enter website URL'
+                      {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -249,35 +232,36 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
                   <FormItem className="flex items-center">
                     <FormLabel className="w-1/2 ml-10">Description</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Type your description" {...field} />
+                      <Textarea placeholder="Type your description"
+                      {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <div className='w-full'>
-              <FormField
-  control={form.control}
-  name='phoneNumber'
-  render={({ field }) => (
-    <FormItem className="flex items-center">
-      <FormLabel className="w-1/2 ml-10">Phone number</FormLabel>
-      <div className="w-[100%] flex items-center">
-        <FormControl className="w-1/3">
-          <CodeSelect
-            {...field}
-            value={selectedCode}
-            onChange={(value) => setSelectedCode(value)}
-          />
-        </FormControl>
-        <FormControl className="w-2/3">
-          <Input className='ml-2 w-full' placeholder="Enter phone number" {...field} />
-        </FormControl>
-      </div>
-      <FormMessage />
-    </FormItem>
-  )}
-/>
+               <FormField
+                  control={form.control}
+                  name='phoneNumber'
+                  render={({ field }) => (
+                    <FormItem className="flex items-center">
+                      <FormLabel className="w-1/2 ml-10">Phone number</FormLabel>
+                      <div className="w-[100%] flex items-center">
+                        <FormControl className="w-1/3">
+                          <CodeSelect
+                            {...field}
+                            value={selectedCode}
+                            onChange={(value) => setSelectedCode(value)}
+                          />
+                        </FormControl>
+                        <FormControl className="w-2/3">
+                          <Input className='ml-2 w-full' placeholder="Enter phone number" {...field} />
+                        </FormControl>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                /> 
                </div> 
             </div>
             <div className="flex items-center my-4">
@@ -292,7 +276,9 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
                     <FormItem className="flex items-center">
                       <FormLabel className="w-1/2 ml-10">Street number</FormLabel>
                       <FormControl>
-                        <Input placeholder='Enter street number' {...field} />
+                        <Input placeholder='Enter street number'
+                            
+                            {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -305,7 +291,9 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
                     <FormItem className="flex items-center">
                       <FormLabel className="w-1/2 ml-10">Street Address</FormLabel>
                       <FormControl>
-                        <Input placeholder='Enter street address' {...field} />
+                        <Input placeholder='Enter street address'
+                          
+                            {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -318,7 +306,9 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
                     <FormItem className="flex items-center">
                       <FormLabel className="w-1/2 ml-10">Province</FormLabel>
                       <FormControl>
-                        <Input placeholder='Enter province' {...field} />
+                        <Input placeholder='Enter province'
+                            
+                            {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -331,7 +321,8 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
                     <FormItem className="flex items-center">
                       <FormLabel className="w-1/2 ml-10">Zip Code</FormLabel>
                       <FormControl>
-                        <Input placeholder='Enter zip code' {...field} />
+                        <Input placeholder='Enter zip code'
+                         {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -350,25 +341,26 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
                     </FormItem>
                   )}
                 />
+                <Button className='w-full mt-6 text-md' type='submit'>
+                  Submit
+                </Button>
             </div>
             <div className="flex items-center">
               <div className="w-1/2 ml-10">
               </div>
-              <div className="w-full">
-                <Button className='w-full mt-6 text-md' type='submit'>
-                  Submit
-                </Button>
+              <div className="w-full">               
               </div>
             </div>
           </form>
         </Form>
       </div>
-
-        )}
+    )}
     </section>
   );
 };
 
 export default AdminDashboardForm;
+
+  
 
 // export type FormDataType = z.infer<typeof FormSchema>;

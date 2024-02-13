@@ -6,15 +6,14 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import UserProfile from './ProfileTable';
 import { Session, User } from "next-auth";
 import { useEffect, useState } from "react";
 import AddPhoto from '@/app/components/common/AddPhoto';
 import { Label } from '@/app/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/app/components/ui/avatar';
-import { CldImage } from 'next-cloudinary';
 import EmployeeProfileTable from './EmployeeProfileTable';
 import { SquareUserRound } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 
 interface UserProps {
   session?: Session | null, 
@@ -23,7 +22,7 @@ interface UserProps {
 }
 
 interface FormData {
-  image?: string;
+  // image?: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -33,7 +32,7 @@ const FormSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
   lastName: z.string().min(1, 'Last name is required'),
   email: z.string().min(1, 'Email is required').email('Invalid email'),
-  image: z.string().url('Invalid image url'),
+  // image: z.string().url('Invalid image url'),
 });
 
 
@@ -44,44 +43,32 @@ const ProfileForm: React.FC<UserProps> = ({ session, user }) => {
       firstName: '',
       lastName: '',
       email: '',
-      image: '',
+      // image: '',
     },
   });
 
   const [isEditMode, setIsEditMode] = useState(true);
-  const [formData, setFormData] = useState<FormData>({} as FormData);
+  const [formData, setFormData] = useState<FormData>(() => ({
+    firstName: session?.user?.firstName || '',
+    lastName: session?.user?.lastName || '',
+    email: session?.user?.email || '',
+    image: session?.user?.image || '',
+    id: session?.user.id,
+  }));
+
   console.log(formData)
 
+  const { update } = useSession();
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch data from your API endpoint
-        const response = await fetch('/api/user');
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-  
-        const data = await response.json();
-        setFormData(data)
-        console.log(data.user, 'data user')
-        // Set form data with fetched values
-        console.log(data, 'data fetch');
-  
-        const mappedData = {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          email: data.email,
-        };
-        form.reset(mappedData)
-        console.log('form reset data', data)
-      } catch (error) {
-        console.error('Error fetching form data:', error);
-      }
+    const mappedData = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
     };
-  
-    // Call fetchData when the component mounts
-    fetchData();
-  }, [form]);
+    console.log(mappedData)
+    form.reset(mappedData);
+  }, [formData, form]);
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     try {
@@ -101,6 +88,17 @@ const ProfileForm: React.FC<UserProps> = ({ session, user }) => {
 
       if (response.ok) {
         toast.success("The user infomation saved successfully.");
+        const res = await response.json();
+        const responseData = res.updatedInfo;
+        setFormData(responseData)
+        await update({
+          ...session,
+          ...session?.user,
+          id: responseData.id,
+          firstName: responseData.firstName,
+          lastName: responseData.lastName,
+          email: responseData.email,
+        });
         setIsEditMode(true)
       } else {
         console.error("Save failed");
@@ -115,7 +113,7 @@ const ProfileForm: React.FC<UserProps> = ({ session, user }) => {
       {isEditMode ? (
         <div className='w-full'>
           <div className="flex flex-row mx-auto w-full">
-            <EmployeeProfileTable session={session} />
+            <EmployeeProfileTable formData={formData} session={session} />
           </div>
           <div className="lg:w-2/3 md:w-10/12 w-full lg:space-x-10 flex flex-row">
               <div className="w-1/2 ml-10">
@@ -216,3 +214,33 @@ const ProfileForm: React.FC<UserProps> = ({ session, user }) => {
 };
 
 export default ProfileForm;
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       // Fetch data from your API endpoint
+  //       const response = await fetch('/api/user');
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! Status: ${response.status}`);
+  //       }
+  
+  //       const data = await response.json();
+  //       setFormData(data)
+  //       console.log(data.user, 'data user')
+  //       // Set form data with fetched values
+  //       console.log(data, 'data fetch');
+  
+  //       const mappedData = {
+  //         firstName: data.firstName,
+  //         lastName: data.lastName,
+  //         email: data.email,
+  //       };
+  //       form.reset(mappedData)
+  //       console.log('form reset data', data)
+  //     } catch (error) {
+  //       console.error('Error fetching form data:', error);
+  //     }
+  //   };
+  //   // Call fetchData when the component mounts
+  //   fetchData();
+  // }, [form]);

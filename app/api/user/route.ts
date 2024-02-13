@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
   try {
     const reqBody = await req.json();
     const { emailVerified, image, id, ...userInfo } = reqBody;
-    console.log(reqBody, 'reqBody in user route - check for userDomain')
+
 
     // Check if user email exists
     const existingUserByEmail = await prisma.user.findUnique({
@@ -99,7 +99,6 @@ export async function POST(req: NextRequest) {
 
 export async function GET(request: Request) {
   try {
-    console.log('Request received at /api/user:', request);
     const userData = await getUserData(request);
     console.log('User data:', userData);
     // Respond with the user data
@@ -150,6 +149,7 @@ async function getUserData(request: Request) {
       image: user.image,  
       userDomain: user.userDomain,
       role: clientUser?.role,
+      userId: clientUser.userId,
       clientId: clientUser?.id,
      };
   }

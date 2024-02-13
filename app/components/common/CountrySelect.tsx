@@ -94,12 +94,6 @@ export function CountrySelect({ onChange, value }: { onChange: (value: string) =
                   value={country.name}
                   onSelect={() => handleSelect(country)}
                 >
-                  <Check
-                    className={cn(
-                      "h-4 w-6 text-foreground",
-                      displayed === selectedCountry  ? "opacity-100" : "opacity-0"
-                    )}
-                  />
                   <span role="img" aria-label="flag">
                   {country.unicodeFlag}
                 </span>

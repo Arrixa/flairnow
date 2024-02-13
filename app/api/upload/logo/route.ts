@@ -37,17 +37,17 @@ export async function POST(request: NextRequest) {
   const buffer = new Uint8Array(arrayBuffer);
 
   const session = await getServerSession(authOptions);
-  const userDomain = session?.user.domain || null;
+  const clientId = session?.clientUser?.clientId;
 
-  if (!userDomain) {
-    return NextResponse.json({ message: 'Client ID not found in session. Please sign in again' }, { status: 401 });
-  }
+  // if (!clientId) {
+  //   return NextResponse.json({ message: 'Client ID not found in session. Please sign in again' }, { status: 401 });
+  // }
 
   try {
     const cloudinaryResponse = await new Promise<CloudinaryResponse>((resolve, reject) => {
       cloudinary.uploader.upload_stream({
-        tags: ['flairnow-company-logo'],
-        public_id: userDomain
+        tags: ['flairnow-company-logos'],
+        public_id: clientId
       }, function (error, result) {
         if (error) {
           reject(error);
@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
 
     // Update user in Prisma with Cloudinary image URL
     await prisma.client.update({
-      where: { domain: userDomain },
+      where: { id: clientId },
       data: { logo: cloudinaryResponse.secure_url },
     });
 

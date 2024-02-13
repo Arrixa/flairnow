@@ -37,11 +37,22 @@ export async function POST(request: NextRequest) {
   const buffer = new Uint8Array(arrayBuffer);
 
   const session = await getServerSession(authOptions);
-  const userId = session?.user.id || null;
+  const userId = session?.user.id;
 
-  if (!userId) {
-    return NextResponse.json({ message: 'User ID not found in session. Please sign in again' }, { status: 401 });
-  }
+  // if (!userId) {
+  //   return NextResponse.json({ message: 'User ID not found in session. Please sign in again' }, { status: 401 });
+  // }
+
+  // const existingUser = await prisma.user.findUnique({
+  //   where: { id: userId },
+  // });
+  
+  // if (!existingUser) {
+  //   return NextResponse.json(
+  //     { message: 'User not found. Cannot update image URL.' },
+  //     { status: 404 }
+  //   );
+  // }
 
   try {
     const cloudinaryResponse = await new Promise<CloudinaryResponse>((resolve, reject) => {
