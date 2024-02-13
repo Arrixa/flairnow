@@ -36,6 +36,7 @@ const FormSchema = z.object({
   province: z.string(),
   zipCode: z.string(),
   country: z.string(),
+  // domain: z.string(),
 });
 
 
@@ -53,6 +54,7 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
       province: '',
       zipCode: '',
       country: '',
+      // domain: '',
     },
   });
 
@@ -78,7 +80,7 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
         console.log(data, 'Set form data with fetched values');
   
         const mappedData = {
-          // domain: session?.user.userDomain ?? data.domain,
+          domain: session?.user.userDomain ?? data.domain,
           companyName: data.companyName,
           website: data.website,
           description: data.description,
@@ -94,7 +96,7 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
         await update({ ...session, 
           ...session?.user,
           ...session?.client, 
-          // domain: data.domain,
+          domain: data.domain,
           companyName: data.companyName,
           website: data.website,       
           description: data.description,
@@ -180,22 +182,22 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
         <div className="flex items-center">
           <Label className="w-1/2 ml-10">Logo</Label>
           <div className="w-full flex">
-            {/* <div className=''>
-              {formData.domain ? (
+            <div className=''>
+              {session?.userDomain ? (
                 <CldImage
                     width="100"
                     height="100"
-                    src={formData.domain} 
+                    src={session.userDomain} 
                     alt='Client logo' 
                   />
 
               ) : (
                 <></>
               )}
-            </div> */}
-            {/* <div className='w-full mt-6 text-md'>
+            </div>
+            <div className='w-full mt-6 text-md'>
               <AddLogo  />
-            </div> */}
+            </div>
           </div>
         </div>  
         <Form {...form}>

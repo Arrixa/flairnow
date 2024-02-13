@@ -1,3 +1,5 @@
+// Can't consistently load the side bar without the user roles
+
 'use client'
 import { Session } from "next-auth";
 import SidebarComp from "../_components/sidebar/Sidebar";
@@ -10,80 +12,45 @@ interface UserProps {
 
 const Sidebar: React.FC<UserProps> = ({ session }) => {
   const { status, update } = useSession();
-  const [clientUserData, setClientUserData] = useState([] as string[]);
-  console.log(clientUserData)
   const { data: sessionData } = useSession();
-  console.log(sessionData?.role, 'get sessionData in sidebar', session?.role, '< SERVER SESSION')
+  const [userRoles, setUserRoles] = useState<string[] | null>(sessionData?.role || null);
+  const [dataFetched, setDataFetched] = useState(false);
+  console.log(userRoles);
+  console.log(sessionData?.role, 'get sessionData in sidebar', session?.role, '< SERVER SESSION');
 
-  if (session && session.role.includes("EMPLOYEE")) {
-    return (
-      <div className="w-fit">
-        <SidebarComp userRoles={session?.clientUser?.role} session={session} />    
-      </div>
-    )
-  } else {
-    // Fetch data from your API endpoint
-    const fetchData = async () => {
+  // Fetch data from your API endpoint
+  const fetchData = async () => {
+    try {
       const response = await fetch('/api/role');
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
-      console.log(data, 'data client user from /api/role')
-      setClientUserData(data.role)
-      await update({ ...session, ...session?.clientUser, role: data.role, clientId: data.clientId });
+      console.log(data, 'data client user from /api/role');
+      setUserRoles(data.role);
+      await update({
+        ...session,
+        ...(session?.clientUser && { clientUser: { ...session?.clientUser, role: data.role, clientId: data.clientId } }),
+      });
+      setDataFetched(true);
+    } catch (error) {
+      console.error('Error fetching form data:', error);
     }
-    fetchData();
-      return (
-        <div className="w-fit">
-          <SidebarComp userRoles={clientUserData} session={session} />    
-        </div>
-      )
-    } 
-  }
-  export default Sidebar;
+  };
 
+  useEffect(() => {
+    // Fetch data only if userRoles aren't already set
+    if (!userRoles || userRoles === null && status !== 'loading' && dataFetched === false) {
+      fetchData();
+    }
+  }, [userRoles, status]);
 
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         if (session && status === "authenticated" && !sessionData?.clientUser?.roles) {
-//         // if (session && status !== "loading" && session.clientUser?.roles === undefined) {
-//           const userEmail = session.user?.email;
-//           if (!userEmail) {
-//             console.error('User ID is undefined');
-//             return;
-//           }
-//         // Fetch data from your API endpoint
-//           const response = await fetch('/api/role');
-//           if (!response.ok) {
-//             throw new Error(`HTTP error! Status: ${response.status}`);
-//           }
-//           const data = await response.json();
-//           console.log(data, 'data client user from /api/role')
-//           setClientUserData(data.role)
-//           // console.log(data, 'data client user')
-//           // Update the session only if the fetched data is different
-//           // if (JSON.stringify(clientUserData) !== JSON.stringify(data.role)) {
-//             await update({ ...session, ...session?.clientUser, role: data.role, clientId: data.clientId });
-//           // }
-//         }
-        
-//       } catch (error) {
-//         console.error('Error fetching form data:', error);
-//       }
-//     };
-    
-//     // Call fetchData when the component mounts
-//     fetchData();
-//   }, []);
+  return (
+    <div className="w-fit">
+      <SidebarComp userRoles={userRoles || []} session={session} />
+    </div>
+  );
+};
 
-//   const userRoles = sessionData?.clientUser?.roles || clientUserData;
-  
-//   return (
-//     <div className="w-fit">
-//       <SidebarComp userRoles={userRoles} session={session} />    
-//     </div>
-//   )
-// }
+export default Sidebar;
 

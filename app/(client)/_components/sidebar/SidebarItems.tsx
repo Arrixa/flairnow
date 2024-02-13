@@ -8,6 +8,7 @@ interface SidebarItemRendererProps {
 }
 
 const SidebarItemRenderer: React.FC<SidebarItemRendererProps> = ({ userRoles }) => {
+  console.log(userRoles, 'userRoles in sidebar item renderer')
   const sidebarItems = [
     { role: 'EMPLOYEE', label: 'Profile', href: '/dashboard/employee-profile' },
     { role: 'ADMIN', label: 'Admin dashboard', href: '/dashboard/admin' },

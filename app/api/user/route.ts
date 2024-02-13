@@ -89,7 +89,7 @@ export async function POST(req: NextRequest) {
       ...client,
       ...clientUser,
     }    
-    return NextResponse.json({ message: "User and client profile created successfully"}, { status: 201 })
+    return NextResponse.json({ updatedInfo, message: "User and client profile created successfully"}, { status: 201 })
 
   } catch (error) {
     console.error("Error during profile creation:", error);

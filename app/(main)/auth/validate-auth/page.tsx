@@ -6,31 +6,31 @@ import { Card, CardContent, CardDescription, CardFooter, CardTitle } from '@/app
 
 const ValidatingAuth = async () => {
   const session = await getServerSession(authOptions);
-
+  console.log(session, 'session in validating auth at top')
   const user = session?.user
   const client = session?.client
   const clientUser = session?.clientUser
   const role = clientUser?.role
   
-  if (!session) {
-    redirect('/auth/signin')
-  }
-  if (user && user.userDomain === 'public') {
-    redirect('/profile');
-  } 
-  if (user.userDomain !== 'public') {
-    redirect('/dashboard/employee-profile');
-  }
-
-  // if (role && role.includes("EMPLOYEE")) {
-  //   redirect('/dashboard/employee-profile');
-  // } else if (!role || role.length === 0) {
-  //   redirect('/profile');
-  // } else if (user && user.firstName) {
-  //   redirect('/');
-  // } else {
+  // if (!session) {
   //   redirect('/auth/signin')
   // }
+  // if (user && user.userDomain === 'public') {
+  //   redirect('/profile');
+  // } 
+  // if (user.userDomain !== 'public') {
+  //   redirect('/dashboard/employee-profile');
+  // }
+
+  if (role && role.includes("EMPLOYEE")) {
+    redirect('/dashboard/employee-profile');
+  } else if (!role || role.length === 0) {
+    redirect('/profile');
+  } else if (user && user.firstName) {
+    redirect('/');
+  } else {
+    redirect('/auth/signin')
+  }
 
   
   return (

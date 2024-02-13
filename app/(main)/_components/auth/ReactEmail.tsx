@@ -36,7 +36,7 @@ export function MagicLinkEmail({ url, host }: TextParams) {
          <Head />
          <Preview>{previewText}</Preview>
          <Tailwind>
-            <Body className="font-sans flex items-center justify-center flex-col my-2 p-4 mx-auto w-full max-w-lg">
+            <Body className="font-sans flex items-center justify-center flex-col my-2 mx-auto w-full max-w-lg">
                <Container className="border border-solid border-zinc-400 rounded-md bg-zinc-50 mx-auto p-6 flex items-center justify-center flex-col gap-4">
                   <Heading className="mt-0 text-zinc-900 p-4 mx-auto text-center">
                      Let&apos;s get you signed in

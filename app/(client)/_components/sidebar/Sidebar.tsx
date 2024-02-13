@@ -73,6 +73,7 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
   };
 
   const renderSidebarItems = () => {
+    console.log('userRoles in SidebarComp:', userRoles);
     return <SidebarItemRenderer userRoles={userRoles} />;
   };
 

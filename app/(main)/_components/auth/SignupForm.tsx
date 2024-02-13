@@ -15,7 +15,7 @@ import { Input } from '../../../components/ui/input';
 import { Button } from '../../../components/ui/button';
 import { useRouter } from 'next/navigation';
 import { toast } from "react-toastify";
-import { useSession } from 'next-auth/react';
+import { getSession, useSession } from 'next-auth/react';
 import { Label } from '@/app/components/ui/label';
 import { extractEmailDomain, isDomainInExcludedList } from '@/lib/extractDomain';
 import { useEffect, useState } from 'react';
@@ -78,9 +78,28 @@ const SignUpForm = () => {
       })
       if (response.ok) {
         toast.success("The user registered successfully.");
-        await update({ ...session?.user, firstName: data.firstName, lastName: data.lastName, userDomain: domain})
-        // router.push('/auth/update-session')
+        const res = await response.json();
+        const responseData = res.updatedInfo;
+        console.log(responseData, 'responseData in sign up form');
+        await update({
+          ...session,
+          ...session?.user,
+          id: responseData.id,
+          userDomain: responseData.userDomain,
+          firstName: responseData.firstName,
+          lastName: responseData.lastName,
+          email: responseData.email,
+          image: responseData.image,
+          ...session?.clientUser,
+          role: responseData.role, 
+          userId: responseData.userId,
+          clientId: responseData.clientId, 
+        });
+        const updatedSession = await getSession();
+        console.log("Updated Session:", updatedSession);
         router.push('/auth/validate-auth')
+        // await update({ ...session?.user, firstName: data.firstName, lastName: data.lastName, userDomain: domain})
+        // router.push('/auth/update-session')
         // router.push('/auth/signin')
       } else {
         const errorData = await response.json();
@@ -90,6 +109,9 @@ const SignUpForm = () => {
       console.error("Registration failed:", error);
     }
   }
+
+  // const sessionEnd = getSession(); 
+  // console.log(sessionEnd, 'session in sign up form bottom')
 
   return (
     <div className="flex flex-col justify-center items-center mx-auto w-full px-4 ">
