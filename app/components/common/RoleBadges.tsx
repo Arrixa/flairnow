@@ -1,12 +1,12 @@
 import { Badge } from "@/app/components/ui/badge";
+import { RoleBadgeProps } from "@/lib/interfaces";
 
 const rolesConfig: { [key: string]: { variant: string; label: string } } = {
   ADMIN: { variant: "secondary", label: "Admin" },
   EMPLOYEE: { variant: "outline", label: "Employee" },
-  // Add more role configurations as needed
 };
 
-const RoleBadges = ({ roles }: { roles: string[] }) => {
+const RoleBadges: React.FC<RoleBadgeProps> = ({ roles }) => {
   return (
     <>
       {roles?.map((role, index) => {
@@ -19,4 +19,4 @@ const RoleBadges = ({ roles }: { roles: string[] }) => {
   );
 };
 
-export default RoleBadges
+export default RoleBadges;

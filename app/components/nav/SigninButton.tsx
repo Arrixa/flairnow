@@ -1,15 +1,10 @@
 "use client";
-
-import { Session } from "next-auth";
 import { Button } from "../ui/button";
 import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { SigninBtnProps } from "@/lib/interfaces";
 
-interface SigninBtnProps {
-  session?: Session | null, 
-  onClick?: () => void;
-}
 
 const SigninButton: React.FC<SigninBtnProps> = ({ session }) => {
   const router = useRouter(); 

@@ -2,16 +2,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/app/components/ui/avatar";
 import { Button } from "@/app/components/ui/button";
 import { Separator } from "@/app/components/ui/separator";
-import { SquareUserRound } from "lucide-react";
-import { Session } from "next-auth";
 import { signIn } from "next-auth/react";
 import { CldImage } from "next-cloudinary";
 import Image from "next/image";
+import { UserCardProps } from "@/lib/interfaces";
 
-interface UserCardProps {
-  session?: Session | null, 
-  onClick?: () => void;
-}
 
 const UserCard: React.FC<UserCardProps> = ({ session }) => {
   function capitalizeFirstLetter(str: string): string {
@@ -25,13 +20,13 @@ const UserCard: React.FC<UserCardProps> = ({ session }) => {
       {session && session.user ? (
         <div className="flex flex-row space-x-2 p-2 ml-4">
           <div className="">
-            <h4 className="text-lg font-sm text-foreground min-w-fit">{`${user.firstName} ${user.lastName}`}</h4>
+            <h4 className="text-lg font-sm text-foreground min-w-fit">{`${user?.firstName} ${user?.lastName}`}</h4>
             <Separator />
-            <p className="text-foreground">{`${user.userDomain ? capitalizeFirstLetter(user.userDomain) : ''}`}</p>
+            <p className="text-foreground">{`${user?.userDomain ? capitalizeFirstLetter(user?.userDomain) : ''}`}</p>
           </div>
           <div className="rounded-full w-[60px] h-[60px] flex items-center justify-center">
-            {user.image ? (
-                <CldImage alt='profile image' src={user.image} width={50} height={50} className='rounded-full' />
+            {user?.image ? (
+                <CldImage alt='profile image' src={user?.image} width={50} height={50} className='rounded-full' />
               ) : (
                 <Image alt='profile image' src='/default/Avatar.png' width={50} height={50} className='rounded-full' />
                 )}                           

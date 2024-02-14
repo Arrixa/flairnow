@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { v2 as cloudinary } from 'cloudinary';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../auth/[...nextauth]/route';
+import { CloudinaryResponse } from '@/lib/interfaces';
 
 // Configure Cloudinary
 cloudinary.config({
@@ -10,11 +11,6 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-
-interface CloudinaryResponse {
-  public_id: string;
-  secure_url: string;
-}
 
 export async function POST(request: NextRequest) {
   const cloudinaryCloudName = process.env.CLOUDINARY_CLOUD_NAME;
@@ -76,8 +72,10 @@ export async function POST(request: NextRequest) {
       data: { image: cloudinaryResponse.secure_url },
     });
 
+    const photoUrl = cloudinaryResponse.secure_url;
+
     // Handle successful upload
-    return NextResponse.json({ message: 'Successfully uploaded', data: cloudinaryResponse }, { status: 201 });
+    return NextResponse.json({ photoUrl, message: 'Successfully uploaded', data: cloudinaryResponse }, { status: 201 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: 'Image upload failed in catch' }, { status: 500 });

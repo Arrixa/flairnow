@@ -5,25 +5,15 @@ import { Button } from '@/app/components/ui/button';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { HiBuildingOffice, HiNewspaper, HiUserCircle } from 'react-icons/hi2';
 import { Textarea } from '@/app/components/ui/textarea';
 import { toast } from 'react-toastify';
 import CompanyInfo from './CompanyInfo';
-import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import { CountrySelect } from '@/app/components/common/CountrySelect';
 import { CodeSelect } from '@/app/components/common/CodeSelect';
-import { Label } from '@/app/components/ui/label';
-import AddLogo from './AddLogo';
 import { useSession } from 'next-auth/react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/app/components/ui/avatar';
-import { BookText, Building, Frame, SquareUserRound } from 'lucide-react';
-
-
-interface AdminProps {
-  session?: Session | null, 
-  onClick?: () => void;
-}
+import { BookText, Building } from 'lucide-react';
+import { AdminProps } from '@/lib/interfaces';
 
 const FormSchema = z.object({
   companyName: z.string().min(1, 'Name is required'),
@@ -352,6 +342,3 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
 
 export default AdminDashboardForm;
 
-  
-
-// export type FormDataType = z.infer<typeof FormSchema>;

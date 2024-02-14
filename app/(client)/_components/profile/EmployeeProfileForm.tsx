@@ -6,33 +6,16 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { Session, User } from "next-auth";
 import { useEffect, useState } from "react";
-import AddPhoto from '@/app/components/common/AddPhoto';
-import { Label } from '@/app/components/ui/label';
-import { Avatar, AvatarFallback, AvatarImage } from '@/app/components/ui/avatar';
 import EmployeeProfileTable from './EmployeeProfileTable';
-import { SquareUserRound, UserRoundCheck } from 'lucide-react';
 import { useSession } from 'next-auth/react';
-
-interface UserProps {
-  session?: Session | null, 
-  user?: User | null, 
-  onClick?: () => void;
-}
-
-interface FormData {
-  // image?: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-}
+import { UserProps, FormData } from '@/lib/interfaces';
+import { UserRoundCheck } from 'lucide-react';
 
 const FormSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
   lastName: z.string().min(1, 'Last name is required'),
   email: z.string().min(1, 'Email is required').email('Invalid email'),
-  // image: z.string().url('Invalid image url'),
 });
 
 
@@ -43,7 +26,6 @@ const ProfileForm: React.FC<UserProps> = ({ session, user }) => {
       firstName: '',
       lastName: '',
       email: '',
-      // image: '',
     },
   });
 

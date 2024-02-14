@@ -3,11 +3,7 @@ import Link from 'next/link';
 import IconRenderer from './Icons';
 import { Skeleton } from '@/app/components/ui/skeleton';
 
-interface SidebarItemRendererProps {
-  userRoles: string[];
-}
-
-const SidebarItemRenderer: React.FC<SidebarItemRendererProps> = ({ userRoles }) => {
+const SidebarItemRenderer = ({ userRoles }: { userRoles: string[] }) => {
   const sidebarItems = [
     { role: 'EMPLOYEE', label: 'Profile', href: '/dashboard/employee-profile' },
     { role: 'ADMIN', label: 'Admin dashboard', href: '/dashboard/admin' },

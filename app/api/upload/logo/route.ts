@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { v2 as cloudinary } from 'cloudinary';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../auth/[...nextauth]/route';
+import { CloudinaryResponse } from '@/lib/interfaces';
 
 // Configure Cloudinary
 cloudinary.config({
@@ -10,11 +11,6 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-
-interface CloudinaryResponse {
-  public_id: string;
-  secure_url: string;
-}
 
 export async function POST(request: NextRequest) {
   const cloudinaryCloudName = process.env.CLOUDINARY_CLOUD_NAME;
@@ -31,7 +27,6 @@ export async function POST(request: NextRequest) {
 
   const formData = await request.formData();
   console.log(formData, 'formData value')
-  // const file = formData.getAll('image');
   const file = formData.get('image') as File;
   const arrayBuffer = await file.arrayBuffer();
   const buffer = new Uint8Array(arrayBuffer);
@@ -39,11 +34,12 @@ export async function POST(request: NextRequest) {
   const session = await getServerSession(authOptions);
   const clientId = session?.clientUser?.clientId;
 
-  // if (!clientId) {
-  //   return NextResponse.json({ message: 'Client ID not found in session. Please sign in again' }, { status: 401 });
-  // }
+  if (!clientId) {
+    return NextResponse.json({ message: 'Client ID not found in session. Please sign in again' }, { status: 401 });
+  }
 
   try {
+    // Upload image to Cloudinary. Tags is compnany logos and public_id is the client ID
     const cloudinaryResponse = await new Promise<CloudinaryResponse>((resolve, reject) => {
       cloudinary.uploader.upload_stream({
         tags: ['flairnow-company-logos'],
@@ -64,8 +60,9 @@ export async function POST(request: NextRequest) {
       data: { logo: cloudinaryResponse.secure_url },
     });
 
-    // Handle successful upload
-    return NextResponse.json({ message: 'Successfully uploaded' }, { status: 201 });
+    const logoUrl = cloudinaryResponse.secure_url;
+
+    return NextResponse.json({ logoUrl, message: 'Successfully uploaded' }, { status: 201 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: 'Image upload failed in catch' }, { status: 500 });

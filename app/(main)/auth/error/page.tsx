@@ -17,10 +17,6 @@ import { useSearchParams } from 'next/navigation'
 const CustomError = () => {
   const searchParams = useSearchParams();
   const error = searchParams.get('error');
-  // const searchParams = request.nextUrl?.searchParams;
-  // console.log(searchParams)
-  // const error = searchParams?.get('error') ?? 'Verification';
-  // console.log(error);
 
   // Custom content based on the error code
   let errorMessage;

@@ -1,8 +1,6 @@
 "use client"
-
 import * as React from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
-import { cn } from "@/utils/utils"
+import { ChevronsUpDown } from "lucide-react"
 import { Button } from "@/app/components/ui/button"
 import {
   Command,
@@ -17,14 +15,8 @@ import {
   PopoverTrigger,
 } from "@/app/components/ui/popover"
 import { useState, useEffect } from "react";
-import { ScrollArea } from "@/app/components/ui/scroll-area"
-
-
-interface Country {
-  name: string;
-  dialCode: string;
-  unicodeFlag: string;
-}
+import { ScrollArea } from "@/app/components/ui/scroll-area";
+import { Country } from "@/lib/interfaces"
 
 export function CountrySelect({ onChange, value }: { onChange: (value: string) => void; value: string }) {
   const [open, setOpen] = useState(false);
@@ -35,7 +27,7 @@ export function CountrySelect({ onChange, value }: { onChange: (value: string) =
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/countries", {
+        const response = await fetch(`${process.env.NEXTAUTH_URL}/api/countries`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

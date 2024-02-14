@@ -1,19 +1,12 @@
 import React from 'react'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/app/components/ui/table";
 import RoleBadges from "../../../components/common/RoleBadges";
-import { Session, User } from "next-auth";
 import { CldImage } from 'next-cloudinary';
 import Image from 'next/image';
 import AddPhoto from '@/app/components/common/AddPhoto';
+import { UserForm } from '@/lib/interfaces';
 
-interface UserProps {
-  session?: Session | null, 
-  formData: User;
-  user?: User | null, 
-  onClick?: () => void;
-}
-
-const EmployeeProfileTable: React.FC<UserProps> = ({ session, formData }) => {
+const EmployeeProfileTable: React.FC<UserForm> = ({ session, formData }) => {
   const user = session?.user;
   console.log(formData, 'form data user data in employee profile table')
   const roles = session?.clientUser.role;
@@ -62,7 +55,7 @@ const EmployeeProfileTable: React.FC<UserProps> = ({ session, formData }) => {
           <TableRow>
             <TableHead className="w-1/3">Role:</TableHead>
             <TableCell className="w-2/3 text-left px-10 space-x-2">
-              <RoleBadges roles={roles} />
+              <RoleBadges roles={roles} role={''} index={0} />
             </TableCell>
           </TableRow>
           <TableRow>

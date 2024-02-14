@@ -1,13 +1,6 @@
-interface TextParams {
-  url: string;
-  host: string;
-}
-
 import '@/app/globals.css'
 import {
    Body,
-   Button,
-   Column,
    Container,
    Head,
    Heading,
@@ -16,17 +9,11 @@ import {
    Img,
    Link,
    Preview,
-   Row,
-   Section,
    Tailwind,
    Text,
 } from '@react-email/components'
-import React from 'react'
-
-interface Props {
-   name?: string
-   code?: string
-}
+import React from 'react';
+import { TextParams } from '@/lib/interfaces';
 
 export function MagicLinkEmail({ url, host }: TextParams) {
    const previewText = `Signin with your email.`

@@ -11,15 +11,9 @@ import Link from "next/link";
 import { ScrollArea } from "@/app/components/ui/scroll-area";
 import { signOut } from "next-auth/react";
 import UserCard from "./UserCard";
-import { Session } from "next-auth";
 import SidebarItemRenderer from "./SidebarItems";
 import renderLogo from "@/app/components/common/logos/LogoFullText";
-
-interface SidebarCompProps {
-  userRoles: string[];
-  session?: Session | null,
-  onClick?: () => void;
-}
+import { SidebarCompProps } from "@/lib/interfaces";
 
 
 const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {

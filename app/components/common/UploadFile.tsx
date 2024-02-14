@@ -1,21 +1,14 @@
 
 "use client"
-import { Button } from '@/app/components/ui/button'
-import { Card } from '@/app/components/ui/card'
-import { FileUp, XCircle } from 'lucide-react'
-import Image from 'next/image'
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useCallback, useState} from 'react'
 import {useDropzone} from 'react-dropzone'
+import { FileInfo } from '@/lib/interfaces'
 
-interface FileInfo {
-  name: string;
-  preview: string;
-}
 
 const UploadFile = () => {
   const [files, setFiles] = useState<FileInfo[]>([])
 
-  const onDrop = useCallback(acceptedFiles => {
+  const onDrop = useCallback((acceptedFiles: any) => {
     console.log(acceptedFiles)
   }, [])
   const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
@@ -37,11 +30,6 @@ const UploadFile = () => {
 
 export default UploadFile;
 
-
-// interface FileInfo {
-//   name: string;
-//   preview: string;
-// }
 
 // const UploadFile = () => {
 //   const [files, setFiles] = useState([])

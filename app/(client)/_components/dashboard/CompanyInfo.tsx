@@ -3,23 +3,9 @@ import { CldImage } from 'next-cloudinary';
 import { BookText, Building, Paperclip } from "lucide-react";
 import AddLogo from "./AddLogo";
 import Image from "next/image";
+import { Client } from "@/lib/interfaces"
 
-interface ClientData {
-  domain?: string;
-  companyName?: string;
-  website?: string;
-  description?: string;
-  countryCode?: string;
-  phoneNumber?: string;
-  streetNo?: string;
-  streetAddress?: string;
-  province?: string;
-  zipCode?: string;
-  country?: string;
-  logo?: string;
-}
-
-const CompanyInfo: React.FC<ClientData & { formData?: ClientData }> = ({ formData }) => {
+const CompanyInfo: React.FC<Client & { formData?: Client }> = ({ formData }) => {
 
   const client = formData
   console.log(client, 'client data in client info')
@@ -37,8 +23,6 @@ const CompanyInfo: React.FC<ClientData & { formData?: ClientData }> = ({ formDat
       return undefined; 
     }
   }
-
-  
 
   return (
     <section className="flex flex-col w-full">  

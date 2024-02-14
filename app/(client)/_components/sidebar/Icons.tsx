@@ -1,20 +1,14 @@
-// iconRenderer.tsx
 import {
   Briefcase,
   Inbox,
   LayoutDashboard,
-  LogOut,
   Settings,
   Settings2,
   User,
   Users,
 } from "lucide-react";
 
-interface IconRendererProps {
-  iconName: string;
-}
-
-const IconRenderer: React.FC<IconRendererProps> = ({ iconName }) => {
+const IconRenderer = ({ iconName }: { iconName: string }) => {
   switch (iconName) {
     case 'Profile':
       return <User className="ml-auto mr-4 h-4 w-4" />;

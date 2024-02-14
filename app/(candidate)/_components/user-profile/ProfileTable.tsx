@@ -1,14 +1,9 @@
 import React from 'react'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/app/components/ui/table";
-import { User } from "next-auth";
 import { CldImage } from 'next-cloudinary';
 import Image from 'next/image';
 import AddPhoto from '@/app/components/common/AddPhoto';
-
-interface UserInfo {
-  user: User;
-  formData: User;
-}
+import { UserInfo } from '@/lib/interfaces';
 
 const UserProfile = ({ user }: UserInfo) => {
   return (

@@ -2,30 +2,17 @@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/app/components/ui/form';
 import { Input } from '@/app/components/ui/input';
 import { Button } from '@/app/components/ui/button';
+import { toast } from 'react-toastify';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import UserProfile from './ProfileTable';
-import { Session, User } from "next-auth";
 import { useEffect, useState } from "react";
 import AddPhoto from '@/app/components/common/AddPhoto';
 import { Label } from '@/app/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/app/components/ui/avatar';
-import { CldImage } from 'next-cloudinary';
+import { UserProps, FormData } from '@/lib/interfaces';
 
-interface UserProps {
-  session?: Session | null, 
-  user?: User | null, 
-  onClick?: () => void;
-}
-
-interface FormData {
-  image?: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-}
 
 const FormSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
@@ -113,7 +100,7 @@ const ProfileForm: React.FC<UserProps> = ({ session, user }) => {
       {isEditMode ? (
         <div className='w-full'>
           <div className="flex flex-row mx-auto w-full">
-            <UserProfile user={user} formData={formData} />
+            {user && <UserProfile user={user} formData={formData} />}
           </div>
           <div className="flex items-center">
               <div className="w-1/2 ml-10">

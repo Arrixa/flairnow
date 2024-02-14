@@ -1,14 +1,11 @@
 "use client"
-
 import * as React from "react"
-import { Check, ChevronsUpDown, Search } from "lucide-react"
-import { cn } from "@/utils/utils"
+import { ChevronsUpDown, Search } from "lucide-react"
 import { Button } from "@/app/components/ui/button"
 import {
   Command,
   CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
 } from "@/app/components/ui/command"
 import {
@@ -18,16 +15,7 @@ import {
 } from "@/app/components/ui/popover"
 import { useState, useEffect } from "react";
 import { ScrollArea } from "@/app/components/ui/scroll-area"
-interface Country {
-  name: string;
-  unicodeFlag: string;
-  dialCode: string;
-}
-
-interface CommandInputProps {
-  placeholder: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
+import { Country, CommandInputProps, CodeSelectProps } from "@/lib/interfaces"
 
 const CustomCommandInput: React.FC<CommandInputProps> = ({ placeholder, onChange }) => (
   <input
@@ -38,10 +26,6 @@ const CustomCommandInput: React.FC<CommandInputProps> = ({ placeholder, onChange
   />
 );
 
-interface CodeSelectProps {
-  onChange: (value: string) => void;
-  value: string;
-}
 
 export function CodeSelect({ onChange, value }: CodeSelectProps)  {
   const [open, setOpen] = useState(false);
@@ -53,7 +37,7 @@ export function CodeSelect({ onChange, value }: CodeSelectProps)  {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/countries", {
+        const response = await fetch(`${process.env.NEXTAUTH_URL}/api/countries`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

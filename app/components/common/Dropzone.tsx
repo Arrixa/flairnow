@@ -7,11 +7,6 @@
 // import { getSignature, saveToDatabase } from '../upload/_actions'
 // import { Button } from '@/app/components/ui/button'
 
-// interface FileInfo {
-//   name: string;
-//   preview: string;
-//   // Add other properties as needed
-// }
 
 // const Dropzone = () => {
 //   const [files, setFiles] = useState<FileInfo[]>([]);
