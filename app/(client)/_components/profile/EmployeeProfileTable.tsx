@@ -1,12 +1,14 @@
 import React from 'react'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/app/components/ui/table";
 import RoleBadges from "../../../components/common/RoleBadges";
-import { Avatar, AvatarFallback, AvatarImage } from '@/app/components/ui/avatar';
 import { Session, User } from "next-auth";
-import { SquareUserRound } from 'lucide-react';
+import { CldImage } from 'next-cloudinary';
+import Image from 'next/image';
+import AddPhoto from '@/app/components/common/AddPhoto';
 
 interface UserProps {
   session?: Session | null, 
+  formData: User;
   user?: User | null, 
   onClick?: () => void;
 }
@@ -21,8 +23,11 @@ const EmployeeProfileTable: React.FC<UserProps> = ({ session, formData }) => {
   }
 
   return (
-    <>
-      <Table className="lg:w-2/3 md:w-10/12 w-full lg:space-x-10 mt-6 border-t">
+    <div className='flex flex-col mx-auto w-full'>
+      <Table 
+      // className="lg:w-2/3 md:w-10/12 w-full lg:space-x-10 mt-6 border-t"
+      className='w-full'
+      >
         <TableCaption></TableCaption>
         <TableHeader>
           <TableRow>
@@ -30,12 +35,16 @@ const EmployeeProfileTable: React.FC<UserProps> = ({ session, formData }) => {
         </TableHeader>
         <TableBody>
           <TableRow>
-            <TableHead className="w-1/2">Profile image:</TableHead>
-            <TableCell className="w-1/2 text-left pl-10">
-            <Avatar>
-              <AvatarImage src={formData.image} className='w-[60px] h-[60px] object-fill' />
-              <AvatarFallback><SquareUserRound /></AvatarFallback>
-            </Avatar>
+            <TableHead className="w-1/3 pt-2">Profile image:</TableHead>
+            <TableCell className="lg:w-1/2 w-full text-left px-12 flex justify-between items-end align-center">
+              {formData.image ? (
+                <CldImage alt='profile image' src={formData.image} width={50} height={50} className='rounded-full' />
+              ) : (
+                <Image alt='profile image' src='/default/Avatar.png' width={50} height={50} className='rounded-full' />
+                )}
+              <div className='mt-6 text-md w-1/3 ml-2'>
+                <AddPhoto  />
+              </div>
             </TableCell>
           </TableRow>
           <TableRow>
@@ -63,7 +72,7 @@ const EmployeeProfileTable: React.FC<UserProps> = ({ session, formData }) => {
           <TableRow></TableRow>
         </TableBody>
       </Table>
-    </>
+    </div>
   )
 }
 

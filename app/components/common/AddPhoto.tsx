@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, X } from "lucide-react";
+import { Plus, Upload, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { useSession } from "next-auth/react";
 
@@ -59,8 +59,7 @@ export default function AddFile() {
           onClick={handleModalToggle}
           className="w-full flex items-center "
           variant="flairnowOutline">
-          <Plus className="mr-1 h-5 w-5" />
-          Upload File
+          <Upload className="mr-1 h-5 w-5" />
         </Button>
       </div>
 

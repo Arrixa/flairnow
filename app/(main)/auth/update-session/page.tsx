@@ -44,6 +44,7 @@ export default function UpdateSession() {
         firstName: updatedUserInfo.firstName,
         lastName: updatedUserInfo.lastName,
         email: updatedUserInfo.email,
+        image: updatedUserInfo.image,
         role: updatedUserInfo?.role || [],
       });
     console.log('updated session??')

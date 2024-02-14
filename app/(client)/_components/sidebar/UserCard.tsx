@@ -5,6 +5,7 @@ import { Separator } from "@/app/components/ui/separator";
 import { SquareUserRound } from "lucide-react";
 import { Session } from "next-auth";
 import { signIn } from "next-auth/react";
+import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 
 interface UserCardProps {
@@ -28,11 +29,12 @@ const UserCard: React.FC<UserCardProps> = ({ session }) => {
             <Separator />
             <p className="text-foreground">{`${user.userDomain ? capitalizeFirstLetter(user.userDomain) : ''}`}</p>
           </div>
-          <div className="rounded-full w-[60px] h-[60px] flex items-center justify-center">            
-                <Avatar>
-                  <AvatarImage src={user.image} className='' />
-                  <AvatarFallback><SquareUserRound /></AvatarFallback>
-                </Avatar> 
+          <div className="rounded-full w-[60px] h-[60px] flex items-center justify-center">
+            {user.image ? (
+                <CldImage alt='profile image' src={user.image} width={50} height={50} className='rounded-full' />
+              ) : (
+                <Image alt='profile image' src='/default/Avatar.png' width={50} height={50} className='rounded-full' />
+                )}                           
           </div>
         </div>
       ) : (

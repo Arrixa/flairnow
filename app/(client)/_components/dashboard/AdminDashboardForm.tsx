@@ -17,7 +17,7 @@ import { Label } from '@/app/components/ui/label';
 import AddLogo from './AddLogo';
 import { useSession } from 'next-auth/react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/app/components/ui/avatar';
-import { Frame, SquareUserRound } from 'lucide-react';
+import { BookText, Building, Frame, SquareUserRound } from 'lucide-react';
 
 
 interface AdminProps {
@@ -35,7 +35,7 @@ const FormSchema = z.object({
   streetAddress: z.string(),
   province: z.string(),
   zipCode: z.string(),
-  country: z.undefined(),
+  country: z.string().optional(),
 });
 
 
@@ -179,38 +179,29 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
       <div 
       className='flex flex-col mx-auto w-full'
       >
-        <>
-          <div className="flex items-center my-4">
-            <HiUserCircle />
-            <h2 className="text-xl font-semibold ml-6">Company assets</h2>
-          </div>
-
-        </>
         <Form {...form}>
           <form  onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
             <div className="flex items-center my-4">
-              <HiNewspaper />
+              <BookText />
               <h2 className="text-xl font-semibold ml-6">General Information</h2>
             </div>
             <div className="flex flex-col">
-              <div className="">
+              
                 <FormField
                   control={form.control}
                   name='companyName'
                   render={({ field }) => (
                     <FormItem className="flex items-center">
                       <FormLabel className="w-1/2 ml-10">Name</FormLabel>
-                      <FormControl className="">
-                        <Input placeholder='Enter company name' 
-                        
-                         {...field} />
-                      </FormControl>
+                        <FormControl className="mb-1 text-sm">
+                          <Input placeholder='Enter company name'                        
+                          {...field} />
+                        </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
 
-              </div>
               <FormField
                 control={form.control}
                 name='website'
@@ -265,7 +256,7 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
                </div> 
             </div>
             <div className="flex items-center my-4">
-              <HiBuildingOffice />
+              <Building />
               <h2 className="text-xl font-semibold ml-6">Location</h2>
             </div>
             <div className="flex flex-col">

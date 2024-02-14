@@ -12,7 +12,7 @@ import AddPhoto from '@/app/components/common/AddPhoto';
 import { Label } from '@/app/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/app/components/ui/avatar';
 import EmployeeProfileTable from './EmployeeProfileTable';
-import { SquareUserRound } from 'lucide-react';
+import { SquareUserRound, UserRoundCheck } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 
 interface UserProps {
@@ -110,42 +110,32 @@ const ProfileForm: React.FC<UserProps> = ({ session, user }) => {
 
   return (
     <section className="flex flex-col lg:w-2/3 md:w-10/12 w-full lg:space-x-10 ">
+      <div className="flex items-center my-4">
+        <UserRoundCheck />
+        <h2 className="text-xl font-semibold ml-8">Employee profile information</h2>
+      </div>
       {isEditMode ? (
         <div className='w-full'>
           <div className="flex flex-row mx-auto w-full">
             <EmployeeProfileTable formData={formData} session={session} />
           </div>
           <div className="lg:w-2/3 md:w-10/12 w-full lg:space-x-10 flex flex-row">
-              <div className="w-1/2 ml-10">
-              </div>            
-              <div className="w-2/3 px-10 ">
-                <Button
-                  className='w-full mt-2 text-md'
-                  onClick={() => setIsEditMode(false)}
-                >
-                  Edit
-                </Button>
-              </div>
+            <div className="w-1/2 lg:mx-14 md-mx-10">
+            </div>            
+            <div className="w-2/3 md:ml-2">
+              <Button
+                className='w-full mt-2 text-md'
+                onClick={() => setIsEditMode(false)}
+              >
+                Edit
+              </Button>
             </div>
+          </div>
         </div>
       ) : (
       <div 
       className='flex flex-col mx-auto w-full'
       >
-        <div className="flex items-center">
-          <Label className="w-1/2 ml-10">Profile image</Label>
-          <div className="w-full flex flex-row items-center justify-between ">
-            <div className='w-1/4'>
-              <Avatar>
-                <AvatarImage src={formData?.image} className='w-[60px] h-[60px] object-fill' />
-                <AvatarFallback><SquareUserRound /></AvatarFallback>
-              </Avatar>
-            </div>
-            <div className='w-3/4 mt-6 text-md'>
-              <AddPhoto />
-            </div>
-          </div>
-        </div> 
         <Form {...form}>
           <form  onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
             <div className="flex flex-col">

@@ -1,7 +1,7 @@
 "use client"
 import { useState } from 'react';
 import { Button } from '@/app/components/ui/button';
-import { Plus, X } from 'lucide-react';
+import { Plus, Upload, X } from 'lucide-react';
 
 
 export default function AddLogo() {
@@ -50,8 +50,7 @@ export default function AddLogo() {
           onClick={handleModalToggle}
           className="w-full flex items-center "
           variant="flairnowOutline">
-          <Plus className="mr-1 h-5 w-5" />
-          Upload file
+          <Upload className="mr-1 h-5 w-5" />
         </Button>
       {showModal && (
         <div

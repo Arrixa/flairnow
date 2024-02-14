@@ -1,13 +1,8 @@
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/app/components/ui/table"
-import { Avatar, AvatarFallback, AvatarImage } from '@/app/components/ui/avatar';
-import { Session } from "next-auth";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import { HiBuildingOffice, HiNewspaper } from "react-icons/hi2";
 import { CldImage } from 'next-cloudinary';
-import { Frame, SquareUserRound } from "lucide-react";
-import { Label } from "@/app/components/ui/label";
+import { BookText, Building, Paperclip } from "lucide-react";
 import AddLogo from "./AddLogo";
+import Image from "next/image";
 
 interface ClientData {
   domain?: string;
@@ -47,24 +42,10 @@ const CompanyInfo: React.FC<ClientData & { formData?: ClientData }> = ({ formDat
 
   return (
     <section className="flex flex-col w-full">  
-          <div className="flex items-center">
-            <Label className="w-1/2 ml-10">Logo</Label>
-            <div className="w-full flex flex-row items-center justify-between ">
-              <div className='w-1/4'>
-                <Avatar>
-                  <AvatarImage src={client?.logo} className='w-[60px] h-[60px] object-fill' />
-                  <AvatarFallback><Frame /></AvatarFallback>
-                </Avatar>
-              </div>
-              <div className='w-3/4 mt-6 text-md'>
-                <AddLogo  />
-              </div>
-            </div>
-          </div>  
-        {/* <div className="w-full">
-        <div className="flex items-center my-8">
-          <HiBuildingOffice />
-          <h2 className="text-xl font-semibold ml-6">Location</h2>
+      <div className="w-full">
+        <div className="flex items-center my-4">
+          <Paperclip />
+          <h2 className="text-xl font-semibold ml-6">Company assets</h2>
         </div>
         <Table className="w-full space-x-1">
         <TableCaption></TableCaption>
@@ -73,19 +54,27 @@ const CompanyInfo: React.FC<ClientData & { formData?: ClientData }> = ({ formDat
             </TableRow>
           </TableHeader>
           <TableRow>
-            <TableHead className="w-1/2">Profile image:</TableHead>
-            <TableCell className="w-1/2 text-left pl-10">
-            <Avatar>
-              <AvatarImage src={client?.logo} className='w-[60px] h-[60px] object-fill' />
-              <AvatarFallback><SquareUserRound /></AvatarFallback>
-            </Avatar>
+            <TableHead className="w-1/3 pl-10">Company logo:</TableHead>
+            <TableCell className="lg:w-1/2 w-full text-left px-12 flex justify-between items-center">
+              {client?.logo ? (
+              <div className='ml-2'>
+                <CldImage alt={`${client?.domain} logo`} src={client?.logo} width={50} height={50} />
+              </div>
+              ) : (
+                <div className='ml-2'>
+                <Image alt={`${client?.domain} logo`} src='/default/DefaultLogo.png' width={50} height={50} />
+              </div>
+              )}
+              <div className='mt-6 text-md w-1/3'>
+                <AddLogo  />
+              </div>
             </TableCell>
           </TableRow>
         </Table>         
-        </div> */}
+        </div>
       <div className="w-full">
         <div className="flex items-center my-4">
-          <HiNewspaper />
+          <BookText />
           <h2 className="text-xl font-semibold ml-6">General Information</h2>
         </div>
         <Table className="w-full">
@@ -117,7 +106,7 @@ const CompanyInfo: React.FC<ClientData & { formData?: ClientData }> = ({ formDat
       </div>
       <div className="">
         <div className="flex items-center my-8">
-          <HiBuildingOffice />
+          <Building />
           <h2 className="text-xl font-semibold ml-6">Location</h2>
         </div>
         <Table className="w-full space-x-1">

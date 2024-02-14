@@ -1,7 +1,9 @@
 import React from 'react'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/app/components/ui/table";
-import { Avatar, AvatarFallback, AvatarImage } from '@/app/components/ui/avatar';
-import { User } from "@prisma/client";
+import { User } from "next-auth";
+import { CldImage } from 'next-cloudinary';
+import Image from 'next/image';
+import AddPhoto from '@/app/components/common/AddPhoto';
 
 interface UserInfo {
   user: User;
@@ -19,12 +21,20 @@ const UserProfile = ({ user }: UserInfo) => {
         </TableHeader>
         <TableBody>
           <TableRow>
-            <TableHead className="w-1/2 pl-10">Profile image:</TableHead>
-            <TableCell className="w-1/2 text-left pl-10">
-            <Avatar>
-              <AvatarImage src={user?.image} className='w-[50px] h-[50px] object-fill' />
-              <AvatarFallback>FN</AvatarFallback>
-            </Avatar>
+          <TableHead className="w-1/3">Profile image:</TableHead>
+            <TableCell className="lg:w-1/2 w-full text-left px-12 flex justify-between items-center align-bottom">
+            {user.image ? (
+              <div className='ml-2'>
+                <CldImage alt='profile image' src={user.image} width={50} height={50} className='rounded-full' />
+              </div>
+              ) : (
+                <div className='ml-2'>
+                <Image alt='profile image' src='/default/Avatar.png' width={50} height={50}  className='rounded-full'/>
+              </div>
+              )}
+              <div className='mt-6 text-md w-1/3'>
+                <AddPhoto  />
+              </div>
             </TableCell>
           </TableRow>
           <TableRow>
