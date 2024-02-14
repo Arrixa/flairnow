@@ -168,15 +168,12 @@ export interface FileInfo {
   preview: string;
 }
 
-export interface EmailProvider {
-  server: nodemailer.TransportOptions;
-  from: string;
-  react: React.ReactNode;
-  html: string;
-}
-
 export interface SendVerificationRequestParams {
   identifier: string;
   url: string;
-  provider: EmailProvider;
+  provider: {
+    server: nodemailer.TransportOptions;
+    from: string;
+    html: string;
+  };
 }
