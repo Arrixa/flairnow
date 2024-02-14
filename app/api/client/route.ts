@@ -1,8 +1,8 @@
 import prisma from "@/lib/prisma";
+import { authOptions } from "@/utils/authOptions";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { authOptions } from "../auth/[...nextauth]/route";
-
+ 
 export async function POST(req: Request) {
   try {
     const reqBody = await req.json();
@@ -14,7 +14,9 @@ export async function POST(req: Request) {
         id: clientId,
       },
     });
-    if (!client) return "Client does not exist"
+    if (!client) {
+      return NextResponse.json({ message: "Client does not exist" }, { status: 404 });
+    } 
 
     const updateClient = await prisma.client.update({
       where: {

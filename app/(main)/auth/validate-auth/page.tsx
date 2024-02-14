@@ -1,8 +1,8 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { Skeleton } from '@/app/components/ui/skeleton';
-import { Card, CardContent, CardDescription, CardFooter, CardTitle } from '@/app/components/ui/card'
+import { Card, CardContent, CardDescription, CardTitle } from '@/app/components/ui/card'
+import { authOptions } from "@/utils/authOptions";
 
 const ValidatingAuth = async () => {
   const session = await getServerSession(authOptions);

@@ -1,9 +1,9 @@
 import SigninButton from "./SigninButton";
 import Link from "next/link";
 import { ModeToggle } from "./ModeToggle";
-import Image from "next/image";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/utils/authOptions";
+
 import renderLogo from "../common/logos/Logo";
 
 const NavBar = async () => {
@@ -25,7 +25,7 @@ const NavBar = async () => {
       <div className='container flex items-center gap-4'>
         <div className="flex flex-row ml-auto gap-4">
           <ModeToggle />
-          <SigninButton session={session}/>
+          <SigninButton />
         </div>
       </div>
     </nav>

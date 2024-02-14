@@ -1,15 +1,15 @@
 import nodemailer from "nodemailer"
 
 export enum Role {
-  OWNER,
-  ADMIN,
-  VIEWER,
-  EMPLOYEE,
-  RECRUITER,
-  PEOPLE_MANAGER,
-  HIRING_MANAGER,
-  ONBOARDING_MANAGER,
-  UNASSIGNED
+  OWNER = 'OWNER',
+  ADMIN = 'ADMIN',
+  VIEWER = 'VIEWER',
+  EMPLOYEE = 'EMPLOYEE',
+  RECRUITER = 'RECRUITER',
+  PEOPLE_MANAGER = 'PEOPLE_MANAGER',
+  HIRING_MANAGER = 'HIRING_MANAGER',
+  ONBOARDING_MANAGER = 'ONBOARDING_MANAGER',
+  UNASSIGNED = 'UNASSIGNED'
 }
 
 export interface Account {
@@ -89,13 +89,11 @@ export interface ClientUser {
 }
 
 export interface SigninBtnProps {
-  session?: Session | null, 
   onClick?: () => void;
 }
 
 export interface UserProps {
-  session?: Session | null, 
-  user?: User | null, 
+  user?: User | null;
   onClick?: () => void;
 }
 
@@ -128,7 +126,7 @@ export interface UserInfo {
 }
 
 export interface AdminProps {
-  session?: Session | null, 
+  session: Session;
   onClick?: () => void;
 }
 
@@ -168,12 +166,110 @@ export interface FileInfo {
   preview: string;
 }
 
+// export interface EmailProvider {
+//   server: nodemailer.TransportOptions;
+//   from: string;
+//   html: string;
+// }
+
+import { Transport, TransportOptions, createTransport } from "nodemailer"
+import * as JSONTransport from "nodemailer/lib/json-transport/index.js"
+import * as SendmailTransport from "nodemailer/lib/sendmail-transport/index.js"
+import * as SESTransport from "nodemailer/lib/ses-transport/index.js"
+import * as SMTPPool from "nodemailer/lib/smtp-pool/index.js"
+import * as SMTPTransport from "nodemailer/lib/smtp-transport/index.js"
+import * as StreamTransport from "nodemailer/lib/stream-transport/index.js"
+
+type AllTransportOptions =
+  | string
+  | SMTPTransport
+  | SMTPTransport.Options
+  | SMTPPool
+  | SMTPPool.Options
+  | SendmailTransport
+  | SendmailTransport.Options
+  | StreamTransport
+  | StreamTransport.Options
+  | JSONTransport
+  | JSONTransport.Options
+  | SESTransport
+  | SESTransport.Options
+  | Transport<any>
+  | TransportOptions
+
+
+export type Awaitable<T> = T | PromiseLike<T>
+
 export interface SendVerificationRequestParams {
   identifier: string;
   url: string;
-  provider: {
-    server: nodemailer.TransportOptions;
-    from: string;
-    html: string;
-  };
+  provider: EmailConfig;
 }
+
+export interface EmailConfig {
+  server: AllTransportOptions;
+  from: string;
+  id: "email"
+  type: "email"
+  name: "Email"
+  maxAge: number
+  sendVerificationRequest: (
+    params: SendVerificationRequestParams
+  ) => Awaitable<void>
+}
+
+export interface ClientForm {
+  domain?: string;
+  companyName?: string;
+  logo?: string;
+  website?: string;
+  description?: string;
+  countryCode?: string;
+  phoneNumber?: string;
+  streetNo?: string;
+  streetAddress?: string;
+  province?: string;
+  zipCode?: string;
+  country?: string;
+}
+
+export interface SessionProps {
+  session: Session;
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    image: string;
+    userDomain: string;
+    role: string[]
+    clientId: string;
+    userId: string;
+    sessionToken: string;
+    clientUserId: string;
+    expires: Date;
+    client: Client;
+    user: {
+      id: string;
+      firstName: string;
+      lastName: string;
+      email: string;
+      image: string;
+      userDomain: string;
+    };
+    clientUser: {
+      clientId: string;
+      role: string[];
+    };
+    companyName: string;
+    website: string;
+    description: string; 
+    countryCode: string;
+    streetNo: string;
+    province: string;
+    zipCode: string;
+    country: string; 
+    logo: string;
+}
+
+// { formData: FormData; session: { firstName: string; lastName: string; email: string; image: string; userDomain: string; role: string[]; userId: string; clientId: string; user: { id: string; firstName: string; lastName: string; email: string; image: string; userDomain: string; }; clientUser: { ...; }; }; }
+

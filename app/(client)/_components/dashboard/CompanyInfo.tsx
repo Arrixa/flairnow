@@ -3,9 +3,9 @@ import { CldImage } from 'next-cloudinary';
 import { BookText, Building, Paperclip } from "lucide-react";
 import AddLogo from "./AddLogo";
 import Image from "next/image";
-import { Client } from "@/lib/interfaces"
+import { ClientForm } from "@/lib/interfaces"
 
-const CompanyInfo: React.FC<Client & { formData?: Client }> = ({ formData }) => {
+const CompanyInfo: React.FC<ClientForm & { formData?: ClientForm }> = ({ formData }) => {
 
   const client = formData
   console.log(client, 'client data in client info')

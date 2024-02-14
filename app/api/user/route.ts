@@ -1,11 +1,9 @@
 import { prisma } from "@/lib/prisma"; 
-import { excludedDomains } from "@/lib/excludedDomains";
 import { NextRequest, NextResponse } from "next/server";
-import { Role } from "@prisma/client";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
 import { extractEmailDomain, isDomainInExcludedList } from "@/lib/extractDomain";
-
+import { authOptions } from "@/utils/authOptions";
+import { Role } from "@/lib/interfaces";
 
 export async function POST(req: NextRequest) {
   try {
@@ -67,7 +65,7 @@ export async function POST(req: NextRequest) {
       }
   
       if (roles.length === 0) {
-        // If roles are not assigned, assume some default role, e.g., USER
+        // If roles are not assigned, assume some default role
         roles.push(Role.UNASSIGNED);
       }
   

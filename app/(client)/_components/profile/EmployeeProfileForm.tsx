@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import { useEffect, useState } from "react";
 import EmployeeProfileTable from './EmployeeProfileTable';
 import { useSession } from 'next-auth/react';
-import { UserProps, FormData } from '@/lib/interfaces';
+import { SessionProps, FormData } from '@/lib/interfaces';
 import { UserRoundCheck } from 'lucide-react';
 
 const FormSchema = z.object({
@@ -19,7 +19,7 @@ const FormSchema = z.object({
 });
 
 
-const ProfileForm: React.FC<UserProps> = ({ session, user }) => {
+const ProfileForm = () => {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -30,6 +30,7 @@ const ProfileForm: React.FC<UserProps> = ({ session, user }) => {
   });
 
   const [isEditMode, setIsEditMode] = useState(true);
+  const { update, data: session } = useSession();
   const [formData, setFormData] = useState<FormData>(() => ({
     firstName: session?.user?.firstName || '',
     lastName: session?.user?.lastName || '',
@@ -39,8 +40,6 @@ const ProfileForm: React.FC<UserProps> = ({ session, user }) => {
   }));
 
   console.log(formData)
-
-  const { update } = useSession();
 
   useEffect(() => {
     const mappedData = {
@@ -99,7 +98,7 @@ const ProfileForm: React.FC<UserProps> = ({ session, user }) => {
       {isEditMode ? (
         <div className='w-full'>
           <div className="flex flex-row mx-auto w-full">
-            <EmployeeProfileTable formData={formData} session={session} />
+            <EmployeeProfileTable formData={formData} />
           </div>
           <div className="lg:w-2/3 md:w-10/12 w-full lg:space-x-10 flex flex-row">
             <div className="w-1/2 lg:mx-14 md-mx-10">

@@ -22,7 +22,7 @@ const FormSchema = z.object({
 });
 
 
-const ProfileForm: React.FC<UserProps> = ({ session, user }) => {
+const ProfileForm: React.FC<UserProps> = ({ user }) => {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {

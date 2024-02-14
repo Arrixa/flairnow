@@ -1,5 +1,5 @@
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../api/auth/[...nextauth]/route';
+import { authOptions } from "@/utils/authOptions";
 import Sidebar from './sidebar/page';
 
 const ClientLayout = async ({ 
@@ -11,7 +11,7 @@ const ClientLayout = async ({
   const session = await getServerSession(authOptions);
     return (
       <div className="flex w-full">
-        <Sidebar session={session} />
+        <Sidebar />
         <main className="flex-grow">
           {children}
         </main>

@@ -4,7 +4,7 @@ import { render } from '@react-email/render';
 import { SendVerificationRequestParams, TextParams } from '@/lib/interfaces';
 
 export async function sendVerificationRequest(params: SendVerificationRequestParams): Promise<{ success: boolean; data: any }> {
-  const { identifier, url, provider } = params;
+  const { identifier, url, provider }  = params;
   const { host } = new URL(url);
   const emailHtml = render(MagicLinkEmail({ url, host }));
 

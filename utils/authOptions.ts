@@ -4,7 +4,7 @@ import { NextAuthOptions } from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import { sendVerificationRequest } from "@/utils/sendVerificationRequest";
 import { JWT } from "next-auth/jwt";
-import { SendVerificationRequestParams } from "@/lib/interfaces";
+import { Awaitable, SendVerificationRequestParams } from "@/lib/interfaces";
 
 export const authOptions: NextAuthOptions = {
   
@@ -26,8 +26,24 @@ export const authOptions: NextAuthOptions = {
         }
       },
       from: process.env.EMAIL_FROM,
-      sendVerificationRequest: async (params: SendVerificationRequestParams) => {
-        await sendVerificationRequest(params);
+      // sendVerificationRequest: async (params: SendVerificationRequestParams) => {
+      //   await sendVerificationRequest(params);
+      // },
+      sendVerificationRequest({
+        identifier: email,
+        url,
+        provider: { server, from },
+      }) {
+        sendVerificationRequest({ identifier: email, url, provider: {
+          server, from,
+          id: "email",
+          type: "email",
+          name: "Email",
+          maxAge: 0,
+          sendVerificationRequest: function (params: SendVerificationRequestParams): Awaitable<void> {
+            throw new Error("Function not implemented.");
+          }
+        } })
       },
     }),
 
@@ -41,7 +57,7 @@ export const authOptions: NextAuthOptions = {
         }
       }
 
-      if (token && user && token.email) {
+      if (token && user && token.email && user.email) {
         console.log('Token email:', token.email);
   
         const dbUser = await prisma.user.findFirst({
@@ -81,6 +97,10 @@ export const authOptions: NextAuthOptions = {
               image: dbUser.image,
               userDomain: dbUser.userDomain,
             },
+            clientUser: {
+              role: dbClientUser?.role, 
+              clientId: dbClientUser?.clientId,
+            },
             client: {
               domain: dbClient?.domain,
               id: dbClient?.id,
@@ -107,11 +127,11 @@ export const authOptions: NextAuthOptions = {
         session = newSession
       }
       if (token) {
-        session.userDomain = token.userDomain;
         session.role = token.role;
-        session.firstName = token.firstName;
-        session.lastName = token.lastName;
-        session.email = token.email;
+        // session.userDomain = token.userDomain;
+        // session.firstName = token.firstName;
+        // session.lastName = token.lastName;
+        // session.email = token.email;
         session.user = {
           id: token.id,
           firstName: token.firstName,
@@ -120,7 +140,6 @@ export const authOptions: NextAuthOptions = {
           image: token.image,
           userDomain: token.userDomain
         };
-
         session.clientUser = {
           role: token.role, 
           clientId: token.clientId, 

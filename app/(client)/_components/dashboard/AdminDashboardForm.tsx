@@ -13,7 +13,7 @@ import { CountrySelect } from '@/app/components/common/CountrySelect';
 import { CodeSelect } from '@/app/components/common/CodeSelect';
 import { useSession } from 'next-auth/react';
 import { BookText, Building } from 'lucide-react';
-import { AdminProps } from '@/lib/interfaces';
+// import { AdminProps } from '@/lib/interfaces';
 
 const FormSchema = z.object({
   companyName: z.string().min(1, 'Name is required'),
@@ -29,7 +29,7 @@ const FormSchema = z.object({
 });
 
 
-const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
+const AdminDashboardForm = () => {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -50,7 +50,7 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
   const [selectedCountry, setSelectedCountry] = useState<string>(''); 
   const [isEditMode, setIsEditMode] = useState(true);
   const [formData, setFormData] = useState({});
-  const { update } = useSession();
+  const { update, data: session } = useSession();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -103,7 +103,7 @@ const AdminDashboardForm: React.FC<AdminProps> = ({ session }) => {
   
     // Call fetchData when the component mounts
     fetchData();
-  }, [form, selectedCode, selectedCountry]);
+  }, [form, selectedCode, selectedCountry, session, update]);
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     console.log('Form submitted:', data);

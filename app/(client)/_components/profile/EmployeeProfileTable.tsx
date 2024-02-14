@@ -4,9 +4,11 @@ import RoleBadges from "../../../components/common/RoleBadges";
 import { CldImage } from 'next-cloudinary';
 import Image from 'next/image';
 import AddPhoto from '@/app/components/common/AddPhoto';
-import { UserForm } from '@/lib/interfaces';
+import { FormData } from '@/lib/interfaces';
+import { useSession } from 'next-auth/react';
 
-const EmployeeProfileTable: React.FC<UserForm> = ({ session, formData }) => {
+const EmployeeProfileTable: React.FC<{ formData: FormData }> = ({ formData }) => {
+  const { data: session } = useSession();
   const user = session?.user;
   console.log(formData, 'form data user data in employee profile table')
   const roles = session?.clientUser.role;

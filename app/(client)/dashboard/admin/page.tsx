@@ -1,5 +1,5 @@
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from "@/utils/authOptions";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
 import AdminDashboardForm from '../../_components/dashboard/AdminDashboardForm';
 
@@ -16,7 +16,7 @@ const AdminDashboardPage = async () => {
             <TabsTrigger value="preferences" className="info-trigger">Preferences</TabsTrigger>
           </TabsList>
           <TabsContent value="info">
-            <AdminDashboardForm session={session} />
+            <AdminDashboardForm />
           </TabsContent>
           <TabsContent value="preferences"></TabsContent>
         </Tabs>
