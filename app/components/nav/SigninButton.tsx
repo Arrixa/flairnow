@@ -8,44 +8,44 @@ import { SigninBtnProps } from "@/lib/interfaces";
 
 const SigninButton: React.FC<SigninBtnProps> = () => {
   const { data: session } = useSession();
-  const router = useRouter(); 
+  const router = useRouter();
 
   const handleSignOut = async () => {
-    await signOut({ callbackUrl: '/' }); 
-    router.replace('/'); 
+    await signOut({ callbackUrl: '/' });
+    router.replace('/');
   };
 
   return (
-<div className="flex items-center gap-2">
-  {session && session.user ? (
-    <>
-      {session.user.firstName ? (
+    <div className="flex items-center gap-2">
+      {session && session.user ? (
         <>
-          {session?.user.userDomain !== 'public' ? (
-            <Button variant="flairnowOutline">
-              <Link href="/dashboard/employee-profile">{`${session.user.firstName}`}</Link>
-            </Button>
+          {session.user.firstName ? (
+            <>
+              {session?.user.userDomain !== 'public' ? (
+                <Button variant="flairnowOutline">
+                  <Link href="/dashboard/employee-profile">{`${session.user.firstName}`}</Link>
+                </Button>
 
+              ) : (
+                <Button variant="flairnowOutline">
+                  <Link href="/profile">{`${session.user.firstName}`}</Link>
+                </Button>
+              )}
+              <Button onClick={handleSignOut}>Sign out</Button>
+            </>
           ) : (
-            <Button variant="flairnowOutline">
-              <Link href="/profile">{`${session.user.firstName}`}</Link>
-            </Button>
+            <>
+              <Button onClick={handleSignOut}>Sign out</Button>
+            </>
+
           )}
-          <Button onClick={handleSignOut}>Sign out</Button>
         </>
       ) : (
         <>
-        <Button onClick={handleSignOut}>Sign out</Button>
+          <Button className="bg-brand text-black py-2 px-4 rounded hover:bg-teal-700 hover:text-white transition duration-300" onClick={() => signIn()}>Get Started</Button>
         </>
-
       )}
-    </>
-  ) : (
-    <>
-      <Button onClick={() => signIn()}>Sign in</Button>
-    </>
-  )}
-</div>
+    </div>
   );
 };
 

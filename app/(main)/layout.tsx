@@ -1,20 +1,22 @@
 import React from 'react'
 import NavBar from '@/app/components/nav/NavBar';
 
-const mainLayout = async ({ 
+const mainLayout = async ({
   children,
-  }: {
-    children: React.ReactNode
-  }) => {
+}: {
+  children: React.ReactNode
+}) => {
 
- 
-  
+
+
   return (
     <div className="flex">
       <main className="flex-grow">
         <NavBar />
-        {children}
-        </main>
+        <div>
+          {children}
+        </div>
+      </main>
     </div>
   );
 };

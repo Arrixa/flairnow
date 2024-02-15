@@ -16,6 +16,8 @@
     --secondary-foreground: 240 5.9% 10%;
     --muted: 0, 0%, 9.02%;
     --muted-foreground: 240 3.8% 46.1%;
+    --brand: 171, 100%, 38%;
+    --brand-foreground: 0, 0%, 0%;
     --accent: 216.92, 19.12%, 26.67%;
     --accent-foreground: 0, 0%, 100%;
     --destructive: 0 84.2% 60.2%;
@@ -43,6 +45,8 @@
     --accent-foreground: 0 0% 0%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
+    --brand: 171, 100%, 38%;
+    --brand-foreground: 0, 0%, 100%;
     --border: 0, 0%, 46.67%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;

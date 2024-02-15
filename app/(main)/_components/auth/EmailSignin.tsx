@@ -15,7 +15,7 @@ import { Input } from '../../../components/ui/input';
 import { Button } from '../../../components/ui/button';
 import { signIn } from 'next-auth/react';
 
-const EmailSignIn= () => {
+const EmailSignIn = () => {
 
   const FormSchema = useMemo(() => (
     z.object({
@@ -32,11 +32,11 @@ const EmailSignIn= () => {
 
   const onSubmit = async (value: z.infer<typeof FormSchema>, event?: React.BaseSyntheticEvent): Promise<void> => {
     if (form.formState.isSubmitting) {
-      return;  
+      return;
     }
     if (event) {
       event.preventDefault();
-    } 
+    }
     const email = value.email
     signIn('email', { email: email, callbackUrl: '/auth/validate-auth' });
   }
@@ -44,26 +44,26 @@ const EmailSignIn= () => {
   return (
     <div className="flex flex-col justify-center items-center mx-auto w-full px-4 md:px-6 lg:px-8 xl:w-3/4">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='w-full lg:w-96'>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='w-full lg:w-96 space-y-4'>
           <div className='space-y-2 md:w-full lg:w-96'>
-          <FormField
-            control={form.control}
-            name='email'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className='ml-3 text-md'>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder='Enter your email address' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name='email'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className='ml-3 text-md'>Email</FormLabel>
+                  <FormControl>
+                    <Input type='email' placeholder='Enter your email address' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
           <div>
-          <Button className='min-w-full w-full mt-6 text-md' type='submit'>
-            Continue with email
-          </Button>
+            <Button className="bg-brand text-black py-2 px-4 rounded hover:bg-teal-700 hover:text-white transition duration-300 w-full" type='submit'>
+              Continue with email
+            </Button>
           </div>
         </form>
       </Form>
