@@ -1,5 +1,5 @@
 'use client'
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Form,
@@ -13,13 +13,14 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../../../components/ui/input';
 import { Button } from '../../../components/ui/button';
-import { signIn } from 'next-auth/react';
+import { getCsrfToken, signIn } from 'next-auth/react';
 
-const EmailSignIn = () => {
+const EmailSignIn= () => {
 
   const FormSchema = useMemo(() => (
     z.object({
       email: z.string().min(1, 'Email is required').email('Invalid email'),
+      csrf: z.string(),
     })
   ), []);
 
@@ -27,6 +28,7 @@ const EmailSignIn = () => {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       email: '',
+      csrf: csrfToken || '',
     },
   });
 
@@ -46,19 +48,19 @@ const EmailSignIn = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='w-full lg:w-96 space-y-4'>
           <div className='space-y-2 md:w-full lg:w-96'>
-            <FormField
-              control={form.control}
-              name='email'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className='ml-3 text-md'>Email</FormLabel>
-                  <FormControl>
-                    <Input type='email' placeholder='Enter your email address' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <FormField
+            control={form.control}
+            name='email'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className='ml-3 text-md'>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder='Enter your email address' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           </div>
           <div>
             <Button className="bg-brand text-black py-2 px-4 rounded hover:bg-teal-700 hover:text-white transition duration-300 w-full" type='submit'>
