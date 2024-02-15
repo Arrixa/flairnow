@@ -1,5 +1,5 @@
 'use client'
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Form,
@@ -13,13 +13,24 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../../../components/ui/input';
 import { Button } from '../../../components/ui/button';
-import { signIn } from 'next-auth/react';
+import { getCsrfToken, signIn } from 'next-auth/react';
 
 const EmailSignIn= () => {
+  const [csrfToken, setCsrfToken] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    const fetchCsrfToken = async () => {
+      const token = await getCsrfToken();
+      setCsrfToken(token);
+    };
+
+    fetchCsrfToken();
+  }, []);
 
   const FormSchema = useMemo(() => (
     z.object({
       email: z.string().min(1, 'Email is required').email('Invalid email'),
+      csrf: z.string(),
     })
   ), []);
 
@@ -27,6 +38,7 @@ const EmailSignIn= () => {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       email: '',
+      csrf: csrfToken || '',
     },
   });
 
@@ -59,6 +71,8 @@ const EmailSignIn= () => {
               </FormItem>
             )}
           />
+          {/* Register the CSRF token as a hidden input */}
+          <input type="hidden" name="csrf" defaultValue={csrfToken} />
           </div>
           <div>
           <Button className='min-w-full w-full mt-6 text-md' type='submit'>
