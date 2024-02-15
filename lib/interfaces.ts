@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer"
+import { Session } from "next-auth";
 
 export enum Role {
   OWNER = 'OWNER',
@@ -28,17 +28,17 @@ export interface Account {
   user: User;
 }
 
-export interface Session {
-  id: string;
-  sessionToken: string;
-  userId: string;
-  clientId: string;
-  clientUserId: string;
-  expires: Date;
-  user: User;
-  client: Client;
-  clientUser: ClientUser;
-}
+// export interface Session {
+//   id: string;
+//   sessionToken: string;
+//   userId: string;
+//   clientId: string;
+//   clientUserId: string;
+//   expires: Date;
+//   user: User;
+//   client: Client;
+//   clientUser: ClientUser;
+// }
 
 export interface VerificationToken {
   identifier: string;
@@ -55,9 +55,6 @@ export interface User {
   password?: string;
   image?: string;
   userDomain?: string;
-  accounts: Account[];
-  sessions: Session[];
-  client: ClientUser[];
 }
 
 export interface Client {
@@ -75,7 +72,6 @@ export interface Client {
   zipCode?: string;
   country?: string;
   user: ClientUser[];
-  sessions: Session[];
 }
 
 export interface ClientUser {
@@ -85,7 +81,6 @@ export interface ClientUser {
   user: User;
   userId: string;
   role: Role[];
-  sessions: Session[];
 }
 
 export interface SigninBtnProps {
@@ -113,6 +108,10 @@ export interface SidebarCompProps {
   userRoles: string[];
   session?: Session | null,
   onClick?: () => void;
+}
+
+export interface SidebarProps {
+  session?: Session | null,
 }
 
 export interface UserCardProps {

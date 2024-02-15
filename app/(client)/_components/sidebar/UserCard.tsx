@@ -12,7 +12,6 @@ const UserCard: React.FC<UserCardProps> = ({ session }) => {
   function capitalizeFirstLetter(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
-
   const user = session?.user;
 
   return (

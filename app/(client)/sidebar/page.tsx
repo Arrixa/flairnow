@@ -1,15 +1,13 @@
-'use client'
 import SidebarComp from "../_components/sidebar/Sidebar";
-import { useSession } from "next-auth/react";
-import { Session } from '@/lib/interfaces';
+import { SidebarProps } from "@/lib/interfaces";
 
-const Sidebar = () => {
-  const { data: session } = useSession();
-  const userRoles = session?.role;
+const Sidebar: React.FC<SidebarProps> = async ({ session }) => {
+  const userRoles = session?.role || [];
+  console.log(session, userRoles, 'user roles & session in side bar page');
 
   return (
     <div className="w-fit">
-      <SidebarComp userRoles={userRoles || []} />
+      <SidebarComp userRoles={userRoles} session={session} />
     </div>
   );
 };

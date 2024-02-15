@@ -13,7 +13,6 @@ import { CountrySelect } from '@/app/components/common/CountrySelect';
 import { CodeSelect } from '@/app/components/common/CodeSelect';
 import { useSession } from 'next-auth/react';
 import { BookText, Building } from 'lucide-react';
-import { Session } from 'next-auth';
 
 const FormSchema = z.object({
   companyName: z.string().min(1, 'Name is required'),
@@ -65,7 +64,7 @@ const AdminDashboardForm = () => {
         const data = await response.json();
         // Set form data with fetched values
         setFormData(data)
-        console.log(data, 'Set form data with fetched values');
+        // console.log(data, 'Set form data with fetched values');
 
         setSelectedCode(data.countryCode);
         setSelectedCountry(data.country);

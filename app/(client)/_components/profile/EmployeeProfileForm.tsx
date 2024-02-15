@@ -46,8 +46,8 @@ const ProfileForm = () => {
       firstName: formData.firstName,
       lastName: formData.lastName,
       email: formData.email,
+      image: formData.image,
     };
-    console.log(mappedData)
     form.reset(mappedData);
   }, [formData, form]);
 
@@ -186,33 +186,3 @@ const ProfileForm = () => {
 };
 
 export default ProfileForm;
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       // Fetch data from your API endpoint
-  //       const response = await fetch('/api/user');
-  //       if (!response.ok) {
-  //         throw new Error(`HTTP error! Status: ${response.status}`);
-  //       }
-  
-  //       const data = await response.json();
-  //       setFormData(data)
-  //       console.log(data.user, 'data user')
-  //       // Set form data with fetched values
-  //       console.log(data, 'data fetch');
-  
-  //       const mappedData = {
-  //         firstName: data.firstName,
-  //         lastName: data.lastName,
-  //         email: data.email,
-  //       };
-  //       form.reset(mappedData)
-  //       console.log('form reset data', data)
-  //     } catch (error) {
-  //       console.error('Error fetching form data:', error);
-  //     }
-  //   };
-  //   // Call fetchData when the component mounts
-  //   fetchData();
-  // }, [form]);

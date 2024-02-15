@@ -11,7 +11,7 @@ const ClientLayout = async ({
   const session = await getServerSession(authOptions);
     return (
       <div className="flex w-full">
-        <Sidebar />
+        <Sidebar session={session} />
         <main className="flex-grow">
           {children}
         </main>

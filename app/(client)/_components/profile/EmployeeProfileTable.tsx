@@ -10,7 +10,7 @@ import { useSession } from 'next-auth/react';
 const EmployeeProfileTable: React.FC<{ formData: FormData }> = ({ formData }) => {
   const { data: session } = useSession();
   const user = session?.user;
-  console.log(formData, 'form data user data in employee profile table')
+  // console.log(formData, 'form data user data in employee profile table')
   const roles = session?.clientUser.role;
 
   function capitalizeFirstLetter(str: string): string {
