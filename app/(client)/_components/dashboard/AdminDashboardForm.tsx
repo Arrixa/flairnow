@@ -8,12 +8,12 @@ import { useForm } from 'react-hook-form';
 import { Textarea } from '@/app/components/ui/textarea';
 import { toast } from 'react-toastify';
 import CompanyInfo from './CompanyInfo';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CountrySelect } from '@/app/components/common/CountrySelect';
 import { CodeSelect } from '@/app/components/common/CodeSelect';
 import { useSession } from 'next-auth/react';
 import { BookText, Building } from 'lucide-react';
-// import { AdminProps } from '@/lib/interfaces';
+import { Session } from 'next-auth';
 
 const FormSchema = z.object({
   companyName: z.string().min(1, 'Name is required'),
@@ -26,6 +26,7 @@ const FormSchema = z.object({
   province: z.string(),
   zipCode: z.string(),
   country: z.string().optional(),
+  logo: z.string().optional(),
 });
 
 
@@ -43,14 +44,15 @@ const AdminDashboardForm = () => {
       province: '',
       zipCode: '',
       country: '',
+      logo: '',
     },
   });
 
+  const { update, data: session } = useSession();
   const [selectedCode, setSelectedCode] = useState<string>(''); 
   const [selectedCountry, setSelectedCountry] = useState<string>(''); 
   const [isEditMode, setIsEditMode] = useState(true);
   const [formData, setFormData] = useState({});
-  const { update, data: session } = useSession();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -67,43 +69,27 @@ const AdminDashboardForm = () => {
 
         setSelectedCode(data.countryCode);
         setSelectedCountry(data.country);
-  
         const mappedData = {
           companyName: data.companyName,
           website: data.website,
-          description: data.description,
-          countryCode: selectedCode,
-          phoneNumber: data.phoneNumber,
-          streetNo: data.streetNo,
-          streetAddress: data.streetAddress,
-          province: data.province,
-          zipCode: data.zipCode,
-          country: data.Country,
-        };
-        form.reset(mappedData)
-        await update({ ...session, 
-          ...session?.user,
-          ...session?.client, 
-          companyName: data.companyName,
-          website: data.website,       
           description: data.description,
           countryCode: data.countryCode,
           phoneNumber: data.phoneNumber,
           streetNo: data.streetNo,
           streetAddress: data.streetAddress,
           province: data.province,
-          zipCode: data.zipCode, 
-          country: data.country, 
-          logo: data.logo,
-        });
+          zipCode: data.zipCode,
+          country: data.country,
+        };
+        form.reset(mappedData)
+
       } catch (error) {
         console.error('Error fetching form data:', error);
       }
     };
-  
     // Call fetchData when the component mounts
     fetchData();
-  }, [form, selectedCode, selectedCountry, session, update]);
+  }, [form, selectedCode, selectedCountry]);
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     console.log('Form submitted:', data);
@@ -135,6 +121,34 @@ const AdminDashboardForm = () => {
         if (response.ok) {
           toast.success("The client information saved successfully.");
           setIsEditMode(true)
+          const mappedData = {
+            companyName: data.companyName,
+            website: data.website,
+            description: data.description,
+            countryCode: data.countryCode,
+            phoneNumber: data.phoneNumber,
+            streetNo: data.streetNo,
+            streetAddress: data.streetAddress,
+            province: data.province,
+            zipCode: data.zipCode,
+            country: data.country,
+          };
+          form.reset(mappedData)
+          await update({ ...session, 
+            ...session?.user,
+            ...session?.client, 
+            companyName: data.companyName,
+            website: data.website,       
+            description: data.description,
+            countryCode: data.countryCode,
+            phoneNumber: data.phoneNumber,
+            streetNo: data.streetNo,
+            streetAddress: data.streetAddress,
+            province: data.province,
+            zipCode: data.zipCode, 
+            country: data.country, 
+            logo: data.logo,
+          });
           window.location.reload();
         } else {
           console.error("Save failed");
@@ -143,6 +157,7 @@ const AdminDashboardForm = () => {
         console.error("Save failed:", error);
       }
   };
+
 
   return (
     <section className="flex flex-col w-full">
@@ -322,14 +337,14 @@ const AdminDashboardForm = () => {
                     </FormItem>
                   )}
                 />
-                <Button className='w-full mt-6 text-md' type='submit'>
-                  Submit
-                </Button>
             </div>
             <div className="flex items-center">
               <div className="w-1/2 ml-10">
               </div>
               <div className="w-full">               
+                <Button className='w-full mt-6 text-md' type='submit'>
+                  Submit
+                </Button>
               </div>
             </div>
           </form>

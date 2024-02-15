@@ -37,7 +37,7 @@ export function CodeSelect({ onChange, value }: CodeSelectProps)  {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${process.env.NEXTAUTH_URL}/api/countries`, {
+        const response = await fetch('/api/countries', {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

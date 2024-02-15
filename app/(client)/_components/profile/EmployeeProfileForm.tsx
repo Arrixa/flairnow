@@ -79,6 +79,7 @@ const ProfileForm = () => {
           firstName: responseData.firstName,
           lastName: responseData.lastName,
           email: responseData.email,
+          image: responseData.image,
         });
         setIsEditMode(true)
       } else {

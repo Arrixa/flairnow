@@ -27,7 +27,7 @@ export function CountrySelect({ onChange, value }: { onChange: (value: string) =
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${process.env.NEXTAUTH_URL}/api/countries`, {
+        const response = await fetch('/api/countries', {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
