@@ -12,7 +12,7 @@ import { useEffect, useRef, useState } from "react";
 import { CountrySelect } from '@/app/components/common/CountrySelect';
 import { CodeSelect } from '@/app/components/common/CodeSelect';
 import { useSession } from 'next-auth/react';
-import { BookText, Building } from 'lucide-react';
+import { BookText, Building, ChevronLeft } from 'lucide-react';
 
 const FormSchema = z.object({
   companyName: z.string().min(1, 'Name is required'),
@@ -338,7 +338,8 @@ const AdminDashboardForm = () => {
                 />
             </div>
             <div className="flex items-center">
-              <div className="w-1/2 ml-10">
+            <div className="w-1/2 ml-8">
+                <ChevronLeft className='cursor-pointer mt-6'  onClick={() => setIsEditMode(true)} />
               </div>
               <div className="w-full">               
                 <Button className='w-full mt-6 text-md' type='submit'>

@@ -9,33 +9,38 @@ import { toast } from 'react-toastify';
 import { useEffect, useState } from "react";
 import EmployeeProfileTable from './EmployeeProfileTable';
 import { useSession } from 'next-auth/react';
-import { SessionProps, FormData } from '@/lib/interfaces';
+import { FormData } from '@/lib/interfaces';
 import { UserRoundCheck } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
+import { Session } from "next-auth";
 
 const FormSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
   lastName: z.string().min(1, 'Last name is required'),
   email: z.string().min(1, 'Email is required').email('Invalid email'),
+  image: z.string().optional(),
+  id: z.string().optional(),
 });
 
-
-const ProfileForm = () => {
+const ProfileForm = ({ session }: { session: Session | null }) => {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       firstName: '',
       lastName: '',
       email: '',
+      image: '',
+      id: '',
     },
   });
 
   const [isEditMode, setIsEditMode] = useState(true);
-  const { update, data: session } = useSession();
+  const { update } = useSession();
   const [formData, setFormData] = useState<FormData>(() => ({
-    firstName: session?.user?.firstName || '',
-    lastName: session?.user?.lastName || '',
-    email: session?.user?.email || '',
-    image: session?.user?.image || '',
+    firstName: session?.user?.firstName,
+    lastName: session?.user?.lastName,
+    email: session?.user?.email,
+    image: session?.user?.image,
     id: session?.user.id,
   }));
 
@@ -127,7 +132,7 @@ const ProfileForm = () => {
                   name='firstName'
                   render={({ field }) => (
                     <FormItem className="flex items-center">
-                      <FormLabel className="w-1/2 ml-10">First name</FormLabel>
+                      <FormLabel className="w-1/2 ml-4">First name</FormLabel>
                       <FormControl className="">
                         <Input placeholder='Enter your first name' 
                          {...field} />
@@ -141,7 +146,7 @@ const ProfileForm = () => {
                   name='lastName'
                   render={({ field }) => (
                     <FormItem className="flex items-center">
-                      <FormLabel className="w-1/2 ml-10">Last name</FormLabel>
+                      <FormLabel className="w-1/2 ml-4">Last name</FormLabel>
                       <FormControl className="">
                         <Input placeholder='Enter your last name' 
                          {...field} />
@@ -157,7 +162,7 @@ const ProfileForm = () => {
                 name='email'
                 render={({ field }) => (
                   <FormItem className="flex items-center">
-                    <FormLabel className="w-1/2 ml-10">Email</FormLabel>
+                    <FormLabel className="w-1/2 ml-4">Email</FormLabel>
                     <FormControl>
                       <Input placeholder='Enter your email' {...field} />
                     </FormControl>
@@ -168,7 +173,8 @@ const ProfileForm = () => {
               
             </div>
             <div className="flex items-center">
-              <div className="w-1/2 ml-10">
+              <div className="w-1/2 ml-4">
+                <ChevronLeft className='cursor-pointer mt-6'  onClick={() => setIsEditMode(true)} />
               </div>
             
               <div className="w-full">

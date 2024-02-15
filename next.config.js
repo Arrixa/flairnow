@@ -1,3 +1,5 @@
+const { hostname } = require('os');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {}
 
@@ -5,7 +7,13 @@ const nextConfig = {}
 
 module.exports = {
   images: {
-    domains: ['res.cloudinary.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+      },
+    ],
   },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // Exclude handlebars from bundling

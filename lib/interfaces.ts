@@ -97,6 +97,7 @@ export interface FormData {
   firstName: string;
   lastName: string;
   email: string;
+  id: string;
 }
 
 export interface UserForm {
