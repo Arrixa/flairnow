@@ -28,7 +28,7 @@ const EmailSignIn= () => {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       email: '',
-      csrf: csrfToken || '',
+      // csrf: csrfToken || '',
     },
   });
 

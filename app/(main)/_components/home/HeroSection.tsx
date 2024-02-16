@@ -8,7 +8,7 @@ const HeroSection = () => {
                 <div className='flex flex-col lg:w-1/2 mb-10'>
                     <h1 className="text-5xl font-bold mb-6">Employment solved.</h1>
                     <p className="text-xl mb-8">
-                        Find out why 300,000 businesses are automating recruitment, HR, payroll and benefits with Employment Hero.
+                        Find out why businesses are automating recruitment, HR, payroll and benefits with flair<strong>now</strong>.
                     </p>
                     <div className="space-x-4">
                         <Button className="bg-brand text-black py-2 px-4 rounded hover:bg-teal-700 hover:text-white transition duration-300">
