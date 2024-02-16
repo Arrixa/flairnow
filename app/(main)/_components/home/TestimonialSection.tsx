@@ -10,7 +10,7 @@ const TestimonialSection = () => {
           {/* Testimonial 1 */}
           <div className="lg:w-1/3 bg-brand rounded-lg p-6 text-white shadow-lg">
             <blockquote className="text-lg italic">
-              "Flairnow has transformed the way we handle HR and payroll. It's intuitive and easy to use."
+              Flairnow has transformed the way we handle HR and payroll. It&quot;s intuitive and easy to use.
             </blockquote>
             <div className="flex items-center mt-4">
               {/* Replace with actual image */}
@@ -29,7 +29,7 @@ const TestimonialSection = () => {
           {/* Testimonial 2 */}
           <div className="lg:w-1/3 bg-brand rounded-lg p-6 text-white shadow-lg">
             <blockquote className="text-lg italic">
-              "Flairnow has transformed the way we handle HR and payroll. It's intuitive and easy to use."
+              Flairnow has transformed the way we handle HR and payroll. It&quot;s intuitive and easy to use.
             </blockquote>
             <div className="flex items-center mt-4">
               {/* Replace with actual image */}
@@ -49,7 +49,7 @@ const TestimonialSection = () => {
           {/* Testimonial 3 */}
           <div className="lg:w-1/3 bg-brand rounded-lg p-6 text-white shadow-lg">
             <blockquote className="text-lg italic">
-              "Flairnow has transformed the way we handle HR and payroll. It's intuitive and easy to use."
+              Flairnow has transformed the way we handle HR and payroll. It&quot;s intuitive and easy to use.
             </blockquote>
             <div className="flex items-center mt-4">
               {/* Replace with actual image */}
