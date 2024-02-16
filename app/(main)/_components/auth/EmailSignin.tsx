@@ -17,6 +17,8 @@ import { getCsrfToken, signIn } from 'next-auth/react';
 
 const EmailSignIn= () => {
   const [csrfToken, setCsrfToken] = useState<string | undefined>(undefined);
+  console.log(csrfToken, 'csrf token in email sign in');
+  // b227beea9e9f10e731c2de1753ff48d6849c618d796a56ee1c4566b4cafcd8bd 
 
   useEffect(() => {
     const fetchCsrfToken = async () => {
@@ -38,7 +40,7 @@ const EmailSignIn= () => {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       email: '',
-      csrf: csrfToken || '',
+      csrf: csrfToken,
     },
   });
 

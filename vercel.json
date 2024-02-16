@@ -1,0 +1,11 @@
+{
+  "builds": [
+    {
+      "src": "api/**/*",
+      "use": "@vercel/node",
+      "config": {
+        "PRISMA_CLIENT_ENGINE_TYPE": "libquery_engine-<platform>-<version>.so.node"
+      }
+    }
+  ]
+}
