@@ -1,4 +1,5 @@
 const { hostname } = require('os');
+const { PrismaPlugin } = require('@prisma/nextjs-monorepo-workaround-plugin')
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {}
@@ -16,6 +17,10 @@ module.exports = {
     ],
   },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+
+    if (isServer) {
+      config.plugins = [...config.plugins, new PrismaPlugin()]
+    }
     // Exclude handlebars from bundling
     config.externals = config.externals || {};
     config.externals.handlebars = 'commonjs handlebars';

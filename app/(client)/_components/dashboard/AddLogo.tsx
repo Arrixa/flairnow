@@ -1,7 +1,7 @@
 "use client"
 import { useState } from 'react';
 import { Button } from '@/app/components/ui/button';
-import { Plus, Upload, X } from 'lucide-react';
+import { Upload, X } from 'lucide-react';
 
 
 export default function AddLogo() {

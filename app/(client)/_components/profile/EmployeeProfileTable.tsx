@@ -2,7 +2,6 @@ import React from 'react'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/app/components/ui/table";
 import RoleBadges from "../../../components/common/RoleBadges";
 import { CldImage } from 'next-cloudinary';
-import Image from 'next/image';
 import AddPhoto from '@/app/components/common/AddPhoto';
 import { FormData } from '@/lib/interfaces';
 import { useSession } from 'next-auth/react';
@@ -17,6 +16,11 @@ const EmployeeProfileTable: React.FC<{ formData: FormData }> = ({ formData }) =>
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }
 
+  const cloudinaryBaseURL = 'https://res.cloudinary.com/dsbvy1t2i/image/upload/';
+  const cloudinaryImageId = session?.user.id; 
+  const imageUrl = `${cloudinaryBaseURL}v1707912829/${cloudinaryImageId}.png`;
+  const defaultImg = '/default/Avatar.png';
+
   return (
     <div className='flex flex-col mx-auto w-full'>
       <Table 
@@ -30,15 +34,15 @@ const EmployeeProfileTable: React.FC<{ formData: FormData }> = ({ formData }) =>
         </TableHeader>
         <TableBody>
           <TableRow>
-            <TableHead className="w-1/3 pt-2">Profile image:</TableHead>
-            <TableCell className="lg:w-1/2 w-full text-left px-12 flex justify-between items-end align-center">
-              {formData.image ? (
-                <CldImage alt='profile image' src={formData.image} width={50} height={50} className='rounded-full' />
-              ) : (
-                <Image alt='profile image' src='/default/Avatar.png' width={50} height={50} className='rounded-full' />
-                )}
-              <div className='mt-6 text-md w-1/3 ml-2'>
-                <AddPhoto  />
+          <TableHead className="w-1/2">Profile image</TableHead>
+            <TableCell className="w-1/2 text-left pl-10">
+              <div className="w-full flex flex-row items-center justify-between align-middle">
+                <div className=''>
+                  <CldImage alt='profile image' src={imageUrl ? imageUrl : defaultImg} width={100} height={100} className='rounded-full' />
+                </div>
+                <div className='w-3/4 mt-6 text-md ml-4'>
+                  <AddPhoto  />
+                </div>
               </div>
             </TableCell>
           </TableRow>

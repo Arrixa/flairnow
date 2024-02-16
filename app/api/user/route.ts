@@ -141,6 +141,7 @@ async function getUserData(request: Request) {
 
   if (clientUser) {
     return { 
+      id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
@@ -154,6 +155,7 @@ async function getUserData(request: Request) {
 
   // Extract and return the relevant data
   return {
+    id: user.id,
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
