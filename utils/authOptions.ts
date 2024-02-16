@@ -87,6 +87,7 @@ export const authOptions: NextAuthOptions = {
             lastName: dbUser.lastName,
             email: dbUser.email,
             userDomain: dbUser.userDomain,
+            image: dbUser.image,
             role: dbClientUser?.role,
             clientId: dbClientUser?.clientId,
             user: {

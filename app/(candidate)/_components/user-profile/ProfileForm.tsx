@@ -23,6 +23,7 @@ const FormSchema = z.object({
 
 
 const ProfileForm: React.FC<UserProps> = ({ user }) => {
+  console.log('user in ProfileForm', user)
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -37,36 +38,36 @@ const ProfileForm: React.FC<UserProps> = ({ user }) => {
   const [formData, setFormData] = useState<FormData>({} as FormData);
   console.log(formData)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch data from your API endpoint
-        const response = await fetch('/api/user');
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       // Fetch data from your API endpoint
+  //       const response = await fetch('/api/user');
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! Status: ${response.status}`);
+  //       }
   
-        const data = await response.json();
-        setFormData(data)
-        console.log(data.user, 'data user')
-        // Set form data with fetched values
-        console.log(data, 'data fetch');
+  //       const data = await response.json();
+  //       setFormData(data)
+  //       console.log(data.user, 'data user')
+  //       // Set form data with fetched values
+  //       console.log(data, 'data fetch');
   
-        const mappedData = {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          email: data.email,
-        };
-        form.reset(mappedData)
-        console.log('form reset data', data)
-      } catch (error) {
-        console.error('Error fetching form data:', error);
-      }
-    };
+  //       const mappedData = {
+  //         firstName: data.firstName,
+  //         lastName: data.lastName,
+  //         email: data.email,
+  //       };
+  //       form.reset(mappedData)
+  //       console.log('form reset data', data)
+  //     } catch (error) {
+  //       console.error('Error fetching form data:', error);
+  //     }
+  //   };
   
-    // Call fetchData when the component mounts
-    fetchData();
-  }, [form]);
+  //   // Call fetchData when the component mounts
+  //   fetchData();
+  // }, [form]);
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     try {
@@ -105,7 +106,7 @@ const ProfileForm: React.FC<UserProps> = ({ user }) => {
           <div className="flex items-center">
               <div className="w-1/2 ml-10">
               </div>            
-              <div className="w-full">
+              <div className="w-full ml-24">
                 <Button
                   className='w-full mt-6 text-md'
                   onClick={() => setIsEditMode(false)}
@@ -122,21 +123,7 @@ const ProfileForm: React.FC<UserProps> = ({ user }) => {
         {/* <div className="flex items-center my-4">
           <HiUserCircle />
           <h2 className="text-xl font-semibold ml-6">User Information</h2>
-        </div> */}
-        <div className="flex items-center">
-          <Label className="w-1/2 ml-10">Profile image</Label>
-          <div className="w-full flex flex-row items-center justify-between align-middle">
-            <div className=''>
-                <Avatar>
-                  <AvatarImage src={formData?.image} className='w-[50px] h-[50px] object-fill' />
-                  <AvatarFallback>FN</AvatarFallback>
-                </Avatar>
-            </div>
-            <div className='w-3/4 mt-6 text-md'>
-              <AddPhoto  />
-            </div>
-          </div>
-        </div>   
+        </div> */}   
         <Form {...form}>
           <form  onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
             <div className="flex flex-col">

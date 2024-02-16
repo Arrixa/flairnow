@@ -4,7 +4,7 @@ const FeatureSection = () => {
     return (
         <div className="flex flex-col lg:flex-row items-center justify-between bg-brand text-white py-20 px-4 sm:px-6 lg:px-8">
             <div className="lg:w-1/2 mb-10 lg:mb-0">
-                <h2 className="text-4xl font-bold mb-6">The employee lifecycle. We're with you at every stage.</h2>
+                <h2 className="text-4xl font-bold mb-6">The employee lifecycle. We&apos;re with you at every stage.</h2>
                 <p className="mb-8">
                     We give you the tools you need to manage your team at every stage. From interviews and onboarding, right through to offboarding.
                 </p>

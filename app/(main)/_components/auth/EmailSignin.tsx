@@ -16,6 +16,16 @@ import { Button } from '../../../components/ui/button';
 import { getCsrfToken, signIn } from 'next-auth/react';
 
 const EmailSignIn= () => {
+  const [csrfToken, setCsrfToken] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    const fetchCsrfToken = async () => {
+      const token = await getCsrfToken();
+      setCsrfToken(token);
+    };
+
+    fetchCsrfToken();
+  }, []);
 
   const FormSchema = useMemo(() => (
     z.object({

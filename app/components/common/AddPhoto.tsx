@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Plus, Upload, X } from "lucide-react";
+import { SetStateAction, useState } from "react";
+import { Upload, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { useSession } from "next-auth/react";
 
@@ -38,6 +38,7 @@ export default function AddFile() {
         console.log('File uploaded successfully');
         console.log('Image URL:', responseData.data.secure_url);
         const imageURL = responseData.data.secure_url;
+        // setImageURL(imageURL);
         await update({ 
           ...session, 
           ...session?.user,
