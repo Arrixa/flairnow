@@ -14,6 +14,11 @@ const UserCard: React.FC<UserCardProps> = ({ session }) => {
   }
   const user = session?.user;
 
+  const cloudinaryBaseURL = 'https://res.cloudinary.com/dsbvy1t2i/image/upload/';
+  const cloudinaryImageId = session?.user.id; 
+  const imageUrl = `${cloudinaryBaseURL}v1707912829/${cloudinaryImageId}.png`;
+  const defaultImg = '/default/Avatar.png';
+
   return (
     <div className="mx-auto bg-background h-[100px] w-full py-2">
       {session && session.user ? (
@@ -24,11 +29,7 @@ const UserCard: React.FC<UserCardProps> = ({ session }) => {
             <p className="text-foreground">{`${user?.userDomain ? capitalizeFirstLetter(user?.userDomain) : ''}`}</p>
           </div>
           <div className="rounded-full w-[60px] h-[60px] flex items-center justify-center">
-            {user?.image ? (
-                <CldImage alt='profile image' src={user?.image} width={50} height={50} className='rounded-full' />
-              ) : (
-                <Image alt='profile image' src='/default/Avatar.png' width={50} height={50} className='rounded-full' />
-                )}                           
+            <CldImage alt='profile image' src={imageUrl ? imageUrl : defaultImg} width={50} height={50} className='rounded-full' />
           </div>
         </div>
       ) : (
