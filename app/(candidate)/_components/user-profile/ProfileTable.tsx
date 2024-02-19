@@ -3,12 +3,24 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { CldImage } from 'next-cloudinary';
 import AddPhoto from '@/app/components/common/AddPhoto';
 import { UserInfo } from '@/lib/interfaces';
+import { useState, useEffect } from "react";
 
 const UserProfile = ({ user }: UserInfo) => {
-  const cloudinaryBaseURL = 'https://res.cloudinary.com/dsbvy1t2i/image/upload/';
+  const image = user.image;
   const cloudinaryImageId = user.id; 
-  const imageUrl = `${cloudinaryBaseURL}v1707912829/${cloudinaryImageId}.png`;
-  const defaultImg = '/default/Avatar.png';
+  const defaultImg = 'https://res.cloudinary.com/dsbvy1t2i/image/upload/v1707912829/DefaultProfileImg.png';
+  const imageCloudUrl = `https://res.cloudinary.com/dsbvy1t2i/image/upload/v1707912829/${cloudinaryImageId}.png`;
+  const [imageUrl, setImgUrl] = useState<string>(defaultImg);
+
+
+  useEffect(() => {
+    if (image && image !== null) {
+      setImgUrl(imageCloudUrl);
+    } else {
+      setImgUrl(defaultImg);
+    }
+  }, [image, imageCloudUrl]);
+
   return (
     <>
       <Table className="w-full space-x-10">
@@ -24,10 +36,10 @@ const UserProfile = ({ user }: UserInfo) => {
             <TableCell className="w-1/2 text-left pl-10">
               <div className="w-full flex flex-row items-center justify-between align-middle">
                 <div className=''>
-                  <CldImage alt='profile image' src={imageUrl ? imageUrl : defaultImg} width={100} height={100} className='rounded-full' />
+                  <CldImage alt='profile image' src={imageUrl} width={100} height={100} className='rounded-full' />
                 </div>
                 <div className='w-3/4 mt-6 text-md ml-4'>
-                  <AddPhoto  />
+                  <AddPhoto setImgUrl={setImgUrl} />
                 </div>
               </div>
             </TableCell>
@@ -51,29 +63,4 @@ const UserProfile = ({ user }: UserInfo) => {
   )
 }
 
-export default UserProfile
-
-{/* <TableRow>
-<TableHead className="w-1/3">Profile image:</TableHead>
-  <TableCell className="lg:w-1/2 w-full text-left px-12 flex justify-between items-center align-bottom">
-  <CldImage alt='profile image' src={imageUrl} width={100} height={100} className='rounded-full' />
-
-  {user.id ? (
-    <div className='ml-2'>
-      <CldImage alt='profile image' src={imageUrl} width={50} height={50} className='rounded-full' />
-    </div>
-     ) : (
-      <div className='ml-2'>
-      <Image alt='profile image' src='/default/Avatar.png' width={50} height={50}  className='rounded-full'/>
-    </div>
-    )} 
-    <div className='mt-6 text-md w-1/3'>
-      <AddPhoto  />
-    </div>
-  </TableCell>
-</TableRow> 
-
-                <Avatar>
-                  <AvatarImage src={imageUrl} className='w-[50px] h-[50px] object-fill' />
-                  <AvatarFallback>FN</AvatarFallback>
-                </Avatar>*/}
+export default UserProfile;
