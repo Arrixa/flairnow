@@ -8,17 +8,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import UserProfile from './ProfileTable';
 import { useEffect, useState } from "react";
-import AddPhoto from '@/app/components/common/AddPhoto';
-import { Label } from '@/app/components/ui/label';
-import { Avatar, AvatarFallback, AvatarImage } from '@/app/components/ui/avatar';
 import { UserProps, FormData } from '@/lib/interfaces';
+import { useSession } from 'next-auth/react';
+import { ChevronLeft } from 'lucide-react';
 
 
 const FormSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
   lastName: z.string().min(1, 'Last name is required'),
   email: z.string().min(1, 'Email is required').email('Invalid email'),
-  image: z.string().url('Invalid image url'),
+  image: z.string().optional(),
+  id: z.string().optional(),
 });
 
 
@@ -31,12 +31,29 @@ const ProfileForm: React.FC<UserProps> = ({ user }) => {
       lastName: '',
       email: '',
       image: '',
+      id: '',
     },
   });
 
+  const {data: session, update } = useSession();
   const [isEditMode, setIsEditMode] = useState(true);
-  const [formData, setFormData] = useState<FormData>({} as FormData);
-  console.log(formData)
+  const [formData, setFormData] = useState<FormData>({
+    firstName: user?.firstName || '',
+    lastName: user?.lastName || '',
+    email: user?.email || '',
+    image: user?.image || '',
+    id: user?.id || '',
+  });
+
+  useEffect(() => {
+    const mappedData = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      image: formData.image,
+    };
+    form.reset(mappedData);
+  }, [formData, form]);
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -87,6 +104,18 @@ const ProfileForm: React.FC<UserProps> = ({ user }) => {
 
       if (response.ok) {
         toast.success("The user infomation saved successfully.");
+        const res = await response.json();
+        const responseData = res.updatedInfo;
+        setFormData(responseData)
+        await update({
+          ...session,
+          ...session?.user,
+          id: responseData.id,
+          firstName: responseData.firstName,
+          lastName: responseData.lastName,
+          email: responseData.email,
+          image: responseData.image,
+        });
         setIsEditMode(true)
       } else {
         console.error("Save failed");
@@ -104,11 +133,11 @@ const ProfileForm: React.FC<UserProps> = ({ user }) => {
             {user && <UserProfile user={user} formData={formData} />}
           </div>
           <div className="flex items-center">
-              <div className="w-1/2 ml-10">
+              <div className="w-1/2 ml-8">
               </div>            
               <div className="w-full ml-24">
                 <Button
-                  className='w-full mt-6 text-md'
+                  className='w-full mt-1 text-md'
                   onClick={() => setIsEditMode(false)}
                 >
                   Edit
@@ -119,11 +148,7 @@ const ProfileForm: React.FC<UserProps> = ({ user }) => {
       ) : (
       <div 
       className='flex flex-col mx-auto w-full'
-      >
-        {/* <div className="flex items-center my-4">
-          <HiUserCircle />
-          <h2 className="text-xl font-semibold ml-6">User Information</h2>
-        </div> */}   
+      >  
         <Form {...form}>
           <form  onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
             <div className="flex flex-col">
@@ -174,10 +199,11 @@ const ProfileForm: React.FC<UserProps> = ({ user }) => {
               
             </div>
             <div className="flex items-center">
-              <div className="w-1/2 ml-10">
+              <div className="w-1/2 ml-4 mr-4">
+                <ChevronLeft className='cursor-pointer mt-6 ml-6'  onClick={() => setIsEditMode(true)} />
               </div>
             
-              <div className="w-full">
+              <div className="w-full mt-1">
                 <Button className='w-full mt-6 text-md' type='submit'>
                   Submit
                 </Button>
