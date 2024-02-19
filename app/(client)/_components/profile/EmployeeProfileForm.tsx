@@ -106,10 +106,10 @@ const ProfileForm = ({ session }: { session: Session | null }) => {
           <div className="flex flex-row mx-auto w-full">
             <EmployeeProfileTable formData={formData} />
           </div>
-          <div className="lg:w-2/3 md:w-10/12 w-full lg:space-x-10 flex flex-row">
-            <div className="w-2/3 lg:mx-14 md-mx-10">
+          <div className="w-10/12 lg:space-x-10 flex flex-row">
+            <div className="w-full lg:mx-24 md-mx-10">
             </div>            
-            <div className="w-1/3 md:ml-2">
+            <div className="w-full md:ml-2">
               <Button
                 className='w-full mt-2 text-md'
                 onClick={() => setIsEditMode(false)}

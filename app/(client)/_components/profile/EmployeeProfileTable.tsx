@@ -36,11 +36,11 @@ const EmployeeProfileTable: React.FC<{ formData: FormData }> = ({ formData }) =>
           <TableRow>
           <TableHead className="w-1/2">Profile image</TableHead>
             <TableCell className="w-1/2 text-left pl-10">
-              <div className="w-full flex flex-row items-center justify-between align-middle">
-                <div className=''>
+              <div className="w-1/2 flex flex-row items-center justify-between align-middle">
+                <div className='mr-4'>
                   <CldImage alt='profile image' src={imageUrl ? imageUrl : defaultImg} width={100} height={100} className='rounded-full' />
                 </div>
-                <div className='w-3/4 mt-6 text-md ml-4'>
+                <div className='w-3/4 mt-6 text-md ml-6'>
                   <AddPhoto  />
                 </div>
               </div>

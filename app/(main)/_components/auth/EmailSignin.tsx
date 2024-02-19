@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Form,
@@ -17,22 +17,23 @@ import { getCsrfToken, signIn } from 'next-auth/react';
 
 const EmailSignIn= () => {
   const [csrfToken, setCsrfToken] = useState<string | undefined>(undefined);
-  console.log(csrfToken, 'csrf token in email sign in');
-  // b227beea9e9f10e731c2de1753ff48d6849c618d796a56ee1c4566b4cafcd8bd 
+
+  const fetchCsrfToken = useCallback(async () => {
+    const token = await getCsrfToken();
+    setCsrfToken(token);
+  }, []);
 
   useEffect(() => {
-    const fetchCsrfToken = async () => {
-      const token = await getCsrfToken();
-      setCsrfToken(token);
-    };
+    if (csrfToken === undefined) {
+      fetchCsrfToken();
+    }
+  }, [csrfToken, fetchCsrfToken]);
 
-    fetchCsrfToken();
-  }, []);
+  console.log(csrfToken, 'csrf token in email sign in');
 
   const FormSchema = useMemo(() => (
     z.object({
       email: z.string().min(1, 'Email is required').email('Invalid email'),
-      csrf: z.string(),
     })
   ), []);
 
@@ -40,11 +41,11 @@ const EmailSignIn= () => {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       email: '',
-      csrf: csrfToken,
     },
   });
 
   const onSubmit = async (value: z.infer<typeof FormSchema>, event?: React.BaseSyntheticEvent): Promise<void> => {
+    console.log(value, 'value in email sign in after submit');
     if (form.formState.isSubmitting) {
       return;
     }
@@ -52,7 +53,7 @@ const EmailSignIn= () => {
       event.preventDefault();
     }
     const email = value.email
-    signIn('email', { email: email, callbackUrl: '/auth/validate-auth' });
+    signIn('email', { email: email, csrf:csrfToken, callbackUrl: '/auth/validate-auth' });
   }
 
   return (

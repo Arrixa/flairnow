@@ -20,22 +20,8 @@ module.exports = {
 
     if (isServer) {
       config.plugins = [...config.plugins, new PrismaPlugin()]
+      config.externals.push('nodemailer');
     }
-    // Exclude handlebars from bundling
-    config.externals = config.externals || {};
-    config.externals.handlebars = 'commonjs handlebars';
-
-    // Add a custom Handlebars loader
-    config.module.rules.push({
-      test: /\.hbs$/,
-      use: 'handlebars-loader',
-    });
-
-    config.module.rules.push({
-      test: /\.html$/,
-      exclude: /node_modules/,
-      use: 'raw-loader', // or any other loader you prefer
-    });
 
     if (!isServer) {
       // Exclude @mapbox/node-pre-gyp from client-side bundle
@@ -46,10 +32,6 @@ module.exports = {
       config.resolve.alias.net = false;
       config.resolve.alias.tls = false;
       config.resolve.alias.dns = false;
-    }
-
-    if (isServer) {
-      config.externals.push('nodemailer');
     }
 
     return config;
