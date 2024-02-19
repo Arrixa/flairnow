@@ -65,6 +65,7 @@ export async function POST(request: NextRequest) {
       })
       .end(buffer);
     })
+    console.log(cloudinaryResponse);
 
     // Update user in Prisma with Cloudinary image URL
     await prisma.user.update({

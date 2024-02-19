@@ -35,7 +35,7 @@ export default function AddFile() {
       });
       if (res.status === 201) {
         const responseData = await res.json();
-        console.log('File uploaded successfully');
+        console.log(responseData);
         console.log('Image URL:', responseData.data.secure_url);
         const imageURL = responseData.data.secure_url;
         // setImageURL(imageURL);
@@ -75,13 +75,13 @@ export default function AddFile() {
           <div className="relative w-full max-w-2xl rounded-lg bg-white p-4 shadow sm:p-5">
             {/* Modal header */}
             <div className="mb-4 flex items-center justify-between rounded-t border-b pb-4 sm:mb-5">
-              <h3 className="text-lg font-semibold text-gray-900">
+              <h3 className="text-lg font-semibold text-zinc-900">
                 Upload File
               </h3>
               <Button
                 type="button"
                 onClick={handleModalToggle}
-                className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900"
+                className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-zinc-400 hover:bg-zinc-200 hover:text-zinc-900"
                 data-modal-toggle="defaultModal">
                 <X className="h-6 w-6" />
                 <span className="sr-only">Close modal</span>
