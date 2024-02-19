@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/app/components/ui/table";
 import RoleBadges from "../../../components/common/RoleBadges";
 import { CldImage } from 'next-cloudinary';
@@ -11,6 +11,7 @@ const EmployeeProfileTable: React.FC<{ formData: FormData }> = ({ formData }) =>
   const user = session?.user;
   // console.log(formData, 'form data user data in employee profile table')
   const roles = session?.clientUser.role;
+  const [imageUrl, setImgUrl] = useState<string | null>(null);
 
   function capitalizeFirstLetter(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -18,8 +19,24 @@ const EmployeeProfileTable: React.FC<{ formData: FormData }> = ({ formData }) =>
 
   const cloudinaryBaseURL = 'https://res.cloudinary.com/dsbvy1t2i/image/upload/';
   const cloudinaryImageId = session?.user.id; 
-  const imageUrl = `${cloudinaryBaseURL}v1707912829/${cloudinaryImageId}.png`;
+  // setImgUrl(`${cloudinaryBaseURL}v1707912829/${cloudinaryImageId}.png`);
   const defaultImg = '/default/Avatar.png';
+
+  useEffect(() => {
+    const fetchImage = async () => {
+      try {
+        const url = `${cloudinaryBaseURL}v1707912829/${cloudinaryImageId}.png`;
+        // Attempt to fetch the image
+        await fetch(url);
+        setImgUrl(url);
+      } catch (error) {
+        // Image fetch failed, set default image
+        setImgUrl(defaultImg);
+      }
+    };
+
+    fetchImage();
+  }, [cloudinaryBaseURL, cloudinaryImageId, defaultImg]);
 
   return (
     <div className='flex flex-col mx-auto w-full'>
@@ -38,7 +55,7 @@ const EmployeeProfileTable: React.FC<{ formData: FormData }> = ({ formData }) =>
             <TableCell className="w-1/2 text-left pl-10">
               <div className="w-1/2 flex flex-row items-center justify-between align-middle">
                 <div className='mr-4'>
-                  <CldImage alt='profile image' src={imageUrl ? imageUrl : defaultImg} width={100} height={100} className='rounded-full' />
+                  <CldImage alt='profile image' src={imageUrl || defaultImg} width={100} height={100} className='rounded-full' />
                 </div>
                 <div className='w-3/4 mt-6 text-md ml-6'>
                   <AddPhoto  />

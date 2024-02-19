@@ -12,6 +12,88 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+// Adjusted code based on suggestion from Cloudinary community
+// https://community.cloudinary.com/discussion/439/405-cloudinary-only-on-production-using-vercel-nextjs#latest
+export async function POST(request: NextRequest) {
+  const cloudinaryCloudName = process.env.CLOUDINARY_CLOUD_NAME;
+  const cloudinaryUploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET;
+
+  if (!cloudinaryCloudName || !cloudinaryUploadPreset) {
+    return NextResponse.json({ message: 'Cloudinary credentials not provided' }, { status: 401 });
+  }
+
+  const contentType = request.headers.get('content-type');
+  if (!contentType || !contentType.startsWith('multipart/form-data')) {
+    return NextResponse.json({ message: 'Invalid content type' }, { status: 415 });
+  }
+
+  const formData = await request.formData();
+  const file = formData.get('image') as File;
+  const fileBuffer = await file.arrayBuffer();
+
+  const session = await getServerSession(authOptions);
+  const userId = session?.user.id;
+
+  if (!userId) {
+    return NextResponse.json({ message: 'User ID not found in session. Please sign in again' }, { status: 401 });
+  }
+
+  const existingUser = await prisma.user.findUnique({
+    where: { id: userId },
+  });
+
+  if (!existingUser) {
+    return NextResponse.json(
+      { message: 'User not found. Cannot update image URL.' },
+      { status: 404 }
+    );
+  }
+
+  var mime = file.type; 
+  var encoding = 'base64'; 
+  var base64Data = Buffer.from(fileBuffer).toString('base64');
+  var fileUri = 'data:' + mime + ';' + encoding + ',' + base64Data;
+
+  try {
+
+    const uploadToCloudinary = () => {
+      return new Promise<CloudinaryResponse>((resolve, reject) => {
+        cloudinary.uploader.upload(fileUri, {
+          tags: ['flairnow-profile-photo'],
+          public_id: userId,
+        })
+          .then((result) => {
+            console.log(result);
+            resolve(result as CloudinaryResponse);
+          })
+          .catch((error) => {
+            console.error(error);
+            reject(error);
+          });
+      });
+    };
+
+    const cloudinaryResponse = await uploadToCloudinary();
+
+    // Update user in Prisma with Cloudinary image URL
+    await prisma.user.update({
+      where: { id: userId },
+      data: { image: cloudinaryResponse.secure_url },
+    });
+
+    const photoUrl = cloudinaryResponse.secure_url;
+
+    // Handle successful upload
+    return NextResponse.json({ photoUrl, message: 'Successfully uploaded', data: cloudinaryResponse }, { status: 201 });
+  } catch (error: any) {
+    console.error(error);
+    return NextResponse.json({ message: 'Image upload failed', error: error.message }, { status: 500 });
+  }
+}
+
+/* 
+// Adjusted code based on suggestion from Cloudinary support
+// https://community.cloudinary.com/discussion/432/image-upload-from-api-route-on-cloudinary-works-on-localhost-but-not-on-vercel-production
 export async function POST(request: NextRequest) {
   const cloudinaryCloudName = process.env.CLOUDINARY_CLOUD_NAME;
   const cloudinaryUploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET;
@@ -45,8 +127,7 @@ export async function POST(request: NextRequest) {
       { status: 404 }
     );
   }
-// Adjusted code based on suggestion from Cloudinary support
-// https://community.cloudinary.com/discussion/432/image-upload-from-api-route-on-cloudinary-works-on-localhost-but-not-on-vercel-production
+
   try {
     const fileBuffer = await file.arrayBuffer();
     const mime = file.type;
@@ -88,6 +169,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: 'Image upload failed', error: error.message }, { status: 500 });
   }
 }
+*/
 
 //Original version, but not working in deployment
 /*

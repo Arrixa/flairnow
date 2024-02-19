@@ -29,7 +29,7 @@ const UserCard: React.FC<UserCardProps> = ({ session }) => {
             <p className="text-foreground">{`${user?.userDomain ? capitalizeFirstLetter(user?.userDomain) : ''}`}</p>
           </div>
           <div className="rounded-full w-[60px] h-[60px] flex items-center justify-center">
-            <CldImage alt='profile image' src={imageUrl ? imageUrl : defaultImg} width={50} height={50} className='rounded-full' />
+            <CldImage alt='profile image' src={imageUrl || defaultImg} width={50} height={50} className='rounded-full' />
           </div>
         </div>
       ) : (
