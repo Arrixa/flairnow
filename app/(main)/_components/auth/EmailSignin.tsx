@@ -13,9 +13,11 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../../../components/ui/input';
 import { Button } from '../../../components/ui/button';
+import { useToast } from '@/app/components/ui/use-toast';
 import { getCsrfToken, signIn } from 'next-auth/react';
 
 const EmailSignIn= () => {
+  const { toast } = useToast();
   const [csrfToken, setCsrfToken] = useState<string | undefined>(undefined);
 
   const fetchCsrfToken = useCallback(async () => {
@@ -54,6 +56,9 @@ const EmailSignIn= () => {
     }
     const email = value.email
     signIn('email', { email: email, csrf:csrfToken, callbackUrl: '/auth/validate-auth' });
+    toast({
+      description: "Sending email magic link.",
+    })
   }
 
   return (
