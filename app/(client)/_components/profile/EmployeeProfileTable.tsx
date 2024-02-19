@@ -9,34 +9,26 @@ import { useSession } from 'next-auth/react';
 const EmployeeProfileTable: React.FC<{ formData: FormData }> = ({ formData }) => {
   const { data: session } = useSession();
   const user = session?.user;
+  const image = session?.user.image;
+  const cloudinaryImageId = session?.user.id; 
   // console.log(formData, 'form data user data in employee profile table')
   const roles = session?.clientUser.role;
-  const [imageUrl, setImgUrl] = useState<string | null>(null);
+  const defaultImg = 'https://res.cloudinary.com/dsbvy1t2i/image/upload/v1707912829/DefaultProfileImg.png';
+  const imageCloudUrl = `https://res.cloudinary.com/dsbvy1t2i/image/upload/v1707912829/${cloudinaryImageId}.png`;
+  const [imageUrl, setImgUrl] = useState<string>(defaultImg);
 
   function capitalizeFirstLetter(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }
 
-  const cloudinaryBaseURL = 'https://res.cloudinary.com/dsbvy1t2i/image/upload/';
-  const cloudinaryImageId = session?.user.id; 
-  // setImgUrl(`${cloudinaryBaseURL}v1707912829/${cloudinaryImageId}.png`);
-  const defaultImg = '/default/Avatar.png';
-
   useEffect(() => {
-    const fetchImage = async () => {
-      try {
-        const url = `${cloudinaryBaseURL}v1707912829/${cloudinaryImageId}.png`;
-        // Attempt to fetch the image
-        await fetch(url);
-        setImgUrl(url);
-      } catch (error) {
-        // Image fetch failed, set default image
-        setImgUrl(defaultImg);
-      }
-    };
+    if (image && image !== null) {
+      setImgUrl(imageCloudUrl);
+    } else {
+      setImgUrl(defaultImg);
+    }
+  }, [image, imageCloudUrl]);
 
-    fetchImage();
-  }, [cloudinaryBaseURL, cloudinaryImageId, defaultImg]);
 
   return (
     <div className='flex flex-col mx-auto w-full'>
@@ -53,12 +45,12 @@ const EmployeeProfileTable: React.FC<{ formData: FormData }> = ({ formData }) =>
           <TableRow>
           <TableHead className="w-1/2">Profile image</TableHead>
             <TableCell className="w-1/2 text-left pl-10">
-              <div className="w-1/2 flex flex-row items-center justify-between align-middle">
-                <div className='mr-4'>
-                  <CldImage alt='profile image' src={imageUrl || defaultImg} width={100} height={100} className='rounded-full' />
+              <div className='flex justify-start items-start'>
+                <div className=''>
+                  <CldImage alt='profile image' src={imageUrl} width={100} height={100} className='rounded-full' />
                 </div>
-                <div className='w-3/4 mt-6 text-md ml-6'>
-                  <AddPhoto  />
+                <div className='mb-2'>
+                  <AddPhoto setImgUrl={setImgUrl} />
                 </div>
               </div>
             </TableCell>

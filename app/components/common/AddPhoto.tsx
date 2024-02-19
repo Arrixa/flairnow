@@ -1,9 +1,9 @@
-import { SetStateAction, useState } from "react";
-import { Upload, X } from "lucide-react";
+import { useState } from "react";
+import { Pencil, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { useSession } from "next-auth/react";
 
-export default function AddFile() {
+export default function AddFile({ setImgUrl }: { setImgUrl: React.Dispatch<React.SetStateAction<string>> }) {
   const [showModal, setShowModal] = useState(false);
   const { data: session, update } = useSession();
 
@@ -38,7 +38,7 @@ export default function AddFile() {
         console.log(responseData);
         console.log('Image URL:', responseData.data.secure_url);
         const imageURL = responseData.data.secure_url;
-        // setImageURL(imageURL);
+        setImgUrl(imageURL);
         await update({ 
           ...session, 
           ...session?.user,
@@ -56,12 +56,11 @@ export default function AddFile() {
   return (
     <>
       <div className="mb-1 flex items-center justify-between w-full">
-        <Button
+        <button
           onClick={handleModalToggle}
-          className="w-full flex items-center "
-          variant="flairnowOutline">
-          <Upload className="mr-1 h-5 w-5" />
-        </Button>
+          className="w-full flex items-center ">
+          <Pencil className="mr-1 h-5 w-5" />
+        </button>
       </div>
 
       {/* Modal */}

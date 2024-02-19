@@ -6,6 +6,7 @@ import { signIn } from "next-auth/react";
 import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import { UserCardProps } from "@/lib/interfaces";
+import { useEffect, useState } from "react";
 
 
 const UserCard: React.FC<UserCardProps> = ({ session }) => {
@@ -13,11 +14,12 @@ const UserCard: React.FC<UserCardProps> = ({ session }) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
   const user = session?.user;
+  const logo = session?.user.logo || '';
 
   const cloudinaryBaseURL = 'https://res.cloudinary.com/dsbvy1t2i/image/upload/';
   const cloudinaryImageId = session?.user.id; 
   const imageUrl = `${cloudinaryBaseURL}v1707912829/${cloudinaryImageId}.png`;
-  const defaultImg = '/default/Avatar.png';
+  const defaultImg = 'DefaultProfileImg';
 
   return (
     <div className="mx-auto bg-background h-[100px] w-full py-2">
@@ -29,7 +31,7 @@ const UserCard: React.FC<UserCardProps> = ({ session }) => {
             <p className="text-foreground">{`${user?.userDomain ? capitalizeFirstLetter(user?.userDomain) : ''}`}</p>
           </div>
           <div className="rounded-full w-[60px] h-[60px] flex items-center justify-center">
-            <CldImage alt='profile image' src={imageUrl || defaultImg} width={50} height={50} className='rounded-full' />
+            <CldImage alt='profile image' src={imageUrl ? imageUrl : defaultImg} width={50} height={50} className='rounded-full' />
           </div>
         </div>
       ) : (
