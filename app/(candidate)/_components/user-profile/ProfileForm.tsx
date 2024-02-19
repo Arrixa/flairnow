@@ -2,7 +2,7 @@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/app/components/ui/form';
 import { Input } from '@/app/components/ui/input';
 import { Button } from '@/app/components/ui/button';
-import { toast } from 'react-toastify';
+import { useToast } from "@/app/components/ui/use-toast"
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -36,6 +36,7 @@ const ProfileForm: React.FC<UserProps> = ({ user }) => {
   });
 
   const {data: session, update } = useSession();
+  const { toast } = useToast()
   const [isEditMode, setIsEditMode] = useState(true);
   const [formData, setFormData] = useState<FormData>({
     firstName: user?.firstName || '',
@@ -55,37 +56,6 @@ const ProfileForm: React.FC<UserProps> = ({ user }) => {
     form.reset(mappedData);
   }, [formData, form]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       // Fetch data from your API endpoint
-  //       const response = await fetch('/api/user');
-  //       if (!response.ok) {
-  //         throw new Error(`HTTP error! Status: ${response.status}`);
-  //       }
-  
-  //       const data = await response.json();
-  //       setFormData(data)
-  //       console.log(data.user, 'data user')
-  //       // Set form data with fetched values
-  //       console.log(data, 'data fetch');
-  
-  //       const mappedData = {
-  //         firstName: data.firstName,
-  //         lastName: data.lastName,
-  //         email: data.email,
-  //       };
-  //       form.reset(mappedData)
-  //       console.log('form reset data', data)
-  //     } catch (error) {
-  //       console.error('Error fetching form data:', error);
-  //     }
-  //   };
-  
-  //   // Call fetchData when the component mounts
-  //   fetchData();
-  // }, [form]);
-
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     try {
       const response = await fetch('/api/user', {
@@ -103,7 +73,9 @@ const ProfileForm: React.FC<UserProps> = ({ user }) => {
       console.log('Form submission response:', response);
 
       if (response.ok) {
-        toast.success("The user infomation saved successfully.");
+        toast({
+          description: "The user infomation saved successfully.",
+        })
         const res = await response.json();
         const responseData = res.updatedInfo;
         setFormData(responseData)

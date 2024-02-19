@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Pencil, X } from "lucide-react";
 import { Button } from "../ui/button";
+import { useToast } from '../ui/use-toast';
 import { useSession } from "next-auth/react";
 
 export default function AddFile({ setImgUrl }: { setImgUrl: React.Dispatch<React.SetStateAction<string>> }) {
   const [showModal, setShowModal] = useState(false);
   const { data: session, update } = useSession();
+  const { toast } = useToast();
 
   const handleModalToggle = () => {
     setShowModal(!showModal);
@@ -44,10 +46,19 @@ export default function AddFile({ setImgUrl }: { setImgUrl: React.Dispatch<React
           ...session?.user,
           image: imageURL,
         });
+        toast({
+          description: "File uploaded successfully.",
+        })
       } else {
+        toast({
+          description: "File upload failed.",
+        })
         console.error('File upload failed');
       }
     } catch (error: any) {
+      toast({
+        description: "Error uploading file.",
+      })
       console.log(error.response?.data);
     }
     setUploading(false);

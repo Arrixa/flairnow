@@ -5,7 +5,7 @@ import { Button } from '@/app/components/ui/button';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
+import { useToast } from "@/app/components/ui/use-toast"
 import { useEffect, useState } from "react";
 import EmployeeProfileTable from './EmployeeProfileTable';
 import { useSession } from 'next-auth/react';
@@ -36,6 +36,7 @@ const ProfileForm = ({ session }: { session: Session | null }) => {
 
   const [isEditMode, setIsEditMode] = useState(true);
   const { update } = useSession();
+  const { toast } = useToast()
   const [formData, setFormData] = useState<FormData>(() => ({
     firstName: session?.user?.firstName,
     lastName: session?.user?.lastName,
@@ -73,7 +74,9 @@ const ProfileForm = ({ session }: { session: Session | null }) => {
       console.log('Form submission response:', response);
 
       if (response.ok) {
-        toast.success("The user infomation saved successfully.");
+        toast({
+          description: "The user information saved successfully.",
+        })
         const res = await response.json();
         const responseData = res.updatedInfo;
         setFormData(responseData)

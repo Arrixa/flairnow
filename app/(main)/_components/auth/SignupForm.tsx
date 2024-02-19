@@ -14,11 +14,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../../../components/ui/input';
 import { Button } from '../../../components/ui/button';
 import { useRouter } from 'next/navigation';
-import { toast } from "react-toastify";
 import { getSession, useSession } from 'next-auth/react';
 import { Label } from '@/app/components/ui/label';
 import { extractEmailDomain, isDomainInExcludedList } from '@/lib/extractDomain';
 import { useEffect, useState } from 'react';
+import { useToast } from "@/app/components/ui/use-toast"
 
 const FormSchema = z
   .object({
@@ -31,6 +31,7 @@ const FormSchema = z
 const SignUpForm = () => {
   const [domain, setDomain] = useState<string>("" as string);
   const router = useRouter();
+  const { toast } = useToast()
   const { data: session, update } = useSession();
 
   useEffect(() => {
@@ -77,7 +78,9 @@ const SignUpForm = () => {
         })
       })
       if (response.ok) {
-        toast.success("The user registered successfully.");
+        toast({
+          description: "The user registered successfully.",
+        })
         const res = await response.json();
         const responseData = res.updatedInfo;
         console.log(responseData, 'responseData in sign up form');
@@ -103,9 +106,15 @@ const SignUpForm = () => {
         // router.push('/auth/signin')
       } else {
         const errorData = await response.json();
+        toast({
+          description: "The user registration failed.",
+        })
         console.error("Registration failed:", errorData);
       }
     } catch (error) {
+      toast({
+        description: "The user registration failed.",
+      })
       console.error("Registration failed:", error);
     }
   }

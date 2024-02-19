@@ -6,7 +6,7 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Textarea } from '@/app/components/ui/textarea';
-import { toast } from 'react-toastify';
+import { useToast } from "@/app/components/ui/use-toast"
 import CompanyInfo from './CompanyInfo';
 import { useEffect, useRef, useState } from "react";
 import { CountrySelect } from '@/app/components/common/CountrySelect';
@@ -52,6 +52,7 @@ const AdminDashboardForm = () => {
   const [selectedCountry, setSelectedCountry] = useState<string>(''); 
   const [isEditMode, setIsEditMode] = useState(true);
   const [formData, setFormData] = useState({});
+  const { toast } = useToast()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -118,7 +119,9 @@ const AdminDashboardForm = () => {
       })
         
         if (response.ok) {
-          toast.success("The client information saved successfully.");
+          toast({
+            description: "The client information saved successfully.",
+          })
           setIsEditMode(true)
           const mappedData = {
             companyName: data.companyName,
@@ -150,9 +153,15 @@ const AdminDashboardForm = () => {
           });
           window.location.reload();
         } else {
+          toast({
+            description: "The client information save failed.",
+          })
           console.error("Save failed");
         }
       } catch (error) {
+        toast({
+          description: "The client information save failed.", 
+        })
         console.error("Save failed:", error);
       }
   };

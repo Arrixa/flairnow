@@ -3,10 +3,11 @@ import { useState } from 'react';
 import { Button } from '@/app/components/ui/button';
 import { HiPlus } from "react-icons/hi";
 import { MdClose } from "react-icons/md";
-
+import { useToast } from '../ui/use-toast';
 
 export default function AddFile() {
   const [showModal, setShowModal] = useState(false);
+  const { toast } = useToast();
 
   const handleModalToggle = () => {
     setShowModal(!showModal);
@@ -35,9 +36,14 @@ export default function AddFile() {
         body: formData,
       });
       if (res.status === 201) {
-        console.log('File uploaded successfully')
+        toast({
+          description: "File uploaded successfully.",
+        })
       }
     } catch (error: any) {
+      toast({
+        description: "Error uploading file.",
+      })
       console.log(error.response?.data);
     }
     setUploading(false);

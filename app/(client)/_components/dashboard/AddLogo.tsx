@@ -1,11 +1,14 @@
 "use client"
 import { useState } from 'react';
 import { Button } from '@/app/components/ui/button';
+import { useToast } from '@/app/components/ui/use-toast';
+import { useSession } from "next-auth/react";
 import { Upload, X } from 'lucide-react';
 
-
 export default function AddLogo() {
+  const { toast } = useToast();
   const [showModal, setShowModal] = useState(false);
+  const { data: session, update } = useSession();
 
   const handleModalToggle = () => {
     setShowModal(!showModal);
@@ -34,9 +37,26 @@ export default function AddLogo() {
         body: formData,
       });
       if (res.status === 201) {
-        console.log('File uploaded successfully')
+        const responseData = await res.json();
+        const logoURL = responseData.data.secure_url;
+        await update({ 
+          ...session, 
+          ...session?.user,
+          logo: logoURL,
+        });
+        toast({
+          description: "File uploaded successfully.",
+        })
+      } else {
+        toast({
+          description: "File upload failed.",
+        })
+        console.error('File upload failed');
       }
     } catch (error: any) {
+      toast({
+        description: "File upload failed.",
+      })
       console.log(error.response?.data);
     }
     setUploading(false);
@@ -60,13 +80,13 @@ export default function AddLogo() {
           className="fixed left-0 right-0 top-0 z-50 flex h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden bg-black bg-opacity-50">
           <div className="relative w-full max-w-2xl rounded-lg bg-white p-4 shadow sm:p-5">
             <div className="mb-4 flex items-center justify-between rounded-t border-b pb-4 sm:mb-5">
-              <h3 className="text-lg font-semibold text-gray-900">
+              <h3 className="text-lg font-semibold text-zinc-900">
                 Upload File
               </h3>
               <Button
                 type="button"
                 onClick={handleModalToggle}
-                className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900"
+                className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-zinc-400 hover:bg-zinc-200 hover:text-zinc-900"
                 data-modal-toggle="defaultModal">
                 <X className="h-6 w-6" />
                 <span className="sr-only">Close modal</span>
