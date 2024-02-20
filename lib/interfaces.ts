@@ -118,6 +118,7 @@ export interface SidebarProps {
 export interface UserCardProps {
   session?: Session | null, 
   onClick?: () => void;
+  isMenuOpen?: boolean;
 }
 
 export interface UserInfo {

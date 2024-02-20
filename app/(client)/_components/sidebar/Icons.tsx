@@ -11,19 +11,19 @@ import {
 const IconRenderer = ({ iconName }: { iconName: string }) => {
   switch (iconName) {
     case 'Profile':
-      return <User className="ml-auto mr-4 h-4 w-4" />;
+      return <User className="h-5 w-5 ml-4" />;
     case 'Admin dashboard':
-      return <LayoutDashboard className="ml-auto mr-4 h-4 w-4" />;
+      return <LayoutDashboard className="h-5 w-5 ml-4" />;
     case 'Recruitment':
-      return <Briefcase className="ml-auto mr-4 h-4 w-4" />;
+      return <Briefcase className="h-5 w-5 ml-4" />;
     case 'Users':
-      return <Users className="ml-auto mr-4 h-4 w-4" />;
+      return <Users className="h-5 w-5 ml-4" />;
     case 'Inbox':
-      return <Inbox className="ml-auto mr-4 h-4 w-4" />;
+      return <Inbox className="h-5 w-5 ml-4" />;
     case 'Preferences':
-      return <Settings2 className="ml-auto mr-4 h-4 w-4" />;
+      return <Settings2 className="h-5 w-5 ml-4" />;
     case 'Settings':
-      return <Settings className="ml-auto mr-4 h-4 w-4" />;
+      return <Settings className="h-5 w-5 ml-4" />;
     default:
       return null;
   }

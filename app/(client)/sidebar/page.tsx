@@ -6,7 +6,7 @@ const Sidebar: React.FC<SidebarProps> = async ({ session }) => {
   console.log(session, userRoles, 'user roles & session in side bar page');
 
   return (
-    <div className="w-fit">
+    <div className="">
       <SidebarComp userRoles={userRoles} session={session} />
     </div>
   );

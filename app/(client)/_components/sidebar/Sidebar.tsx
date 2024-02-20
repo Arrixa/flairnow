@@ -1,7 +1,7 @@
 'use client'
 import {
-  ChevronLeft,
-  ChevronRight,
+  ChevronsLeft,
+  Menu,
   LogOut,
 
 } from "lucide-react"
@@ -13,6 +13,7 @@ import { signOut } from "next-auth/react";
 import UserCard from "./UserCard";
 import SidebarItemRenderer from "./SidebarItems";
 import renderLogo from "@/app/components/common/logos/LogoFullText";
+import renderSquareLogo from "@/app/components/common/logos/LogoSquare";
 import { SidebarCompProps } from "@/lib/interfaces";
 
 
@@ -38,16 +39,12 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
       if (scrollAreaRef.current) {
         const windowHeight = window.innerHeight;
         const userCardHeight = 120;
-        const logoHeight = 182;
-        // Calculate the remaining height
+        const logoHeight = 165;
         const remainingHeight = windowHeight - userCardHeight - logoHeight;
-        // Set the ScrollArea height
         setScrollAreaHeight(remainingHeight);
       }
     };
-    // Calculate initial height
     calculateScrollAreaHeight();
-    // Recalculate on window resize
     const handleResize = () => {
       calculateScrollAreaHeight();
     };
@@ -67,47 +64,53 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
   };
 
   const renderSidebarItems = () => {
-    return <SidebarItemRenderer userRoles={userRoles} />;
+    return <SidebarItemRenderer userRoles={userRoles} isMenuOpen={isMenuOpen} />;
   };
 
   
   return (
-    <div className={`bg-secondary text-foreground relative h-full min-h-screen w-[240px] ${isMenuOpen ? 'transition-all ease-in-out duration-300 left-0' : 'transition-none left-[-180px]'}`}>
+    <div className={`bg-brand text-foreground relative h-full `}>
       <div className="flex flex-col h-full">
         <Link href='/'>
-          <div className="ml-6 my-4">
-            {renderLogo()}
-          </div>
+          {isMenuOpen ? (
+            <div className="ml-4">
+              {renderLogo()}
+            </div>
+          ) : (
+            <div className="m-4 mt-10">
+              {renderSquareLogo()}
+            </div>
+          )}
         </Link>
         {/* Dashboard Label */}
-        <div className="mb-4">
-          <span className="text-lg font-bold ml-6">Dashboard</span>
+        <div className="mb-4 ml-4">
+          {isMenuOpen ? <span className="text-lg font-bold">Dashboard</span> : <></>}
         </div>
 
         {/* Sidebar Items */}
         <ScrollArea ref={scrollAreaRef} style={{ height: `${scrollAreaHeight}px` }} 
-        // className="h-[`${scrollAreaHeight}px`]"
         > 
           {renderSidebarItems()}
         </ScrollArea>
 
         {/* UserCard */}
-        <UserCard session={session} />
+        <UserCard session={session} isMenuOpen={isMenuOpen} />
 
         {/* Sign Out */}
-        <div className="mt-4 ml-6">
+        <div className="my-4 ml-4">
           <button className="flex items-center cursor-pointer" onClick={handleSignOut}>
-            <span>Sign out</span>
-            <LogOut className="absolute right-0 mr-4 h-4 w-4" />
+            <LogOut className="h-5 w-5 hover:scale-125" />
+            {isMenuOpen ? <span className="ml-2">Sign out</span> : <></>}
           </button>
         </div>
       </div>
+      
       <div className="absolute top-0 right-0">
         <button
-          className="p-2"
+          className="p-2 hover:scale-125"
           onClick={handleToggleMenu}
         >
-          {isMenuOpen ? <ChevronLeft size={24} /> : <ChevronRight size={24} />}
+          {isMenuOpen ? <ChevronsLeft size={24} /> : <Menu className="mr-6" size={24} />}
         </button>
       </div>
     </div>
