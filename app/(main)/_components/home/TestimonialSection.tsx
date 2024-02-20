@@ -2,7 +2,7 @@ import React from 'react';
 
 const TestimonialSection = () => {
   return (
-    <section className="bg-teal-50 text-bacl py-20 px-4 sm:px-6 lg:px-8">
+    <section className="bg-teal-50 text-back py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl font-bold text-center mb-12">What our customers are saying</h2>
 
@@ -10,7 +10,7 @@ const TestimonialSection = () => {
           {/* Testimonial 1 */}
           <div className="lg:w-1/3 bg-brand rounded-lg p-6 text-white shadow-lg">
             <blockquote className="text-lg italic">
-              Flairnow has transformed the way we handle HR and payroll. It&quot;s intuitive and easy to use.
+              Flairnow has transformed the way we handle HR and payroll. It&apos;s intuitive and easy to use.
             </blockquote>
             <div className="flex items-center mt-4">
               {/* Replace with actual image */}
@@ -29,7 +29,7 @@ const TestimonialSection = () => {
           {/* Testimonial 2 */}
           <div className="lg:w-1/3 bg-brand rounded-lg p-6 text-white shadow-lg">
             <blockquote className="text-lg italic">
-              Flairnow has transformed the way we handle HR and payroll. It&quot;s intuitive and easy to use.
+              Flairnow has transformed the way we handle HR and payroll. It&apos;s intuitive and easy to use.
             </blockquote>
             <div className="flex items-center mt-4">
               {/* Replace with actual image */}
@@ -49,7 +49,7 @@ const TestimonialSection = () => {
           {/* Testimonial 3 */}
           <div className="lg:w-1/3 bg-brand rounded-lg p-6 text-white shadow-lg">
             <blockquote className="text-lg italic">
-              Flairnow has transformed the way we handle HR and payroll. It&quot;s intuitive and easy to use.
+              Flairnow has transformed the way we handle HR and payroll. It&apos;s intuitive and easy to use.
             </blockquote>
             <div className="flex items-center mt-4">
               {/* Replace with actual image */}
