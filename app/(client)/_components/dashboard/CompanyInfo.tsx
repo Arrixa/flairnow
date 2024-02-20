@@ -2,8 +2,8 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { CldImage } from 'next-cloudinary';
 import { BookText, Building, Paperclip } from "lucide-react";
 import AddLogo from "./AddLogo";
-import Image from "next/image";
 import { ClientForm } from "@/lib/interfaces"
+import { useState, useEffect } from "react";
 
 const CompanyInfo: React.FC<ClientForm & { formData?: ClientForm }> = ({ formData }) => {
 
@@ -22,35 +22,50 @@ const CompanyInfo: React.FC<ClientForm & { formData?: ClientForm }> = ({ formDat
     } else {
       return undefined; 
     }
-  }
+  };
+
+  const logo = client?.logo;
+  const cloudinaryLogoId = client?.id;
+  const defaultLogo = 'https://res.cloudinary.com/dsbvy1t2i/image/upload/v1707912829/DefaultLogo.png';
+  const logoCloudUrl = `https://res.cloudinary.com/dsbvy1t2i/image/upload/v1707912829/${cloudinaryLogoId}.png`;
+  const [logoUrl, setLogoUrl] = useState<string>(defaultLogo);
+
+
+  useEffect(() => {
+    if (logo && logo !== null) {
+      setLogoUrl(logoCloudUrl);
+    } else {
+      setLogoUrl(defaultLogo);
+    }
+  }, [logo, logoCloudUrl]);
+
+  useEffect(() => {
+    console.log("Logo URL updated:", logoUrl);
+  }, [logoUrl]);
 
   return (
     <section className="flex flex-col w-full">  
       <div className="w-full">
-        <div className="flex items-center my-4">
+        <div className="flex items-center mt-4">
           <Paperclip />
-          <h2 className="text-xl font-semibold ml-6">Company assets</h2>
+          <h2 className="text-xl font-semibold ml-4">Company assets</h2>
         </div>
-        <Table className="w-full space-x-1">
+        <Table className="w-full space-x-10">
         <TableCaption></TableCaption>
           <TableHeader>
             <TableRow>
             </TableRow>
           </TableHeader>
           <TableRow>
-            <TableHead className="w-1/3 pl-10">Company logo:</TableHead>
+            <TableHead className="w-1/3 pl-10 pt-5 align-bottom pb-3">Company logo:</TableHead>
             <TableCell className="lg:w-1/2 w-full text-left px-12 flex justify-between items-center">
-              {client?.logo ? (
-              <div className='ml-2'>
-                <CldImage alt={`${client?.domain} logo`} src={client?.logo} width={50} height={50} />
-              </div>
-              ) : (
-                <div className='ml-2'>
-                <Image alt={`${client?.domain} logo`} src='/default/DefaultLogo.png' width={50} height={50} />
-              </div>
-              )}
-              <div className='mt-6 text-md w-1/3'>
-                <AddLogo  />
+              <div className="w-full flex flex-row items-center align-bottom">
+                <div className=''>
+                  <CldImage alt={`${client?.domain} logo`} src={logoUrl} width={80} height={80} className='object-cover' />
+                </div>
+                <div className='mb-8 align-top'>
+                  <AddLogo setLogoUrl={setLogoUrl} />
+                </div>
               </div>
             </TableCell>
           </TableRow>
@@ -59,7 +74,7 @@ const CompanyInfo: React.FC<ClientForm & { formData?: ClientForm }> = ({ formDat
       <div className="w-full">
         <div className="flex items-center my-4">
           <BookText />
-          <h2 className="text-xl font-semibold ml-6">General Information</h2>
+          <h2 className="text-xl font-semibold ml-4">General Information</h2>
         </div>
         <Table className="w-full">
           <TableCaption></TableCaption>
@@ -67,22 +82,22 @@ const CompanyInfo: React.FC<ClientForm & { formData?: ClientForm }> = ({ formDat
             <TableRow>
             </TableRow>
           </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableHead className="w-1/3 pl-10">Name:</TableHead>
-              <TableCell className="w-2/3 text-left pl-10">{client?.companyName}</TableCell>
+          <TableBody >
+            <TableRow className="my-2">
+              <TableHead className="w-1/3 pl-10 pt-5">Name:</TableHead>
+              <TableCell className="w-2/3 text-left pl-10 pt-5">{client?.companyName}</TableCell>
             </TableRow>
             <TableRow>
-              <TableHead className="w-1/3 pl-10">Website:</TableHead>
-              <TableCell className="w-2/3 text-left pl-10">{client?.website}</TableCell>
+              <TableHead className="w-1/3 pl-10 pt-5">Website:</TableHead>
+              <TableCell className="w-2/3 text-left pl-10 pt-5">{client?.website}</TableCell>
             </TableRow>
             <TableRow>
-              <TableHead className="w-1/3 pl-10">Description:</TableHead>
-              <TableCell className="w-2/3 text-left pl-10">{client?.description}</TableCell>
+              <TableHead className="w-1/3 pl-10 pt-5">Description:</TableHead>
+              <TableCell className="w-2/3 text-left pl-10 pt-5">{client?.description}</TableCell>
             </TableRow>
             <TableRow>
-              <TableHead className="w-1/3 pl-10">Phone number:</TableHead>
-              <TableCell className="w-2/3 text-left pl-10 space-x-2">{formatPhoneNumber(client?.countryCode, client?.phoneNumber)}</TableCell>
+              <TableHead className="w-1/3 pl-10 pt-5">Phone number:</TableHead>
+              <TableCell className="w-2/3 text-left pl-10 space-x-2 pt-5">{formatPhoneNumber(client?.countryCode, client?.phoneNumber)}</TableCell>
             </TableRow>
             <TableRow></TableRow>
           </TableBody>
@@ -91,34 +106,29 @@ const CompanyInfo: React.FC<ClientForm & { formData?: ClientForm }> = ({ formDat
       <div className="">
         <div className="flex items-center my-8">
           <Building />
-          <h2 className="text-xl font-semibold ml-6">Location</h2>
+          <h2 className="text-xl font-semibold ml-4">Location</h2>
         </div>
         <Table className="w-full space-x-1">
-        <TableCaption></TableCaption>
-          <TableHeader>
-            <TableRow>
-            </TableRow>
-          </TableHeader>
           <TableBody>
             <TableRow>
-              <TableHead className="w-1/3 pl-10">Street number:</TableHead>
-              <TableCell className="w-2/3 text-left pl-10">{client?.streetNo}</TableCell>
+              <TableHead className="w-1/3 pl-10 pt-5">Street number:</TableHead>
+              <TableCell className="w-2/3 text-left pl-10 pt-5">{client?.streetNo}</TableCell>
             </TableRow>
             <TableRow>
-              <TableHead className="w-1/3 pl-10">Street address:</TableHead>
-              <TableCell className="w-2/3 text-left pl-10">{client?.streetAddress}</TableCell>
+              <TableHead className="w-1/3 pl-10 pt-5">Street address:</TableHead>
+              <TableCell className="w-2/3 text-left pl-10 pt-5">{client?.streetAddress}</TableCell>
             </TableRow>
             <TableRow>
-              <TableHead className="w-1/3 pl-10">Province:</TableHead>
-              <TableCell className="w-2/3 text-left pl-10">{client?.province}</TableCell>
+              <TableHead className="w-1/3 pl-10 pt-5">Province:</TableHead>
+              <TableCell className="w-2/3 text-left pl-10 pt-5">{client?.province}</TableCell>
             </TableRow>
             <TableRow>
-              <TableHead className="w-1/3 pl-10">Zip code:</TableHead>
-              <TableCell className="w-2/3 text-left pl-10 space-x-2">{client?.zipCode}</TableCell>
+              <TableHead className="w-1/3 pl-10 pt-5">Zip code:</TableHead>
+              <TableCell className="w-2/3 text-left pl-10 space-x-2 pt-5">{client?.zipCode}</TableCell>
             </TableRow>
             <TableRow>
-              <TableHead className="w-1/3 pl-10">Country:</TableHead>
-              <TableCell className="w-2/3 text-left pl-10 space-x-2">{client?.country}</TableCell>
+              <TableHead className="w-1/3 pl-10 pt-5">Country:</TableHead>
+              <TableCell className="w-2/3 text-left pl-10 space-x-2 pt-5">{client?.country}</TableCell>
             </TableRow>
             <TableRow></TableRow>
           </TableBody>

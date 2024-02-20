@@ -26,6 +26,8 @@ const FormSchema = z.object({
   zipCode: z.string(),
   country: z.string().optional(),
   logo: z.string().optional(),
+  id: z.string().optional(),
+  domain: z.string().optional(),
 });
 
 

@@ -220,6 +220,7 @@ export interface EmailConfig {
 
 export interface ClientForm {
   domain?: string;
+  id?: string;
   companyName?: string;
   logo?: string;
   website?: string;

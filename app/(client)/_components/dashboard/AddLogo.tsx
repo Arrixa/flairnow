@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { Button } from '@/app/components/ui/button';
 import { useToast } from '@/app/components/ui/use-toast';
 import { useSession } from "next-auth/react";
-import { Upload, X } from 'lucide-react';
+import { Pencil, X } from 'lucide-react';
 
-export default function AddLogo() {
+export default function AddLogo({ setLogoUrl }: { setLogoUrl: React.Dispatch<React.SetStateAction<string>> }) {
   const { toast } = useToast();
   const [showModal, setShowModal] = useState(false);
   const { data: session, update } = useSession();
@@ -39,6 +39,7 @@ export default function AddLogo() {
       if (res.status === 201) {
         const responseData = await res.json();
         const logoURL = responseData.data.secure_url;
+        setLogoUrl(logoURL);
         await update({ 
           ...session, 
           ...session?.user,
@@ -66,12 +67,11 @@ export default function AddLogo() {
   return (
     <>
       <div className="mb-1 flex items-center justify-between w-full">
-        <Button
+        <button
           onClick={handleModalToggle}
-          className="w-full flex items-center "
-          variant="flairnowOutline">
-          <Upload className="mr-1 h-5 w-5" />
-        </Button>
+          className="w-full flex items-center">
+          <Pencil className="mr-1 h-5 w-5" />
+        </button>
       {showModal && (
         <div
           id="defaultModal"

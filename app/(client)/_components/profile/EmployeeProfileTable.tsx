@@ -34,7 +34,7 @@ const EmployeeProfileTable: React.FC<{ formData: FormData }> = ({ formData }) =>
     <div className='flex flex-col mx-auto w-full'>
       <Table 
       // className="lg:w-2/3 md:w-10/12 w-full lg:space-x-10 mt-6 border-t"
-      className='w-full'
+      className='w-full space-x-1'
       >
         <TableCaption></TableCaption>
         <TableHeader>
@@ -43,7 +43,7 @@ const EmployeeProfileTable: React.FC<{ formData: FormData }> = ({ formData }) =>
         </TableHeader>
         <TableBody>
           <TableRow>
-          <TableHead className="w-1/2">Profile image</TableHead>
+            <TableHead className="w-1/2 align-bottom pb-3">Profile image</TableHead>
             <TableCell className="w-1/2 text-left pl-10">
               <div className='flex justify-start items-start'>
                 <div className=''>

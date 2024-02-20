@@ -55,7 +55,8 @@ async function getClientData(request: Request) {
   });
 
   console.log('Processed client data:', {
-    // domain: client.domain,
+    domain: client.domain,
+    id: client.id,
     logo: client.logo,
     companyName: client.companyName,
     website: client.website,
