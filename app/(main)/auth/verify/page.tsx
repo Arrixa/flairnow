@@ -12,7 +12,7 @@ import Link from "next/link";
 
 const validatePage = () => {
   return (
-  <Card className="p-5 my-10 flex flex-col bg-background w-fit mx-auto">
+  <Card className="lg:p-6 my-20 flex items-center justify-center flex-col bg-background w-2/3 lg:w-1/3 mx-auto">
     <CardHeader>
       <CardTitle className="text-4xl py-4 text-center">Check your email</CardTitle>
       <div className="flex justify-center">
@@ -28,7 +28,7 @@ const validatePage = () => {
     </CardContent>
     <CardFooter className="mx-auto">
         <Link href='/'>
-          <span className="p-6">
+          <span className="lg:p-6 w-1/4 h-auto">
             {renderLogo()}
           </span>
         </Link>

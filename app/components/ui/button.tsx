@@ -10,7 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         flairnow: 
-          "bg-primary hover:bg-muted text-primary-foreground",
+          "bg-primary hover:bg-zinc-800 text-primary-foreground",
         flairnowOutline:
           "border border-accent bg-background text-accent hover:bg-secondary",
         combobox: "rounded-md font-normal text-foreground border border-border bg-input px-3 py-2 text-sm ring-offset-accent file:border-0 file:bg-transparent file:text-sm file:font-medium text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
@@ -23,6 +23,7 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        // bg-brand text-black py-2 px-4 rounded hover:bg-teal-700 hover:text-white transition duration-300
       },
       size: {
         default: "h-10 px-4 py-2 rounded-md",

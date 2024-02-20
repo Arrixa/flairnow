@@ -23,16 +23,16 @@ export function MagicLinkEmail({ url, host }: TextParams) {
         <Head />
         <Preview>{previewText}</Preview>
         <Tailwind>
-          <Body className="font-sans text-center">
-            <Container className="border border-solid border-zinc-400 rounded-md bg-zinc-50 mx-auto p-4 max-w-2xl">
+          <Body className="font-sans">
+            <Container className="border border-solid border-zinc-400 rounded-md bg-zinc-50 p-4 max-w-xl">
+              <Img src="https://res.cloudinary.com/dsbvy1t2i/image/upload/f_auto,q_auto/iwg6nqtxumw3jmutws5l" alt="FlairNow" className="w-3/4 my-2" />
               <Heading className="text-2xl text-zinc-900 mb-4">Let&apos;s get you signed in</Heading>
               <Text className="text-zinc-900 mb-4">We use this easy sign-in link so you don&apos;t have to remember or type in yet another long password.</Text>
               <Container className="mb-4">
-                <Link href={url} target="_blank" className="inline-block px-6 py-3 bg-zinc-900 hover:bg-zinc-800 text-white text-lg rounded-md no-underline">Click here to sign in</Link>
+                <Link href={url} target="_blank" className="inline-block p-3 bg-zinc-900 hover:bg-zinc-800 text-white text-lg rounded-md no-underline">Click here to sign in</Link>
               </Container>
               <Text className="text-zinc-600 mb-4">If you didn&apos;t try to log in, you can safely ignore this email.</Text>
               <Hr className="border border-solid border-zinc-500 my-4" />
-              <Img src="https://res.cloudinary.com/dsbvy1t2i/image/upload/f_auto,q_auto/iwg6nqtxumw3jmutws5l" alt="FlairNow" className="max-w-full mx-auto my-2" />
               <Text className="text-xs text-zinc-500/75">© {new Date().getFullYear()} FlairNow. All Rights Reserved.</Text>
             </Container>
           </Body>

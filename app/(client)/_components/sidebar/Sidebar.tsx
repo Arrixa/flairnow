@@ -1,7 +1,7 @@
 'use client'
 import {
   ChevronsLeft,
-  Menu,
+  ChevronsRight,
   LogOut,
 
 } from "lucide-react"
@@ -39,7 +39,7 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
       if (scrollAreaRef.current) {
         const windowHeight = window.innerHeight;
         const userCardHeight = 120;
-        const logoHeight = 165;
+        const logoHeight = 167;
         const remainingHeight = windowHeight - userCardHeight - logoHeight;
         setScrollAreaHeight(remainingHeight);
       }
@@ -110,7 +110,7 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
           className="p-2 hover:scale-125"
           onClick={handleToggleMenu}
         >
-          {isMenuOpen ? <ChevronsLeft size={24} /> : <Menu className="mr-6" size={24} />}
+          {isMenuOpen ? <ChevronsLeft size={24} /> : <ChevronsRight className="mr-6" size={24} />}
         </button>
       </div>
     </div>
