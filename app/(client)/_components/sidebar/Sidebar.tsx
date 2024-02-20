@@ -3,7 +3,6 @@ import {
   ChevronsLeft,
   ChevronsRight,
   LogOut,
-
 } from "lucide-react"
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -15,6 +14,7 @@ import SidebarItemRenderer from "./SidebarItems";
 import renderLogo from "@/app/components/common/logos/LogoFullText";
 import renderSquareLogo from "@/app/components/common/logos/LogoSquare";
 import { SidebarCompProps } from "@/lib/interfaces";
+import { CldImage } from 'next-cloudinary';
 
 
 const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
@@ -22,6 +22,13 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
   const router = useRouter();
   const [scrollAreaHeight, setScrollAreaHeight] = useState<number | undefined>(undefined);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const user = session?.user;
+  const logoCloudUrl = `https://res.cloudinary.com/dsbvy1t2i/image/upload/v1707912829/${user.userDomain}.png`;
+  const [logoUrl, setLogoUrl] = useState<string>(logoCloudUrl);
+
+  function capitalizeFirstLetter(str: string): string {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
 
   useEffect(() => {
     // Check screen size on mount
@@ -72,19 +79,12 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
     <div className={`bg-brand text-foreground relative h-full `}>
       <div className="flex flex-col h-full">
         <Link href='/'>
-          {isMenuOpen ? (
-            <div className="ml-4">
-              {renderLogo()}
-            </div>
-          ) : (
-            <div className="m-4 mt-10">
-              {renderSquareLogo()}
-            </div>
-          )}
+          <CldImage alt={`${user?.userDomain} logo`} src={logoUrl} width={40} height={40} className={`object-cover mt-8 ${isMenuOpen ? 'ml-4' : 'ml-2'}`} />
+          
         </Link>
         {/* Dashboard Label */}
         <div className="mb-4 ml-4">
-          {isMenuOpen ? <span className="text-lg font-bold">Dashboard</span> : <></>}
+          {isMenuOpen ? <span className="text-lg font-bold">{capitalizeFirstLetter(user?.userDomain)}</span> : <></>}
         </div>
 
         {/* Sidebar Items */}
@@ -110,7 +110,7 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
           className="p-2 hover:scale-125"
           onClick={handleToggleMenu}
         >
-          {isMenuOpen ? <ChevronsLeft size={24} /> : <ChevronsRight className="mr-6" size={24} />}
+          {isMenuOpen ? <ChevronsLeft size={24} /> : <ChevronsRight className="mr-3 mb-3" size={24} />}
         </button>
       </div>
     </div>

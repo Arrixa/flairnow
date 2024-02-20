@@ -4,17 +4,18 @@ import { CldImage } from 'next-cloudinary';
 import AddPhoto from '@/app/components/common/AddPhoto';
 import { UserInfo } from '@/lib/interfaces';
 import { useState, useEffect } from "react";
+import { CircleUserRound } from 'lucide-react';
 
 const UserProfile = ({ user }: UserInfo) => {
   const image = user.image;
   const cloudinaryImageId = user.id; 
   const defaultImg = 'https://res.cloudinary.com/dsbvy1t2i/image/upload/v1707912829/DefaultProfileImg.png';
   const imageCloudUrl = `https://res.cloudinary.com/dsbvy1t2i/image/upload/v1707912829/${cloudinaryImageId}.png`;
-  const [imageUrl, setImgUrl] = useState<string>(defaultImg);
+  const [imageUrl, setImgUrl] = useState<string>(imageCloudUrl || defaultImg);
 
 
   useEffect(() => {
-    if (image && image !== null) {
+    if (image) {
       setImgUrl(imageCloudUrl);
     } else {
       setImgUrl(defaultImg);
@@ -40,7 +41,7 @@ const UserProfile = ({ user }: UserInfo) => {
             <TableCell className="w-1/2 text-left">
               <div className="w-full flex flex-row items-center align-bottom">
                 <div className=''>
-                  <CldImage alt='profile image' src={imageUrl} width={80} height={80} className='rounded-full object-cover' />
+                  <CldImage alt='FN' src={imageUrl} width={80} height={80} className='rounded-full object-cover bg-brand' />
                 </div>
                 <div className='mb-8 align-top'>
                   <AddPhoto setImgUrl={setImgUrl} />

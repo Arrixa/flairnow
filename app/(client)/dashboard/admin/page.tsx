@@ -1,10 +1,8 @@
-import { getServerSession } from 'next-auth';
-import { authOptions } from "@/utils/authOptions";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
 import AdminDashboardForm from '../../_components/dashboard/AdminDashboardForm';
+import { BookPlus, FileCog } from 'lucide-react';
 
 const AdminDashboardPage = async () => {
-  const session = await getServerSession(authOptions);
 
   return (
     <main className='mx-20 w-3/4 lg:1/2 xl:1/2'>
@@ -12,8 +10,12 @@ const AdminDashboardPage = async () => {
       <div className='w-full flex flex-start'>
         <Tabs defaultValue="info" className="w-full">
           <TabsList>
-            <TabsTrigger value="info" className="info-trigger ml-6">Company information</TabsTrigger>
-            <TabsTrigger value="preferences" className="info-trigger">Preferences</TabsTrigger>
+          <TabsTrigger value="info" className="info-trigger ml-6 items-end">
+            <BookPlus /> <span className='hidden md:flex'>&nbsp;Company information</span>
+          </TabsTrigger>
+          <TabsTrigger value="preferences" className="info-trigger items-end hidden sm:flex">
+            <FileCog /><span className='hidden md:flex'> &nbsp;Preferences</span>
+          </TabsTrigger>
           </TabsList>
           <TabsContent value="info">
             <AdminDashboardForm />

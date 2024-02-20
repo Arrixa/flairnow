@@ -25,9 +25,9 @@ const CompanyInfo: React.FC<ClientForm & { formData?: ClientForm }> = ({ formDat
   };
 
   const logo = client?.logo;
-  const cloudinaryLogoId = client?.id;
+  const cloudinaryLogoDomain = client?.domain;
   const defaultLogo = 'https://res.cloudinary.com/dsbvy1t2i/image/upload/v1707912829/DefaultLogo.png';
-  const logoCloudUrl = `https://res.cloudinary.com/dsbvy1t2i/image/upload/v1707912829/${cloudinaryLogoId}.png`;
+  const logoCloudUrl = `https://res.cloudinary.com/dsbvy1t2i/image/upload/v1707912829/${cloudinaryLogoDomain}.png`;
   const [logoUrl, setLogoUrl] = useState<string>(defaultLogo);
 
 

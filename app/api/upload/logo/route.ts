@@ -26,33 +26,41 @@ export async function POST(request: NextRequest) {
   }
 
   const formData = await request.formData();
-  console.log(formData, 'formData value')
   const file = formData.get('image') as File;
-  const arrayBuffer = await file.arrayBuffer();
-  const buffer = new Uint8Array(arrayBuffer);
+  const fileBuffer = await file.arrayBuffer();
 
   const session = await getServerSession(authOptions);
   const clientId = session?.clientUser?.clientId;
+  const domain = session?.user?.userDomain;
 
   if (!clientId) {
     return NextResponse.json({ message: 'Client ID not found in session. Please sign in again' }, { status: 401 });
   }
 
+  var mime = file.type; 
+  var encoding = 'base64'; 
+  var base64Data = Buffer.from(fileBuffer).toString('base64');
+  var fileUri = 'data:' + mime + ';' + encoding + ',' + base64Data;
+
   try {
-    // Upload image to Cloudinary. Tags is compnany logos and public_id is the client ID
-    const cloudinaryResponse = await new Promise<CloudinaryResponse>((resolve, reject) => {
-      cloudinary.uploader.upload_stream({
-        tags: ['flairnow-company-logos'],
-        public_id: clientId
-      }, function (error, result) {
-        if (error) {
-          reject(error);
-          return;
-        }
-        resolve(result as CloudinaryResponse);
-      })
-      .end(buffer);
-    })
+    const uploadToCloudinary = () => {
+      return new Promise<CloudinaryResponse>((resolve, reject) => {
+        cloudinary.uploader.upload(fileUri, {
+          tags: ['flairnow-profile-photo'],
+          public_id: domain,
+        })
+          .then((result) => {
+            console.log(result);
+            resolve(result as CloudinaryResponse);
+          })
+          .catch((error) => {
+            console.error(error);
+            reject(error);
+          });
+      });
+    };
+
+    const cloudinaryResponse = await uploadToCloudinary();
 
     // Update user in Prisma with Cloudinary image URL
     await prisma.client.update({
@@ -62,9 +70,9 @@ export async function POST(request: NextRequest) {
 
     const logoUrl = cloudinaryResponse.secure_url;
 
-    return NextResponse.json({ logoUrl, message: 'Successfully uploaded' }, { status: 201 });
+    return NextResponse.json({ logoUrl, message: 'Successfully uploaded', data: cloudinaryResponse }, { status: 201 });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ message: 'Image upload failed in catch' }, { status: 500 });
+    return NextResponse.json({ message: 'Image upload failed' }, { status: 500 });
   }
 }
