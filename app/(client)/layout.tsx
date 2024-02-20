@@ -1,6 +1,7 @@
 import { getServerSession } from 'next-auth';
 import { authOptions } from "@/utils/authOptions";
 import Sidebar from './sidebar/page';
+import MenuBar from './_components/navbar/MenuBar';
 
 const ClientLayout = async ({ 
   children,
@@ -10,12 +11,15 @@ const ClientLayout = async ({
 
   const session = await getServerSession(authOptions);
     return (
-      <div className="flex w-full">
-        <Sidebar session={session} />
-        <main className="flex-grow">
-          {children}
-        </main>
-      </div>
+      <>
+        <div className='w-fit'><MenuBar /></div>
+        <div className='flex w-full z-10'>
+          <Sidebar session={session} />
+          <main className="flex-grow">
+            {children}
+          </main>
+        </div>
+      </>
     );
   };
 
