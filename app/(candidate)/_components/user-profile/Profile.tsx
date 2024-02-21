@@ -20,17 +20,9 @@ const Profile: React.FC<UserProps> = ({ session }) => {
   return (
     <section className="flex flex-col w-full">
       {isEditMode ? (
-        <div 
-        className='flex flex-col mx-auto w-full'
-        > 
         <ProfileForm formData={formData} setIsEditMode={setIsEditMode} setFormData={setFormData} session={session} />
-        </div>
         ) : (
-        <div className='w-full'>
-          <div className="flex flex-row mx-auto w-full">
-            {user && <UserProfile user={user} formData={formData} setIsEditMode={setIsEditMode}/>}
-          </div>
-        </div>
+          user && <UserProfile user={user} formData={formData} setIsEditMode={setIsEditMode}/>
       )}
     </section>
   )

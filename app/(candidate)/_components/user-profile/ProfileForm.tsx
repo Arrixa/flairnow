@@ -6,13 +6,11 @@ import { useToast } from "@/app/components/ui/use-toast"
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import UserProfile from './ProfileTable';
 import { useEffect, useState } from "react";
-import { UserProps, FormData } from '@/lib/interfaces';
 import { useSession } from 'next-auth/react';
 import { ChevronLeft } from 'lucide-react';
+import { Label } from '@/app/components/ui/label';
 import {ProfileFormProps } from '@/lib/interfaces';
-
 
 const FormSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
@@ -99,8 +97,8 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ formData, setIsEditMode, setF
               control={form.control}
               name='firstName'
               render={({ field }) => (
-                <FormItem className="flex items-center">
-                  <FormLabel className="w-1/2 ml-10">First name</FormLabel>
+                <FormItem className="flex flex-col items-left mt-4">
+                   <Label className="w-1/2 mx-4" htmlFor="firstName">First name</Label>
                   <FormControl className="">
                     <Input placeholder='Enter your first name' 
                       {...field} />
@@ -113,8 +111,8 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ formData, setIsEditMode, setF
               control={form.control}
               name='lastName'
               render={({ field }) => (
-                <FormItem className="flex items-center">
-                  <FormLabel className="w-1/2 ml-10">Last name</FormLabel>
+                <FormItem className="flex flex-col items-left mt-4">
+                <Label htmlFor="lastName" className="w-1/2 md:mx-4 ml-1">Last name</Label>
                   <FormControl className="">
                     <Input placeholder='Enter your last name' 
                       {...field} />
@@ -129,8 +127,8 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ formData, setIsEditMode, setF
             control={form.control}
             name='email'
             render={({ field }) => (
-              <FormItem className="flex items-center">
-                <FormLabel className="w-1/2 ml-10">Email</FormLabel>
+              <FormItem className="flex flex-col items-left mt-4">
+                <Label htmlFor="email" className="w-1/2 mx-4">Email</Label>
                 <FormControl>
                   <Input placeholder='Enter your email' {...field} />
                 </FormControl>
@@ -144,7 +142,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ formData, setIsEditMode, setF
           <div className="w-1/2 ml-4 mr-4">
             <ChevronLeft className='cursor-pointer mt-6 ml-6'  onClick={() => setIsEditMode(false)} />
           </div>
-        
           <div className="w-full mt-1">
             <Button className='w-full mt-6 text-md' type='submit'>
               Submit

@@ -5,6 +5,7 @@ import AddPhoto from '@/app/components/common/AddPhoto';
 import { UserInfo } from '@/lib/interfaces';
 import { useState, useEffect } from "react";
 import {  Card,  CardContent,  CardDescription,  CardFooter,  CardHeader,  CardTitle,  } from "@/app/components/ui/card"
+import { Label } from '@/app/components/ui/label';
 
 const UserProfile: React.FC<UserInfo> = ({ user, setIsEditMode }) => {
   const image = user.image;
@@ -28,7 +29,7 @@ const UserProfile: React.FC<UserInfo> = ({ user, setIsEditMode }) => {
 
   return (
     <article className='flex flex-col mx-auto w-full'>
-      <Card className='m-2 p-2'>
+      <Card className='md:mx-2 my-2 p-2 pt-4'>
         <CardContent>
           <div className="w-full flex flex-row items-center align-bottom">
             <div className=''>
@@ -39,7 +40,7 @@ const UserProfile: React.FC<UserInfo> = ({ user, setIsEditMode }) => {
             </div>
           </div>
         </CardContent>
-        <div className='flex flex-row justify-between'>
+        <div className='flex flex-col md:flex-row justify-between'>
           <CardHeader>
             <CardTitle>{user?.firstName}</CardTitle>
             <CardDescription>{user?.email}</CardDescription>
@@ -54,23 +55,17 @@ const UserProfile: React.FC<UserInfo> = ({ user, setIsEditMode }) => {
           </CardFooter>
         </div>
       </Card>
-      <Card className='m-2 p-2'>
-        <CardHeader>
-          <CardTitle>First name</CardTitle>
-        </CardHeader>
-        <CardContent className='border-1 border-border bg-border pt-2 mx-4 rounded'>
+      <Card className='md:mx-2 my-2 p-2 pt-4'>
+        <CardContent className=''>
+          <Label className="" htmlFor="firstName">First name</Label>
           <p>{user?.firstName}</p>
         </CardContent>
-        <CardHeader>
-          <CardTitle>Last name</CardTitle>
-        </CardHeader>
         <CardContent>
+          <Label className="" htmlFor="lastName">Last name</Label>
           <p>{user?.lastName}</p>
         </CardContent>
-        <CardHeader>
-          <CardTitle>Email</CardTitle>
-        </CardHeader>
         <CardContent>
+          <Label className="" htmlFor="email">Email</Label>
           <p>{user?.email}</p>
         </CardContent>
         
