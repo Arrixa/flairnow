@@ -8,7 +8,7 @@ import ProfileForm from './ProfileForm';
 
 const Profile: React.FC<UserProps> = ({ session }) => {
   const user = session?.user;
-  const [isEditMode, setIsEditMode] = useState(true);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     firstName: user?.firstName || '',
     lastName: user?.lastName || '',
@@ -20,17 +20,17 @@ const Profile: React.FC<UserProps> = ({ session }) => {
   return (
     <section className="flex flex-col w-full">
       {isEditMode ? (
+        <div 
+        className='flex flex-col mx-auto w-full'
+        > 
+        <ProfileForm formData={formData} setIsEditMode={setIsEditMode} setFormData={setFormData} session={session} />
+        </div>
+        ) : (
         <div className='w-full'>
           <div className="flex flex-row mx-auto w-full">
             {user && <UserProfile user={user} formData={formData} setIsEditMode={setIsEditMode}/>}
           </div>
         </div>
-      ) : (
-      <div 
-      className='flex flex-col mx-auto w-full'
-      > 
-      <ProfileForm formData={formData} setIsEditMode={setIsEditMode} setFormData={setFormData} session={session} />
-      </div>
       )}
     </section>
   )

@@ -142,7 +142,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ formData, setIsEditMode, setF
         </div>
         <div className="flex items-center">
           <div className="w-1/2 ml-4 mr-4">
-            <ChevronLeft className='cursor-pointer mt-6 ml-6'  onClick={() => setIsEditMode(true)} />
+            <ChevronLeft className='cursor-pointer mt-6 ml-6'  onClick={() => setIsEditMode(false)} />
           </div>
         
           <div className="w-full mt-1">

@@ -51,18 +51,20 @@ const EmployeeProfileTable: React.FC<{ formData: FormData, setIsEditMode: React.
             </div>
           </div>
         </CardContent>
-        <CardHeader>
-          <CardTitle>{formData?.firstName}</CardTitle>
-          <CardDescription>{formData?.email}</CardDescription>
-        </CardHeader>
-        <CardFooter>
-          <Button
-            className='w-fit mt-2 text-md'
-            onClick={() => setIsEditMode(true)}
-          >
-            Edit profile
-          </Button>
-        </CardFooter>
+        <div className='flex flex-row justify-between'>
+          <CardHeader>
+            <CardTitle>{formData?.firstName}</CardTitle>
+            <CardDescription>{formData?.email}</CardDescription>
+          </CardHeader>
+          <CardFooter>
+            <Button
+              className='w-fit mt-2 text-md'
+              onClick={() => setIsEditMode(true)}
+            >
+              Edit profile
+            </Button>
+          </CardFooter>
+        </div>
       </Card>
       <Card className='m-2 p-2'>
         <CardHeader>

@@ -39,18 +39,20 @@ const UserProfile: React.FC<UserInfo> = ({ user, setIsEditMode }) => {
             </div>
           </div>
         </CardContent>
-        <CardHeader>
-          <CardTitle>{user?.firstName}</CardTitle>
-          <CardDescription>{user?.email}</CardDescription>
-        </CardHeader>
-        <CardFooter>
-          <Button
-            className='w-fit mt-2 text-md'
-            onClick={() => setIsEditMode(true)}
-          >
-            Edit profile
-          </Button>
-        </CardFooter>
+        <div className='flex flex-row justify-between'>
+          <CardHeader>
+            <CardTitle>{user?.firstName}</CardTitle>
+            <CardDescription>{user?.email}</CardDescription>
+          </CardHeader>
+          <CardFooter className='flex-end'>
+            <Button
+              className='w-fit mt-2 text-md'
+              onClick={() => setIsEditMode(true)}
+            >
+              Edit profile
+            </Button>
+          </CardFooter>
+        </div>
       </Card>
       <Card className='m-2 p-2'>
         <CardHeader>
