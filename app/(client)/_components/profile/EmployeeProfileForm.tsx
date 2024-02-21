@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import { useSession } from 'next-auth/react';
 import { ProfileFormProps } from '@/lib/interfaces';
 import { ChevronLeft } from 'lucide-react';
+import { Label } from '@/app/components/ui/label';
+import { Card, CardHeader, CardTitle } from '@/app/components/ui/card';
 
 const FormSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
@@ -72,7 +74,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ formData, setIsEditMode, setF
         await update({
           ...session,
           ...session?.user,
-          id: responseData.id,
+          id: responseData.user.id,
           firstName: responseData.firstName,
           lastName: responseData.lastName,
           email: responseData.email,
@@ -88,68 +90,71 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ formData, setIsEditMode, setF
   };
 
   return (
-    <Form {...form}>
-      <form  onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
-        <div className="flex flex-col">
-          <div className="">
+    <Card className='md:mx-2 my-2 p-2 pt-4 md:p-3 lg:p-5'>
+      <CardHeader><CardTitle>Employee profile information</CardTitle></CardHeader>
+      <Form {...form}>
+        <form  onSubmit={form.handleSubmit(onSubmit)} className='w-full px-2'>
+          <div className="flex flex-col">
+            <div className="">
+              <FormField
+                control={form.control}
+                name='firstName'
+                render={({ field }) => (
+                  <FormItem className="flex flex-col items-left mt-4">
+                    <Label className="w-1/2 mx-4" htmlFor="firstName">First name</Label>
+                    <FormControl className="">
+                      <Input type="text" id="firstName" placeholder='Enter your first name' 
+                        {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+                <FormField
+                control={form.control}
+                name='lastName'
+                render={({ field }) => (
+                  <FormItem className="flex flex-col items-left mt-4">
+                  <Label htmlFor="lastName" className="w-1/2 md:mx-4 ml-1">Last name</Label>
+                    <FormControl className="">
+                      <Input type="text" id="lastName" placeholder='Enter your last name' 
+                        {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+            </div>
             <FormField
               control={form.control}
-              name='firstName'
+              name='email'
               render={({ field }) => (
-                <FormItem className="flex items-center">
-                  <FormLabel className="w-1/2 ml-4">First name</FormLabel>
-                  <FormControl className="">
-                    <Input placeholder='Enter your first name' 
-                      {...field} />
+                <FormItem className="flex flex-col items-left mt-4">
+                  <Label htmlFor="email" className="w-1/2 mx-4">Email</Label>
+                    <FormControl className="">
+                      <Input type="email" id="email" placeholder='Enter your first email' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-              <FormField
-              control={form.control}
-              name='lastName'
-              render={({ field }) => (
-                <FormItem className="flex items-center">
-                  <FormLabel className="w-1/2 ml-4">Last name</FormLabel>
-                  <FormControl className="">
-                    <Input placeholder='Enter your last name' 
-                      {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
+            
           </div>
-          <FormField
-            control={form.control}
-            name='email'
-            render={({ field }) => (
-              <FormItem className="flex items-center">
-                <FormLabel className="w-1/2 ml-4">Email</FormLabel>
-                <FormControl>
-                  <Input placeholder='Enter your email' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="flex flex-col-reverse md:flex-row justify-between">
+            <div className="mx-4">
+              <ChevronLeft className='cursor-pointer md:mt-6' onClick={() => setIsEditMode(false)} />
+            </div>
           
-        </div>
-        <div className="flex items-center">
-          <div className="w-1/2 ml-4">
-            <ChevronLeft className='cursor-pointer mt-6' onClick={() => setIsEditMode(false)} />
+            <div className="">
+              <Button className='my-4 text-md' type='submit'>
+                Submit
+              </Button>
+            </div>
           </div>
-        
-          <div className="w-full">
-            <Button className='w-full mt-6 text-md' type='submit'>
-              Submit
-            </Button>
-          </div>
-        </div>
-      </form>
-    </Form>    
+        </form>
+      </Form>   
+    </Card> 
   );
 };
 

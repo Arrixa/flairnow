@@ -25,9 +25,9 @@ const FormSchema = z.object({
   province: z.string(),
   zipCode: z.string(),
   country: z.string().optional(),
-  logo: z.string().optional(),
-  id: z.string().optional(),
-  domain: z.string().optional(),
+  // logo: z.string().optional(),
+  // id: z.string().optional(),
+  // domain: z.string().optional(),
 });
 
 
@@ -45,7 +45,7 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
       province: '',
       zipCode: '',
       country: '',
-      logo: '',
+      // logo: '',
     },
   });
 
@@ -55,42 +55,42 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
 
   const { toast } = useToast()
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch data from your API endpoint
-        const response = await fetch('/api/client');
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const data = await response.json();
-        // Set form data with fetched values
-        setFormData(data)
-        // console.log(data, 'Set form data with fetched values');
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       // Fetch data from your API endpoint
+  //       const response = await fetch('/api/client');
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! Status: ${response.status}`);
+  //       }
+  //       const data = await response.json();
+  //       // Set form data with fetched values
+  //       setFormData(data)
+  //       // console.log(data, 'Set form data with fetched values');
 
-        setSelectedCode(data.countryCode);
-        setSelectedCountry(data.country);
-        const mappedData = {
-          companyName: data.companyName,
-          website: data.website,
-          description: data.description,
-          countryCode: data.countryCode,
-          phoneNumber: data.phoneNumber,
-          streetNo: data.streetNo,
-          streetAddress: data.streetAddress,
-          province: data.province,
-          zipCode: data.zipCode,
-          country: data.country,
-        };
-        form.reset(mappedData)
+  //       setSelectedCode(data.countryCode);
+  //       setSelectedCountry(data.country);
+  //       const mappedData = {
+  //         companyName: data.companyName,
+  //         website: data.website,
+  //         description: data.description,
+  //         countryCode: data.countryCode,
+  //         phoneNumber: data.phoneNumber,
+  //         streetNo: data.streetNo,
+  //         streetAddress: data.streetAddress,
+  //         province: data.province,
+  //         zipCode: data.zipCode,
+  //         country: data.country,
+  //       };
+  //       form.reset(mappedData)
 
-      } catch (error) {
-        console.error('Error fetching form data:', error);
-      }
-    };
-    // Call fetchData when the component mounts
-    fetchData();
-  }, [form, selectedCode, selectedCountry, setFormData]);
+  //     } catch (error) {
+  //       console.error('Error fetching form data:', error);
+  //     }
+  //   };
+  //   // Call fetchData when the component mounts
+  //   fetchData();
+  // }, [form, selectedCode, selectedCountry, setFormData]);
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     console.log('Form submitted:', data);
@@ -124,34 +124,33 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
             description: "The client information saved successfully.",
           })
           setIsEditMode(false)
-          const mappedData = {
-            companyName: data.companyName,
-            website: data.website,
-            description: data.description,
-            countryCode: data.countryCode,
-            phoneNumber: data.phoneNumber,
-            streetNo: data.streetNo,
-            streetAddress: data.streetAddress,
-            province: data.province,
-            zipCode: data.zipCode,
-            country: data.country,
-          };
-          form.reset(mappedData)
-          await update({ ...session, 
-            ...session?.user,
-            ...session?.client, 
-            companyName: data.companyName,
-            website: data.website,       
-            description: data.description,
-            countryCode: data.countryCode,
-            phoneNumber: data.phoneNumber,
-            streetNo: data.streetNo,
-            streetAddress: data.streetAddress,
-            province: data.province,
-            zipCode: data.zipCode, 
-            country: data.country, 
-            logo: data.logo,
-          });
+          // const mappedData = {
+          //   companyName: data.companyName,
+          //   website: data.website,
+          //   description: data.description,
+          //   countryCode: data.countryCode,
+          //   phoneNumber: data.phoneNumber,
+          //   streetNo: data.streetNo,
+          //   streetAddress: data.streetAddress,
+          //   province: data.province,
+          //   zipCode: data.zipCode,
+          //   country: data.country,
+          // };
+          // form.reset(mappedData)
+          // await update({ ...session, 
+          //   ...session?.user,
+          //   ...session?.client, 
+          //   companyName: data.companyName,
+          //   website: data.website,       
+          //   description: data.description,
+          //   countryCode: data.countryCode,
+          //   phoneNumber: data.phoneNumber,
+          //   streetNo: data.streetNo,
+          //   streetAddress: data.streetAddress,
+          //   province: data.province,
+          //   zipCode: data.zipCode, 
+          //   country: data.country, 
+          // });
           window.location.reload();
         } else {
           toast({
@@ -323,16 +322,10 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
               )}
             />
         </div>
-        <div className="flex items-center">
-        <div className="w-1/2 ml-8">
-            <ChevronLeft className='cursor-pointer mt-6'  onClick={() => setIsEditMode(false)} />
-          </div>
-          <div className="w-full">               
+
             <Button className='w-full mt-6 text-md' type='submit'>
               Submit
             </Button>
-          </div>
-        </div>
       </form>
     </Form>
   );
@@ -340,3 +333,12 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
 
 export default AdminDashboardForm;
 
+/*
+        <div className="flex items-center">
+        <div className="w-1/2 ml-8">
+            <ChevronLeft className='cursor-pointer mt-6'  onClick={() => setIsEditMode(false)} />
+          </div>
+          <div className="w-full">               
+          </div>
+        </div>
+        */

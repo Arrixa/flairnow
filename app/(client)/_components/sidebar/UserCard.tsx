@@ -22,15 +22,16 @@ const UserCard: React.FC<UserCardProps> = ({ session, isMenuOpen }) => {
             <p className="text-foreground">{`${user?.userDomain ? capitaliseFirstLetter(user?.userDomain) : ''}`}</p>
           </div>
           <div className="flex items-center justify-center">
-            <CldImage alt='profile image' src={imageUrl ? imageUrl : defaultImg} width={50} height={50} className='rounded-full' />
+            <CldImage alt='profile image' src={user?.image} width={50} height={50} className='rounded-full' />
           </div>
         </div>
       ):(
-        <div className="ml-2 mt-5">
-          <CldImage alt='profile image' src={imageUrl ? imageUrl : defaultImg} width={50} height={50} className='rounded-full' />
+        <div className="mx-2 mt-5">
+          <CldImage alt='profile image' src={user?.image} width={50} height={50} className='rounded-full' />
         </div>
       )}
     </div>
   )
 }
 export default UserCard
+// imageUrl ? imageUrl : defaultImg

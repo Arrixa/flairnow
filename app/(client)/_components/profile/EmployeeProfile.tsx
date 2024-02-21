@@ -18,10 +18,6 @@ const EmployeeProfile = ({ session }: { session: Session | null }) => {
 
   return (
     <section className="flex flex-col lg:w-2/3 md:w-10/12 w-full lg:space-x-10 ">
-      <div className="flex items-center my-4">
-        <UserRoundCheck />
-        <h2 className="text-xl font-semibold ml-8">Employee profile information</h2>
-      </div>
       {isEditMode ? (
         <div 
         className='flex flex-col mx-auto w-full'

@@ -13,6 +13,7 @@ CardFooter,
 CardHeader,
 CardTitle,
 } from "@/app/components/ui/card"
+import { Label } from '@/app/components/ui/label';
 import { capitaliseFirstLetter } from '@/lib/capitiliseFirstLetter';
 
 const EmployeeProfileTable: React.FC<{ formData: FormData, setIsEditMode: React.Dispatch<React.SetStateAction<boolean>> }> = ({ formData, setIsEditMode }) => {
@@ -37,18 +38,18 @@ const EmployeeProfileTable: React.FC<{ formData: FormData, setIsEditMode: React.
 
   return (
     <article className='flex flex-col mx-auto w-full'>
-      <Card className='m-2 p-2'>
+      <Card className='md:mx-2 my-2 p-2 pt-4'>
         <CardContent>
           <div className='flex justify-start items-start'>
             <div className=''>
-              <CldImage alt='profile image' src={imageUrl} width={100} height={100} className='rounded-full' />
+              <CldImage alt='profile image' src={user?.image} width={100} height={100} className='rounded-full' />
             </div>
             <div className='mb-2'>
               <AddPhoto setImgUrl={setImgUrl} />
             </div>
           </div>
         </CardContent>
-        <div className='flex flex-row justify-between'>
+        <div className='flex flex-col md:flex-row justify-between'>
           <CardHeader>
             <CardTitle>{formData?.firstName}</CardTitle>
             <CardDescription>{formData?.email}</CardDescription>
@@ -63,36 +64,29 @@ const EmployeeProfileTable: React.FC<{ formData: FormData, setIsEditMode: React.
           </CardFooter>
         </div>
       </Card>
-      <Card className='m-2 p-2'>
-        <CardHeader>
-          <CardTitle>First name</CardTitle>
-        </CardHeader>
-        <CardContent className='border-1 border-border bg-border pt-2 mx-4 rounded'>
+      <Card className='md:mx-2 my-2 p-2 pt-4'>
+        <CardHeader><CardTitle>Employee profile information</CardTitle></CardHeader>
+        <CardContent className=''>
+          <Label className="" htmlFor="firstName">First name</Label>
           <p>{formData?.firstName}</p>
         </CardContent>
-        <CardHeader>
-          <CardTitle>Last name</CardTitle>
-        </CardHeader>
         <CardContent>
+          <Label htmlFor="lastName" className="">Last name</Label>
           <p>{formData?.lastName}</p>
         </CardContent>
-        <CardHeader>
-          <CardTitle>Email</CardTitle>
-        </CardHeader>
         <CardContent>
+          <Label htmlFor="email" className="">Email</Label>
           <p>{formData?.email}</p>
         </CardContent>
-        <CardHeader>
-          <CardTitle>Company</CardTitle>
-        </CardHeader>
         <CardContent>
+          <Label htmlFor="company" className="">Company</Label>
           <p>{`${user?.userDomain ? capitaliseFirstLetter(user?.userDomain) : ''}`}</p>
         </CardContent>
-        <CardHeader>
-          <CardTitle>Role</CardTitle>
-        </CardHeader>
-        <CardContent className= 'space-x-2' >
-          <RoleBadges roles={roles} role={''} index={0} />
+        <CardContent className= 'flex flex-col' >
+          <Label htmlFor="role" className="">Role</Label>
+          <div className='my-2 space-x-2'>
+            <RoleBadges roles={roles} role={''} index={0} />
+          </div>
         </CardContent>
         
       </Card>

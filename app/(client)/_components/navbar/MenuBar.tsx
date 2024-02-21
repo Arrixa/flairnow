@@ -26,7 +26,7 @@ const MenuBar = () => {
       {isSearchOpen ? (
         <form onSubmit={handleSearchSubmit} className="flex items-center space-x-2">
           <Input type="search" placeholder="Search FlairNow..." onBlur={closeSearch} autoFocus />
-          <Button variant='flairnowOutline' type="submit"><Search /></Button>
+          <Button variant='flairnowOutline' type="submit"><Search className='' /></Button>
         </form>
       ) : (
         <div className="flex items-center space-x-2">

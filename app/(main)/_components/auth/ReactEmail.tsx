@@ -32,6 +32,10 @@ export function MagicLinkEmail({ url, host }: TextParams) {
                 <Link href={url} target="_blank" className="inline-block p-3 bg-zinc-900 hover:bg-zinc-800 text-white text-lg rounded-md no-underline">Click here to sign in</Link>
               </Container>
               <Text className="text-zinc-600 mb-4">If you didn&apos;t try to log in, you can safely ignore this email.</Text>
+              <Text>Read our &nbsp;
+                <Link href={`https://${host}/terms`} target="_blank" className="text-zinc-900 no-underline">terms</Link>&nbsp; & &nbsp;
+                <Link href={`https://${host}/policy`} target="_blank" className="text-zinc-900 no-underline">privacy</Link>
+              </Text>
               <Hr className="border border-solid border-zinc-500 my-4" />
               <Text className="text-xs text-zinc-500/75">© {new Date().getFullYear()} FlairNow. All Rights Reserved.</Text>
             </Container>
