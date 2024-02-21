@@ -89,7 +89,7 @@ export interface SigninBtnProps {
 }
 
 export interface UserProps {
-  user?: User | null;
+  session: Session | null;
   onClick?: () => void;
 }
 
@@ -132,6 +132,7 @@ export interface UserCardProps {
 export interface UserInfo {
   user: User;
   formData: FormData;
+  setIsEditMode: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface AdminProps {

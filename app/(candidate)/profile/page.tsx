@@ -1,23 +1,22 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/authOptions";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
-import ProfileForm from "../_components/user-profile/ProfileForm";
+import Profile from "../_components/user-profile/Profile";
 
 
 const ProfilePage = async () => {
   const session = await getServerSession(authOptions);
-  const user = session?.user;
     return (
-      <main className='mx-10 lg:mx-20 w-3/4 lg:1/2 xl:1/2 flex flex-col items-center justify-center'>
+      <main className='px-10 lg:px-20 w-full flex flex-col items-center justify-center'>
         <h1 className="text-2xl text-left ml-10 font-semibold my-4 pt-8">User profile information</h1>
-        <div className='w-min-fit flex flex-start'>
-          <Tabs defaultValue="info" className="w-min-fit">
+        <div className='w-full flex  items-center justify-center'>
+          <Tabs defaultValue="info" className="">
             <TabsList>
               <TabsTrigger value="info" className="info-trigger  ml-6">User information</TabsTrigger>
               <TabsTrigger value="applications" className="info-trigger">Applications</TabsTrigger>
             </TabsList>
             <TabsContent value="info">
-              <ProfileForm user={user} />
+              <Profile session={session} />
             </TabsContent>
             <TabsContent value="applications">
             </TabsContent>

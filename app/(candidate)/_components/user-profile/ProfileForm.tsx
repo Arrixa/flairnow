@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { UserProps, FormData } from '@/lib/interfaces';
 import { useSession } from 'next-auth/react';
 import { ChevronLeft } from 'lucide-react';
+import {ProfileFormProps } from '@/lib/interfaces';
 
 
 const FormSchema = z.object({
@@ -22,8 +23,7 @@ const FormSchema = z.object({
 });
 
 
-const ProfileForm: React.FC<UserProps> = ({ user }) => {
-  console.log('user in ProfileForm', user)
+const ProfileForm: React.FC<ProfileFormProps> = ({ formData, setIsEditMode, setFormData, session }) => {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -35,16 +35,9 @@ const ProfileForm: React.FC<UserProps> = ({ user }) => {
     },
   });
 
-  const {data: session, update } = useSession();
+  const {update } = useSession();
   const { toast } = useToast()
-  const [isEditMode, setIsEditMode] = useState(true);
-  const [formData, setFormData] = useState<FormData>({
-    firstName: user?.firstName || '',
-    lastName: user?.lastName || '',
-    email: user?.email || '',
-    image: user?.image || '',
-    id: user?.id || '',
-  });
+
 
   useEffect(() => {
     const mappedData = {
@@ -98,94 +91,68 @@ const ProfileForm: React.FC<UserProps> = ({ user }) => {
   };
 
   return (
-    <section className="flex flex-col w-full">
-      {isEditMode ? (
-        <div className='w-full'>
-          <div className="flex flex-row mx-auto w-full">
-            {user && <UserProfile user={user} formData={formData} />}
-          </div>
-          <div className="flex items-center">
-              <div className="w-1/2 ml-8">
-              </div>            
-              <div className="w-full ml-24">
-                <Button
-                  className='w-full mt-1 text-md'
-                  onClick={() => setIsEditMode(false)}
-                >
-                  Edit
-                </Button>
-              </div>
-            </div>
-        </div>
-      ) : (
-      <div 
-      className='flex flex-col mx-auto w-full'
-      >  
-        <Form {...form}>
-          <form  onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
-            <div className="flex flex-col">
-              <div className="">
-                <FormField
-                  control={form.control}
-                  name='firstName'
-                  render={({ field }) => (
-                    <FormItem className="flex items-center">
-                      <FormLabel className="w-1/2 ml-10">First name</FormLabel>
-                      <FormControl className="">
-                        <Input placeholder='Enter your first name' 
-                         {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                 <FormField
-                  control={form.control}
-                  name='lastName'
-                  render={({ field }) => (
-                    <FormItem className="flex items-center">
-                      <FormLabel className="w-1/2 ml-10">Last name</FormLabel>
-                      <FormControl className="">
-                        <Input placeholder='Enter your last name' 
-                         {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-              </div>
+    <Form {...form}>
+      <form  onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
+        <div className="flex flex-col">
+          <div className="">
+            <FormField
+              control={form.control}
+              name='firstName'
+              render={({ field }) => (
+                <FormItem className="flex items-center">
+                  <FormLabel className="w-1/2 ml-10">First name</FormLabel>
+                  <FormControl className="">
+                    <Input placeholder='Enter your first name' 
+                      {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
               <FormField
-                control={form.control}
-                name='email'
-                render={({ field }) => (
-                  <FormItem className="flex items-center">
-                    <FormLabel className="w-1/2 ml-10">Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder='Enter your email' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-            </div>
-            <div className="flex items-center">
-              <div className="w-1/2 ml-4 mr-4">
-                <ChevronLeft className='cursor-pointer mt-6 ml-6'  onClick={() => setIsEditMode(true)} />
-              </div>
-            
-              <div className="w-full mt-1">
-                <Button className='w-full mt-6 text-md' type='submit'>
-                  Submit
-                </Button>
-              </div>
-            </div>
-          </form>
-        </Form>    
-      </div>
-        )}
-    </section>
+              control={form.control}
+              name='lastName'
+              render={({ field }) => (
+                <FormItem className="flex items-center">
+                  <FormLabel className="w-1/2 ml-10">Last name</FormLabel>
+                  <FormControl className="">
+                    <Input placeholder='Enter your last name' 
+                      {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+          </div>
+          <FormField
+            control={form.control}
+            name='email'
+            render={({ field }) => (
+              <FormItem className="flex items-center">
+                <FormLabel className="w-1/2 ml-10">Email</FormLabel>
+                <FormControl>
+                  <Input placeholder='Enter your email' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+        </div>
+        <div className="flex items-center">
+          <div className="w-1/2 ml-4 mr-4">
+            <ChevronLeft className='cursor-pointer mt-6 ml-6'  onClick={() => setIsEditMode(true)} />
+          </div>
+        
+          <div className="w-full mt-1">
+            <Button className='w-full mt-6 text-md' type='submit'>
+              Submit
+            </Button>
+          </div>
+        </div>
+      </form>
+    </Form>    
   );
 };
 

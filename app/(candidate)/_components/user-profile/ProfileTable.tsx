@@ -1,12 +1,12 @@
 'use client'
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/app/components/ui/table";
+import { Button } from '@/app/components/ui/button';
 import { CldImage } from 'next-cloudinary';
 import AddPhoto from '@/app/components/common/AddPhoto';
 import { UserInfo } from '@/lib/interfaces';
 import { useState, useEffect } from "react";
-import { CircleUserRound } from 'lucide-react';
+import {  Card,  CardContent,  CardDescription,  CardFooter,  CardHeader,  CardTitle,  } from "@/app/components/ui/card"
 
-const UserProfile = ({ user }: UserInfo) => {
+const UserProfile: React.FC<UserInfo> = ({ user, setIsEditMode }) => {
   const image = user.image;
   const cloudinaryImageId = user.id; 
   const defaultImg = 'https://res.cloudinary.com/dsbvy1t2i/image/upload/v1707912829/DefaultProfileImg.png';
@@ -27,7 +27,59 @@ const UserProfile = ({ user }: UserInfo) => {
   }, [imageUrl]);
 
   return (
-    <>
+    <article className='flex flex-col mx-auto w-full'>
+      <Card className='m-2 p-2'>
+        <CardContent>
+          <div className="w-full flex flex-row items-center align-bottom">
+            <div className=''>
+              <CldImage alt='FN' src={imageUrl} width={80} height={80} className='rounded-full object-cover bg-brand' />
+            </div>
+            <div className='mb-8 align-top'>
+              <AddPhoto setImgUrl={setImgUrl} />
+            </div>
+          </div>
+        </CardContent>
+        <CardHeader>
+          <CardTitle>{user?.firstName}</CardTitle>
+          <CardDescription>{user?.email}</CardDescription>
+        </CardHeader>
+        <CardFooter>
+          <Button
+            className='w-fit mt-2 text-md'
+            onClick={() => setIsEditMode(true)}
+          >
+            Edit profile
+          </Button>
+        </CardFooter>
+      </Card>
+      <Card className='m-2 p-2'>
+        <CardHeader>
+          <CardTitle>First name</CardTitle>
+        </CardHeader>
+        <CardContent className='border-1 border-border bg-border pt-2 mx-4 rounded'>
+          <p>{user?.firstName}</p>
+        </CardContent>
+        <CardHeader>
+          <CardTitle>Last name</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p>{user?.lastName}</p>
+        </CardContent>
+        <CardHeader>
+          <CardTitle>Email</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p>{user?.email}</p>
+        </CardContent>
+        
+      </Card>
+    </article>
+  )
+}
+
+export default UserProfile;
+
+/* 
       <Table className="w-full space-x-10">
         <TableCaption>
         </TableCaption>
@@ -64,8 +116,4 @@ const UserProfile = ({ user }: UserInfo) => {
           <TableRow></TableRow>
         </TableBody>
       </Table>
-    </>
-  )
-}
-
-export default UserProfile;
+*/
