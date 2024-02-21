@@ -1,4 +1,5 @@
 import { Session } from "next-auth";
+import { Dispatch, SetStateAction } from "react";
 
 export enum Role {
   OWNER = 'OWNER',
@@ -98,6 +99,13 @@ export interface FormData {
   lastName: string;
   email: string;
   id: string;
+}
+
+export interface ProfileFormProps {
+  formData: FormData;
+  setIsEditMode: Dispatch<SetStateAction<boolean>>;
+  setFormData: Dispatch<SetStateAction<FormData>>;
+  session: Session | null;
 }
 
 export interface UserForm {

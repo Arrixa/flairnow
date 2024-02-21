@@ -4,6 +4,14 @@ import { BookText, Building, Paperclip } from "lucide-react";
 import AddLogo from "./AddLogo";
 import { ClientForm } from "@/lib/interfaces"
 import { useState, useEffect } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/app/components/ui/card"
 
 const CompanyInfo: React.FC<ClientForm & { formData?: ClientForm }> = ({ formData }) => {
 
@@ -45,7 +53,28 @@ const CompanyInfo: React.FC<ClientForm & { formData?: ClientForm }> = ({ formDat
 
   return (
     <section className="flex flex-col w-full">  
-      <div className="w-full">
+      <Card>
+        <CardHeader>
+          <Paperclip />
+          <CardTitle>Company assets</CardTitle>
+          <CardDescription>Card Description</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p>Company logo:</p>
+          <p></p>
+        </CardContent>
+        <CardFooter>
+          <p>Card Footer</p>
+        </CardFooter>
+      </Card> 
+    </section>
+  )
+}
+
+export default CompanyInfo;
+
+/* 
+<div className="w-full">
         <div className="flex items-center mt-4">
           <Paperclip />
           <h2 className="text-xl font-semibold ml-4">Company assets</h2>
@@ -134,8 +163,4 @@ const CompanyInfo: React.FC<ClientForm & { formData?: ClientForm }> = ({ formDat
           </TableBody>
         </Table>
       </div>
-    </section>
-  )
-}
-
-export default CompanyInfo
+*/
