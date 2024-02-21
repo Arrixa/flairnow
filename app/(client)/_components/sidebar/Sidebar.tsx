@@ -11,9 +11,8 @@ import { ScrollArea } from "@/app/components/ui/scroll-area";
 import { signOut } from "next-auth/react";
 import UserCard from "./UserCard";
 import SidebarItemRenderer from "./SidebarItems";
-import renderLogo from "@/app/components/common/logos/LogoFullText";
-import renderSquareLogo from "@/app/components/common/logos/LogoSquare";
 import { SidebarCompProps } from "@/lib/interfaces";
+import { capitaliseFirstLetter } from '@/lib/capitiliseFirstLetter';
 import { CldImage } from 'next-cloudinary';
 
 
@@ -26,14 +25,10 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
   const logoCloudUrl = `https://res.cloudinary.com/dsbvy1t2i/image/upload/v1707912829/${user.userDomain}.png`;
   const [logoUrl, setLogoUrl] = useState<string>(logoCloudUrl);
 
-  function capitalizeFirstLetter(str: string): string {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
-
   useEffect(() => {
     // Check screen size on mount
     const handleResize = () => {
-      const isLargeScreen = window.innerWidth >= 768;
+      const isLargeScreen = window.innerWidth >= 1500;
       setIsMenuOpen(isLargeScreen);
     };
     handleResize();
@@ -61,7 +56,16 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
   }, []);
 
   const handleToggleMenu = () => {
-    setIsMenuOpen((prevIsOpen) => !prevIsOpen);
+    const isLargeScreen = window.innerWidth >= 1500;
+    const isMobile = window.innerWidth >= 500;
+  
+    if (isLargeScreen) {
+      setIsMenuOpen(false);
+    } else if (isMobile) {
+      setIsMenuOpen(true);
+    } else {
+      setIsMenuOpen((prevIsOpen) => !prevIsOpen);
+    }
   };
 
 
@@ -84,7 +88,7 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
         </Link>
         {/* Dashboard Label */}
         <div className="mb-4 ml-4">
-          {isMenuOpen ? <span className="text-lg font-bold">{capitalizeFirstLetter(user?.userDomain)}</span> : <></>}
+          {isMenuOpen ? <span className="text-lg font-bold">{capitaliseFirstLetter(user?.userDomain)}</span> : <></>}
         </div>
 
         {/* Sidebar Items */}

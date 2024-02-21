@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { useToast } from "@/app/components/ui/use-toast"
 import { useEffect, useState } from "react";
 import { useSession } from 'next-auth/react';
-import {ProfileFormProps } from '@/lib/interfaces';
+import { ProfileFormProps } from '@/lib/interfaces';
 import { ChevronLeft } from 'lucide-react';
 
 const FormSchema = z.object({

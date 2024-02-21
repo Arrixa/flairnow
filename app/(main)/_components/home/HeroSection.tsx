@@ -1,4 +1,6 @@
+'use client'
 import { Button } from '@/app/components/ui/button';
+import { signIn } from 'next-auth/react';
 import React from 'react';
 
 const HeroSection = () => {
@@ -11,9 +13,7 @@ const HeroSection = () => {
                         Find out why businesses are automating recruitment, HR, payroll and benefits with flair<strong>now</strong>.
                     </p>
                     <div className="space-x-4">
-                        <Button className="bg-brand text-black py-2 px-4 rounded hover:bg-teal-700 hover:text-white transition duration-300">
-                            Get Started
-                        </Button>
+                        <Button className="bg-brand text-black py-2 px-4 rounded hover:bg-teal-700 hover:text-white transition duration-300" onClick={() => signIn()}>Get Started</Button>
                     </div>
                 </div>
                 <div className='hidden lg:flex lg:w-1/2 justify-center items-center'>

@@ -1,25 +1,22 @@
 'use client'
 import {
-  ChevronsLeft,
-  ChevronsRight,
   LogOut,
   Menu,
 } from "lucide-react"
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import UserCard from "./UserCard";
-import SidebarItemRenderer from "./SidebarItems";
 import { SidebarCompProps } from "@/lib/interfaces";
 import { CldImage } from 'next-cloudinary';import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/app/components/ui/dropdown-menu";
+import { capitaliseFirstLetter } from '@/lib/capitiliseFirstLetter';
 import IconRenderer from "./Icons";
 
 
@@ -66,10 +63,6 @@ const MobileSidebar: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
       return <IconRenderer iconName={iconName} />;
     };
 
-    function capitalizeFirstLetter(str: string): string {
-      return str.charAt(0).toUpperCase() + str.slice(1);
-    }
-
 
   return (
     <DropdownMenu>
@@ -86,7 +79,7 @@ const MobileSidebar: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
               <Link href='/'>
                 <CldImage alt={`${user?.userDomain} logo`} src={logoUrl} width={40} height={40} className="object-cover ml-5 my-2" />
               </Link>
-              <span className="text-lg font-bold ml-4">{capitalizeFirstLetter(user?.userDomain)}</span>
+              <span className="text-lg font-bold ml-4">{capitaliseFirstLetter(user?.userDomain)}</span>
             </DropdownMenuLabel>
             {filteredSidebarItems?.map((item, index) => (
               <DropdownMenuItem key={index}>

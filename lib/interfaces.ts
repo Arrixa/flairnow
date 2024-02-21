@@ -108,6 +108,11 @@ export interface ProfileFormProps {
   session: Session | null;
 }
 
+export interface DashboardFormProps {
+  setIsEditMode: Dispatch<SetStateAction<boolean>>;
+  setFormData: Dispatch<SetStateAction<FormData>>;
+}
+
 export interface UserForm {
   session?: Session | null;
   formData: FormData;

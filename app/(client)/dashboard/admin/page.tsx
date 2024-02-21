@@ -1,5 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
-import AdminDashboardForm from '../../_components/dashboard/AdminDashboardForm';
+import AdminDashboard from '../../_components/dashboard/AdminDashboard';
 import { BookPlus, FileCog } from 'lucide-react';
 
 const AdminDashboardPage = async () => {
@@ -18,7 +18,7 @@ const AdminDashboardPage = async () => {
           </TabsTrigger>
           </TabsList>
           <TabsContent value="info">
-            <AdminDashboardForm />
+            <AdminDashboard />
           </TabsContent>
           <TabsContent value="preferences"></TabsContent>
         </Tabs>

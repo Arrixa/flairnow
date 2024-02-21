@@ -7,12 +7,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Textarea } from '@/app/components/ui/textarea';
 import { useToast } from "@/app/components/ui/use-toast"
-import CompanyInfo from './CompanyInfo';
 import { useEffect, useRef, useState } from "react";
 import { CountrySelect } from '@/app/components/common/CountrySelect';
 import { CodeSelect } from '@/app/components/common/CodeSelect';
 import { useSession } from 'next-auth/react';
 import { BookText, Building, ChevronLeft } from 'lucide-react';
+import { DashboardFormProps } from '@/lib/interfaces';
 
 const FormSchema = z.object({
   companyName: z.string().min(1, 'Name is required'),
@@ -31,7 +31,7 @@ const FormSchema = z.object({
 });
 
 
-const AdminDashboardForm = () => {
+const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEditMode }) => {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -52,8 +52,7 @@ const AdminDashboardForm = () => {
   const { update, data: session } = useSession();
   const [selectedCode, setSelectedCode] = useState<string>(''); 
   const [selectedCountry, setSelectedCountry] = useState<string>(''); 
-  const [isEditMode, setIsEditMode] = useState(true);
-  const [formData, setFormData] = useState({});
+
   const { toast } = useToast()
 
   useEffect(() => {
@@ -91,7 +90,7 @@ const AdminDashboardForm = () => {
     };
     // Call fetchData when the component mounts
     fetchData();
-  }, [form, selectedCode, selectedCountry]);
+  }, [form, selectedCode, selectedCountry, setFormData]);
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     console.log('Form submitted:', data);
@@ -124,7 +123,7 @@ const AdminDashboardForm = () => {
           toast({
             description: "The client information saved successfully.",
           })
-          setIsEditMode(true)
+          setIsEditMode(false)
           const mappedData = {
             companyName: data.companyName,
             website: data.website,
@@ -170,199 +169,172 @@ const AdminDashboardForm = () => {
 
 
   return (
-    <section className="flex flex-col w-full">
-      {isEditMode ? (
-        <div className='w-full'>
-          <div className="flex flex-row mx-auto w-full">
-            <CompanyInfo formData={formData}/>
-          </div>
-          <div className="lg:w-2/3 md:w-10/12 w-full lg:space-x-10 flex flex-row">
-              <div className="w-1/2 ml-10">
-              </div>            
-              <div className="w-2/3 px-10 ">
-                <Button
-                  className='w-full mt-2 text-md'
-                  onClick={() => setIsEditMode(false)}
-                >
-                  Edit
-                </Button>
-              </div>
-            </div>
+    <Form {...form}>
+      <form  onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
+        <div className="flex items-center my-4">
+          <BookText />
+          <h2 className="text-xl font-semibold ml-6">General Information</h2>
         </div>
-      ) : ( 
-
-      <div 
-      className='flex flex-col mx-auto w-full'
-      >
-        <Form {...form}>
-          <form  onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
-            <div className="flex items-center my-4">
-              <BookText />
-              <h2 className="text-xl font-semibold ml-6">General Information</h2>
-            </div>
-            <div className="flex flex-col">
-              
-                <FormField
-                  control={form.control}
-                  name='companyName'
-                  render={({ field }) => (
-                    <FormItem className="flex items-center">
-                      <FormLabel className="w-1/2 ml-10">Name</FormLabel>
-                        <FormControl className="mb-1 text-sm">
-                          <Input placeholder='Enter company name'                        
-                          {...field} />
-                        </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-              <FormField
-                control={form.control}
-                name='website'
-                render={({ field }) => (
-                  <FormItem className="flex items-center">
-                    <FormLabel className="w-1/2 ml-10">Website</FormLabel>
-                    <FormControl>
-                      <Input placeholder='Enter website URL'
+        <div className="flex flex-col">
+          
+            <FormField
+              control={form.control}
+              name='companyName'
+              render={({ field }) => (
+                <FormItem className="flex items-center">
+                  <FormLabel className="w-1/2 ml-10">Name</FormLabel>
+                    <FormControl className="mb-1 text-sm">
+                      <Input placeholder='Enter company name'                        
                       {...field} />
                     </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='description'
-                render={({ field }) => (
-                  <FormItem className="flex items-center">
-                    <FormLabel className="w-1/2 ml-10">Description</FormLabel>
-                    <FormControl>
-                      <Textarea placeholder="Type your description"
-                      {...field} />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+          <FormField
+            control={form.control}
+            name='website'
+            render={({ field }) => (
+              <FormItem className="flex items-center">
+                <FormLabel className="w-1/2 ml-10">Website</FormLabel>
+                <FormControl>
+                  <Input placeholder='Enter website URL'
+                  {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='description'
+            render={({ field }) => (
+              <FormItem className="flex items-center">
+                <FormLabel className="w-1/2 ml-10">Description</FormLabel>
+                <FormControl>
+                  <Textarea placeholder="Type your description"
+                  {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className='w-full'>
+            <FormField
+              control={form.control}
+              name='phoneNumber'
+              render={({ field }) => (
+                <FormItem className="flex items-center">
+                  <FormLabel className="w-1/2 ml-10">Phone number</FormLabel>
+                  <div className="w-[100%] flex items-center">
+                    <FormControl className="w-1/3">
+                      <CodeSelect
+                        {...field}
+                        value={selectedCode}
+                        onChange={(value) => setSelectedCode(value)}
+                      />
                     </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className='w-full'>
-               <FormField
-                  control={form.control}
-                  name='phoneNumber'
-                  render={({ field }) => (
-                    <FormItem className="flex items-center">
-                      <FormLabel className="w-1/2 ml-10">Phone number</FormLabel>
-                      <div className="w-[100%] flex items-center">
-                        <FormControl className="w-1/3">
-                          <CodeSelect
-                            {...field}
-                            value={selectedCode}
-                            onChange={(value) => setSelectedCode(value)}
-                          />
-                        </FormControl>
-                        <FormControl className="w-2/3">
-                          <Input className='ml-2 w-full' placeholder="Enter phone number" {...field} />
-                        </FormControl>
-                      </div>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                /> 
-               </div> 
-            </div>
-            <div className="flex items-center my-4">
-              <Building />
-              <h2 className="text-xl font-semibold ml-6">Location</h2>
-            </div>
-            <div className="flex flex-col">
-              <FormField
-                  control={form.control}
-                  name='streetNo'
-                  render={({ field }) => (
-                    <FormItem className="flex items-center">
-                      <FormLabel className="w-1/2 ml-10">Street number</FormLabel>
-                      <FormControl>
-                        <Input placeholder='Enter street number'
-                            
-                            {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name='streetAddress'
-                  render={({ field }) => (
-                    <FormItem className="flex items-center">
-                      <FormLabel className="w-1/2 ml-10">Street Address</FormLabel>
-                      <FormControl>
-                        <Input placeholder='Enter street address'
-                          
-                            {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name='province'
-                  render={({ field }) => (
-                    <FormItem className="flex items-center">
-                      <FormLabel className="w-1/2 ml-10">Province</FormLabel>
-                      <FormControl>
-                        <Input placeholder='Enter province'
-                            
-                            {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name='zipCode'
-                  render={({ field }) => (
-                    <FormItem className="flex items-center">
-                      <FormLabel className="w-1/2 ml-10">Zip Code</FormLabel>
-                      <FormControl>
-                        <Input placeholder='Enter zip code'
-                         {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name='country'
-                  render={({ field }) => (
-                    <FormItem className="flex items-center">
-                      <FormLabel className="w-1/2 ml-10">Country</FormLabel>
-                      <FormControl>
-                      <CountrySelect {...field} value={selectedCountry} onChange={(value) => setSelectedCountry(value)}  />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-            </div>
-            <div className="flex items-center">
-            <div className="w-1/2 ml-8">
-                <ChevronLeft className='cursor-pointer mt-6'  onClick={() => setIsEditMode(true)} />
-              </div>
-              <div className="w-full">               
-                <Button className='w-full mt-6 text-md' type='submit'>
-                  Submit
-                </Button>
-              </div>
-            </div>
-          </form>
-        </Form>
-      </div>
-    )}
-    </section>
+                    <FormControl className="w-2/3">
+                      <Input className='ml-2 w-full' placeholder="Enter phone number" {...field} />
+                    </FormControl>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            /> 
+            </div> 
+        </div>
+        <div className="flex items-center my-4">
+          <Building />
+          <h2 className="text-xl font-semibold ml-6">Location</h2>
+        </div>
+        <div className="flex flex-col">
+          <FormField
+              control={form.control}
+              name='streetNo'
+              render={({ field }) => (
+                <FormItem className="flex items-center">
+                  <FormLabel className="w-1/2 ml-10">Street number</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Enter street number'
+                        
+                        {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='streetAddress'
+              render={({ field }) => (
+                <FormItem className="flex items-center">
+                  <FormLabel className="w-1/2 ml-10">Street Address</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Enter street address'
+                      
+                        {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='province'
+              render={({ field }) => (
+                <FormItem className="flex items-center">
+                  <FormLabel className="w-1/2 ml-10">Province</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Enter province'
+                        
+                        {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='zipCode'
+              render={({ field }) => (
+                <FormItem className="flex items-center">
+                  <FormLabel className="w-1/2 ml-10">Zip Code</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Enter zip code'
+                      {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='country'
+              render={({ field }) => (
+                <FormItem className="flex items-center">
+                  <FormLabel className="w-1/2 ml-10">Country</FormLabel>
+                  <FormControl>
+                  <CountrySelect {...field} value={selectedCountry} onChange={(value) => setSelectedCountry(value)}  />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+        </div>
+        <div className="flex items-center">
+        <div className="w-1/2 ml-8">
+            <ChevronLeft className='cursor-pointer mt-6'  onClick={() => setIsEditMode(false)} />
+          </div>
+          <div className="w-full">               
+            <Button className='w-full mt-6 text-md' type='submit'>
+              Submit
+            </Button>
+          </div>
+        </div>
+      </form>
+    </Form>
   );
 };
 

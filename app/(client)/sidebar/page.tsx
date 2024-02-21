@@ -22,7 +22,7 @@ const Sidebar: React.FC<SidebarProps> = ({ session }) => {
   }, []);
 
   return (
-    <aside className="h-dvh">
+    <aside className="min-h-screen">
      {isMobile ? (
         <MobileSidebar userRoles={userRoles} session={session} />
       ) : (

@@ -2,12 +2,9 @@
 import { Separator } from "@/app/components/ui/separator";
 import { CldImage } from "next-cloudinary";
 import { UserCardProps } from "@/lib/interfaces";
-
+import { capitaliseFirstLetter } from '@/lib/capitiliseFirstLetter';
 
 const UserCard: React.FC<UserCardProps> = ({ session, isMenuOpen }) => {
-  function capitalizeFirstLetter(str: string): string {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
   const user = session?.user;
 
   const cloudinaryBaseURL = 'https://res.cloudinary.com/dsbvy1t2i/image/upload/';
@@ -22,7 +19,7 @@ const UserCard: React.FC<UserCardProps> = ({ session, isMenuOpen }) => {
           <div className="">
             <h4 className="text-lg font-sm text-foreground min-w-fit">{`${user?.firstName} ${user?.lastName}`}</h4>
             <Separator className="text-foreground" />
-            <p className="text-foreground">{`${user?.userDomain ? capitalizeFirstLetter(user?.userDomain) : ''}`}</p>
+            <p className="text-foreground">{`${user?.userDomain ? capitaliseFirstLetter(user?.userDomain) : ''}`}</p>
           </div>
           <div className="flex items-center justify-center">
             <CldImage alt='profile image' src={imageUrl ? imageUrl : defaultImg} width={50} height={50} className='rounded-full' />

@@ -4,6 +4,8 @@ import { BookText, Building, Paperclip } from "lucide-react";
 import AddLogo from "./AddLogo";
 import { ClientForm } from "@/lib/interfaces"
 import { useState, useEffect } from "react";
+import { capitaliseFirstLetter } from '@/lib/capitiliseFirstLetter';
+import { Button } from '@/app/components/ui/button';
 import {
   Card,
   CardContent,
@@ -13,7 +15,7 @@ import {
   CardTitle,
 } from "@/app/components/ui/card"
 
-const CompanyInfo: React.FC<ClientForm & { formData?: ClientForm }> = ({ formData }) => {
+const CompanyInfo: React.FC<ClientForm & { formData?: ClientForm, setIsEditMode: React.Dispatch<React.SetStateAction<boolean>> }> = ({ formData, setIsEditMode }) => {
 
   const client = formData
   console.log(client, 'client data in client info')
@@ -52,115 +54,83 @@ const CompanyInfo: React.FC<ClientForm & { formData?: ClientForm }> = ({ formDat
   }, [logoUrl]);
 
   return (
-    <section className="flex flex-col w-full">  
-      <Card>
+    <section className="flex flex-col w-full"> 
+      <Card className='m-2 p-2'>
+        <CardContent>
+          <div className="w-full flex flex-row items-center align-bottom">
+            <div className=''>
+              <CldImage alt={`${client?.domain} logo`} src={logoUrl} width={80} height={80} className='object-cover' />
+            </div>
+            <div className='mb-8 align-top'>
+              <AddLogo setLogoUrl={setLogoUrl} />
+            </div>
+          </div>
+        </CardContent>
+        <div className='flex flex-row justify-between'>
+          <CardHeader>
+            <CardTitle>{`Welcome ${capitaliseFirstLetter(client?.domain ? client?.domain : "")}`}</CardTitle>
+            <CardDescription>{client?.companyName ? client?.companyName : ""}</CardDescription>
+          </CardHeader>
+          <CardFooter>
+            <Button
+              className='w-fit mt-2 text-md'
+              onClick={() => setIsEditMode(true)}
+            >
+              Edit information
+            </Button>
+          </CardFooter>
+        </div>
+      </Card> 
+      <Card className='m-2 p-2'>
         <CardHeader>
-          <Paperclip />
-          <CardTitle>Company assets</CardTitle>
-          <CardDescription>Card Description</CardDescription>
+        {/* <BookText /> */}
+          <CardTitle> General Information</CardTitle>
         </CardHeader>
         <CardContent>
-          <p>Company logo:</p>
-          <p></p>
+          <p>Company name:</p>
+          <p>{client?.companyName}</p>
         </CardContent>
-        <CardFooter>
-          <p>Card Footer</p>
-        </CardFooter>
+        <CardContent>
+          <p>Website:</p>
+          <p>{client?.website}</p>
+        </CardContent>
+        <CardContent>
+          <p>Description:</p>
+          <p>{client?.description}</p>
+        </CardContent>
+        <CardContent>
+          <p>Phone number:</p>
+          <p>{formatPhoneNumber(client?.countryCode, client?.phoneNumber)}</p>
+        </CardContent>
+      </Card> 
+      <Card className='m-2 p-2'>
+        <CardHeader>
+        {/* <Building /> */}
+          <CardTitle>Location</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p>Street number:</p>
+          <p>{client?.streetNo}</p>
+        </CardContent>
+        <CardContent>
+          <p>Street address:</p>
+          <p>{client?.streetAddress}</p>
+        </CardContent>
+        <CardContent>
+          <p>Province:</p>
+          <p>{client?.province}</p>
+        </CardContent>
+        <CardContent>
+          <p>Zip code:</p>
+          <p>{client?.zipCode}</p>
+        </CardContent>
+        <CardContent>
+          <p>Country:</p>
+          <p>{client?.country}</p>
+        </CardContent>
       </Card> 
     </section>
   )
 }
 
 export default CompanyInfo;
-
-/* 
-<div className="w-full">
-        <div className="flex items-center mt-4">
-          <Paperclip />
-          <h2 className="text-xl font-semibold ml-4">Company assets</h2>
-        </div>
-        <Table className="w-full space-x-10">
-        <TableCaption></TableCaption>
-          <TableHeader>
-            <TableRow>
-            </TableRow>
-          </TableHeader>
-          <TableRow>
-            <TableHead className="w-1/3 pl-10 pt-5 align-bottom pb-3">Company logo:</TableHead>
-            <TableCell className="lg:w-1/2 w-full text-left px-12 flex justify-between items-center">
-              <div className="w-full flex flex-row items-center align-bottom">
-                <div className=''>
-                  <CldImage alt={`${client?.domain} logo`} src={logoUrl} width={80} height={80} className='object-cover' />
-                </div>
-                <div className='mb-8 align-top'>
-                  <AddLogo setLogoUrl={setLogoUrl} />
-                </div>
-              </div>
-            </TableCell>
-          </TableRow>
-        </Table>         
-        </div>
-      <div className="w-full">
-        <div className="flex items-center my-4">
-          <BookText />
-          <h2 className="text-xl font-semibold ml-4">General Information</h2>
-        </div>
-        <Table className="w-full">
-          <TableCaption></TableCaption>
-          <TableHeader>
-            <TableRow>
-            </TableRow>
-          </TableHeader>
-          <TableBody >
-            <TableRow className="my-2">
-              <TableHead className="w-1/3 pl-10 pt-5">Name:</TableHead>
-              <TableCell className="w-2/3 text-left pl-10 pt-5">{client?.companyName}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableHead className="w-1/3 pl-10 pt-5">Website:</TableHead>
-              <TableCell className="w-2/3 text-left pl-10 pt-5">{client?.website}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableHead className="w-1/3 pl-10 pt-5">Description:</TableHead>
-              <TableCell className="w-2/3 text-left pl-10 pt-5">{client?.description}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableHead className="w-1/3 pl-10 pt-5">Phone number:</TableHead>
-              <TableCell className="w-2/3 text-left pl-10 space-x-2 pt-5">{formatPhoneNumber(client?.countryCode, client?.phoneNumber)}</TableCell>
-            </TableRow>
-            <TableRow></TableRow>
-          </TableBody>
-        </Table>       
-      </div>
-      <div className="">
-        <div className="flex items-center my-8">
-          <Building />
-          <h2 className="text-xl font-semibold ml-4">Location</h2>
-        </div>
-        <Table className="w-full space-x-1">
-          <TableBody>
-            <TableRow>
-              <TableHead className="w-1/3 pl-10 pt-5">Street number:</TableHead>
-              <TableCell className="w-2/3 text-left pl-10 pt-5">{client?.streetNo}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableHead className="w-1/3 pl-10 pt-5">Street address:</TableHead>
-              <TableCell className="w-2/3 text-left pl-10 pt-5">{client?.streetAddress}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableHead className="w-1/3 pl-10 pt-5">Province:</TableHead>
-              <TableCell className="w-2/3 text-left pl-10 pt-5">{client?.province}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableHead className="w-1/3 pl-10 pt-5">Zip code:</TableHead>
-              <TableCell className="w-2/3 text-left pl-10 space-x-2 pt-5">{client?.zipCode}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableHead className="w-1/3 pl-10 pt-5">Country:</TableHead>
-              <TableCell className="w-2/3 text-left pl-10 space-x-2 pt-5">{client?.country}</TableCell>
-            </TableRow>
-            <TableRow></TableRow>
-          </TableBody>
-        </Table>
-      </div>
-*/

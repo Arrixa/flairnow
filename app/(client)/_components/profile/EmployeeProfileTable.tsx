@@ -13,6 +13,7 @@ CardFooter,
 CardHeader,
 CardTitle,
 } from "@/app/components/ui/card"
+import { capitaliseFirstLetter } from '@/lib/capitiliseFirstLetter';
 
 const EmployeeProfileTable: React.FC<{ formData: FormData, setIsEditMode: React.Dispatch<React.SetStateAction<boolean>> }> = ({ formData, setIsEditMode }) => {
   const { data: session } = useSession();
@@ -24,10 +25,6 @@ const EmployeeProfileTable: React.FC<{ formData: FormData, setIsEditMode: React.
   const defaultImg = 'https://res.cloudinary.com/dsbvy1t2i/image/upload/v1707912829/DefaultProfileImg.png';
   const imageCloudUrl = `https://res.cloudinary.com/dsbvy1t2i/image/upload/v1707912829/${cloudinaryImageId}.png`;
   const [imageUrl, setImgUrl] = useState<string>(defaultImg);
-
-  function capitalizeFirstLetter(str: string): string {
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  }
 
   useEffect(() => {
     if (image && image !== null) {
@@ -89,7 +86,7 @@ const EmployeeProfileTable: React.FC<{ formData: FormData, setIsEditMode: React.
           <CardTitle>Company</CardTitle>
         </CardHeader>
         <CardContent>
-          <p>{`${user?.userDomain ? capitalizeFirstLetter(user?.userDomain) : ''}`}</p>
+          <p>{`${user?.userDomain ? capitaliseFirstLetter(user?.userDomain) : ''}`}</p>
         </CardContent>
         <CardHeader>
           <CardTitle>Role</CardTitle>
