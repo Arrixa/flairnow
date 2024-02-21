@@ -7,97 +7,81 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Textarea } from '@/app/components/ui/textarea';
 import { useToast } from "@/app/components/ui/use-toast"
-import { useEffect, useRef, useState } from "react";
+import { useState, useEffect } from "react";
 import { CountrySelect } from '@/app/components/common/CountrySelect';
 import { CodeSelect } from '@/app/components/common/CodeSelect';
 import { useSession } from 'next-auth/react';
-import { BookText, Building, ChevronLeft } from 'lucide-react';
+import { Label } from '@/app/components/ui/label';
+import { Card, CardHeader, CardTitle } from '@/app/components/ui/card';
 import { DashboardFormProps } from '@/lib/interfaces';
+import { ChevronLeft } from 'lucide-react';
 
-const FormSchema = z.object({
-  companyName: z.string().min(1, 'Name is required'),
-  website: z.string().url('Invalid URL'),
-  description: z.string(). max(500, 'Description is too long'),
-  countryCode: z.string().min(1, 'Country code is required'),
-  phoneNumber: z.string().min(1, 'Phone number is required'),
-  streetNo: z.string(),
-  streetAddress: z.string(),
-  province: z.string(),
-  zipCode: z.string(),
-  country: z.string().optional(),
-  // logo: z.string().optional(),
-  // id: z.string().optional(),
-  // domain: z.string().optional(),
-});
+// const FormSchema = z.object({
+//   companyName: z.string().min(1, 'Name is required'),
+//   website: z.string().url('Invalid URL'),
+//   description: z.string(). max(500, 'Description is too long'),
+//   countryCode: z.string().min(1, 'Country code is required'),
+//   phoneNumber: z.string().min(1, 'Phone number is required'),
+//   streetNo: z.string(),
+//   streetAddress: z.string(),
+//   province: z.string(),
+//   zipCode: z.string(),
+//   country: z.string().optional(),
+//   // logo: z.string().optional(),
+//   // id: z.string().optional(),
+//   // domain: z.string().optional(),
+// });
 
 
-const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEditMode }) => {
-  const form = useForm({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      companyName: '',
-      website: '',
-      description: '',
-      countryCode: '',
-      phoneNumber: '',
-      streetNo: '',
-      streetAddress: '',
-      province: '',
-      zipCode: '',
-      country: '',
-      // logo: '',
-    },
-  });
+const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEditMode, formData }) => {
+  const form = useForm()
+  //   resolver: zodResolver(FormSchema),
+  //   defaultValues: {
+  //     companyName: '',
+  //     website: '',
+  //     description: '',
+  //     countryCode: '',
+  //     phoneNumber: '',
+  //     streetNo: '',
+  //     streetAddress: '',
+  //     province: '',
+  //     zipCode: '',
+  //     country: '',
+  //     // logo: '',
+  //   },
+  // });
 
-  const { update, data: session } = useSession();
+  // const { update, data: session } = useSession();
   const [selectedCode, setSelectedCode] = useState<string>(''); 
   const [selectedCountry, setSelectedCountry] = useState<string>(''); 
 
   const { toast } = useToast()
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       // Fetch data from your API endpoint
-  //       const response = await fetch('/api/client');
-  //       if (!response.ok) {
-  //         throw new Error(`HTTP error! Status: ${response.status}`);
-  //       }
-  //       const data = await response.json();
-  //       // Set form data with fetched values
-  //       setFormData(data)
-  //       // console.log(data, 'Set form data with fetched values');
+  useEffect(() => {
+    setSelectedCode(formData.countryCode);
+    setSelectedCountry(formData.country);
+    const mappedData = {
+      companyName: formData.companyName,
+      website: formData.website,
+      description: formData.description,
+      countryCode: formData.countryCode,
+      phoneNumber: formData.phoneNumber,
+      streetNo: formData.streetNo,
+      streetAddress: formData.streetAddress,
+      province: formData.province,
+      zipCode: formData.zipCode,
+      country: formData.country,
+    };
+    form.reset(mappedData)
+  }, [form, formData])
 
-  //       setSelectedCode(data.countryCode);
-  //       setSelectedCountry(data.country);
-  //       const mappedData = {
-  //         companyName: data.companyName,
-  //         website: data.website,
-  //         description: data.description,
-  //         countryCode: data.countryCode,
-  //         phoneNumber: data.phoneNumber,
-  //         streetNo: data.streetNo,
-  //         streetAddress: data.streetAddress,
-  //         province: data.province,
-  //         zipCode: data.zipCode,
-  //         country: data.country,
-  //       };
-  //       form.reset(mappedData)
 
-  //     } catch (error) {
-  //       console.error('Error fetching form data:', error);
-  //     }
-  //   };
-  //   // Call fetchData when the component mounts
-  //   fetchData();
-  // }, [form, selectedCode, selectedCountry, setFormData]);
-
-  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    console.log('Form submitted:', data);
+  const onSubmit = async (data: any) => {
+    console.log('Form submitted:', data, selectedCode, selectedCountry);
     console.log("Save client function called");
 
     // Add this log to check the form state before submitting
-    console.log('Form state before submit:', form.formState);
+    // console.log('Form state before submit:', form.formState);
 
     try {
       const response = await fetch('/api/client', {
@@ -169,19 +153,15 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
 
   return (
     <Form {...form}>
-      <form  onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
-        <div className="flex items-center my-4">
-          <BookText />
-          <h2 className="text-xl font-semibold ml-6">General Information</h2>
-        </div>
-        <div className="flex flex-col">
-          
+      <form  onSubmit={form.handleSubmit(onSubmit)}>
+        <Card className='md:mx-2 my-2 p-2 pt-4 md:p-3 lg:p-5'>
+        <CardHeader><CardTitle>General Information</CardTitle></CardHeader>
             <FormField
               control={form.control}
               name='companyName'
               render={({ field }) => (
-                <FormItem className="flex items-center">
-                  <FormLabel className="w-1/2 ml-10">Name</FormLabel>
+                <FormItem className="flex flex-col items-left mt-4">
+                  <Label className="w-1/2 mx-4">Name</Label>
                     <FormControl className="mb-1 text-sm">
                       <Input placeholder='Enter company name'                        
                       {...field} />
@@ -195,8 +175,8 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
             control={form.control}
             name='website'
             render={({ field }) => (
-              <FormItem className="flex items-center">
-                <FormLabel className="w-1/2 ml-10">Website</FormLabel>
+              <FormItem className="flex flex-col items-left mt-4">
+                <Label className="w-1/2 mx-4">Website</Label>
                 <FormControl>
                   <Input placeholder='Enter website URL'
                   {...field} />
@@ -209,8 +189,8 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
             control={form.control}
             name='description'
             render={({ field }) => (
-              <FormItem className="flex items-center">
-                <FormLabel className="w-1/2 ml-10">Description</FormLabel>
+              <FormItem className="flex flex-col items-left mt-4">
+                <Label className="w-1/2 mx-4">Description</Label>
                 <FormControl>
                   <Textarea placeholder="Type your description"
                   {...field} />
@@ -219,42 +199,37 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
               </FormItem>
             )}
           />
-          <div className='w-full'>
-            <FormField
-              control={form.control}
-              name='phoneNumber'
-              render={({ field }) => (
-                <FormItem className="flex items-center">
-                  <FormLabel className="w-1/2 ml-10">Phone number</FormLabel>
-                  <div className="w-[100%] flex items-center">
-                    <FormControl className="w-1/3">
-                      <CodeSelect
-                        {...field}
-                        value={selectedCode}
-                        onChange={(value) => setSelectedCode(value)}
-                      />
-                    </FormControl>
-                    <FormControl className="w-2/3">
-                      <Input className='ml-2 w-full' placeholder="Enter phone number" {...field} />
-                    </FormControl>
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> 
-            </div> 
-        </div>
-        <div className="flex items-center my-4">
-          <Building />
-          <h2 className="text-xl font-semibold ml-6">Location</h2>
-        </div>
-        <div className="flex flex-col">
+          <FormField
+            control={form.control}
+            name='phoneNumber'
+            render={({ field }) => (
+              <FormItem className="flex flex-col items-left mt-4">
+                <Label className="w-1/2 mx-4">Phone number</Label>
+                <div className="w-[100%] flex items-center">
+                  <FormControl className="w-1/3">
+                    <CodeSelect
+                      {...field}
+                      value={selectedCode}
+                      onChange={(value) => setSelectedCode(value)}
+                    />
+                  </FormControl>
+                  <FormControl className="w-2/3">
+                    <Input className='ml-2 w-full' placeholder="Enter phone number" {...field} />
+                  </FormControl>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          /> 
+        </Card>
+        <Card className="md:mx-2 my-2 p-2 pt-4 md:p-3 lg:p-5">
+          <CardHeader><CardTitle>Location</CardTitle></CardHeader>
           <FormField
               control={form.control}
               name='streetNo'
               render={({ field }) => (
-                <FormItem className="flex items-center">
-                  <FormLabel className="w-1/2 ml-10">Street number</FormLabel>
+                <FormItem className="flex flex-col items-left mt-4">
+                  <Label className="w-1/2 mx-4">Street number</Label>
                   <FormControl>
                     <Input placeholder='Enter street number'
                         
@@ -268,8 +243,8 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
               control={form.control}
               name='streetAddress'
               render={({ field }) => (
-                <FormItem className="flex items-center">
-                  <FormLabel className="w-1/2 ml-10">Street Address</FormLabel>
+                <FormItem className="flex flex-col items-left mt-4">
+                  <Label className="w-1/2 mx-4">Street Address</Label>
                   <FormControl>
                     <Input placeholder='Enter street address'
                       
@@ -283,8 +258,8 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
               control={form.control}
               name='province'
               render={({ field }) => (
-                <FormItem className="flex items-center">
-                  <FormLabel className="w-1/2 ml-10">Province</FormLabel>
+                <FormItem className="flex flex-col items-left mt-4">
+                  <Label className="w-1/2 mx-4">Province</Label>
                   <FormControl>
                     <Input placeholder='Enter province'
                         
@@ -298,8 +273,8 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
               control={form.control}
               name='zipCode'
               render={({ field }) => (
-                <FormItem className="flex items-center">
-                  <FormLabel className="w-1/2 ml-10">Zip Code</FormLabel>
+                <FormItem className="flex flex-col items-left mt-4">
+                  <Label className="w-1/2 mx-4">Zip Code</Label>
                   <FormControl>
                     <Input placeholder='Enter zip code'
                       {...field} />
@@ -312,8 +287,8 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
               control={form.control}
               name='country'
               render={({ field }) => (
-                <FormItem className="flex items-center">
-                  <FormLabel className="w-1/2 ml-10">Country</FormLabel>
+                <FormItem className="flex flex-col items-left mt-4">
+                  <Label className="w-1/2 mx-4">Country</Label>
                   <FormControl>
                   <CountrySelect {...field} value={selectedCountry} onChange={(value) => setSelectedCountry(value)}  />
                   </FormControl>
@@ -321,24 +296,16 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
                 </FormItem>
               )}
             />
+        </Card>
+        <div className="flex flex-col-reverse md:flex-row justify-between">
+          <ChevronLeft className='cursor-pointer mt-6 mx-4'  onClick={() => setIsEditMode(false)} />
+          <Button className='my-4 text-md mx-4' type='submit'>
+            Submit
+          </Button>
         </div>
-
-            <Button className='w-full mt-6 text-md' type='submit'>
-              Submit
-            </Button>
       </form>
     </Form>
   );
 };
 
 export default AdminDashboardForm;
-
-/*
-        <div className="flex items-center">
-        <div className="w-1/2 ml-8">
-            <ChevronLeft className='cursor-pointer mt-6'  onClick={() => setIsEditMode(false)} />
-          </div>
-          <div className="w-full">               
-          </div>
-        </div>
-        */

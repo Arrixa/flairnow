@@ -1,10 +1,10 @@
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/app/components/ui/table"
 import { CldImage } from 'next-cloudinary';
 import { BookText, Building, Paperclip } from "lucide-react";
 import AddLogo from "./AddLogo";
 import { ClientForm } from "@/lib/interfaces"
 import { useState, useEffect } from "react";
 import { capitaliseFirstLetter } from '@/lib/capitiliseFirstLetter';
+import { Label } from '@/app/components/ui/label';
 import { Button } from '@/app/components/ui/button';
 import {
   Card,
@@ -14,6 +14,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/components/ui/card"
+import Link from "next/link";
 
 const CompanyInfo: React.FC<ClientForm & { formData?: ClientForm, setIsEditMode: React.Dispatch<React.SetStateAction<boolean>> }> = ({ formData, setIsEditMode }) => {
 
@@ -66,7 +67,7 @@ const CompanyInfo: React.FC<ClientForm & { formData?: ClientForm, setIsEditMode:
             </div>
           </div>
         </CardContent>
-        <div className='flex flex-row justify-between'>
+        <div className='flex flex-col md:flex-row justify-between'>
           <CardHeader>
             <CardTitle>{`Welcome ${capitaliseFirstLetter(client?.domain ? client?.domain : "")}`}</CardTitle>
             <CardDescription>{client?.companyName ? client?.companyName : ""}</CardDescription>
@@ -81,54 +82,56 @@ const CompanyInfo: React.FC<ClientForm & { formData?: ClientForm, setIsEditMode:
           </CardFooter>
         </div>
       </Card> 
-      <Card className='m-2 p-2'>
-        <CardHeader>
-        {/* <BookText /> */}
-          <CardTitle> General Information</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p>Company name:</p>
-          <p>{client?.companyName}</p>
-        </CardContent>
-        <CardContent>
-          <p>Website:</p>
-          <p>{client?.website}</p>
-        </CardContent>
-        <CardContent>
-          <p>Description:</p>
-          <p>{client?.description}</p>
-        </CardContent>
-        <CardContent>
-          <p>Phone number:</p>
-          <p>{formatPhoneNumber(client?.countryCode, client?.phoneNumber)}</p>
-        </CardContent>
-      </Card> 
-      <Card className='m-2 p-2'>
-        <CardHeader>
-        {/* <Building /> */}
-          <CardTitle>Location</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p>Street number:</p>
-          <p>{client?.streetNo}</p>
-        </CardContent>
-        <CardContent>
-          <p>Street address:</p>
-          <p>{client?.streetAddress}</p>
-        </CardContent>
-        <CardContent>
-          <p>Province:</p>
-          <p>{client?.province}</p>
-        </CardContent>
-        <CardContent>
-          <p>Zip code:</p>
-          <p>{client?.zipCode}</p>
-        </CardContent>
-        <CardContent>
-          <p>Country:</p>
-          <p>{client?.country}</p>
-        </CardContent>
-      </Card> 
+      <div className="flex flex-col md:flex-row w-full">
+        <Card className='m-2 p-2 w-full'>
+          <CardHeader>
+          {/* <BookText /> */}
+            <CardTitle> General Information</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Label>Company name:</Label>
+            <p>{client?.companyName}</p>
+          </CardContent>
+          <CardContent>
+            <Label>Website:</Label>
+            <Link href={client?.website ? client?.website : "#"}><p>{client?.website}</p></Link>
+          </CardContent>
+          <CardContent>
+            <Label>Description:</Label>
+            <p>{client?.description}</p>
+          </CardContent>
+          <CardContent>
+            <Label>Phone number:</Label>
+            <p>{formatPhoneNumber(client?.countryCode, client?.phoneNumber)}</p>
+          </CardContent>
+        </Card> 
+        <Card className='m-2 p-2 w-full'>
+          <CardHeader>
+          {/* <Building /> */}
+            <CardTitle>Location</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Label>Street number:</Label>
+            <p>{client?.streetNo}</p>
+          </CardContent>
+          <CardContent>
+            <Label>Street address:</Label>
+            <p>{client?.streetAddress}</p>
+          </CardContent>
+          <CardContent>
+            <Label>Province:</Label>
+            <p>{client?.province}</p>
+          </CardContent>
+          <CardContent>
+            <Label>Zip code:</Label>
+            <p>{client?.zipCode}</p>
+          </CardContent>
+          <CardContent>
+            <Label>Country:</Label>
+            <p>{client?.country}</p>
+          </CardContent>
+        </Card> 
+      </div>
     </section>
   )
 }

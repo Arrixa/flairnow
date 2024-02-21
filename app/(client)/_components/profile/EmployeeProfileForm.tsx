@@ -142,15 +142,10 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ formData, setIsEditMode, setF
             
           </div>
           <div className="flex flex-col-reverse md:flex-row justify-between">
-            <div className="mx-4">
-              <ChevronLeft className='cursor-pointer md:mt-6' onClick={() => setIsEditMode(false)} />
-            </div>
-          
-            <div className="">
-              <Button className='my-4 text-md' type='submit'>
-                Submit
-              </Button>
-            </div>
+            <ChevronLeft className='cursor-pointer md:mt-6 mx-4' onClick={() => setIsEditMode(false)} />
+            <Button className='my-4 text-md mx-4' type='submit'>
+              Submit
+            </Button>
           </div>
         </form>
       </Form>   

@@ -69,13 +69,13 @@ export function CountrySelect({ onChange, value }: { onChange: (value: string) =
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="combobox" role="combobox" aria-expanded={open} className="w-full justify-between text-foreground">
+        <Button variant="combobox" role="combobox" aria-expanded={open} className="w-full justify-between text-foreground  bg-background">
           {displayed ? displayed : "Select country..."}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50 bg-background" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto overflow-y-auto p-0">
-        <ScrollArea className="h-[200px] w-[350px] rounded-md border p-4">
+      <PopoverContent className="w-auto overflow-y-auto p-0 bg-background">
+        <ScrollArea className="h-[200px] w-[350px] rounded-md border p-4 bg-background">
           <Command>
             <CommandInput placeholder="Search country..." />
             <CommandEmpty>No country found.</CommandEmpty>

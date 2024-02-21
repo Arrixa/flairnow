@@ -101,6 +101,21 @@ export interface FormData {
   id: string;
 }
 
+export interface ClientFormData {
+  domain: string;
+  companyName: string;
+  logo: string;
+  website: string;
+  description: string;
+  countryCode: string;
+  phoneNumber: string;
+  streetNo: string;
+  streetAddress: string;
+  province: string;
+  zipCode: string;
+  country: string;
+}
+
 export interface ProfileFormProps {
   formData: FormData;
   setIsEditMode: Dispatch<SetStateAction<boolean>>;
@@ -110,7 +125,10 @@ export interface ProfileFormProps {
 
 export interface DashboardFormProps {
   setIsEditMode: Dispatch<SetStateAction<boolean>>;
-  setFormData: Dispatch<SetStateAction<FormData>>;
+  setFormData: Dispatch<SetStateAction<ClientFormData>>;
+  formData: ClientFormData;
+  // selectedCode: Dispatch<SetStateAction<string>>; 
+  // selectedCountry: Dispatch<SetStateAction<string>>; 
 }
 
 export interface UserForm {

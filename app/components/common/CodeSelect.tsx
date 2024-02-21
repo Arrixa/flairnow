@@ -22,7 +22,7 @@ const CustomCommandInput: React.FC<CommandInputProps> = ({ placeholder, onChange
     type="text"
     placeholder={placeholder}
     onChange={onChange}
-    className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none text-foreground placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
+    className="flex h-11 w-full rounded-md bg-background py-3 text-sm outline-none text-foreground placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
   />
 );
 
@@ -89,16 +89,16 @@ export function CodeSelect({ onChange, value }: CodeSelectProps)  {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="combobox" role="combobox" aria-expanded={open} className="justify-between text-foreground">
+        <Button variant="combobox" role="combobox" aria-expanded={open} className="justify-between text-foreground bg-background">
           {displayed ? displayed : "Code"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
-        <ScrollArea className="h-[200px] w-[350px] rounded-md border p-4">
+        <ScrollArea className="h-[200px] w-[350px] rounded-md border p-4 bg-background">
           <Command>
-            <div className="flex items-center border-b px-3" cmdk-input-wrapper="">
-            <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+            <div className="flex items-center border-b px-3 bg-background" cmdk-input-wrapper="">
+            <Search className="mr-2 h-4 w-4 shrink-0 opacity-50 bg-background" />
             <CustomCommandInput
               placeholder="Search country code..."
               onChange={(e) => setSearchText(e.target.value)}
