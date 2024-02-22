@@ -3,6 +3,8 @@ import renderLogoInline from "@/app/components/common/logos/LogoInline";
 import SignUpForm from "../../_components/auth/SignupForm";
 import Image from "next/image";
 
+// FTM-2 1. Register as a new user
+
 const SignupPage = () => {
   return (
     <main className="grid grid-cols-1 md:grid-cols-2 justify-center items-center gap-2 mx-auto py-10 xl:w-3/4 lg:w-10/12 md:w-10/12 sm:w-full ">

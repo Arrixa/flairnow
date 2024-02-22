@@ -3,6 +3,8 @@ import { authOptions } from "@/utils/authOptions";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
  
+// FTM-2 /FTM-20 15. Update client information
+
 export async function POST(req: Request) {
   try {
     const reqBody = await req.json();

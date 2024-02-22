@@ -1,15 +1,12 @@
 import { prisma } from "@/lib/prisma"; 
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { extractEmailDomain, isDomainInExcludedList } from "@/lib/extractDomain";
 import { authOptions } from "@/utils/authOptions";
-import { Role } from "@/lib/interfaces";
+import { getServerSession } from "next-auth";
 
 export async function POST(req: NextRequest) {
   try {
     const reqBody = await req.json();
-    const { emailVerified, image, id, ...userInfo } = reqBody;
-
+    const { emailVerified, id, ...userInfo } = reqBody;
 
     // Check if user email exists
     const existingUserByEmail = await prisma.user.findUnique({
@@ -18,8 +15,9 @@ export async function POST(req: NextRequest) {
       }
     })
     if (!existingUserByEmail) {
-      return NextResponse.json({ user: null, message: "Please signin with a email link before creating a profile"})
+      return NextResponse.json({ user: null, message: "Please signin again with a email link"})
     }
+    // FTM-2 / FTM-19 6. Update user profile 
     const user = await prisma.user.update({
         where: {
           id: existingUserByEmail.id,
@@ -29,64 +27,10 @@ export async function POST(req: NextRequest) {
         },
       });
 
-    // Check if client domain exists
-    const domain = extractEmailDomain(user.email);
-    console.log("domain", domain)
-    
-    let roles = [];
-    let client;
-    let clientUser;
-
-    // Check if the domain is part of the excluded list (public domains)
-    const isPublicDomain = isDomainInExcludedList(domain);
-    console.log(isPublicDomain);
-
-    if (isPublicDomain) {
-      // Return the updated session without creating clientUser and client
-      NextResponse.json({ message: "User profile created successfully"}, { status: 201 })
-    } else {
-  
-      const existingClientByDomain = await prisma.client.findUnique({
-        where: { 
-          domain: domain 
-        },
-      });
-
-      if (!existingClientByDomain) {
-        client = await prisma.client.create({ 
-          data: { 
-            domain: domain 
-          } 
-        });
-        roles.push(Role.ADMIN, Role.EMPLOYEE);
-      } else {
-        client = existingClientByDomain;
-        roles.push(Role.EMPLOYEE);
-      }
-  
-      if (roles.length === 0) {
-        // If roles are not assigned, assume some default role
-        roles.push(Role.UNASSIGNED);
-      }
-  
-      console.log('Roles:', roles);
-      console.log('Client:', client);
-  
-      // New record in ClientUser table
-      clientUser = await prisma.clientUser.create({
-        data: {
-          client: { connect: { id: client.id } },
-          user: { connect: { id: user.id } },
-          role: roles,
-        },
-      });     
-    }
-
     const updatedInfo = {
       ...user,
-      ...client,
-      ...clientUser,
     }    
+    
     return NextResponse.json({ updatedInfo, message: "User and client profile created successfully"}, { status: 201 })
 
   } catch (error) {
@@ -123,17 +67,6 @@ async function getUserData(request: Request) {
       userId: user.id,
     },
   })
-
-  // console.log({
-  //   firstName: user.firstName,
-  //   lastName: user.lastName,
-  //   email: user.email,
-  //   image: user.image,  
-  //   role: clientUser.role,
-  //   clientId: clientUser.id,
-  //   userDomain: user.userDomain,
-  // }, 'user data in getUserData')
-
 
   if (!user) {
     return { message: "User does not exist" };

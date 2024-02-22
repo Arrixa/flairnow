@@ -38,6 +38,7 @@ const EmployeeProfileTable: React.FC<{ formData: FormData, setIsEditMode: React.
 
   return (
     <article className='flex flex-col mx-auto w-full'>
+       {/* FTN-2 / FTM-20 2. Profile image & name in banner card */}
       <Card className='md:mx-2 my-2 p-2 pt-4'>
         <CardContent>
           <div className='flex justify-start items-start'>
@@ -64,6 +65,8 @@ const EmployeeProfileTable: React.FC<{ formData: FormData, setIsEditMode: React.
           </CardFooter>
         </div>
       </Card>
+       {/* FTN-2 / FTM-20 1. Profile card */}
+
       <Card className='md:mx-2 my-2 p-2 pt-4'>
         <CardHeader><CardTitle>Employee profile information</CardTitle></CardHeader>
         <CardContent className=''>

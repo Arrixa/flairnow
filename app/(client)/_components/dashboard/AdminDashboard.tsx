@@ -9,6 +9,7 @@ const AdminDashboard = () => {
   const [formData, setFormData] = useState<ClientFormData>({} as ClientFormData);
   // const [mappedData, setMappedData] = useState({});
 
+  // FTM-2 / FTM-20 9. Fetch client info
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -29,7 +30,7 @@ const AdminDashboard = () => {
     fetchData();
   }, [setFormData]);
 
-
+  // FTM-2 / FTM-20 10.
   return (
     <section className="flex flex-col w-full">
       {isEditMode ? (

@@ -3,6 +3,8 @@ import { createTransport } from 'nodemailer';
 import { render } from '@react-email/render';
 import { SendVerificationRequestParams, TextParams } from '@/lib/interfaces';
 
+// FTM-2 / FTM-17 2. Custom sendVerificationRequest function
+
 export async function sendVerificationRequest(params: SendVerificationRequestParams): Promise<{ success: boolean; data: any }> {
   const { identifier, url, provider }  = params;
   const { host } = new URL(url);

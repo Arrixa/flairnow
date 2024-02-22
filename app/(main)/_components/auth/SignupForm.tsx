@@ -27,13 +27,14 @@ const FormSchema = z
     userDomain: z.string()
   })
 
-
+// FTM-2 1. Create sign up form for recruiter & candidate users
 const SignUpForm = () => {
   const [domain, setDomain] = useState<string>("" as string);
   const router = useRouter();
   const { toast } = useToast()
   const { data: session, update } = useSession();
 
+  // FTM-2 / FTM-17 7. Extract domain from email
   useEffect(() => {
     if (session?.user.email) {
       const domainExtract = extractEmailDomain(session.user.email);
@@ -65,7 +66,7 @@ const SignUpForm = () => {
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     console.log('onSubmit clicked', data)
     try {
-      const response = await fetch('/api/user', {
+      const response = await fetch('/api/user-client', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -84,6 +85,7 @@ const SignUpForm = () => {
         const res = await response.json();
         const responseData = res.updatedInfo;
         console.log(responseData, 'responseData in sign up form');
+        // FTM-2 / FTM-17 10. Update session with response data
         await update({
           ...session,
           ...session?.user,
@@ -101,9 +103,6 @@ const SignUpForm = () => {
         const updatedSession = await getSession();
         console.log("Updated Session:", updatedSession);
         router.push('/auth/validate-auth')
-        // await update({ ...session?.user, firstName: data.firstName, lastName: data.lastName, userDomain: domain})
-        // router.push('/auth/update-session')
-        // router.push('/auth/signin')
       } else {
         const errorData = await response.json();
         toast({

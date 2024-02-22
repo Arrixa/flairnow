@@ -18,7 +18,7 @@ const ClientLayout = async ({
           <div className='w-fit'><MenuBar /></div>
           <div className='flex'>
             <Sidebar session={session} />
-            <main className="flex-grow">
+            <main className="flex-grow bg-zinc-200">
               {children}
             </main>
           </div>

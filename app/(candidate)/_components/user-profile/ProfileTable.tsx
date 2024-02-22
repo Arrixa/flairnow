@@ -29,6 +29,7 @@ const UserProfile: React.FC<UserInfo> = ({ user, setIsEditMode }) => {
 
   return (
     <article className='flex flex-col mx-auto w-full'>
+      {/* FTM-2 / FTM-19 2. Banner with image & name */}
       <Card className='md:mx-2 my-2 p-2 pt-4'>
         <CardContent>
           <div className="w-full flex flex-row items-center align-bottom">
@@ -55,6 +56,7 @@ const UserProfile: React.FC<UserInfo> = ({ user, setIsEditMode }) => {
           </CardFooter>
         </div>
       </Card>
+      {/* FTM-2 / FTM-19 3. User information */}
       <Card className='md:mx-2 my-2 p-2 pt-4'>
         <CardContent className=''>
           <Label className="" htmlFor="firstName">First name</Label>

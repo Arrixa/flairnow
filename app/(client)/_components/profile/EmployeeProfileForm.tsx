@@ -21,6 +21,8 @@ const FormSchema = z.object({
   id: z.string().optional(),
 });
 
+ // FTN-2 / FTM-20 5. Update employee profile
+
 const ProfileForm: React.FC<ProfileFormProps> = ({ formData, setIsEditMode, setFormData, session }) => {
   const form = useForm({
     resolver: zodResolver(FormSchema),
@@ -63,7 +65,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ formData, setIsEditMode, setF
       })
 
       console.log('Form submission response:', response);
-
+      // FTN-2 / FTM-20 7. 
       if (response.ok) {
         toast({
           description: "The user information saved successfully.",

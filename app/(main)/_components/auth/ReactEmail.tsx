@@ -15,6 +15,8 @@ import {
 import React from 'react';
 import { TextParams } from '@/lib/interfaces';
 
+// FTM-2 / FTM-17 3. MagicLinkEmail component
+
 export function MagicLinkEmail({ url, host }: TextParams) {
    const previewText = `Signin with your email.`
 

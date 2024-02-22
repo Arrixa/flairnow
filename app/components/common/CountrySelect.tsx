@@ -18,6 +18,8 @@ import { useState, useEffect } from "react";
 import { ScrollArea } from "@/app/components/ui/scroll-area";
 import { Country } from "@/lib/interfaces"
 
+// FTM-2 / FTM-20 19. Country name select
+
 export function CountrySelect({ onChange, value }: { onChange: (value: string) => void; value: string }) {
   const [open, setOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(value);

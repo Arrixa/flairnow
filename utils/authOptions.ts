@@ -15,6 +15,7 @@ export const authOptions: NextAuthOptions = {
     secret: process.env.NEXTAUTH_SECRET,
   },
   adapter: PrismaAdapter(prisma),
+  // FTM-2 / FTM-17 1. Add email provider
   providers: [
     EmailProvider({
       server: {
@@ -171,6 +172,7 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: "/auth/signin",
+    // FTM-2 / FTM-17 6. New users routed to sign up
     newUser: '/auth/signup',
     error: '/auth/error', 
     verifyRequest: "/auth/verify"

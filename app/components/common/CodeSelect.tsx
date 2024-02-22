@@ -17,6 +17,8 @@ import { useState, useEffect } from "react";
 import { ScrollArea } from "@/app/components/ui/scroll-area"
 import { Country, CommandInputProps, CodeSelectProps } from "@/lib/interfaces"
 
+// FTM-2 / FTM-20 18. Dial code select
+
 const CustomCommandInput: React.FC<CommandInputProps> = ({ placeholder, onChange }) => (
   <input
     type="text"
@@ -25,7 +27,6 @@ const CustomCommandInput: React.FC<CommandInputProps> = ({ placeholder, onChange
     className="flex h-11 w-full rounded-md bg-background py-3 text-sm outline-none text-foreground placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
   />
 );
-
 
 export function CodeSelect({ onChange, value }: CodeSelectProps)  {
   const [open, setOpen] = useState(false);

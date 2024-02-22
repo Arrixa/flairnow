@@ -16,10 +16,14 @@ import { Button } from '../../../components/ui/button';
 import { useToast } from '@/app/components/ui/use-toast';
 import { getCsrfToken, signIn } from 'next-auth/react';
 
+// FTM-2 3. Sign in for recruiter & candidate users
+// FTM-2 / FTM-17 4. Email sign in
+
 const EmailSignIn= () => {
   const { toast } = useToast();
   const [csrfToken, setCsrfToken] = useState<string | undefined>(undefined);
 
+  // FTM-2 / FTM-17 5. Fetch CSRF token & send in signIn request
   const fetchCsrfToken = useCallback(async () => {
     const token = await getCsrfToken();
     setCsrfToken(token);

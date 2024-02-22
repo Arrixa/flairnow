@@ -21,6 +21,8 @@ const CompanyInfo: React.FC<ClientForm & { formData?: ClientForm, setIsEditMode:
   const client = formData
   console.log(client, 'client data in client info')
 
+    // FTM-2 / FTM-20 12. 
+
   function formatPhoneNumber(countryCode: string | undefined, phoneNumber: string | undefined): string | undefined {
     if (countryCode && phoneNumber) {
       const cleanedPhoneNumber = phoneNumber.replace(/\D/g, '');
@@ -54,9 +56,11 @@ const CompanyInfo: React.FC<ClientForm & { formData?: ClientForm, setIsEditMode:
     console.log("Logo URL updated:", logoUrl);
   }, [logoUrl]);
 
+  // FTM-2 / FTM-20 11. Display client information
+
   return (
     <section className="flex flex-col w-full"> 
-      <Card className='md:mx-2 my-2 p-2 pt-4'>
+      <Card className='md:mx-2 my-2 p-2 pt-4 '>
         <CardContent>
           <div className="w-full flex flex-row items-center align-bottom">
             <div className=''>

@@ -5,6 +5,9 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from "@/utils/authOptions";
 import { CloudinaryResponse } from '@/lib/interfaces';
 
+// FTM-2 / FTM-19 4. Upload photo & update user
+// FTM-2 / FTM-20 4. Upload photo & update user
+
 // Configure Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,

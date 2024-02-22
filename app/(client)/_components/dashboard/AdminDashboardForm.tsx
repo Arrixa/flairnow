@@ -27,11 +27,12 @@ const FormSchema = z.object({
   province: z.string(),
   zipCode: z.string(),
   country: z.string().optional(),
-  // logo: z.string().optional(),
+  logo: z.string().optional(),
   // id: z.string().optional(),
   // domain: z.string().optional(),
 });
 
+// FTM-2 / FTM-20 14. Admin dashboard form
 
 const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEditMode, formData }) => {
   const form = useForm({
@@ -102,7 +103,7 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
           country: selectedCountry,    
         })
       })
-        
+        // FTM-2 / FTM-20 16. Update session & form data
         if (response.ok) {
           toast({
             description: "The client information saved successfully.",

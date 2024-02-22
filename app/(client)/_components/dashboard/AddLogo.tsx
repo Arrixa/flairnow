@@ -5,6 +5,8 @@ import { useToast } from '@/app/components/ui/use-toast';
 import { useSession } from "next-auth/react";
 import { Pencil, X } from 'lucide-react';
 
+// FTM-2 / FTM-20 13. Upload logo
+
 export default function AddLogo({ setLogoUrl }: { setLogoUrl: React.Dispatch<React.SetStateAction<string>> }) {
   const { toast } = useToast();
   const [showModal, setShowModal] = useState(false);

@@ -4,6 +4,9 @@ import { Button } from "../ui/button";
 import { useToast } from '../ui/use-toast';
 import { useSession } from "next-auth/react";
 
+// FTM-2 / FTM-19 3. Add photo
+// FTM-2 / FTM-20 3. Add photo
+
 export default function AddFile({ setImgUrl }: { setImgUrl: React.Dispatch<React.SetStateAction<string>> }) {
   const [showModal, setShowModal] = useState(false);
   const { data: session, update } = useSession();

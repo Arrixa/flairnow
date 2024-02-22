@@ -1,6 +1,8 @@
 import { Badge } from "@/app/components/ui/badge";
 import { RoleBadgeProps } from "@/lib/interfaces";
 
+// FTM-2 / FTM-20 1.a. Role badges
+
 const rolesConfig: { [key: string]: { variant: string; label: string } } = {
   ADMIN: { variant: "secondary", label: "Admin" },
   EMPLOYEE: { variant: "outline", label: "Employee" },
