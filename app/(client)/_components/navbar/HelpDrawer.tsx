@@ -17,7 +17,7 @@ const HelpDrawer = () => {
   return (
     <>
       <Drawer>
-        <DrawerTrigger><HelpCircle className="h-5 w-5" /></DrawerTrigger>
+        <DrawerTrigger><HelpCircle size={24} /></DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>
             <DrawerTitle>Are you absolutely sure?</DrawerTitle>

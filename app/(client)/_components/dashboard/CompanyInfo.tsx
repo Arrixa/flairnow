@@ -56,7 +56,7 @@ const CompanyInfo: React.FC<ClientForm & { formData?: ClientForm, setIsEditMode:
 
   return (
     <section className="flex flex-col w-full"> 
-      <Card className='m-2 p-2'>
+      <Card className='md:mx-2 my-2 p-2 pt-4'>
         <CardContent>
           <div className="w-full flex flex-row items-center align-bottom">
             <div className=''>
@@ -83,7 +83,7 @@ const CompanyInfo: React.FC<ClientForm & { formData?: ClientForm, setIsEditMode:
         </div>
       </Card> 
       <div className="flex flex-col md:flex-row w-full">
-        <Card className='m-2 p-2 w-full'>
+        <Card className='md:mx-2 my-2 p-2 pt-4 md:w-1/2 '>
           <CardHeader>
           {/* <BookText /> */}
             <CardTitle> General Information</CardTitle>
@@ -105,7 +105,7 @@ const CompanyInfo: React.FC<ClientForm & { formData?: ClientForm, setIsEditMode:
             <p>{formatPhoneNumber(client?.countryCode, client?.phoneNumber)}</p>
           </CardContent>
         </Card> 
-        <Card className='m-2 p-2 w-full'>
+        <Card className='md:mx-2 my-2 p-2 pt-4 md:w-1/2 '>
           <CardHeader>
           {/* <Building /> */}
             <CardTitle>Location</CardTitle>

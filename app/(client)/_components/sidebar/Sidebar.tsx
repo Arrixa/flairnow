@@ -17,13 +17,13 @@ import { CldImage } from 'next-cloudinary';
 
 
 const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(() => window.innerWidth >= 1500);
   const router = useRouter();
   const [scrollAreaHeight, setScrollAreaHeight] = useState<number | undefined>(undefined);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const user = session?.user;
   const logoCloudUrl = `https://res.cloudinary.com/dsbvy1t2i/image/upload/v1707912829/${user.userDomain}.png`;
   const [logoUrl, setLogoUrl] = useState<string>(logoCloudUrl);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {

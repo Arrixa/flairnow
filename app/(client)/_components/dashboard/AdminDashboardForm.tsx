@@ -16,42 +16,42 @@ import { Card, CardHeader, CardTitle } from '@/app/components/ui/card';
 import { DashboardFormProps } from '@/lib/interfaces';
 import { ChevronLeft } from 'lucide-react';
 
-// const FormSchema = z.object({
-//   companyName: z.string().min(1, 'Name is required'),
-//   website: z.string().url('Invalid URL'),
-//   description: z.string(). max(500, 'Description is too long'),
-//   countryCode: z.string().min(1, 'Country code is required'),
-//   phoneNumber: z.string().min(1, 'Phone number is required'),
-//   streetNo: z.string(),
-//   streetAddress: z.string(),
-//   province: z.string(),
-//   zipCode: z.string(),
-//   country: z.string().optional(),
-//   // logo: z.string().optional(),
-//   // id: z.string().optional(),
-//   // domain: z.string().optional(),
-// });
+const FormSchema = z.object({
+  companyName: z.string().min(1, 'Name is required'),
+  website: z.string().url('Invalid URL'),
+  description: z.string(). max(500, 'Description is too long'),
+  countryCode: z.string().min(1, 'Country code is required'),
+  phoneNumber: z.string().min(1, 'Phone number is required'),
+  streetNo: z.string(),
+  streetAddress: z.string(),
+  province: z.string(),
+  zipCode: z.string(),
+  country: z.string().optional(),
+  // logo: z.string().optional(),
+  // id: z.string().optional(),
+  // domain: z.string().optional(),
+});
 
 
 const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEditMode, formData }) => {
-  const form = useForm()
-  //   resolver: zodResolver(FormSchema),
-  //   defaultValues: {
-  //     companyName: '',
-  //     website: '',
-  //     description: '',
-  //     countryCode: '',
-  //     phoneNumber: '',
-  //     streetNo: '',
-  //     streetAddress: '',
-  //     province: '',
-  //     zipCode: '',
-  //     country: '',
-  //     // logo: '',
-  //   },
-  // });
+  const form = useForm({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      companyName: '',
+      website: '',
+      description: '',
+      countryCode: '',
+      phoneNumber: '',
+      streetNo: '',
+      streetAddress: '',
+      province: '',
+      zipCode: '',
+      country: '',
+      logo: '',
+    },
+  });
 
-  // const { update, data: session } = useSession();
+  const { update, data: session } = useSession();
   const [selectedCode, setSelectedCode] = useState<string>(''); 
   const [selectedCountry, setSelectedCountry] = useState<string>(''); 
 
@@ -76,7 +76,7 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
   }, [form, formData])
 
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     console.log('Form submitted:', data, selectedCode, selectedCountry);
     console.log("Save client function called");
 
@@ -108,33 +108,33 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
             description: "The client information saved successfully.",
           })
           setIsEditMode(false)
-          // const mappedData = {
-          //   companyName: data.companyName,
-          //   website: data.website,
-          //   description: data.description,
-          //   countryCode: data.countryCode,
-          //   phoneNumber: data.phoneNumber,
-          //   streetNo: data.streetNo,
-          //   streetAddress: data.streetAddress,
-          //   province: data.province,
-          //   zipCode: data.zipCode,
-          //   country: data.country,
-          // };
-          // form.reset(mappedData)
-          // await update({ ...session, 
-          //   ...session?.user,
-          //   ...session?.client, 
-          //   companyName: data.companyName,
-          //   website: data.website,       
-          //   description: data.description,
-          //   countryCode: data.countryCode,
-          //   phoneNumber: data.phoneNumber,
-          //   streetNo: data.streetNo,
-          //   streetAddress: data.streetAddress,
-          //   province: data.province,
-          //   zipCode: data.zipCode, 
-          //   country: data.country, 
-          // });
+          const mappedData = {
+            companyName: data.companyName,
+            website: data.website,
+            description: data.description,
+            countryCode: data.countryCode,
+            phoneNumber: data.phoneNumber,
+            streetNo: data.streetNo,
+            streetAddress: data.streetAddress,
+            province: data.province,
+            zipCode: data.zipCode,
+            country: data.country,
+          };
+          form.reset(mappedData)
+          await update({ ...session, 
+            ...session?.user,
+            ...session?.client, 
+            companyName: data.companyName,
+            website: data.website,       
+            description: data.description,
+            countryCode: data.countryCode,
+            phoneNumber: data.phoneNumber,
+            streetNo: data.streetNo,
+            streetAddress: data.streetAddress,
+            province: data.province,
+            zipCode: data.zipCode, 
+            country: data.country, 
+          });
           window.location.reload();
         } else {
           toast({
@@ -192,7 +192,7 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
               <FormItem className="flex flex-col items-left mt-4">
                 <Label className="w-1/2 mx-4">Description</Label>
                 <FormControl>
-                  <Textarea placeholder="Type your description"
+                  <Textarea placeholder="Type your description" className='h-fit'
                   {...field} />
                 </FormControl>
                 <FormMessage />

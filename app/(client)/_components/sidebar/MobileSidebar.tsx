@@ -74,7 +74,7 @@ const MobileSidebar: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
   return (
     <Sheet>
     <div className="flex items-center justify-between text-foreground">
-      <SheetTrigger className="p-2 hover:scale-125">
+      <SheetTrigger className="p-2 hover:scale-125 fixed top-0 left-0">
         <Menu size={24} />
       </SheetTrigger>
         <SheetContent side='left' className="bg-brand flex flex-col justify-between">

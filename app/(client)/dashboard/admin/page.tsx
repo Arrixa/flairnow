@@ -5,7 +5,7 @@ import { BookPlus, FileCog } from 'lucide-react';
 const AdminDashboardPage = async () => {
 
   return (
-    <main className='mx-20 w-3/4 lg:1/2 xl:1/2'>
+    <main className='flex flex-col items-left md:space-x-10 w-full lg:p-10 md:p-6 p-4 md:w-4/5 lg:1/2 xl:1/2'>
       <h1 className="text-3xl text-left ml-10 font-semibold my-4 pt-8">Company settings</h1>
       <div className='w-full flex flex-start'>
         <Tabs defaultValue="info" className="w-full">
