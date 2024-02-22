@@ -68,7 +68,6 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
     }
   };
 
-
   const handleSignOut = async () => {
     await signOut({ callbackUrl: '/' });
     router.replace('/');
@@ -80,11 +79,10 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
 
   
   return (
-    <div className={`bg-brand text-foreground relative h-full `}>
+    <div className='bg-brand text-foreground relative h-full'>
       <div className="flex flex-col h-full">
         <Link href='/'>
-          <CldImage alt={`${user?.userDomain} logo`} src={logoUrl} width={40} height={40} className={`object-cover mt-8 ${isMenuOpen ? 'ml-4' : 'ml-2'}`} />
-          
+          <CldImage alt={`${user?.userDomain} logo`} src={logoUrl} width={40} height={40} className={`object-cover mt-10 ${isMenuOpen ? 'ml-4' : 'ml-2'}`} />         
         </Link>
         {/* Dashboard Label */}
         <div className="mb-4 ml-4">

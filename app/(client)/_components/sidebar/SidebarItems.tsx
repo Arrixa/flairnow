@@ -47,7 +47,7 @@ const SidebarItemRenderer = ({ userRoles, isMenuOpen }: { userRoles: string[]; i
     {filteredSidebarItems ? (
       filteredSidebarItems.map((item, index) => (
         <Link key={index} href={item.href} className=''>
-          <div className={`flex items-center py-4 cursor-pointer hover:bg-muted active:bg-teal-400 ${selectedItem === item.label ? 'bg-muted' : 'hover:bg-muted'} transition-all`}
+          <div className={`flex items-center py-4 p-2 cursor-pointer hover:bg-muted active:bg-teal-400 ${selectedItem === item.label ? 'bg-muted' : 'hover:bg-muted'} transition-all`}
           onClick={() => handleItemClick(item.label)}
           >
             {isMenuOpen ? (
