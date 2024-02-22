@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
-import UserCard from "./UserCard";
+import { Separator } from "@/app/components/ui/separator";
 import { SidebarCompProps } from "@/lib/interfaces";
 import { CldImage } from 'next-cloudinary';
 import {
@@ -25,14 +25,9 @@ import TooltipIconRenderer from "./TooltipIcons";
 
 
 const MobileSidebar: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
-  // const [isMenuOpen, setIsMenuOpen] = useState(false);
   const user = session?.user;
   const router = useRouter();
   const logoUrl = `https://res.cloudinary.com/dsbvy1t2i/image/upload/v1707912829/${user.userDomain}.png`;
-
-  // const handleToggleMenu = () => {
-  //   setIsMenuOpen((prevIsOpen) => !prevIsOpen);
-  // };
 
   const handleSignOut = async () => {
     await signOut({ callbackUrl: '/' });
@@ -82,8 +77,6 @@ const MobileSidebar: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
       <SheetTrigger className="p-2 hover:scale-125">
         <Menu size={24} />
       </SheetTrigger>
-
-      {/* {isMenuOpen && ( */}
         <SheetContent side='left' className="bg-brand flex flex-col justify-between">
           <section>
             <div className="mx-2">
@@ -98,9 +91,7 @@ const MobileSidebar: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
                 <div className={`flex items-center py-4 p-2 cursor-pointer hover:bg-muted active:bg-teal-400 ${selectedItem === item.label ? 'bg-muted' : 'hover:bg-muted'} transition-all`}
                   onClick={() => handleItemClick(item.label)}>
                   <>
-                    <TooltipProvider>
-                      {getTooltipIconComponent(item.label)}
-                    </TooltipProvider>
+                      {getIconComponent(item.label)}
                     <span className="ml-2 leading-5">{item.label}</span>
                   </>
                 </div>
@@ -108,8 +99,17 @@ const MobileSidebar: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
             ))}
           </section>
           <section>
-            <div>
-              <UserCard session={session} />
+            <div className="bg-muted h-[100px] pt-2">
+              <div className="flex flex-row space-x-2 p-2 ml-4">
+                <div className="">
+                  <h4 className="text-lg font-sm text-foreground min-w-fit">{`${user?.firstName} ${user?.lastName}`}</h4>
+                  <Separator className="text-foreground" />
+                  <p className="text-foreground">{`${user?.userDomain ? capitaliseFirstLetter(user?.userDomain) : ''}`}</p>
+                </div>
+                <div className="flex items-center justify-center">
+                  <CldImage alt='profile image' src={user?.image} width={50} height={50} className='rounded-full' />
+                </div>
+              </div>
             </div>
             <div className="my-4">
               <button className="flex items-center cursor-pointer ml-4" onClick={handleSignOut}>
@@ -121,7 +121,6 @@ const MobileSidebar: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
           
 
         </SheetContent>
-      {/* )} */}
     </div>
     </Sheet>
   );

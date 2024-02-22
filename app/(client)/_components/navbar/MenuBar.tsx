@@ -26,13 +26,13 @@ const MenuBar = () => {
       {isSearchOpen ? (
         <form onSubmit={handleSearchSubmit} className="flex items-center space-x-2">
           <Input type="search" placeholder="Search FlairNow..." onBlur={closeSearch} autoFocus />
-          <Button variant='flairnowOutline' type="submit"><Search className='' /></Button>
+          <Button variant='link' type="submit"><Search className='h-5 w-5' /></Button>
         </form>
       ) : (
         <div className="flex items-center space-x-2">
-          <Button variant='flairnowOutline' onClick={openSearch}><Search /></Button>
-          <Button variant='flairnowOutline'><NotificationDrawer /></Button>
-          <Button variant='flairnowOutline'><HelpDrawer /></Button>
+          <Button variant='link' onClick={openSearch}><Search className="h-5 w-5" /></Button>
+          <Button variant='link'><NotificationDrawer /></Button>
+          <Button variant='link'><HelpDrawer /></Button>
         </div>
       )}
     </nav>

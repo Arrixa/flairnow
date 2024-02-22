@@ -19,7 +19,7 @@ const TooltipIconRenderer = ({ iconName }: { iconName: string }) => {
     case 'Profile':
       return (
         <Tooltip>
-          <TooltipTrigger><User className="h-5 w-5 ml-4 hover:scale-125" /></TooltipTrigger>
+          <TooltipTrigger><User className="h-5 w-5 mx-2 hover:scale-125" /></TooltipTrigger>
           <TooltipContent><p>Profile</p></TooltipContent>
         </Tooltip>
       );
@@ -27,7 +27,7 @@ const TooltipIconRenderer = ({ iconName }: { iconName: string }) => {
     case 'Admin dashboard':
       return (
         <Tooltip>
-          <TooltipTrigger><LayoutDashboard className="h-5 w-5 ml-4 hover:scale-125" /></TooltipTrigger>
+          <TooltipTrigger><LayoutDashboard className="h-5 w-5 mx-2 hover:scale-125" /></TooltipTrigger>
           <TooltipContent><p>Admin dashboard</p></TooltipContent>
         </Tooltip>
       );
@@ -35,7 +35,7 @@ const TooltipIconRenderer = ({ iconName }: { iconName: string }) => {
     case 'Recruitment':
       return (
         <Tooltip>
-          <TooltipTrigger><Briefcase className="h-5 w-5 ml-4 hover:scale-125" /></TooltipTrigger>
+          <TooltipTrigger><Briefcase className="h-5 w-5 mx-2 hover:scale-125" /></TooltipTrigger>
           <TooltipContent><p>Recruitment</p></TooltipContent>
         </Tooltip>
       );
@@ -43,7 +43,7 @@ const TooltipIconRenderer = ({ iconName }: { iconName: string }) => {
     case 'Users':
       return (
         <Tooltip>
-          <TooltipTrigger><Users className="h-5 w-5 ml-4 hover:scale-125" /></TooltipTrigger>
+          <TooltipTrigger><Users className="h-5 w-5 mx-2 hover:scale-125" /></TooltipTrigger>
           <TooltipContent><p>Users</p></TooltipContent>
         </Tooltip>
       );
@@ -51,7 +51,7 @@ const TooltipIconRenderer = ({ iconName }: { iconName: string }) => {
     case 'Inbox':
       return (
         <Tooltip>
-          <TooltipTrigger><Inbox className="h-5 w-5 ml-4 hover:scale-125" /></TooltipTrigger>
+          <TooltipTrigger><Inbox className="h-5 w-5 mx-2 hover:scale-125" /></TooltipTrigger>
           <TooltipContent><p>Inbox</p></TooltipContent>
         </Tooltip>
       );
@@ -59,7 +59,7 @@ const TooltipIconRenderer = ({ iconName }: { iconName: string }) => {
     case 'Preferences':
       return (
         <Tooltip>
-          <TooltipTrigger><Settings2 className="h-5 w-5 ml-4 hover:scale-125" /></TooltipTrigger>
+          <TooltipTrigger><Settings2 className="h-5 w-5 mx-2 hover:scale-125" /></TooltipTrigger>
           <TooltipContent><p>Preferences</p></TooltipContent>
         </Tooltip>
       );
@@ -67,7 +67,7 @@ const TooltipIconRenderer = ({ iconName }: { iconName: string }) => {
     case 'Settings':
       return (
         <Tooltip>
-          <TooltipTrigger><Settings className="h-5 w-5 ml-4 hover:scale-125" /></TooltipTrigger>
+          <TooltipTrigger><Settings className="h-5 w-5 mx-2 hover:scale-125" /></TooltipTrigger>
           <TooltipContent><p>Settings</p></TooltipContent>
         </Tooltip>
       );

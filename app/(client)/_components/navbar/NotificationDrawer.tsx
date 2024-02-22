@@ -17,7 +17,7 @@ const NotificationDrawer = () => {
   return (
     <>
       <Drawer>
-        <DrawerTrigger><Bell /></DrawerTrigger>
+        <DrawerTrigger><Bell className="h-5 w-5" /></DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>
             <DrawerTitle>Are you absolutely sure?</DrawerTitle>

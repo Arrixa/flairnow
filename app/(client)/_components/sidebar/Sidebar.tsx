@@ -17,7 +17,7 @@ import { CldImage } from 'next-cloudinary';
 
 
 const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(() => window.innerWidth >= 1500);
   const router = useRouter();
   const [scrollAreaHeight, setScrollAreaHeight] = useState<number | undefined>(undefined);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -26,46 +26,33 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
   const [logoUrl, setLogoUrl] = useState<string>(logoCloudUrl);
 
   useEffect(() => {
-    // Check screen size on mount
     const handleResize = () => {
       const isLargeScreen = window.innerWidth >= 1500;
       setIsMenuOpen(isLargeScreen);
+      calculateScrollAreaHeight();
     };
+
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   useEffect(() => {
-    const calculateScrollAreaHeight = () => {
-      if (scrollAreaRef.current) {
-        const windowHeight = window.innerHeight;
-        const userCardHeight = 120;
-        const logoHeight = 167;
-        const remainingHeight = windowHeight - userCardHeight - logoHeight;
-        setScrollAreaHeight(remainingHeight);
-      }
-    };
     calculateScrollAreaHeight();
-    const handleResize = () => {
-      calculateScrollAreaHeight();
-    };
+  }, [scrollAreaHeight]);
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const handleToggleMenu = () => {
-    const isLargeScreen = window.innerWidth >= 1500;
-    const isMobile = window.innerWidth >= 500;
-  
-    if (isLargeScreen) {
-      setIsMenuOpen(false);
-    } else if (isMobile) {
-      setIsMenuOpen(true);
-    } else {
-      setIsMenuOpen((prevIsOpen) => !prevIsOpen);
+  const calculateScrollAreaHeight = () => {
+    if (scrollAreaRef.current) {
+      const windowHeight = window.innerHeight;
+      const userCardHeight = 120;
+      const logoHeight = 167;
+      const remainingHeight = windowHeight - userCardHeight - logoHeight;
+      setScrollAreaHeight(remainingHeight);
     }
+  };
+  
+  const handleToggleMenu = () => {
+      setIsMenuOpen((prevIsOpen) => !prevIsOpen);
   };
 
   const handleSignOut = async () => {
@@ -80,12 +67,12 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
   
   return (
     <div className='bg-brand text-foreground relative h-full'>
-      <div className="flex flex-col h-full">
+      <div className={`flex flex-col h-full ${isMenuOpen ? 'sticky' : ''}`} style={{ left: isMenuOpen ? '0' : '-200px', top: '0', bottom: '0', height: '100vh' }}>
         <Link href='/'>
-          <CldImage alt={`${user?.userDomain} logo`} src={logoUrl} width={40} height={40} className={`object-cover mt-10 ${isMenuOpen ? 'ml-4' : 'ml-2'}`} />         
+          <CldImage alt={`${user?.userDomain} logo`} src={logoUrl} width={40} height={40} className={`object-cover mt-10 ${isMenuOpen ? 'ml-6' : 'ml-2'}`} />         
         </Link>
         {/* Dashboard Label */}
-        <div className="mb-4 ml-4">
+        <div className="my-4 ml-6">
           {isMenuOpen ? <span className="text-lg font-bold">{capitaliseFirstLetter(user?.userDomain)}</span> : <></>}
         </div>
 
@@ -105,8 +92,7 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
             {isMenuOpen ? <span className="ml-2">Sign out</span> : <></>}
           </button>
         </div>
-      </div>
-      
+
       <div className="absolute top-0 right-0">
         <button
           className="p-2 hover:scale-125"
@@ -114,6 +100,7 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
         >
           {isMenuOpen ? <ChevronsLeft size={24} /> : <ChevronsRight className="mr-3 mb-3" size={24} />}
         </button>
+      </div>
       </div>
     </div>
   );
