@@ -19,7 +19,7 @@ const EmployeeProfile = ({ session }: { session: Session | null }) => {
   // FTN-2 / FTM-20 8. Render form : table
 
   return (
-    <section className="flex flex-col lg:w-2/3 md:w-10/12 w-full lg:space-x-10 space-x-1">
+    <section className="flex flex-col w-full">
       {isEditMode ? (
         <div 
         className='flex flex-col mx-auto w-full'

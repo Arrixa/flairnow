@@ -10,10 +10,10 @@ const AdminDashboardPage = async () => {
       <div className='w-full flex flex-start'>
         <Tabs defaultValue="info" className="w-full">
           <TabsList>
-          <TabsTrigger value="info" className="info-trigger ml-6 items-end">
+          <TabsTrigger value="info" className="info-trigger ml-6 pb-6">
             <BookPlus /> <span className='hidden md:flex'>&nbsp;Company information</span>
           </TabsTrigger>
-          <TabsTrigger value="preferences" className="info-trigger items-end">
+          <TabsTrigger value="preferences" className="info-trigger pb-6">
             <FileCog /><span className='hidden md:flex'> &nbsp;Preferences</span>
           </TabsTrigger>
           </TabsList>

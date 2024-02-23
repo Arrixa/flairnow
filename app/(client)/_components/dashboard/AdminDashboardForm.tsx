@@ -155,7 +155,7 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
   return (
     <Form {...form}>
       <form  onSubmit={form.handleSubmit(onSubmit)}>
-        <Card className='md:mx-2 my-2 p-2 pt-4 md:p-3 lg:p-5'>
+        <Card className='my-2 p-2 pt-4 md:p-3 lg:p-5'>
         <CardHeader><CardTitle>General Information</CardTitle></CardHeader>
             <FormField
               control={form.control}
@@ -223,7 +223,7 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
             )}
           /> 
         </Card>
-        <Card className="md:mx-2 my-2 p-2 pt-4 md:p-3 lg:p-5">
+        <Card className="my-2 p-2 pt-4 md:p-3 lg:p-5">
           <CardHeader><CardTitle>Location</CardTitle></CardHeader>
           <FormField
               control={form.control}
@@ -299,8 +299,8 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
             />
         </Card>
         <div className="flex flex-col-reverse md:flex-row justify-between">
-          <ChevronLeft className='cursor-pointer mt-6 mx-4'  onClick={() => setIsEditMode(false)} />
-          <Button className='my-4 text-md mx-4' type='submit'>
+          <Button variant='flairnowOutline' className='my-4 text-md' onClick={() => setIsEditMode(false)}>Cancel</Button>
+          <Button className='my-4 text-md' type='submit'>
             Submit
           </Button>
         </div>

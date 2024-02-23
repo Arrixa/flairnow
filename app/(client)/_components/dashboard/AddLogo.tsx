@@ -72,7 +72,7 @@ export default function AddLogo({ setLogoUrl }: { setLogoUrl: React.Dispatch<Rea
         <button
           onClick={handleModalToggle}
           className="w-full flex items-center">
-          <Pencil className="mr-1 h-5 w-5" />
+          <Pencil className="mr-1 h-5 w-5 hover:text-teal-700" />
         </button>
       {showModal && (
         <div

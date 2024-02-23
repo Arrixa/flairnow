@@ -28,9 +28,9 @@ const UserProfile: React.FC<UserInfo> = ({ user, setIsEditMode }) => {
   }, [imageUrl]);
 
   return (
-    <article className='flex flex-col mx-auto w-full'>
+    <article className='flex flex-col w-full'>
       {/* FTM-2 / FTM-19 2. Banner with image & name */}
-      <Card className='md:mx-2 my-2 p-2 pt-4'>
+      <Card className='my-2 p-2 pt-4'>
         <CardContent>
           <div className="w-full flex flex-row items-center align-bottom">
             <div className=''>
@@ -57,7 +57,7 @@ const UserProfile: React.FC<UserInfo> = ({ user, setIsEditMode }) => {
         </div>
       </Card>
       {/* FTM-2 / FTM-19 3. User information */}
-      <Card className='md:mx-2 my-2 p-2 pt-4'>
+      <Card className='my-2 p-2 pt-4'>
         <CardContent className=''>
           <Label className="" htmlFor="firstName">First name</Label>
           <p>{user?.firstName}</p>
@@ -77,42 +77,3 @@ const UserProfile: React.FC<UserInfo> = ({ user, setIsEditMode }) => {
 }
 
 export default UserProfile;
-
-/* 
-      <Table className="w-full space-x-10">
-        <TableCaption>
-        </TableCaption>
-        <TableHeader>
-          <TableRow>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow className="">
-            <TableHead className="w-1/2 pl-10 align-bottom pb-3">Profile image</TableHead>
-            <TableCell className="w-1/2 text-left">
-              <div className="w-full flex flex-row items-center align-bottom">
-                <div className=''>
-                  <CldImage alt='FN' src={imageUrl} width={80} height={80} className='rounded-full object-cover bg-brand' />
-                </div>
-                <div className='mb-8 align-top'>
-                  <AddPhoto setImgUrl={setImgUrl} />
-                </div>
-              </div>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableHead className="w-1/2 pl-10">First name:</TableHead>
-            <TableCell className="w-1/2 text-left">{user?.firstName}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableHead className="w-1/2 pl-10">Last name:</TableHead>
-            <TableCell className="w-1/2 text-left">{user?.lastName}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableHead className="w-1/2 pl-10">Email:</TableHead>
-            <TableCell className="w-1/2 text-left">{user?.email}</TableCell>
-          </TableRow>
-          <TableRow></TableRow>
-        </TableBody>
-      </Table>
-*/

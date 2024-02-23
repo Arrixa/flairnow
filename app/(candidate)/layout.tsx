@@ -11,7 +11,7 @@ export default async function MainLayout({
   const session = await getServerSession(authOptions);
 
     return (
-      <div className="flex w-dvw">
+      <div className="flex w-full">
         <main className="flex-grow">
           <NavBar />
           {children}
