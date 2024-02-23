@@ -6,6 +6,8 @@ import HelpDrawer from './HelpDrawer';
 import { Button } from "@/app/components/ui/button"
 import { Input } from "@/app/components/ui/input"
 
+// FTM-2 / FTM-20 26. Client navbar
+
 const MenuBar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const openSearch = () => {

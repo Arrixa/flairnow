@@ -5,6 +5,7 @@ import { Skeleton } from '@/app/components/ui/skeleton';
 import TooltipIconRenderer from './TooltipIcons';
 import { TooltipProvider } from '@/app/components/ui/tooltip';
 
+// FTM-2 / FTM-20 20. Sidebar items
 const SidebarItemRenderer = ({ userRoles, isMenuOpen }: { userRoles: string[]; isMenuOpen: boolean }) => {
   const sidebarItems = [
     { role: 'EMPLOYEE', label: 'Profile', href: '/dashboard/employee-profile' },
@@ -42,6 +43,7 @@ const SidebarItemRenderer = ({ userRoles, isMenuOpen }: { userRoles: string[]; i
     setSelectedItem(label === selectedItem ? null : label);
   };
 
+  // FTM-2 / FTM-20 - 24. Sidebar item render open & closed
   return (
     <>
     {filteredSidebarItems ? (

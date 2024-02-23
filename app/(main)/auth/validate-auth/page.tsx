@@ -4,6 +4,8 @@ import { Skeleton } from '@/app/components/ui/skeleton';
 import { Card, CardContent, CardDescription, CardTitle } from '@/app/components/ui/card'
 import { authOptions } from "@/utils/authOptions";
 
+// FTM-2 FTM-21 12. Validate authorisation
+
 const ValidatingAuth = async () => {
   const session = await getServerSession(authOptions);
   console.log(session, 'session in validating auth at top')

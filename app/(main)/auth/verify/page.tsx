@@ -10,6 +10,8 @@ import {
 } from "@/app/components/ui/card"
 import Link from "next/link";
 
+// FTM-2 FTM-21 11. Follow magic link in email
+
 const validatePage = () => {
   return (
   <Card className="lg:p-6 my-20 flex items-center justify-center flex-col bg-background w-2/3 lg:w-1/3 mx-auto">

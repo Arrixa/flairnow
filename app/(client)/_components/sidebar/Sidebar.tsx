@@ -40,7 +40,7 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
   useEffect(() => {
     calculateScrollAreaHeight();
   }, [scrollAreaHeight]);
-
+  // FTM-2 / FTM-20 23. Scroll area height
   const calculateScrollAreaHeight = () => {
     if (scrollAreaRef.current) {
       const windowHeight = window.innerHeight;
@@ -64,7 +64,8 @@ const SidebarComp: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
     return <SidebarItemRenderer userRoles={userRoles} isMenuOpen={isMenuOpen} />;
   };
 
-  
+    // FTM-2 / FTM-20 22. Sidebar component
+
   return (
     <div className='bg-brand text-foreground relative h-full'>
       <div className={`flex flex-col h-full ${isMenuOpen ? 'sticky' : ''}`} style={{ left: isMenuOpen ? '0' : '-200px', top: '0', bottom: '0', height: '100vh' }}>

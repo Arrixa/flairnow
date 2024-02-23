@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { extractEmailDomain, isDomainInExcludedList } from "@/lib/extractDomain";
 import { Role } from "@/lib/interfaces";
 
+// FTM-2 User registration & auth
+
 export async function POST(req: NextRequest) {
   try {
     const reqBody = await req.json();
@@ -27,24 +29,25 @@ export async function POST(req: NextRequest) {
           ...userInfo,
         },
       });
-
-    // Check if client domain exists
-    const domain = extractEmailDomain(user.email);
-    console.log("domain", domain)
+    // FTM-2 / FTM-21 2. Check domain
+      const domain = extractEmailDomain(user.email);
+      console.log("domain", domain)
     
     let roles = [];
     let client;
     let clientUser;
-
+    
     // Check if the domain is part of the excluded list (public domains)
     const isPublicDomain = isDomainInExcludedList(domain);
     console.log(isPublicDomain);
 
+    // FTM-2 / FTM-21 2. Candidate users
     if (isPublicDomain) {
       // Return the updated session without creating clientUser and client
       NextResponse.json({ message: "User profile created successfully"}, { status: 201 })
     } else {
-  
+      
+      // FTM-2 / FTM-21 3. Does client domain exist
       const existingClientByDomain = await prisma.client.findUnique({
         where: { 
           domain: domain 
@@ -57,6 +60,7 @@ export async function POST(req: NextRequest) {
             domain: domain 
           } 
         });
+        // FTM-2 / FTM-21 4. Assign roles
         roles.push(Role.ADMIN, Role.EMPLOYEE);
       } else {
         client = existingClientByDomain;

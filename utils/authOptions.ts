@@ -7,7 +7,7 @@ import { JWT } from "next-auth/jwt";
 import { Awaitable, SendVerificationRequestParams } from "@/lib/interfaces";
 
 export const authOptions: NextAuthOptions = {
-  
+  // FTM-2 / FTM-21 5. NextAuth setup
   session: {
     strategy: "jwt",
   },
@@ -49,6 +49,7 @@ export const authOptions: NextAuthOptions = {
     }),
 
   ],
+  // FTM-2 / FTM-21 6. Callbacks
   callbacks: {
     async jwt({ token, user, trigger, session }): Promise<JWT> {
       
@@ -170,6 +171,7 @@ export const authOptions: NextAuthOptions = {
       console.log(`isNewUser: ${JSON.stringify(isNewUser)}`);
     },
   },
+  // FTM-2 / FTM-21 7. Custom auth pages
   pages: {
     signIn: "/auth/signin",
     // FTM-2 / FTM-17 6. New users routed to sign up

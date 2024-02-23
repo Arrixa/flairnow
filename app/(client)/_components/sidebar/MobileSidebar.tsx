@@ -13,17 +13,13 @@ import { CldImage } from 'next-cloudinary';
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/app/components/ui/sheet"
 import { capitaliseFirstLetter } from '@/lib/capitiliseFirstLetter';
 import IconRenderer from "./Icons";
-import { TooltipProvider } from '@/app/components/ui/tooltip';
 import TooltipIconRenderer from "./TooltipIcons";
 
-
+// FTM-2 / FTM-20 25. Mobile sidebar 
 const MobileSidebar: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
   const user = session?.user;
   const router = useRouter();
@@ -60,10 +56,6 @@ const MobileSidebar: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
   
     const getIconComponent = (iconName: string) => {
       return <IconRenderer iconName={iconName} />;
-    };
-
-    const getTooltipIconComponent = (iconName: string) => {
-      return <TooltipIconRenderer iconName={iconName} />;
     };
   
     const handleItemClick = (label: string) => {

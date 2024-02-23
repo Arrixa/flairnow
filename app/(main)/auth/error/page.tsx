@@ -13,7 +13,7 @@ import Link from "next/link";
 import { useSearchParams } from 'next/navigation'
 // import { NextRequest } from "next/server";
 
-
+// FTM-2 / FTM-21 8. Error page
 const CustomError = () => {
   const searchParams = useSearchParams();
   const error = searchParams.get('error');

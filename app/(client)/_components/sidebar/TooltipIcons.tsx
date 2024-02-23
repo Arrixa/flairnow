@@ -14,6 +14,8 @@ import {
   TooltipTrigger,
 } from "@/app/components/ui/tooltip"
 
+  // FTM-2 / FTM-20 21. Sidebar + tool tip icons
+
 const TooltipIconRenderer = ({ iconName }: { iconName: string }) => {
   switch (iconName) {
     case 'Profile':

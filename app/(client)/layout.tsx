@@ -11,6 +11,7 @@ const ClientLayout = async ({
     children: React.ReactNode
   }) => {
 
+  // FTM-2 / FTM-20 27.
   const session = await getServerSession(authOptions);
     return (
       <Providers>
@@ -18,7 +19,7 @@ const ClientLayout = async ({
           <div className='w-fit'><MenuBar /></div>
           <div className='flex'>
             <Sidebar session={session} />
-            <main className="flex-grow bg-zinc-200">
+            <main className="flex-grow">
               {children}
             </main>
           </div>

@@ -8,6 +8,8 @@ import {
   Users,
 } from "lucide-react";
 
+  // FTM-2 / FTM-20 21. Sidebar icons
+
 const IconRenderer = ({ iconName }: { iconName: string }) => {
   switch (iconName) {
     case 'Profile':
