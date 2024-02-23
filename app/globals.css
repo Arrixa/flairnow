@@ -2,26 +2,80 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background: 0 0% 99%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 0, 0%, 3.92%;
+    --primary-foreground: 0, 0%, 98.04%;
+    --secondary: 240, 4.76%, 95.88%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 170.57, 76.92%, 64.31%;
+    --muted-foreground: 0, 0%, 9.02%;
+    --brand: 171, 100%, 38%;
+    --brand-foreground: 0, 0%, 0%;
+    --accent: 216.92, 19.12%, 26.67%;
+    --accent-foreground: 0, 0%, 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 0 0% 100%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240, 6%, 10%;
+    --foreground: 0 0% 98%;
+    --card: 0, 0%, 26.67%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0, 0%, 98.04%;
+    --primary-foreground: 0, 0%, 3.92%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0, 0%, 96.08%; 
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 216.92, 19.12%, 26.67%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --brand: 171, 100%, 38%;
+    --brand-foreground: 0, 0%, 100%;
+    --border: 0, 0%, 46.67%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+  }
+}
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.info-trigger {
+  width: 200px;
+  max-width: 100%; 
+  overflow: hidden;
+}
+
+.tabs-trigger {
+  flex: 1; 
+  max-width: 100%; 
+  overflow: hidden;
+  color: var(--primary-color); 
+  border-bottom: 1px solid var(--secondary-color);
+}
+
+.tabs-trigger[data-state=active] {
+  border-bottom-width: 2px; 
+  color: var(--primary-color); 
 }
