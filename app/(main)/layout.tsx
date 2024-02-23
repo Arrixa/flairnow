@@ -7,10 +7,8 @@ const mainLayout = async ({
   children: React.ReactNode
 }) => {
 
-
-
   return (
-    <div className="flex">
+    <div className="flex w-screen">
       <main className="flex-grow">
         <NavBar />
         <div>

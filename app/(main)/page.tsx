@@ -12,7 +12,6 @@ export default function Home() {
         <HeroSection />
         <FeatureSection />
         <TestimonialSection />
-
         <ResourcesSection />
         <StatsSection />
       </div>
