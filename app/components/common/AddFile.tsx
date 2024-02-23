@@ -42,7 +42,9 @@ export default function AddFile() {
       }
     } catch (error: any) {
       toast({
-        description: "Error uploading file.",
+        variant: "destructive",
+        title: "Error uploading file.",
+        description: "Please try again.",
       })
       console.log(error.response?.data);
     }

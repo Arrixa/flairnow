@@ -139,13 +139,17 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
           window.location.reload();
         } else {
           toast({
-            description: "The client information save failed.",
+            variant: "destructive",
+            title: "The client information save failed.",
+            description: "Please try again.",
           })
           console.error("Save failed");
         }
       } catch (error) {
         toast({
-          description: "The client information save failed.", 
+          variant: "destructive",
+          title: "The client information save failed.",
+          description: "Please try again.",
         })
         console.error("Save failed:", error);
       }

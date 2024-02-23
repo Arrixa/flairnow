@@ -106,13 +106,17 @@ const SignUpForm = () => {
       } else {
         const errorData = await response.json();
         toast({
-          description: "The user registration failed.",
+          variant: "destructive",
+          title: "The user registration failed.",
+          description: "Please try again.",
         })
         console.error("Registration failed:", errorData);
       }
     } catch (error) {
       toast({
-        description: "The user registration failed.",
+        variant: "destructive",
+        title: "The user registration failed.",
+        description: "Please try again.",
       })
       console.error("Registration failed:", error);
     }

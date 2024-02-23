@@ -54,13 +54,17 @@ export default function AddFile({ setImgUrl }: { setImgUrl: React.Dispatch<React
         })
       } else {
         toast({
-          description: "File upload failed.",
+          variant: "destructive",
+          title: "Error uploading file.",
+          description: "Please try again.",
         })
         console.error('File upload failed');
       }
     } catch (error: any) {
       toast({
-        description: "Error uploading file.",
+        variant: "destructive",
+        title: "Error uploading file.",
+        description: "Please try again.",
       })
       console.log(error.response?.data);
     }

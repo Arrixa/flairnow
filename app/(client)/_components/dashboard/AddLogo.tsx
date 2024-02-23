@@ -53,12 +53,16 @@ export default function AddLogo({ setLogoUrl }: { setLogoUrl: React.Dispatch<Rea
       } else {
         toast({
           description: "File upload failed.",
+          variant: "destructive",
+          title: "Save failed.",
         })
         console.error('File upload failed');
       }
     } catch (error: any) {
       toast({
         description: "File upload failed.",
+        variant: "destructive",
+        title: "Save failed.",
       })
       console.log(error.response?.data);
     }

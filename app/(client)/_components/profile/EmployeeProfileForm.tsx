@@ -84,9 +84,19 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ formData, setIsEditMode, setF
         });
         setIsEditMode(false)
       } else {
+        toast({
+          variant: "destructive",
+          title: "The user information save failed.",
+          description: "Please try again.",
+        })
         console.error("Save failed");
       }
     } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "The user information save failed.",
+        description: "Please try again.",
+      })
       console.error("Save failed:", error);
     }
   };
