@@ -15,7 +15,7 @@ const ClientLayout = async ({
   const session = await getServerSession(authOptions);
     return (
       <Providers>
-        <>
+        <div className='bg-secondary'>
           <div className='w-fit'><MenuBar /></div>
           <div className='flex'>
             <Sidebar session={session} />
@@ -23,7 +23,7 @@ const ClientLayout = async ({
               {children}
             </main>
           </div>
-        </>
+        </div>
       </Providers>
     );
   };
