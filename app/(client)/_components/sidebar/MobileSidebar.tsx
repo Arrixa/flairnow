@@ -18,6 +18,7 @@ import {
 import { capitaliseFirstLetter } from '@/lib/capitiliseFirstLetter';
 import IconRenderer from "./Icons";
 import TooltipIconRenderer from "./TooltipIcons";
+import { sidebarItems } from "@/lib/sidebarLabels";
 
 // FTM-2 / FTM-20 25. Mobile sidebar 
 const MobileSidebar: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
@@ -29,16 +30,6 @@ const MobileSidebar: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
     await signOut({ callbackUrl: '/' });
     router.replace('/');
   };
-
-    const sidebarItems = [
-      { role: 'EMPLOYEE', label: 'Profile', href: '/dashboard/employee-profile' },
-      { role: 'ADMIN', label: 'Admin dashboard', href: '/dashboard/admin' },
-      { role: 'EMPLOYEE', label: 'Recruitment', href: '#' },
-      { role: 'EMPLOYEE', label: 'Inbox', href: '#' },
-      { role: 'ADMIN', label: 'Users', href: '#' },
-      { role: 'EMPLOYEE', label: 'Preferences', href: '#' },
-      { role: 'EMPLOYEE', label: 'Settings', href: '#' },
-    ];
   
     let uniqueRoles: string[] = [];
     let filteredSidebarItems;
@@ -71,7 +62,7 @@ const MobileSidebar: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
       </SheetTrigger>
         <SheetContent side='left' className="bg-brand flex flex-col justify-between">
           <section>
-            <div className="mx-2">
+            <div className="m-2">
               <Link href='/'>
                 <CldImage alt={`${user?.userDomain} logo`} src={logoUrl} width={40} height={40} className="object-cover ml-5 my-2" />
               </Link>
@@ -110,8 +101,6 @@ const MobileSidebar: React.FC<SidebarCompProps> = ({ userRoles, session }) => {
               </button>
             </div>
           </section>
-          
-
         </SheetContent>
     </div>
     </Sheet>

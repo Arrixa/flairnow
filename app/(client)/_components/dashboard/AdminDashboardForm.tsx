@@ -107,19 +107,21 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
         if (response.ok) {
           toast({
             description: "The client information saved successfully.",
-          })
+          });
+          const res = await response.json();
+          setFormData(res)
           setIsEditMode(false)
           const mappedData = {
-            companyName: data.companyName,
-            website: data.website,
-            description: data.description,
-            countryCode: data.countryCode,
-            phoneNumber: data.phoneNumber,
-            streetNo: data.streetNo,
-            streetAddress: data.streetAddress,
-            province: data.province,
-            zipCode: data.zipCode,
-            country: data.country,
+            companyName: res.companyName,
+            website: res.website,
+            description: res.description,
+            countryCode: res.countryCode,
+            phoneNumber: res.phoneNumber,
+            streetNo: res.streetNo,
+            streetAddress: res.streetAddress,
+            province: res.province,
+            zipCode: res.zipCode,
+            country: res.country,
           };
           form.reset(mappedData)
           await update({ ...session, 
@@ -236,9 +238,8 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
                 <FormItem className="flex flex-col items-left mt-4">
                   <Label className="w-1/2 mx-4">Street number</Label>
                   <FormControl>
-                    <Input placeholder='Enter street number'
-                        
-                        {...field} />
+                    <Input placeholder='Enter street number'                        
+                      {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -251,9 +252,8 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
                 <FormItem className="flex flex-col items-left mt-4">
                   <Label className="w-1/2 mx-4">Street Address</Label>
                   <FormControl>
-                    <Input placeholder='Enter street address'
-                      
-                        {...field} />
+                    <Input placeholder='Enter street address'                      
+                      {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -266,9 +266,8 @@ const AdminDashboardForm: React.FC<DashboardFormProps> = ({ setFormData, setIsEd
                 <FormItem className="flex flex-col items-left mt-4">
                   <Label className="w-1/2 mx-4">Province</Label>
                   <FormControl>
-                    <Input placeholder='Enter province'
-                        
-                        {...field} />
+                    <Input placeholder='Enter province'                        
+                      {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

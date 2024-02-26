@@ -22,6 +22,16 @@ enum Role {
   UNASSIGNED
 }
 
+enum PostStatus {
+  DRAFT
+  IN_REVIEW
+  PUBLISHED_INTERNALLY
+  PUBLISHED_EXTERNALLY
+  ARCHIVED
+  DELETED
+  RECRUITMENT
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -90,6 +100,7 @@ model Client {
   zipCode           String?
   country           String?
   user              ClientUser[]
+  jobPostings       JobPosting[]
   sessions          Session[]
 } 
 
@@ -101,5 +112,33 @@ model ClientUser {
   userId            String
   role              Role[]
   sessions          Session[]
+  jobPostings       JobPosting[]
+}
+
+model JobPosting {
+  id                String @id @default(cuid())
+  title             String
+  description       String
+  location          String
+  salary            String?
+  qualifications    String?
+  skills            String
+  employmentType    String
+  workPlace         String
+  workHours         String?
+  department        String?
+  company           Client @relation(fields: [clientId], references: [id])
+  clientId          String
+  postedBy          ClientUser @relation(fields: [postedById], references: [id])
+  postedById        String
+  // recruiters        ClientUser[] @relation(fields: [recruiterId], references: [id])
+  // recruiterId       String
+  // hiringManager     ClientUser @relation(fields: [hiringManagerId], references: [id])
+  // hiringManagerId   String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  status            PostStatus
+  publishInternal   DateTime?
+  publishExternal   DateTime?
 }
 

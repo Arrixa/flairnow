@@ -61,7 +61,7 @@
   }
 }
 
-.info-trigger {
+/* .info-trigger {
   width: 200px;
   max-width: 100%; 
   overflow: hidden;
@@ -73,9 +73,9 @@
   overflow: hidden;
   color: var(--primary-color); 
   border-bottom: 1px solid var(--secondary-color);
-}
+} */
 
 .tabs-trigger[data-state=active] {
   border-bottom-width: 2px; 
   color: var(--primary-color); 
-}
+} 
