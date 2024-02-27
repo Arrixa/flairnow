@@ -57,10 +57,12 @@ model Session {
   userId            String
   clientId          String
   clientUserId      String
+  jobPostingId      String
   expires           DateTime
   user              User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   client            Client       @relation(fields: [clientId], references: [id])
   clientUser        ClientUser   @relation(fields: [clientUserId], references: [id])
+  jobPostings       JobPosting   @relation(fields: [jobPostingId], references: [id])
 }
 
 
@@ -83,6 +85,7 @@ model User {
   accounts          Account[]
   sessions          Session[]
   client            ClientUser[]
+  jobPostings       JobPosting[]
 }
 
 model Client {  
@@ -109,36 +112,35 @@ model ClientUser {
   client            Client @relation(fields: [clientId], references: [id])
   clientId          String 
   user              User @relation(fields: [userId], references: [id])
-  userId            String
+  userId            String @unique
   role              Role[]
   sessions          Session[]
-  jobPostings       JobPosting[]
 }
 
 model JobPosting {
   id                String @id @default(cuid())
   title             String
-  description       String
-  location          String
+  description       String?
+  location          String?
   salary            String?
   qualifications    String?
-  skills            String
-  employmentType    String
-  workPlace         String
+  skills            String[]
+  employmentType    String?
+  workPlace         String?
   workHours         String?
   department        String?
   company           Client @relation(fields: [clientId], references: [id])
   clientId          String
-  postedBy          ClientUser @relation(fields: [postedById], references: [id])
+  postedBy          User @relation(fields: [postedById], references: [id])
   postedById        String
-  // recruiters        ClientUser[] @relation(fields: [recruiterId], references: [id])
-  // recruiterId       String
-  // hiringManager     ClientUser @relation(fields: [hiringManagerId], references: [id])
-  // hiringManagerId   String
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
   status            PostStatus
   publishInternal   DateTime?
   publishExternal   DateTime?
+  session           Session[]
+  // recruiters        User @relation(fields: [recruiterId], references: [id])
+  // recruiterId       String
+  // hiringManager     User @relation(fields: [hiringManagerId], references: [id])
+  // hiringManagerId   String
 }
-

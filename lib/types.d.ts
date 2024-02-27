@@ -1,3 +1,4 @@
+import { JobPosting } from "@prisma/client";
 import { User, Role, ClientUser, Client } from "@prisma/client";
 import { JWT } from "next-auth/jwt";
 import { StringValidation } from "zod";
@@ -12,6 +13,7 @@ declare module "next-auth" {
     lastName?: string
     email?: string
     userDomain?: string
+    jobPosting?: JobPosting
     role: Role[]
     expires: string
   }
@@ -23,6 +25,7 @@ declare module "next-auth/jwt" {
     clientUser?: ClientUser
     role: Role[]
     client?: Client
+    jobPosting?: JobPosting
   }
 }
 

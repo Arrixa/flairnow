@@ -76,13 +76,19 @@ export const authOptions: NextAuthOptions = {
           }
         })
 
-        const dbClientUser = await prisma.clientUser.findFirst({
+        const dbClientUser = await prisma.clientUser.findMany({
           where: {
             userId: user.id
           }
         })
 
-        if (dbUser || dbClientUser || dbClient) {
+        const dbJobs = await prisma.jobPosting.findMany({ 
+          where: {
+            clientId: dbClient.id
+          }
+        })
+
+        if (dbUser || dbClientUser || dbClient || dbJobs) {
           return {
             id: dbUser.id,
             firstName: dbUser.firstName,
@@ -117,7 +123,20 @@ export const authOptions: NextAuthOptions = {
               province: dbClient?.province,
               zipCode: dbClient?.zipCode,
               country: dbClient?.country
+            },
+            jobPosting: {
+              id: dbJobs?.id,
+              title: dbJobs?.title,
+              description: dbJobs?.description,
+              location: dbJobs?.location,
+              salary: dbJobs?.salary,
+              type: dbJobs?.type,
+              status: dbJobs?.status,
+              clientId: dbJobs?.clientId,
+              createdAt: dbJobs?.createdAt,
+              updatedAt: dbJobs?.updatedAt
             }
+
           }
         }
       }
@@ -161,6 +180,22 @@ export const authOptions: NextAuthOptions = {
           province: token.province,
           zipCode: token.zipCode,
           country: token.country
+        };
+
+        session.jobPosting = {
+          id: token.id,
+          title: token.title,
+          description: token.description,
+          location: token.location,
+          salary: token.salary,
+          type: token.type,
+          status: token.status,
+          company: token.client,
+          clientId: token.clientId,
+          createdAt: token.createdAt,
+          updatedAt: token.updatedAt,
+          publishInternal: token.publishInternal,
+          publishExternal: token.publishExternal
         }
       }
       return session;

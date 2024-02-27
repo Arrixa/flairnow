@@ -4,17 +4,21 @@ import { Input } from '@/app/components/ui/input';
 import { Button } from '@/app/components/ui/button';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { Textarea } from '@/app/components/ui/textarea';
 import { useToast } from "@/app/components/ui/use-toast"
 import { useState, useEffect } from "react";
 import { Label } from '@/app/components/ui/label';
 import { Card, CardHeader, CardTitle } from '@/app/components/ui/card';
 import Tiptap from './Tiptap';
-import { FancyMultiSelect } from '@/app/components/common/MultiSelect';
-import WorkplaceSelect from './WorkplaceSelect';
-import EmploymentSelect from './EmploymentSelect';
 import SkillSelect from './SkillSelect';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/app/components/ui/select"
 
 const FormSchema = z.object({
   title: z.string().min(1, 'Title is required'),
@@ -23,14 +27,15 @@ const FormSchema = z.object({
   location: z.string().min(1, 'Location is required'),
   salary: z.string().optional(),
   qualifications: z.string().optional(),
-  skills: z.string().min(1, 'Skills are required'),
-  employmentType: z.string().min(1, 'Employment type is required'),
-  workPlace: z.string().min(1, 'Work place is required'),
+  skills: z.array(z.string()).optional(),
+  employmentType: z.string().optional(),
+  workPlace: z.string().optional(),
+  id: z.string().optional(),
 });
 
 const JobPostForm = () => {
   const { toast } = useToast()
-  const [selectedWorkplace, setSelectedWorkplace] = useState('');
+  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
 
   const form = useForm({
     resolver: zodResolver(FormSchema),
@@ -42,15 +47,17 @@ const JobPostForm = () => {
       location: '',
       salary: '',
       qualifications: '',
-      skills: '',
+      skills: [''],
       employmentType: '',
       workPlace: '',
+      id: '',
     },
   });
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     console.log('Form submitted:', data);
     console.log("Save client function called");
+    console.log("Selected :", selectedSkills);
 
     // Add this log to check the form state before submitting
     // console.log('Form state before submit:', form.formState);
@@ -68,7 +75,7 @@ const JobPostForm = () => {
           location: data.location,
           salary: data.salary,
           qualifications: data.qualifications,
-          skills: data.skills,
+          skills: selectedSkills,
           employmentType: data.employmentType,
           workPlace: data.workPlace,
         })
@@ -77,17 +84,18 @@ const JobPostForm = () => {
           toast({
             description: "The client information saved successfully.",
           })
-          // setIsEditMode(false)
+          const res = await response.json();
           const mappedData = {
-            title: data.title,
-            description: data.description,   
-            department: data.department,
-            location: data.location,
-            salary: data.salary,
-            qualifications: data.qualifications,
-            skills: data.skills,
-            employmentType: data.employmentType,
-            workPlace: data.workPlace,
+            id: res.id,
+            title: res.title,
+            description: res.description,   
+            department: res.department,
+            location: res.location,
+            salary: res.salary,
+            qualifications: res.qualifications,
+            skills: selectedSkills,
+            employmentType: res.employmentType,
+            workPlace: res.workPlace,
             };
           form.reset(mappedData)
           window.location.reload();
@@ -174,9 +182,20 @@ const JobPostForm = () => {
             render={({ field }) => (
               <FormItem className="flex flex-col items-left mt-4">
                 <Label className="w-1/2 mx-4">Employment type</Label>
-                <FormControl className='w-full'>
-                  <EmploymentSelect {...field} value={selectedWorkplace} onChange={(value) => setSelectedWorkplace(value)} />
-                </FormControl>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl className='w-full'>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select work place" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="fulltime">Full-time</SelectItem>
+                    <SelectItem value="parttime">Part-time</SelectItem>
+                    <SelectItem value="contract">Contract</SelectItem>
+                    <SelectItem value="fixedterm">Fixed-term</SelectItem>
+                    <SelectItem value="hourly">Hourly-based</SelectItem>
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
@@ -187,9 +206,18 @@ const JobPostForm = () => {
             render={({ field }) => (
               <FormItem className="flex flex-col items-left mt-4">
                 <Label className="w-1/2 mx-4">Work place</Label>
-                <FormControl>
-                  <WorkplaceSelect {...field} value={selectedWorkplace} onChange={(value) => setSelectedWorkplace(value)} />
-                </FormControl>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select work place" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent >
+                    <SelectItem value="office">In office</SelectItem>
+                    <SelectItem value="hybrid">Hybrid</SelectItem>
+                    <SelectItem value="remote">Remote</SelectItem>
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
@@ -215,7 +243,13 @@ const JobPostForm = () => {
               <FormItem className="flex flex-col items-left mt-4">
                 <Label className="w-1/2 mx-4">Skills</Label>
                 <FormControl>
-                  <SkillSelect />
+                  <SkillSelect
+                    selectedSkills={selectedSkills}
+                    onChange={(skills) => {
+                      setSelectedSkills(skills);
+                      field.onChange(skills);
+                    }}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -236,7 +270,7 @@ const JobPostForm = () => {
             )}
           />
         </Card>
-        <div className="flex flex-col-reverse md:flex-row justify-between">
+        <div className="flex flex-col-reverse md:flex-row justify-between px-4">
           <Button className='my-4 text-md' type='submit'>
             Save
           </Button>
@@ -244,6 +278,6 @@ const JobPostForm = () => {
       </form>
     </Form>
   )
-}
+};
 
-export default JobPostForm
+export default JobPostForm;

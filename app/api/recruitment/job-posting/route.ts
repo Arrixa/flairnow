@@ -8,33 +8,40 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const reqBody = await req.json();
-    console.log("reqBody", reqBody)
     const session = await getServerSession(authOptions);
-    const jobId = session?.jobPosting?.id;
-    const job = await prisma.jobPosting.findUnique({
-      where: {
-        id: jobId,
-      },
-    });
-    if (job) {
-      const updateJob = await prisma.jobPosting.update({
-        where: {
-          id: jobId,
-        },
-        data: {
-          ...reqBody
-        },
-      });
-      return NextResponse.json({ updateJob, message: "Job posting updated successfully" }, { status: 202 });
-    } else {
+    const clientId = await session?.clientUser.clientId;
+    const userId = await session?.user.id;
+    console.log("session user and client id in job posting route", userId, clientId)
+    console.log("reqBody in job posting route", reqBody)
+    // if (session?.jobPosting) {
+    //   const jobId = session?.jobPosting?.id;
+    //   const job = await prisma.jobPosting.findUnique({
+    //     where: {
+    //       id: jobId,
+    //     },
+    //   });
+    //   if (job) {
+    //     const updateJob = await prisma.jobPosting.update({
+    //       where: {
+    //         id: jobId,
+    //       },
+    //       data: {
+    //         ...reqBody
+    //       },
+    //     });
+    //     return NextResponse.json({ updateJob, message: "Job posting updated successfully" }, { status: 202 });
+    // }
+    // } else {
       const createJob = await prisma.jobPosting.create({
         data: {
+          status: "DRAFT",
+          company: { connect: { id: clientId } },
+          postedBy: { connect: { id: userId } },
           ...reqBody
         },
       });
-    }
-
-    return NextResponse.json({ createJob, message: "Job posting created successfully"}, { status: 202 })
+      return NextResponse.json({ createJob, message: "Job posting created successfully"}, { status: 202 })
+    // }
   } catch (error) {
     console.error("Error during creating job posting:", error);
     return NextResponse.json({ message: "Something went wrong"}, { status: 500 });
@@ -43,10 +50,10 @@ export async function POST(req: Request) {
 
 export async function GET(request: Request) {
   try {
-    const clientData = await getClientData(request);
+    const jobData = await getJobData(request);
 
-    // Respond with the client data
-    return Response.json(clientData);
+    // Respond with the job data
+    return Response.json(jobData);
   } catch (error) {
     console.error("Error during handling GET request:", error);
     return Response.json({ message: "Something went wrong" }, { status: 500 });

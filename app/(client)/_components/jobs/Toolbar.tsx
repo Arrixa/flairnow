@@ -13,11 +13,11 @@ const Toolbar = ({ editor }: Props) => {
   if (!editor) return null;
 
   return (
-    <div>
+    <div className='py-2 px-3'>
       <Toggle
         size="sm"
         pressed={editor.isActive("heading")}
-        onPressedChange={() => editor.chain().focus().toggleHeading({ level: 2}).run()}
+        onPressedChange={() => editor.chain().focus().toggleHeading({ level: 3}).run()}
       >
         <Heading size={18} />
       </Toggle>
