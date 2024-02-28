@@ -76,19 +76,20 @@ export const authOptions: NextAuthOptions = {
           }
         })
 
-        const dbClientUser = await prisma.clientUser.findMany({
+        const dbClientUser = await prisma.clientUser.findFirst({
           where: {
             userId: user.id
           }
         })
 
-        const dbJobs = await prisma.jobPosting.findMany({ 
-          where: {
-            clientId: dbClient.id
-          }
-        })
+        // const dbJobs = await prisma.jobPosting.findMany({ 
+        //   where: {
+        //     clientId: dbClient.id
+        //   }
+        // })
 
-        if (dbUser || dbClientUser || dbClient || dbJobs) {
+        if (dbUser || dbClientUser || dbClient ) {
+          // || dbJobs
           return {
             id: dbUser.id,
             firstName: dbUser.firstName,
@@ -108,7 +109,7 @@ export const authOptions: NextAuthOptions = {
             },
             clientUser: {
               role: dbClientUser?.role, 
-              userId: dbClientUser?.userId,
+              // userId: dbClientUser?.userId,
               clientId: dbClientUser?.clientId,
             },
             client: {
@@ -125,18 +126,22 @@ export const authOptions: NextAuthOptions = {
               zipCode: dbClient?.zipCode,
               country: dbClient?.country
             },
-            jobPosting: {
-              id: dbJobs?.id,
-              title: dbJobs?.title,
-              description: dbJobs?.description,
-              location: dbJobs?.location,
-              salary: dbJobs?.salary,
-              type: dbJobs?.type,
-              status: dbJobs?.status,
-              clientId: dbJobs?.clientId,
-              createdAt: dbJobs?.createdAt,
-              updatedAt: dbJobs?.updatedAt
-            }
+            // jobPosting: {
+            //   id: dbJobs?.id,
+            //   title: dbJobs?.title,
+            //   description: dbJobs?.description,
+            //   location: dbJobs?.location,
+            //   salary: dbJobs?.salary,
+            //   qualifications: dbJobs?.qualifications,
+            //   employmentType: dbJobs?.employmentType,
+            //   workPlace: dbJobs?.workPlace,
+            //   status: dbJobs?.status,
+            //   clientId: dbJobs?.clientId,
+            //   postedBy: dbJobs?.postedBy,
+            //   workHours: dbJobs?.workHours,
+            //   publishInternal: dbJobs?.publishInternal,
+            //   publishExternal: dbJobs?.publishExternal,
+            // }
 
           }
         }
@@ -165,7 +170,7 @@ export const authOptions: NextAuthOptions = {
         };
         session.clientUser = {
           role: token.role, 
-          userId: token.userId,
+          // userId: token.userId,
           clientId: token.clientId, 
         };
 
@@ -184,21 +189,23 @@ export const authOptions: NextAuthOptions = {
           country: token.country
         };
 
-        session.jobPosting = {
-          id: token.id,
-          title: token.title,
-          description: token.description,
-          location: token.location,
-          salary: token.salary,
-          type: token.type,
-          status: token.status,
-          company: token.client,
-          clientId: token.clientId,
-          createdAt: token.createdAt,
-          updatedAt: token.updatedAt,
-          publishInternal: token.publishInternal,
-          publishExternal: token.publishExternal
-        }
+        // session.jobPosting = {
+        //   id: token.id,
+        //   title: token.title,
+        //   description: token.description,
+        //   location: token.location,
+        //   salary: token.salary,
+        //   clientId: token.clientId,
+        //   createdAt: token.createdAt,
+        //   updatedAt: token.updatedAt,
+        //   publishInternal: token.publishInternal,
+        //   publishExternal: token.publishExternal,
+        //   employmentType: token.employmentType,
+        //   workPlace: token.workPlace,
+        //   status: token.status,
+        //   postedBy: token.postedBy,
+        //   workHours: token.workHours,
+        // }
       }
       return session;
     },

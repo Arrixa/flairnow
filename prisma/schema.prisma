@@ -57,12 +57,12 @@ model Session {
   userId            String
   clientId          String
   clientUserId      String
-  jobPostingId      String
+  // jobPostingId      String
   expires           DateTime
   user              User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   client            Client       @relation(fields: [clientId], references: [id])
   clientUser        ClientUser   @relation(fields: [clientUserId], references: [id])
-  jobPostings       JobPosting   @relation(fields: [jobPostingId], references: [id])
+  // jobPostings       JobPosting   @relation(fields: [jobPostingId], references: [id])
 }
 
 
@@ -138,7 +138,7 @@ model JobPosting {
   status            PostStatus
   publishInternal   DateTime?
   publishExternal   DateTime?
-  session           Session[]
+  // session           Session[]
   // recruiters        User @relation(fields: [recruiterId], references: [id])
   // recruiterId       String
   // hiringManager     User @relation(fields: [hiringManagerId], references: [id])

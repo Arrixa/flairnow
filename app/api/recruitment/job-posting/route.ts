@@ -82,7 +82,7 @@ async function getJobsData(request: Request) {
     postedBy: job.postedBy,
     workHours: job.workHours,
     status: job.status,
-    company: job.company,
+    clientId: job.clientId,
   });
 
   if (!job) {
@@ -103,6 +103,6 @@ async function getJobsData(request: Request) {
     postedBy: job.postedBy,
     workHours: job.workHours,
     status: job.status,
-    company: job.company,
+    clientId: job.clientId,
   };
 }

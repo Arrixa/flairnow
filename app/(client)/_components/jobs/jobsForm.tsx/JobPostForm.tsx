@@ -33,8 +33,9 @@ const FormSchema = z.object({
   workPlace: z.string().optional(),
   id: z.string().optional(),
 });
+//{ formData, setFormData, setIsEditMode } : { formData?: JobForm, setFormData: Dispatch<SetStateAction<JobForm>>, setIsEditMode: Dispatch<SetStateAction<boolean>> }
 
-const JobPostForm = ({ formData, setFormData, setIsEditMode } : { formData?: JobForm, setFormData: Dispatch<SetStateAction<JobForm>>, setIsEditMode: Dispatch<SetStateAction<boolean>> }) => {
+const JobPostForm = () => {
   const { toast } = useToast()
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
 
@@ -83,7 +84,7 @@ const JobPostForm = ({ formData, setFormData, setIsEditMode } : { formData?: Job
             description: "The client information saved successfully.",
           })
           const res = await response.json();
-          setFormData(res);
+          // setFormData(res);
           console.log(res, 'response data from form save');
         } else {
           toast({

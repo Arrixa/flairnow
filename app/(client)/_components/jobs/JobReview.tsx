@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from "react";
-import JobReviewCard from "./JobReviewCard";
-import JobPostForm from "./JobPostForm";
+import JobReviewCard from "./JobCard";
+import JobPostForm from "./jobsForm.tsx/JobPostForm";
 import { JobForm } from "@/lib/interfaces";
 
 const JobReview = () => {

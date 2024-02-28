@@ -3,7 +3,7 @@ import { Label } from '@/app/components/ui/label'
 import { JobForm } from '@/lib/interfaces'
 import React from 'react'
 
-const JobReviewCard = ({ formData, setIsEditMode } : { formData?: JobForm, setIsEditMode: React.Dispatch<React.SetStateAction<boolean>> }) => {
+const JobCard = ({ formData, setIsEditMode } : { formData?: JobForm, setIsEditMode: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const jobs = formData
   return (
     <section className="flex flex-col w-full">
@@ -58,4 +58,4 @@ const JobReviewCard = ({ formData, setIsEditMode } : { formData?: JobForm, setIs
   )
 }
 
-export default JobReviewCard
+export default JobCard
