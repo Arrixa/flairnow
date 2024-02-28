@@ -1,11 +1,9 @@
 import { CldImage } from 'next-cloudinary';
-import { BookText, Building, Paperclip } from "lucide-react";
 import AddLogo from "./AddLogo";
 import { ClientForm } from "@/lib/interfaces"
 import { useState, useEffect } from "react";
-import { capitaliseFirstLetter } from '@/lib/capitiliseFirstLetter';
-import { Label } from '@/app/components/ui/label';
 import { Button } from '@/app/components/ui/button';
+import { Label } from '@/app/components/ui/label';
 import {
   Card,
   CardContent,

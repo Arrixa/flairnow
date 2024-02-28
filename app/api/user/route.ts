@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
 export async function GET(request: Request) {
   try {
     const userData = await getUserData(request);
-    console.log('User data:', userData);
+    // console.log('User data:', userData);
     // Respond with the user data
     return Response.json(userData);
   } catch (error) {

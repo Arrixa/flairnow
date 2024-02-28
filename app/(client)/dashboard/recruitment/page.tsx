@@ -1,8 +1,13 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
 import { BookPlus, FileCog } from 'lucide-react';
 import JobPostForm from '../../_components/jobs/JobPostForm';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/utils/authOptions";
+import JobReview from '../../_components/jobs/JobReview';
 
-const page = () => {
+
+const page = async () => {
+  const session = await getServerSession(authOptions);
   return (
     <main className='flex flex-col items-left w-full lg:p-10 md:p-6 p-4'>
       <h1 className="text-3xl text-left ml-10 font-semibold my-4 py-2">Recruitment</h1>
@@ -22,7 +27,9 @@ const page = () => {
           <TabsContent value="post">
             <JobPostForm />
           </TabsContent>
-          <TabsContent value="review"></TabsContent>
+          <TabsContent value="review">
+            <JobReview session={session} />
+          </TabsContent>
           <TabsContent value="publish"></TabsContent>
         </Tabs>
       </div>   

@@ -1,15 +1,14 @@
 'use client'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/app/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/app/components/ui/form';
 import { Input } from '@/app/components/ui/input';
 import { Button } from '@/app/components/ui/button';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Controller, useForm } from 'react-hook-form';
-import { Textarea } from '@/app/components/ui/textarea';
+import { useForm } from 'react-hook-form';
 import { useToast } from "@/app/components/ui/use-toast"
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Label } from '@/app/components/ui/label';
-import { Card, CardHeader, CardTitle } from '@/app/components/ui/card';
+import { Card, CardTitle } from '@/app/components/ui/card';
 import Tiptap from './Tiptap';
 import SkillSelect from './SkillSelect';
 import {
@@ -19,6 +18,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/app/components/ui/select"
+import { Dispatch, SetStateAction } from "react";
+import { JobForm } from '@/lib/interfaces';
 
 const FormSchema = z.object({
   title: z.string().min(1, 'Title is required'),
@@ -33,7 +34,7 @@ const FormSchema = z.object({
   id: z.string().optional(),
 });
 
-const JobPostForm = () => {
+const JobPostForm = ({ formData, setFormData, setIsEditMode } : { formData?: JobForm, setFormData: Dispatch<SetStateAction<JobForm>>, setIsEditMode: Dispatch<SetStateAction<boolean>> }) => {
   const { toast } = useToast()
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
 
@@ -59,9 +60,6 @@ const JobPostForm = () => {
     console.log("Save client function called");
     console.log("Selected :", selectedSkills);
 
-    // Add this log to check the form state before submitting
-    // console.log('Form state before submit:', form.formState);
-
     try {
       const response = await fetch('/api/recruitment/job-posting', {
         method: 'POST',
@@ -85,20 +83,8 @@ const JobPostForm = () => {
             description: "The client information saved successfully.",
           })
           const res = await response.json();
-          const mappedData = {
-            id: res.id,
-            title: res.title,
-            description: res.description,   
-            department: res.department,
-            location: res.location,
-            salary: res.salary,
-            qualifications: res.qualifications,
-            skills: selectedSkills,
-            employmentType: res.employmentType,
-            workPlace: res.workPlace,
-            };
-          form.reset(mappedData)
-          window.location.reload();
+          setFormData(res);
+          console.log(res, 'response data from form save');
         } else {
           toast({
             variant: "destructive",

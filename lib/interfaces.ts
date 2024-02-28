@@ -267,6 +267,20 @@ export interface ClientForm {
   country?: string;
 }
 
+export interface JobForm {
+  title: string;
+  description: string;
+  department: string;
+  location: string;
+  employmentType: string;
+  workPlace: string;
+  qualifications: string;
+  skills: string[];
+  salary: string;
+  id: string;
+  company: Client;
+}
+
 export interface SessionProps {
   session: Session;
     id: string;

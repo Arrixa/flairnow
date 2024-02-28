@@ -50,7 +50,7 @@ export async function POST(req: Request) {
 
 export async function GET(request: Request) {
   try {
-    const jobData = await getJobData(request);
+    const jobData = await getJobsData(request);
 
     // Respond with the job data
     return Response.json(jobData);
@@ -60,49 +60,49 @@ export async function GET(request: Request) {
   }
 }
 
-async function getJobData(request: Request) {
+async function getJobsData(request: Request) {
   const session = await getServerSession(authOptions);
-  const clientId = session?.clientUser.clientId
-  const client = await prisma.client.findUnique({
+  const clientId = await session?.client.id;
+  const job = await prisma.jobPosting.findMany({
     where: {
-      id: clientId,
+      clientId: clientId,
     },
   });
 
-  console.log('Processed client data:', {
-    domain: client.domain,
-    id: client.id,
-    logo: client.logo,
-    companyName: client.companyName,
-    website: client.website,
-    description: client.description,
-    countryCode: client.countryCode,
-    phoneNumber: client.phoneNumber,
-    streetNo: client.streetNo,
-    streetAddress: client.streetAddress,
-    province: client.province,
-    zipCode: client.zipCode,
-    country: client.country,
+  console.log('Processed job data:', {
+    id: job.id,
+    title: job.title,
+    description: job.description,
+    department: job.department,
+    location: job.location,
+    salary: job.salary,
+    qualifications: job.qualifications,
+    employmentType: job.employmentType,
+    workPlace: job.workPlace,
+    postedBy: job.postedBy,
+    workHours: job.workHours,
+    status: job.status,
+    company: job.company,
   });
 
-  if (!client) {
-    return { message: "Client does not exist" };
+  if (!job) {
+    return { message: "Job posting does not exist" };
   }
 
   // Extract and return the relevant data
   return {
-    id: client?.id,
-    domain: client?.domain,
-    companyName: client?.companyName,
-    website: client?.website,
-    description: client?.description,
-    countryCode: client?.countryCode,
-    phoneNumber: client?.phoneNumber,
-    streetNo: client?.streetNo,
-    streetAddress: client?.streetAddress,
-    province: client?.province,
-    zipCode: client?.zipCode,
-    country: client?.country,
-    logo: client.logo,
+    id: job.id,
+    title: job.title,
+    description: job.description,
+    department: job.department,
+    location: job.location,
+    salary: job.salary,
+    qualifications: job.qualifications,
+    employmentType: job.employmentType,
+    workPlace: job.workPlace,
+    postedBy: job.postedBy,
+    workHours: job.workHours,
+    status: job.status,
+    company: job.company,
   };
 }

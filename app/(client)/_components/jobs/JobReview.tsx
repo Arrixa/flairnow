@@ -1,64 +1,67 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/app/components/ui/card'
-import { Label } from '@/app/components/ui/label'
-import React from 'react'
+'use client'
+import { useState, useEffect } from "react";
+import JobReviewCard from "./JobReviewCard";
+import JobPostForm from "./JobPostForm";
+import { JobForm } from "@/lib/interfaces";
 
-const JobReview = ({ session }) => {
-  // fetch jobs from the server
-  const client = session?.client
-  const jobs = []
+const JobReview = () => {
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [formData, setFormData] = useState<JobForm>({} as JobForm);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch data from your API endpoint
+        const response = await fetch('/api/recruitment/job-posting');
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        // Set form data with fetched values
+        setFormData(data)
+        console.log(data, 'Set form data with fetched values');
+      } catch (error) {
+        console.error('Error fetching form data:', error);
+      }
+    };
+    // Call fetchData when the component mounts
+    fetchData();
+  }, [setFormData]);
+
+  // 
   return (
     <section className="flex flex-col w-full">
-      <Card>
-        <CardHeader>
-          <CardTitle>Review job post</CardTitle>
-          {/* Add icons */}
-          <CardDescription>{jobs.title}</CardDescription>
-          <CardDescription>{client.companyName}</CardDescription>
-          <CardDescription>{jobs.location}</CardDescription>
-        </CardHeader>
-      </Card>
-      <Card>
-        <CardContent>
-          <Label>Job title:</Label>
-          <p>{jobs.title}</p>
-        </CardContent>
-        <CardContent>
-          <Label>Company name:</Label>
-          <p>{client?.companyName}</p>
-        </CardContent>
-        <CardContent>
-          <Label>Company department:</Label>
-          <p>{jobs.department}</p>
-        </CardContent>
-        <CardContent>
-          <Label>Job description:</Label>
-          <p>{jobs.description}</p>
-        </CardContent>
-        <CardContent>
-          <Label>Employment type:</Label>
-          <p>{jobs.employment}</p>
-        </CardContent>
-        <CardContent>
-          <Label>Work place:</Label>
-          <p>{jobs.workPlace}</p>
-        </CardContent>
-        <CardContent>
-          <Label>Required qualifications:</Label>
-          <p>{jobs.qualifications}</p>
-        </CardContent>
-        <CardContent>
-          <Label>Required skills:</Label>
-          {/* Skill badges */}
-        </CardContent>
-        <CardContent>
-          <Label>Salary range:</Label>
-          <p>{jobs.salary}</p>
-        </CardContent>
-
-
-      </Card>
+      {/* {isEditMode ? (
+      <div className='flex flex-col mx-auto w-full'>
+        <JobPostForm setFormData={setFormData} formData={formData} setIsEditMode={setIsEditMode} />
+      </div>
+      ) : (  */}
+      <div className='w-full'>
+        <div className="flex flex-row mx-auto w-full">
+          <JobReviewCard formData={formData} setIsEditMode={setIsEditMode} />
+        </div>
+      </div>
+      {/* )} */}
     </section>
   )
 }
 
+
 export default JobReview
+
+/*
+          const mappedData = {
+            id: res.id,
+            title: res.title,
+            description: res.description,   
+            department: res.department,
+            location: res.location,
+            salary: res.salary,
+            qualifications: res.qualifications,
+            skills: selectedSkills,
+            employmentType: res.employmentType,
+            workPlace: res.workPlace,
+            };
+          form.reset(mappedData)
+          window.location.reload();
+          */

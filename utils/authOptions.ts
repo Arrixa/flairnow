@@ -108,6 +108,7 @@ export const authOptions: NextAuthOptions = {
             },
             clientUser: {
               role: dbClientUser?.role, 
+              userId: dbClientUser?.userId,
               clientId: dbClientUser?.clientId,
             },
             client: {
@@ -164,6 +165,7 @@ export const authOptions: NextAuthOptions = {
         };
         session.clientUser = {
           role: token.role, 
+          userId: token.userId,
           clientId: token.clientId, 
         };
 

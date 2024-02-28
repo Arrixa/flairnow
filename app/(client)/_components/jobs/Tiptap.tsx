@@ -3,7 +3,7 @@
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Toolbar from './Toolbar';
-import Heading from '@tiptap/extension-heading';
+// import Heading from '@tiptap/extension-heading';
 
 const Tiptap = ({
   description,
@@ -15,9 +15,9 @@ const Tiptap = ({
   const editor = useEditor({
     extensions: [
       StarterKit.configure(),
-      Heading.configure({
-        levels: [1, 2, 3, 4],
-      }),
+      // Heading.configure({
+      //   levels: [1, 2, 3, 4],
+      // }),
     ],
     content: description,
     editorProps: {
