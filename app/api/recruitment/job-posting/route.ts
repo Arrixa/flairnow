@@ -88,6 +88,7 @@ async function getJobsData(request: Request) {
     workHours: job.workHours,
     status: job.status,
     clientId: job.clientId,
+    company: job.client,
   }));
   console.log("processedJobs", processedJobs);
 
