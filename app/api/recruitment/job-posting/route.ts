@@ -67,6 +67,9 @@ async function getJobsData(request: Request) {
     where: {
       clientId: clientId,
     },
+    include: {
+      company: true, // Include the related company data
+    },
   });
 
   if (!jobs || jobs.length === 0) {
@@ -84,11 +87,10 @@ async function getJobsData(request: Request) {
     qualifications: job.qualifications,
     employmentType: job.employmentType,
     workPlace: job.workPlace,
-    postedBy: job.postedBy,
     workHours: job.workHours,
     status: job.status,
     clientId: job.clientId,
-    company: job.client,
+    company: job.company,
   }));
   console.log("processedJobs", processedJobs);
 

@@ -11,11 +11,9 @@ const JobDetailsPage = ({ params }: any) => {
   // console.log(jobId, 'Job ID from search params');
 
   return (
-    <div>
-      <h1>Job Details</h1>
-      <p>Job ID: {params.id}</p>
+    <>
       <JobCard jobId={params.id} />
-    </div>
+    </>
   );
 };
 

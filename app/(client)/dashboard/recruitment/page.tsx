@@ -44,12 +44,14 @@ const Page = async () => {
   const jobsData = await getData();
   console.log(jobsData, 'Jobs fetched values');
   const session = await getServerSession(authOptions);
+  console.log(jobsData, 'Job data in job grid')
+
 
   return (
     <main className='flex flex-col items-left w-full lg:p-10 md:p-6 p-4'>
       <h1 className="text-3xl text-left font-semibold my-4 pt-8">Recruitment dashboard</h1>
       {/* Example: Link to create a new job */}
-      <Card className='w-fit'>
+      <Card className='w-fit py-2 px-4'>
         <Link href="/dashboard/recruitment/jobs/create">
           <CardContent className='flex p-2 '>
             Create a new job posting &nbsp;<Plus /> 
@@ -72,27 +74,27 @@ const Page = async () => {
           </ToggleGroup>
         </CardContent>
       </Card>
-      <Card className='mt-2 p-2'>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 m-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-2">
           {jobsData?.map((job) => (
             <Link key={job.id} href={`/dashboard/recruitment/jobs/${job.id}`}>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>{job.title}</CardTitle>
-                    <CardDescription>
-                      <Badge variant="outline" className='py-2'>{job.status}</Badge>
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p>{job.department}</p>
-                    <p>{job.location}</p>
-                  </CardContent>
-                </Card>
+              <JobsGridComp key={job.id} job={job} />   
             </Link>
+
+
+            //     <Card>
+            //       <CardHeader>
+            //         <CardTitle>{job.title}</CardTitle>
+            //         <CardDescription>
+            //           <Badge variant="outline" className='py-2'>{job.status}</Badge>
+            //         </CardDescription>
+            //       </CardHeader>
+            //       <CardContent>
+            //         <p>{job.department}</p>
+            //         <p>{job.location}</p>
+            //       </CardContent>
+            //     </Card>
           ))}
         </div>
-        {/* <JobsGridComp jobData={jobsData} /> */}       
-      </Card>
     </main>
   )
 };

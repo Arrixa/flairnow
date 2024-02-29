@@ -278,7 +278,22 @@ export interface JobForm {
   skills: string[];
   salary: string;
   id: string;
+}
+
+export interface JobCardProps {
+  title: string;
+  description: string;
+  department: string;
+  location: string;
+  employmentType: string;
+  workPlace: string;
+  qualifications: string;
+  skills: string[];
+  salary: string;
+  id: string;
   company: Client;
+  postedBy: User;
+  jobId: string;
 }
 
 export interface SessionProps {

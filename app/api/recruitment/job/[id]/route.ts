@@ -2,18 +2,16 @@ import prisma from "@/lib/prisma";
 import { NextResponse, NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
-  console.log('Request:', request);
   const id = request.url.split('/').pop();
-  console.log('Job ID:', id);
-  // console.log('Job ID:', jobId);
+  // console.log('Request:', request);
+  // console.log('Job ID:', id);
+  // const jobId = request.nextUrl.searchParams.get('id');
+  // console.log('Job ID from search params:', jobId);
   // const jobId = request.params.id;
   // const { id } = request.params;
+  // const { id } = request.query;
   try {
-    const jobData = await getJobData(id);
-    // const { id } = request.query;
-    // console.log('Job ID:', id);
-    // const jobData = await getJobData(id as string);
-    // Respond with the job data
+    const jobData = await getJobData(id as string);
     console.log('Job data:', jobData);
     return NextResponse.json(jobData);
   } catch (error) {
@@ -27,6 +25,10 @@ async function getJobData(jobId: string) {
   const job = await prisma.jobPosting.findUnique({
     where: {
       id: jobId,
+    },
+    include: {
+      company: true, // Include the related company data
+      postedBy: true, // Include the related user data
     },
   });
 
@@ -48,7 +50,7 @@ async function getJobData(jobId: string) {
     postedBy: job.postedBy,
     workHours: job.workHours,
     status: job.status,
-    clientId: job.clientId,
-    company: job.client,
+    skills: job.skills,
+    company: job.company,
   };
 }
