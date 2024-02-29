@@ -1,5 +1,4 @@
-// import { JobPosting } from "@prisma/client";
-import { User, Role, ClientUser, Client } from "@prisma/client";
+import { User, Role, ClientUser, Client, JobPosting } from "@prisma/client";
 import { JWT } from "next-auth/jwt";
 import { StringValidation } from "zod";
 

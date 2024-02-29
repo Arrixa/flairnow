@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import { authOptions } from "@/utils/authOptions";
+import { JobPosting } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
  
@@ -51,7 +52,6 @@ export async function POST(req: Request) {
 export async function GET(request: Request) {
   try {
     const jobData = await getJobsData(request);
-
     // Respond with the job data
     return Response.json(jobData);
   } catch (error) {
@@ -63,34 +63,18 @@ export async function GET(request: Request) {
 async function getJobsData(request: Request) {
   const session = await getServerSession(authOptions);
   const clientId = await session?.client.id;
-  const job = await prisma.jobPosting.findMany({
+  const jobs = await prisma.jobPosting.findMany({
     where: {
       clientId: clientId,
     },
   });
 
-  console.log('Processed job data:', {
-    id: job.id,
-    title: job.title,
-    description: job.description,
-    department: job.department,
-    location: job.location,
-    salary: job.salary,
-    qualifications: job.qualifications,
-    employmentType: job.employmentType,
-    workPlace: job.workPlace,
-    postedBy: job.postedBy,
-    workHours: job.workHours,
-    status: job.status,
-    clientId: job.clientId,
-  });
-
-  if (!job) {
-    return { message: "Job posting does not exist" };
+  if (!jobs || jobs.length === 0) {
+    return { message: "No job postings found for this client" };
   }
 
-  // Extract and return the relevant data
-  return {
+  // Extract and return the relevant data for each job
+  const processedJobs = jobs.map((job: JobPosting) => ({
     id: job.id,
     title: job.title,
     description: job.description,
@@ -104,5 +88,8 @@ async function getJobsData(request: Request) {
     workHours: job.workHours,
     status: job.status,
     clientId: job.clientId,
-  };
+  }));
+  console.log("processedJobs", processedJobs);
+
+  return processedJobs;
 }

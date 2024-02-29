@@ -1,5 +1,3 @@
-'use client'
-import React, { useState, useEffect } from 'react'
 import Link from 'next/link';
 import {
   Card,
@@ -12,28 +10,34 @@ import {
 import { Plus, LayoutList, LayoutGrid } from 'lucide-react';
 import { ToggleGroup, ToggleGroupItem } from '@/app/components/ui/toggle-group'
 
-const Page = () => {
-  const [jobData, setJobData] = useState([]);
+async function getData() {
+  try {
+    // Fetch data from your API endpoint
+    const response = await fetch('http://localhost:3000/api/recruitment/job-posting');
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    } 
+    // Read the response body as text
+    const responseBody = await response.text();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch data from your API endpoint
-        const response = await fetch('/api/recruitment/job-posting');
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        const data = await response.json();
-        // Set form data with fetched values
-        setJobData(data)
-        console.log(data, 'Set job data with fetched values');
-      } catch (error) {
-        console.error('Error fetching job data:', error);
-      }
-    };
-    // Call fetchData when the component mounts
-    fetchData();
-  }, [setJobData]);
+    // Check if the body is empty
+    if (!responseBody) {
+      throw new Error('Empty response received');
+    }
+
+    // Parse the response body as JSON
+    const data = JSON.parse(responseBody);
+
+    // Continue processing the data
+    return data;
+  } catch (error) {
+    console.error('Error fetching job data:', error);
+  }
+};
+ 
+const Page = async () => {
+  const data = await getData();
+  console.log(data, 'Jobs fetched values');
 
   return (
     <main className='flex flex-col items-left w-full lg:p-10 md:p-6 p-4'>
@@ -64,8 +68,8 @@ const Page = () => {
       </Card>
       <Card className='mt-2'>
       {/* Example: Link to view job details by ID */}
-        <Link href={`/dashboard/recruitment/jobs/${job.id}`}>
-          <CardContent>{job.title}</CardContent>
+        <Link href={`/dashboard/recruitment/jobs/${data.id}`}>
+          <CardContent>Click me</CardContent>
         </Link>
       </Card>
 
