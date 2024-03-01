@@ -13,7 +13,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/app/components/ui/toggle-group'
 import { capitaliseFirstLetter } from "@/lib/capitiliseFirstLetter";
 import JobsGridComp from '../../_components/jobs/jobsGrid/JobsGrid';
 
-export async function getData() {
+async function getData() {
   try {
     // Fetch all job data from API endpoint
     const response = await fetch('http://localhost:3000/api/recruitment/job-posting');
