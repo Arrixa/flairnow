@@ -1,6 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
 import { BookPlus, FileCog } from 'lucide-react';
-import JobPostForm from '@/app/(client)/_components/jobs/JobPostForm';
+import JobPostForm from '@/app/(client)/_components/jobs/jobsForm/JobPostForm';
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/authOptions";
 import JobReview from '@/app/(client)/_components/jobs/JobReview';
@@ -25,10 +25,10 @@ const page = async () => {
           </TabsTrigger>
           </TabsList>
           <TabsContent value="post">
-            <JobPostForm />
+            {/* <JobPostForm /> */}
           </TabsContent>
           <TabsContent value="review">
-            <JobReview session={session} />
+            {/* <JobReview /> */}
           </TabsContent>
           <TabsContent value="publish"></TabsContent>
         </Tabs>

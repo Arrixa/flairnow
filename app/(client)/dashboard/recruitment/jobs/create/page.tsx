@@ -1,4 +1,4 @@
-import JobPostForm from '@/app/(client)/_components/jobs/jobsForm.tsx/JobPostForm'
+import JobPostForm from '@/app/(client)/_components/jobs/jobsForm/JobPostForm'
 import React from 'react'
 
 const page = () => {
