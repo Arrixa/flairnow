@@ -1,17 +1,17 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
-import { BookPlus, FileCog } from 'lucide-react';
-import JobPostForm from '@/app/(client)/_components/jobs/jobsForm/JobPostForm';
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/utils/authOptions";
-import JobReview from '@/app/(client)/_components/jobs/JobReview';
+// import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
+// import { BookPlus, FileCog } from 'lucide-react';
+// import JobPostForm from '@/app/(client)/_components/jobs/jobsForm/JobPostForm';
+// import { getServerSession } from "next-auth";
+// import { authOptions } from "@/utils/authOptions";
+// import JobReview from '@/app/(client)/_components/jobs/JobReview';
 
 
 const page = async () => {
-  const session = await getServerSession(authOptions);
+  // const session = await getServerSession(authOptions);
   return (
     <main className='flex flex-col items-left w-full lg:p-10 md:p-6 p-4'>
       <h1 className="text-3xl text-left ml-10 font-semibold my-4 py-2">Recruitment</h1>
-      <div className='w-full'>
+      {/* <div className='w-full'>
         <Tabs defaultValue="post" className="">
           <TabsList>
           <TabsTrigger value="post" className=" ml-6">
@@ -25,14 +25,14 @@ const page = async () => {
           </TabsTrigger>
           </TabsList>
           <TabsContent value="post">
-            {/* <JobPostForm /> */}
+            <JobPostForm />
           </TabsContent>
           <TabsContent value="review">
-            {/* <JobReview /> */}
+            <JobReview /> 
           </TabsContent>
           <TabsContent value="publish"></TabsContent>
         </Tabs>
-      </div>   
+      </div>    */}
     </main>
   )
 }
