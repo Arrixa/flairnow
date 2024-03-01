@@ -1,6 +1,6 @@
+import { JobCardProps } from "@/lib/interfaces";
 import prisma from "@/lib/prisma";
 import { authOptions } from "@/utils/authOptions";
-import { JobPosting } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
  
@@ -77,7 +77,7 @@ async function getJobsData(request: Request) {
   }
 
   // Extract and return the relevant data for each job
-  const processedJobs = jobs.map((job: JobPosting) => ({
+  const processedJobs = jobs.map((job: JobCardProps) => ({
     id: job.id,
     title: job.title,
     description: job.description,
@@ -89,7 +89,6 @@ async function getJobsData(request: Request) {
     workPlace: job.workPlace,
     workHours: job.workHours,
     status: job.status,
-    clientId: job.clientId,
     company: job.company,
   }));
   console.log("processedJobs", processedJobs);

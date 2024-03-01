@@ -294,6 +294,19 @@ export interface JobCardProps {
   company: Client;
   postedBy: User;
   jobId: string;
+  workHours: string;
+  status: string[];
+}
+
+export interface JobsGridProps {
+  job: {
+    id: string;
+    title: string;
+    status: string[];
+    company: { companyName: string };
+    location: string;
+    workPlace: string;
+  };
 }
 
 export interface SessionProps {

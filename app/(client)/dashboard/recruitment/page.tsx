@@ -7,16 +7,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/components/ui/card"
+import { Badge } from '@/app/components/ui/badge';
 import { Plus, LayoutList, LayoutGrid } from 'lucide-react';
 import { ToggleGroup, ToggleGroupItem } from '@/app/components/ui/toggle-group'
+import { capitaliseFirstLetter } from "@/lib/capitiliseFirstLetter";
 import JobsGridComp from '../../_components/jobs/jobsGrid/JobsGrid';
-import { Badge } from '@/app/components/ui/badge';
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/utils/authOptions";
 
 export async function getData() {
   try {
-    // Fetch data from your API endpoint
+    // Fetch all job data from API endpoint
     const response = await fetch('http://localhost:3000/api/recruitment/job-posting');
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -43,14 +42,10 @@ export async function getData() {
 const Page = async () => {
   const jobsData = await getData();
   console.log(jobsData, 'Jobs fetched values');
-  const session = await getServerSession(authOptions);
-  console.log(jobsData, 'Job data in job grid')
-
 
   return (
     <main className='flex flex-col items-left w-full lg:p-10 md:p-6 p-4'>
       <h1 className="text-3xl text-left font-semibold my-4 pt-8">Recruitment dashboard</h1>
-      {/* Example: Link to create a new job */}
       <Card className='w-fit py-2 px-4'>
         <Link href="/dashboard/recruitment/jobs/create">
           <CardContent className='flex p-2 '>
@@ -75,24 +70,10 @@ const Page = async () => {
         </CardContent>
       </Card>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-2">
-          {jobsData?.map((job) => (
+          {jobsData?.map((job: any) => (
             <Link key={job.id} href={`/dashboard/recruitment/jobs/${job.id}`}>
               <JobsGridComp key={job.id} job={job} />   
             </Link>
-
-
-            //     <Card>
-            //       <CardHeader>
-            //         <CardTitle>{job.title}</CardTitle>
-            //         <CardDescription>
-            //           <Badge variant="outline" className='py-2'>{job.status}</Badge>
-            //         </CardDescription>
-            //       </CardHeader>
-            //       <CardContent>
-            //         <p>{job.department}</p>
-            //         <p>{job.location}</p>
-            //       </CardContent>
-            //     </Card>
           ))}
         </div>
     </main>
@@ -100,3 +81,15 @@ const Page = async () => {
 };
 
 export default Page;
+
+              {/* <Card className='h-auto'>
+                <CardHeader>
+                  <CardTitle>{job?.title}</CardTitle>      
+                  <CardDescription><Badge variant="outline" className='py-1'>{job?.status}</Badge></CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p>{job.company.companyName}</p>
+                  <p>{job?.location}</p>
+                  <p>{capitaliseFirstLetter(job?.workPlace)}</p>
+                </CardContent>
+              </Card> */}

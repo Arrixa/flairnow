@@ -1,22 +1,21 @@
 import React from 'react';
-import Link from 'next/link';
+import { Badge } from '@/app/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/app/components/ui/card';
-
-interface JobsGridProps {
-  job: Array<{ id: string; title: string; company: { companyName: string }; location: string }>;
-}
+import { capitaliseFirstLetter } from "@/lib/capitiliseFirstLetter";
+import { JobsGridProps } from '@/lib/interfaces';
 
 const JobsGridComp: React.FC<JobsGridProps> = ({ job }) => (
-      <Card>
-        <CardHeader>
-          <CardTitle>{job?.title}</CardTitle>
-          <CardDescription>{job.company.companyName}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p>{job?.location}</p>
-          <p>{job?.workPlace}</p>
-        </CardContent>
-      </Card>
+  <Card className='flex flex-col h-full'>
+    <CardHeader>
+      <CardTitle>{job?.title}</CardTitle>      
+      <CardDescription><Badge variant="outline" className='py-1'>{job?.status}</Badge></CardDescription>
+    </CardHeader>
+    <CardContent>
+      <p>{job.company.companyName}</p>
+      <p>{job?.location}</p>
+      <p>{capitaliseFirstLetter(job?.workPlace)}</p>
+    </CardContent>
+  </Card>
 );
 
 export default JobsGridComp;

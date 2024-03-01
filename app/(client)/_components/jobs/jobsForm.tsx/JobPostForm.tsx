@@ -18,14 +18,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/app/components/ui/select"
-import { Dispatch, SetStateAction } from "react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/app/components/ui/alert-dialog";
 import { JobForm } from '@/lib/interfaces';
+import DepartmentSelect from './DepartmentSelect';
+import Link from 'next/link';
 
-const FormSchema = z.object({
+const FormSchemaDraft = z.object({
   title: z.string().min(1, 'Title is required'),
-  description: z.string().min(10, 'Description is required'),
-  department: z.string().min(1, 'Name is required'),
-  location: z.string().min(1, 'Location is required'),
+  description: z.string().optional(),
+  location: z.string().optional(),
+  department: z.string().optional(),
   salary: z.string().optional(),
   qualifications: z.string().optional(),
   skills: z.array(z.string()).optional(),
@@ -33,14 +45,28 @@ const FormSchema = z.object({
   workPlace: z.string().optional(),
   id: z.string().optional(),
 });
-//{ formData, setFormData, setIsEditMode } : { formData?: JobForm, setFormData: Dispatch<SetStateAction<JobForm>>, setIsEditMode: Dispatch<SetStateAction<boolean>> }
+
+// const FormSchema = z.object({
+//   title: z.string().min(1, 'Title is required'),
+//   description: z.string().min(10, 'Description is required'),
+//   location: z.string().min(1, 'Location is required'),
+//   department: z.string().min(1, 'Department is required'),
+//   salary: z.string().optional(),
+//   qualifications: z.string().optional(),
+//   skills: z.array(z.string()).optional(),
+//   employmentType: z.string().optional(),
+//   workPlace: z.string().optional(),
+//   id: z.string().optional(),
+// })
 
 const JobPostForm = () => {
   const { toast } = useToast()
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+  const [selectedDepartment, setSelectedDepartment] = useState<string>('');
+  const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
 
   const form = useForm({
-    resolver: zodResolver(FormSchema),
+    resolver: zodResolver(FormSchemaDraft),
     mode: 'all', // 'onChange' | 'onBlur' | 'onSubmit' | 'onChange' | 'onTouched' | 'all'
     defaultValues: {
       title: '',
@@ -56,7 +82,26 @@ const JobPostForm = () => {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+
+  const openCancelDialog = () => {
+    setIsCancelDialogOpen(true);
+  };
+
+  const closeCancelDialog = () => {
+    setIsCancelDialogOpen(false);
+  };
+
+  const onCancel = () => {
+    // Handle cancel logic here
+    closeCancelDialog();
+  };
+
+    const onCancelAndSaveDraft = async () => {
+      await onSubmit(form.getValues()); // Submit the form data
+      closeCancelDialog();
+    };
+
+  const onSubmit = async (data: z.infer<typeof FormSchemaDraft>) => {
     console.log('Form submitted:', data);
     console.log("Save client function called");
     console.log("Selected :", selectedSkills);
@@ -70,7 +115,7 @@ const JobPostForm = () => {
         body: JSON.stringify({
           title: data.title,
           description: data.description,   
-          department: data.department,
+          department: selectedDepartment,
           location: data.location,
           salary: data.salary,
           qualifications: data.qualifications,
@@ -105,9 +150,9 @@ const JobPostForm = () => {
   };
   return (
     <Form {...form}>
-      <form  onSubmit={form.handleSubmit(onSubmit)}>
+      <form  onSubmit={form.handleSubmit(onSubmit)} className='p-2'>
+        <h2 className='text-2xl font-bold m-4 px-3'>Create job posting</h2>
         <Card className='my-2 p-2 pt-4 md:p-3 lg:p-5'>
-        <CardTitle className='m-4'>Create job posting</CardTitle>
           <FormField
               control={form.control}
               name='title'
@@ -141,10 +186,11 @@ const JobPostForm = () => {
               render={({ field }) => (
                 <FormItem className="flex flex-col items-left mt-4">
                   <Label className="w-1/2 mx-4">Department</Label>
-                    <FormControl className="mb-1 text-sm">
-                      <Input placeholder='Enter company department'                        
-                      {...field} />
-                    </FormControl>
+                  <DepartmentSelect
+                  // selectedDepartment={selectedDepartment}
+                  selectedDepartment={form.getValues('department')}
+                  onChange={(department) => setSelectedDepartment(department)}
+                />
                   <FormMessage />
                 </FormItem>
               )}
@@ -257,10 +303,31 @@ const JobPostForm = () => {
             )}
           />
         </Card>
-        <div className="flex flex-col-reverse md:flex-row justify-between px-4">
+        <div className="flex flex-col md:flex-row-reverse justify-between px-4">
+
           <Button className='my-4 text-md' type='submit'>
-            Save
+            Save draft
           </Button>
+
+          {/* Cancel Dialog */}
+          <AlertDialog>
+            <AlertDialogTrigger><Button className='my-4 text-md' variant='flairnowOutline'>
+            Cancel
+          </Button></AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you sure you want to cancel?</AlertDialogTitle>
+              </AlertDialogHeader>
+              <AlertDialogDescription>
+                Do you want to cancel and discard or cancel and save the draft?
+              </AlertDialogDescription>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction><Link href='/dashboard/recruitment'>Cancel & Discard</Link></AlertDialogAction>
+                <AlertDialogAction onClick={onCancelAndSaveDraft}>Cancel & Save Draft</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </form>
     </Form>

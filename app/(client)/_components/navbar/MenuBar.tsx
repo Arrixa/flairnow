@@ -24,7 +24,7 @@ const MenuBar = () => {
   };
 
   return (
-    <nav className="fixed top-0 right-0 p-2">
+    <nav className="fixed top-0 right-0 p-1 bg-secondary rounded-md">
       {isSearchOpen ? (
         <form onSubmit={handleSearchSubmit} className="flex items-center space-x-2">
           <Input type="search" placeholder="Search FlairNow..." onBlur={closeSearch} autoFocus />
