@@ -62,7 +62,7 @@ const JobCard = ({ jobId }: { jobId: string }) => {
         </CardContent>
         <CardContent>
           <Label>Company department:</Label>
-          <p>{jobData?.department}</p>
+          {jobData?.department}
         </CardContent>
         <CardContent>
           <Label>Job description:</Label>

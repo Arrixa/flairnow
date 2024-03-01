@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/components/ui/card"
-import { Badge } from '@/app/components/ui/badge';
+import { Button } from '@/app/components/ui/button';
 import { Plus, LayoutList, LayoutGrid } from 'lucide-react';
 import { ToggleGroup, ToggleGroupItem } from '@/app/components/ui/toggle-group'
 import { capitaliseFirstLetter } from "@/lib/capitiliseFirstLetter";
@@ -16,21 +16,18 @@ import JobsGridComp from '../../_components/jobs/jobsGrid/JobsGrid';
 async function getData() {
   try {
     // Fetch all job data from API endpoint
-    const response = await fetch('http://localhost:3000/api/recruitment/job-posting');
+    const response = await fetch('/api/recruitment/job-posting');
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     } 
     // Read the response body as text
     const responseBody = await response.text();
-
     // Check if the body is empty
     if (!responseBody) {
       throw new Error('Empty response received');
     }
-
     // Parse the response body as JSON
     const data = JSON.parse(responseBody);
-
     // Continue processing the data
     return data;
   } catch (error) {
@@ -38,7 +35,7 @@ async function getData() {
   }
 };
 
- 
+
 const Page = async () => {
   const jobsData = await getData();
   console.log(jobsData, 'Jobs fetched values');
@@ -75,6 +72,9 @@ const Page = async () => {
               <JobsGridComp key={job.id} job={job} />   
             </Link>
           ))}
+          <div>
+           
+          </div>
         </div>
     </main>
   )

@@ -1,8 +1,8 @@
 'use client'
 import { useState } from 'react';
 import { Search } from 'lucide-react';
-import NotificationDrawer from './NotificationDrawer';
-import HelpDrawer from './HelpDrawer';
+// import NotificationDrawer from './NotificationDrawer';
+// import HelpDrawer from './HelpDrawer';
 import { Button } from "@/app/components/ui/button"
 import { Input } from "@/app/components/ui/input"
 
@@ -33,8 +33,6 @@ const MenuBar = () => {
       ) : (
         <div className="flex items-center space-x-2">
           <Button variant='link' onClick={openSearch}><Search size={24} /></Button>
-          <Button variant='link'><NotificationDrawer /></Button>
-          <Button variant='link'><HelpDrawer /></Button>
         </div>
       )}
     </nav>
@@ -42,3 +40,6 @@ const MenuBar = () => {
 };
 
 export default MenuBar;
+
+          /*<Button variant='link'><NotificationDrawer /></Button> */
+          /*<Button variant='link'><HelpDrawer /></Button> */
