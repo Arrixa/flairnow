@@ -32,6 +32,92 @@ enum PostStatus {
   RECRUITMENT
 }
 
+enum Department {
+  INFORMATION_TECHNOLOGY
+  HUMAN_RESOURCES
+  CONSULTING
+  MARKETING
+  SALES
+  FINANCE_AND_ACCOUNTING
+  UNSPECIFIED
+  // ADMINISTRATION
+  // OPERATIONS_AND_SUPPLY_CHAIN
+  // CUSTOMER_SERVICE
+  // ENGINEERING
+  // DESIGN
+  // PRODUCT
+  // RESEARCH_AND_DEVELOPMENT
+  // EDUCATION
+  // PUBLIC_RELATIONS
+  // QUALITY_ASSURANCE
+  // MANAGEMENT
+  // LEGAL_AND_COMPLIANCE
+  // ENVIRONMENTAL_HEALTH_AND_SAFETY
+}
+
+enum JobLevels {
+  ITJobLevel
+  HRJobLevel
+  ConsultingJobLevel
+  MarketingJobLevel
+  SalesJobLevel
+  FinanceJobLevel
+}
+
+enum ITJobLevel {
+  SDE1
+  SDE2
+  SDE3
+  TechLead
+  EngineeringManager
+  DirectorOfEngineering
+  CTO
+}
+
+enum HRJobLevel {
+  HRAssistant
+  HRCoordinator
+  HRGeneralist
+  HRManager
+  DirectorOfHR
+  CHRO
+}
+
+enum ConsultingJobLevel {
+  Analyst
+  JuniorConsultant
+  AssociateConsultant
+  SeniorConsultant
+  ConsultingManager
+  DirectorOfConsulting
+  Partner
+}
+
+enum MarketingJobLevel {
+  MarketingCoordinator
+  MarketingSpecialist
+  MarketingManager
+  DirectorOfMarketing
+  CMO
+}
+
+enum SalesJobLevel {
+  SalesRepresentative
+  AccountExecutive
+  SalesManager
+  DirectorOfSales
+  VPofSales
+  CRO
+}
+
+enum FinanceJobLevel {
+  FinanceAssistant
+  FinancialAnalyst
+  FinanceManager
+  DirectorOfFinance
+  CFO
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -123,12 +209,13 @@ model JobPosting {
   description       String?
   location          String?
   salary            String?
-  qualifications    String?
+  PositionsNumber   Int?
   skills            String[]
   employmentType    String?
   workPlace         String?
   workHours         String?
   department        String?
+  // department        Department
   company           Client @relation(fields: [clientId], references: [id])
   clientId          String
   postedBy          User @relation(fields: [postedById], references: [id])
@@ -138,6 +225,13 @@ model JobPosting {
   status            PostStatus
   publishInternal   DateTime?
   publishExternal   DateTime?
+  experienceMin     Int?
+  experienceMax     Int?
+  jobLevel          String?
+  startDate         DateTime?
+  contractDuration  String?
+  dueDate           DateTime?
+  closingDate       DateTime?
   // session           Session[]
   // recruiters        User @relation(fields: [recruiterId], references: [id])
   // recruiterId       String
