@@ -12,11 +12,12 @@ import { Plus, LayoutList, LayoutGrid } from 'lucide-react';
 import { ToggleGroup, ToggleGroupItem } from '@/app/components/ui/toggle-group'
 import { capitaliseFirstLetter } from "@/lib/capitiliseFirstLetter";
 import JobsGridComp from '../../_components/jobs/jobsGrid/JobsGrid';
+import { Badge } from '@/app/components/ui/badge';
 
 async function getData() {
   try {
     // Fetch all job data from API endpoint
-    const response = await fetch('/api/recruitment/job-posting');
+    const response = await fetch(`${process.env.NEXTAUTH_URL}/api/recruitment/job-posting`);
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     } 
@@ -69,6 +70,7 @@ const Page = async () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-2">
           {jobsData?.map((job: any) => (
             <Link key={job.id} href={`/dashboard/recruitment/jobs/${job.id}`}>
+              
               <JobsGridComp key={job.id} job={job} />   
             </Link>
           ))}
@@ -82,7 +84,8 @@ const Page = async () => {
 
 export default Page;
 
-              {/* <Card className='h-auto'>
+              {/* 
+            <Card className='h-auto'>
                 <CardHeader>
                   <CardTitle>{job?.title}</CardTitle>      
                   <CardDescription><Badge variant="outline" className='py-1'>{job?.status}</Badge></CardDescription>
@@ -92,4 +95,5 @@ export default Page;
                   <p>{job?.location}</p>
                   <p>{capitaliseFirstLetter(job?.workPlace)}</p>
                 </CardContent>
-              </Card> */}
+              </Card>
+            */}

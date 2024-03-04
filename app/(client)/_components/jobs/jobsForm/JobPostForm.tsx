@@ -18,20 +18,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/app/components/ui/select"
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/app/components/ui/alert-dialog";
+
 import { JobForm } from '@/lib/interfaces';
 import DepartmentSelect from './DepartmentSelect';
-import Link from 'next/link';
+import CancelDialog from './CancelDialog';
+import { DateSelect } from './DateSelect';
 
 const FormSchemaDraft = z.object({
   title: z.string().min(1, 'Title is required'),
@@ -39,11 +30,17 @@ const FormSchemaDraft = z.object({
   location: z.string().optional(),
   department: z.string().optional(),
   salary: z.string().optional(),
-  qualifications: z.string().optional(),
   skills: z.array(z.string()).optional(),
   employmentType: z.string().optional(),
   workPlace: z.string().optional(),
+  positionsNumber: z.string().optional(),
+  experience: z.string().optional(),
+  jobLevel: z.string().optional(),
   id: z.string().optional(),
+  startDate: z.string().optional(),
+  endDate: z.string().optional(),
+  closingDate: z.string().optional(),
+  dueDate: z.string().optional(),
 });
 
 // const FormSchema = z.object({
@@ -63,7 +60,11 @@ const JobPostForm = () => {
   const { toast } = useToast()
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
   const [selectedDepartment, setSelectedDepartment] = useState<string>('');
-  const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
+  const [selectedEmploymentType, setSelectedEmploymentType] = useState<string>('');
+  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
+  const [closingDate, setClosingDate] = useState<Date | undefined>(undefined);
+  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+  const [dueDate, setDueDate] = useState<Date | undefined>(undefined);
 
   const form = useForm({
     resolver: zodResolver(FormSchemaDraft),
@@ -74,31 +75,22 @@ const JobPostForm = () => {
       department: '',
       location: '',
       salary: '',
-      qualifications: '',
       skills: [''],
       employmentType: '',
       workPlace: '',
+      positionsNumber: '',
+      experience: '',
+      jobLevel: '',
       id: '',
+      startDate: '',
+      endDate: '',
+      closingDate: '',
+      dueDate: '', 
     },
   });
 
-
-  const openCancelDialog = () => {
-    setIsCancelDialogOpen(true);
-  };
-
-  const closeCancelDialog = () => {
-    setIsCancelDialogOpen(false);
-  };
-
-  const onCancel = () => {
-    // Handle cancel logic here
-    closeCancelDialog();
-  };
-
     const onCancelAndSaveDraft = async () => {
       await onSubmit(form.getValues()); // Submit the form data
-      closeCancelDialog();
     };
 
   const onSubmit = async (data: z.infer<typeof FormSchemaDraft>) => {
@@ -118,10 +110,16 @@ const JobPostForm = () => {
           department: selectedDepartment,
           location: data.location,
           salary: data.salary,
-          qualifications: data.qualifications,
+          positionsNumber: data.positionsNumber,
           skills: selectedSkills,
           employmentType: data.employmentType,
           workPlace: data.workPlace,
+          experience: data.experience,
+          jobLevel: data.jobLevel,
+          startDate: startDate,
+          endDate: endDate,
+          closingDate: closingDate,
+          dueDate: dueDate,
         })
       })
         if (response.ok) {
@@ -215,7 +213,12 @@ const JobPostForm = () => {
             render={({ field }) => (
               <FormItem className="flex flex-col items-left mt-4">
                 <Label className="w-1/2 mx-4">Employment type</Label>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select 
+                  onValueChange={(value) => {
+                    field.onChange(value);
+                    setSelectedEmploymentType(value);
+                  }}
+                  defaultValue={field.value}>
                   <FormControl className='w-full'>
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select work place" />
@@ -257,14 +260,71 @@ const JobPostForm = () => {
           />
           <FormField
             control={form.control}
-            name='qualifications'
+            name='positionsNumber'
             render={({ field }) => (
               <FormItem className="flex flex-col items-left mt-4">
-                <Label className="w-1/2 mx-4">Qualifications</Label>
-                <FormControl>
-                <Input placeholder='Enter job qualifications'
-                  {...field} />
-                </FormControl>
+                <Label className="w-1/2 mx-4">Number of positions</Label>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select number of positions" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent >
+                    <SelectItem value="1">1</SelectItem>
+                    <SelectItem value="2">2</SelectItem>
+                    <SelectItem value="3">3</SelectItem>
+                    <SelectItem value="4">4</SelectItem>
+                    <SelectItem value="5">5</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='experience'
+            render={({ field }) => (
+              <FormItem className="flex flex-col items-left mt-4">
+                <Label className="w-1/2 mx-4">Years of experience</Label>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select years of experience" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent >
+                    <SelectItem value="0–3">0–3</SelectItem>
+                    <SelectItem value="3–5">3–5</SelectItem>
+                    <SelectItem value="5–8">5–8</SelectItem>
+                    <SelectItem value="8">8+</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='jobLevel'
+            render={({ field }) => (
+              <FormItem className="flex flex-col items-left mt-4">
+                <Label className="w-1/2 mx-4">Position level</Label>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select position level" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent >
+                    <SelectItem value="junior">Junior</SelectItem>
+                    <SelectItem value="associate">Associate</SelectItem>
+                    <SelectItem value="senior">Senior</SelectItem>
+                    <SelectItem value="lead">Lead</SelectItem>
+                    <SelectItem value="manager">Manager</SelectItem>
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
@@ -302,32 +362,86 @@ const JobPostForm = () => {
               </FormItem>
             )}
           />
+          <FormField
+          control={form.control}
+          name='startDate'
+          render={({ field }) => (
+            <FormItem className="flex flex-col items-left mt-4">
+              <Label className="w-1/2 mx-4">Select start date</Label>
+              <FormControl>
+              <DateSelect
+                label="Pick a start date"
+                selectedDate={startDate}
+                onSelectDate={(date) => setStartDate(date)} 
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+          />
+          {selectedEmploymentType === 'contract' || selectedEmploymentType === 'fixedterm' ? (
+            <FormField
+              control={form.control}
+              name='endDate'
+              render={({ field }) => (
+                <FormItem className="flex flex-col items-left mt-4">
+                  <Label className="w-1/2 mx-4">End date of contract</Label>
+                  <FormControl>
+                  <DateSelect
+                    label="Pick an end date"
+                    selectedDate={endDate}
+                    onSelectDate={(date) => setEndDate(date)} 
+                  />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ) : null}
+            
+        </Card>
+        <Card className='my-2 p-2 pt-4 md:p-3 lg:p-5'>
+          <FormField
+            control={form.control}
+            name='closingDate'
+            render={({ field }) => (
+              <FormItem className="flex flex-col items-left mt-4">
+                <Label className="w-1/2 mx-4">Select an aplication closing date</Label>
+                <FormControl>
+                <DateSelect
+                  label="Pick a closing date"
+                  selectedDate={closingDate}
+                  onSelectDate={(date) => setClosingDate(date)} 
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='dueDate'
+            render={({ field }) => (
+              <FormItem className="flex flex-col items-left mt-4">
+                <Label className="w-1/2 mx-4">Select a recruitment due date</Label>
+                <FormControl>
+                <DateSelect
+                  label="Pick a due date"
+                  selectedDate={dueDate}
+                  onSelectDate={(date) => setDueDate(date)} 
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </Card>
         <div className="flex flex-col md:flex-row-reverse justify-between px-4">
 
           <Button className='my-4 text-md' type='submit'>
             Save draft
           </Button>
-
-          {/* Cancel Dialog */}
-          <AlertDialog>
-            <AlertDialogTrigger><Button className='my-4 text-md' variant='flairnowOutline'>
-            Cancel
-          </Button></AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Are you sure you want to cancel?</AlertDialogTitle>
-              </AlertDialogHeader>
-              <AlertDialogDescription>
-                Do you want to cancel and discard or cancel and save the draft?
-              </AlertDialogDescription>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction><Link href='/dashboard/recruitment'>Cancel & Discard</Link></AlertDialogAction>
-                <AlertDialogAction onClick={onCancelAndSaveDraft}>Cancel & Save Draft</AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+          <CancelDialog onCancelAndSaveDraft={onCancelAndSaveDraft}/>         
         </div>
       </form>
     </Form>
