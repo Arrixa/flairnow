@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/app
 import { Label } from '@/app/components/ui/label'
 import { JobCardProps } from '@/lib/interfaces'
 import { useEffect, useState } from 'react';
-
+import { Skeleton } from '@/app/components/ui/skeleton';
 
 //{ formData, setIsEditMode } : { formData?: JobForm, setIsEditMode: React.Dispatch<React.SetStateAction<boolean>> }
 
@@ -47,6 +47,7 @@ const JobCard = ({ jobId }: { jobId: string }) => {
           <CardDescription>{jobData?.location}</CardDescription>
         </CardHeader>
       </Card>
+      {jobData ? (
       <Card className='py-4 mt-2'>
         <CardContent>
           <Label>Job title:</Label>
@@ -89,6 +90,14 @@ const JobCard = ({ jobId }: { jobId: string }) => {
           <p>{jobData?.salary}</p>
         </CardContent>
       </Card>
+      ) : (
+        <Card className=" flex items-center justify-center flex-col bg-background">
+          <CardTitle className="text-4xl py-6 text-center">Loading...</CardTitle>
+          <CardContent>
+            <Skeleton className="w-[200px] h-[40px] rounded-full my-10" />
+          </CardContent>
+        </Card>
+      )}
     </section>
   )
 }

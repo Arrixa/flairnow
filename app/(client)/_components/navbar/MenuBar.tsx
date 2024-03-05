@@ -30,7 +30,7 @@ const MenuBar = () => {
           <Input type="search" placeholder="Search FlairNow..." onBlur={closeSearch} autoFocus />
           <Button variant='link' type="submit"><Search size={24} /></Button>
         </form>
-      ) : (
+        ) : (
         <div className="flex items-center space-x-2">
           <Button variant='link' onClick={openSearch}><Search size={24} /></Button>
         </div>
