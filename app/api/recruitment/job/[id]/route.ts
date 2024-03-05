@@ -44,7 +44,7 @@ async function getJobData(jobId: string) {
     department: job.department,
     location: job.location,
     salary: job.salary,
-    qualifications: job.qualifications,
+    jobLevel: job.jobLevel,
     employmentType: job.employmentType,
     workPlace: job.workPlace,
     postedBy: job.postedBy,
@@ -52,5 +52,14 @@ async function getJobData(jobId: string) {
     status: job.status,
     skills: job.skills,
     company: job.company,
+    positionsNumber: job.positionsNumber,
+    createdAt: job.createdAt,
+    updatedAt: job.updatedAt,
+    experienceMin: job.experienceMin,
+    experienceMax: job.experienceMax,
+    startDate: job.startDate,
+    endDate: job.endDate,
+    dueDate: job.dueDate,
+    closingDate: job.closingDate,
   };
 }

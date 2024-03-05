@@ -57,7 +57,6 @@
 //             department: res.department,
 //             location: res.location,
 //             salary: res.salary,
-//             qualifications: res.qualifications,
 //             skills: selectedSkills,
 //             employmentType: res.employmentType,
 //             workPlace: res.workPlace,

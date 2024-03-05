@@ -284,7 +284,6 @@ export interface JobForm {
   location: string;
   employmentType: string;
   workPlace: string;
-  qualifications: string;
   skills: string[];
   salary: string;
   id: string;
@@ -297,7 +296,6 @@ export interface JobCardProps {
   location: string;
   employmentType: string;
   workPlace: string;
-  qualifications: string;
   skills: string[];
   salary: string;
   id: string;
@@ -306,6 +304,16 @@ export interface JobCardProps {
   jobId: string;
   workHours: string;
   status: string[];
+  positionsNumber: string;
+  jobLevel: string;
+  createdAt: Date;
+  updatedAt: Date;
+  experienceMin: string,
+  experienceMax: string,
+  startDate: Date;
+  endDate: Date;
+  dueDate: Date;
+  closingDate: Date;
 }
 
 export interface JobsGridProps {

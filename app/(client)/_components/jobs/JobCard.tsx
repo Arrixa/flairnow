@@ -77,8 +77,8 @@ const JobCard = ({ jobId }: { jobId: string }) => {
           <p>{jobData?.workPlace}</p>
         </CardContent>
         <CardContent>
-          <Label>Required qualifications:</Label>
-          <p>{jobData?.qualifications}</p>
+          <Label>Expected job level:</Label>
+          <p>{jobData?.jobLevel}</p>
         </CardContent>
         <CardContent>
           <Label>Required skills:</Label>

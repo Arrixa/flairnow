@@ -50,7 +50,6 @@ const FormSchemaDraft = z.object({
 //   location: z.string().min(1, 'Location is required'),
 //   department: z.string().min(1, 'Department is required'),
 //   salary: z.string().optional(),
-//   qualifications: z.string().optional(),
 //   skills: z.array(z.string()).optional(),
 //   employmentType: z.string().optional(),
 //   workPlace: z.string().optional(),

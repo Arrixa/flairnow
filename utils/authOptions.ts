@@ -132,7 +132,6 @@ export const authOptions: NextAuthOptions = {
             //   description: dbJobs?.description,
             //   location: dbJobs?.location,
             //   salary: dbJobs?.salary,
-            //   qualifications: dbJobs?.qualifications,
             //   employmentType: dbJobs?.employmentType,
             //   workPlace: dbJobs?.workPlace,
             //   status: dbJobs?.status,
