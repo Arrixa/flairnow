@@ -13,6 +13,16 @@ export enum Role {
   UNASSIGNED = 'UNASSIGNED'
 }
 
+export enum Department {
+  INFORMATION_TECHNOLOGY = 'INFORMATION_TECHNOLOGY',
+  HUMAN_RESOURCES = 'HUMAN_RESOURCES',
+  CONSULTING = 'CONSULTING',
+  MARKETING = 'MARKETING',
+  SALES = 'SALES',
+  FINANCE_AND_ACCOUNTING = 'FINANCE_AND_ACCOUNTING',
+  UNSPECIFIED = 'UNSPECIFIED'
+}
+
 export interface Account {
   id: string;
   userId: string;

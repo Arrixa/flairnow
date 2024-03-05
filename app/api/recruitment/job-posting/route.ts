@@ -2,6 +2,7 @@ import { JobCardProps } from "@/lib/interfaces";
 import prisma from "@/lib/prisma";
 import { authOptions } from "@/utils/authOptions";
 import { getServerSession } from "next-auth";
+import { Department } from "@/lib/interfaces";
 import { NextResponse } from "next/server";
  
 // FTM-15
@@ -32,14 +33,36 @@ export async function POST(req: Request) {
     //     });
     //     return NextResponse.json({ updateJob, message: "Job posting updated successfully" }, { status: 202 });
     // }
-    // } else {
-      const createJob = await prisma.jobPosting.create({
+    // } else {}
+    let department = '';
+    
+    if (department.length === 0) {
+      // If department is not assigned, assume some default role
+      department = Department.UNSPECIFIED;
+    } else {
+      department = reqBody.department;
+    }
+    const { experience, ...jobPost } = reqBody;
+
+    const experienceRegex = /(\d+)–?(\d+)?/;
+    const match = experience.match(experienceRegex);
+    const experienceMin = parseInt(match[1], 10);
+    const experienceMax = match[2] ? parseInt(match[2], 10) : null;
+    console.log("Experience Min:", experienceMin);
+    console.log("Experience Max:", experienceMax);
+
+    
+    const createJob = await prisma.jobPosting.create({
         data: {
           status: "DRAFT",
           company: { connect: { id: clientId } },
           postedBy: { connect: { id: userId } },
-          ...reqBody
+          department: department,
+          experienceMin: experienceMin,
+          experienceMax: experienceMax,
+          ...jobPost
         },
+        
       });
       return NextResponse.json({ createJob, message: "Job posting created successfully"}, { status: 202 })
     // }

@@ -10,6 +10,7 @@ import { useState } from "react";
 import { Label } from '@/app/components/ui/label';
 import { Card, CardTitle } from '@/app/components/ui/card';
 import Tiptap from './Tiptap';
+import { useRouter } from 'next/navigation';
 import SkillSelect from './SkillSelect';
 import {
   Select,
@@ -33,7 +34,7 @@ const FormSchemaDraft = z.object({
   skills: z.array(z.string()).optional(),
   employmentType: z.string().optional(),
   workPlace: z.string().optional(),
-  positionsNumber: z.string().optional(),
+  positionsNumber: z.number().optional(),
   experience: z.string().optional(),
   jobLevel: z.string().optional(),
   id: z.string().optional(),
@@ -57,6 +58,7 @@ const FormSchemaDraft = z.object({
 // })
 
 const JobPostForm = () => {
+  const router = useRouter();
   const { toast } = useToast()
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
   const [selectedDepartment, setSelectedDepartment] = useState<string>('');
@@ -78,7 +80,7 @@ const JobPostForm = () => {
       skills: [''],
       employmentType: '',
       workPlace: '',
-      positionsNumber: '',
+      positionsNumber: 0,
       experience: '',
       jobLevel: '',
       id: '',
@@ -129,6 +131,7 @@ const JobPostForm = () => {
           const res = await response.json();
           // setFormData(res);
           console.log(res, 'response data from form save');
+          router.push('dashboard/recruitment')
         } else {
           toast({
             variant: "destructive",
@@ -264,7 +267,7 @@ const JobPostForm = () => {
             render={({ field }) => (
               <FormItem className="flex flex-col items-left mt-4">
                 <Label className="w-1/2 mx-4">Number of positions</Label>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select onValueChange={field.onChange} defaultValue={field.value.toString()}>
                   <FormControl>
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select number of positions" />

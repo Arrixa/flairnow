@@ -209,7 +209,7 @@ model JobPosting {
   description       String?
   location          String?
   salary            String?
-  PositionsNumber   Int?
+  positionsNumber   String?
   skills            String[]
   employmentType    String?
   workPlace         String?
@@ -229,7 +229,7 @@ model JobPosting {
   experienceMax     Int?
   jobLevel          String?
   startDate         DateTime?
-  contractDuration  String?
+  endDate           DateTime?
   dueDate           DateTime?
   closingDate       DateTime?
   // session           Session[]
