@@ -55,69 +55,6 @@ enum Department {
   // ENVIRONMENTAL_HEALTH_AND_SAFETY
 }
 
-enum JobLevels {
-  ITJobLevel
-  HRJobLevel
-  ConsultingJobLevel
-  MarketingJobLevel
-  SalesJobLevel
-  FinanceJobLevel
-}
-
-enum ITJobLevel {
-  SDE1
-  SDE2
-  SDE3
-  TechLead
-  EngineeringManager
-  DirectorOfEngineering
-  CTO
-}
-
-enum HRJobLevel {
-  HRAssistant
-  HRCoordinator
-  HRGeneralist
-  HRManager
-  DirectorOfHR
-  CHRO
-}
-
-enum ConsultingJobLevel {
-  Analyst
-  JuniorConsultant
-  AssociateConsultant
-  SeniorConsultant
-  ConsultingManager
-  DirectorOfConsulting
-  Partner
-}
-
-enum MarketingJobLevel {
-  MarketingCoordinator
-  MarketingSpecialist
-  MarketingManager
-  DirectorOfMarketing
-  CMO
-}
-
-enum SalesJobLevel {
-  SalesRepresentative
-  AccountExecutive
-  SalesManager
-  DirectorOfSales
-  VPofSales
-  CRO
-}
-
-enum FinanceJobLevel {
-  FinanceAssistant
-  FinancialAnalyst
-  FinanceManager
-  DirectorOfFinance
-  CFO
-}
-
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -150,7 +87,6 @@ model Session {
   clientUser        ClientUser   @relation(fields: [clientUserId], references: [id])
   // jobPostings       JobPosting   @relation(fields: [jobPostingId], references: [id])
 }
-
 
 model VerificationToken {
   identifier        String
@@ -237,4 +173,130 @@ model JobPosting {
   // recruiterId       String
   // hiringManager     User @relation(fields: [hiringManagerId], references: [id])
   // hiringManagerId   String
+}
+
+model Finance {
+  id                String  @id @default(cuid())  
+  departmentName    String
+  client            Client @relation(fields: [clientId], references: [id])
+  clientId          String 
+  jobLevel          FinanceJobLevel @relation(fields: [jobLevelId], references: [id])
+  jobLevelId        String
+}
+
+model FinanceJobLevel {
+  id                String  @id @default(cuid())
+  department        Finance @relation(fields: [departmentId], references: [id])
+  departmentId      String
+  FinanceAssistant
+  FinancialAnalyst
+  FinanceManager
+  DirectorOfFinance
+  CFO
+}
+
+model Sales {
+  id                String  @id @default(cuid())  
+  departmentName    String
+  client            Client @relation(fields: [clientId], references: [id])
+  clientId          String 
+  jobLevel          SalesJobLevel @relation(fields: [jobLevelId], references: [id])
+  jobLevelId        String
+}
+
+enum SalesJobLevel {
+  id                String  @id @default(cuid())
+  department        Sales @relation(fields: [departmentId], references: [id])
+  departmentId      String
+  SalesRepresentative
+  AccountExecutive
+  SalesManager
+  DirectorOfSales
+  VPofSales
+  CRO
+}
+
+model Marketing {
+  id                String  @id @default(cuid())  
+  departmentName    String
+  client            Client @relation(fields: [clientId], references: [id])
+  clientId          String 
+  jobLevel          MarketingJobLevel @relation(fields: [jobLevelId], references: [id])
+  jobLevelId        String
+}
+
+model MarketingJobLevel {
+  id                String  @id @default(cuid())
+  department        Marketing @relation(fields: [departmentId], references: [id])
+  departmentId      String
+  MarketingCoordinator
+  MarketingSpecialist
+  MarketingManager
+  DirectorOfMarketing
+  CMO
+}
+
+model Consulting {
+  id                String  @id @default(cuid())  
+  departmentName    String
+  client            Client @relation(fields: [clientId], references: [id])
+  clientId          String 
+  jobLevel          ConsultingJobLevel @relation(fields: [jobLevelId], references: [id])
+  jobLevelId        String
+}
+
+model ConsultingJobLevel {
+  id                String  @id @default(cuid())
+  department        Consulting @relation(fields: [departmentId], references: [id])
+  departmentId      String
+  Analyst
+  JuniorConsultant
+  AssociateConsultant
+  SeniorConsultant
+  ConsultingManager
+  DirectorOfConsulting
+  Partner
+}
+
+model HumanResources {
+  id                String  @id @default(cuid())  
+  departmentName    String
+  client            Client @relation(fields: [clientId], references: [id])
+  clientId          String 
+  jobLevel          HRJobLevel @relation(fields: [jobLevelId], references: [id])
+  jobLevelId        String
+}
+
+model HRJobLevel {
+  id                String  @id @default(cuid())
+  department        HumanResources @relation(fields: [departmentId], references: [id])
+  departmentId      String
+  HRAssistant
+  HRCoordinator
+  HRGeneralist
+  HRManager
+  DirectorOfHR
+  CHRO
+}
+
+model InformationTechnology {
+  id                String  @id @default(cuid())  
+  departmentName    String
+  client            Client @relation(fields: [clientId], references: [id])
+  clientId          String 
+  jobLevel          ITJobLevel @relation(fields: [jobLevelId], references: [id])
+  jobLevelId        String
+}
+
+model ITJobLevel {
+  id                String  @id @default(cuid())
+  department        InformationTechnology @relation(fields: [departmentId], references: [id])
+  departmentId      String
+  SDE1              String
+  SDE2              String
+  SDE3              String
+  TechLead              String
+  EngineeringManager    String
+  DirectorOfEngineering String
+  CTO
 }

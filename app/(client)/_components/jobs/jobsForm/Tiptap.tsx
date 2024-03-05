@@ -5,6 +5,8 @@ import StarterKit from '@tiptap/starter-kit';
 import Toolbar from './Toolbar';
 // import Heading from '@tiptap/extension-heading';
 
+// FTM-15 3. Rich text editing
+
 const Tiptap = ({
   description,
   onChange,

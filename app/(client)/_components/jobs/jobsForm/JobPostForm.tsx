@@ -19,11 +19,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/app/components/ui/select"
-
 import { JobForm } from '@/lib/interfaces';
 import DepartmentSelect from './DepartmentSelect';
 import CancelDialog from './CancelDialog';
 import { DateSelect } from './DateSelect';
+
+// FTM-15 1. Job post creation
 
 const FormSchemaDraft = z.object({
   title: z.string().min(1, 'Title is required'),
@@ -195,6 +196,7 @@ const JobPostForm = () => {
                 </FormItem>
               )}
             />
+            {/* FTM-15 7. Location & remote work */}
           <FormField
             control={form.control}
             name='location'
@@ -238,6 +240,7 @@ const JobPostForm = () => {
               </FormItem>
             )}
           />
+          {/* FTM-15 7. Location & remote work */}
           <FormField
             control={form.control}
             name='workPlace'
@@ -420,7 +423,8 @@ const JobPostForm = () => {
               </FormItem>
             )}
           />
-          <FormField
+          {/* FTM-15 / FTM-22 1. Due date set */}  
+          <FormField 
             control={form.control}
             name='dueDate'
             render={({ field }) => (

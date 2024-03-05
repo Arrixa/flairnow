@@ -12,7 +12,10 @@ import {
 import { Button } from "@/app/components/ui/button"
 import { Filter } from 'lucide-react';
 
+// FTM-15 / FTM-23 Filter jobs
+
 const JobFilterDrawer = () => {
+  // FTM-15 / FTM-23 1. Drawer with filter options
   return (
     <Drawer>
       <DrawerTrigger>
