@@ -1,7 +1,7 @@
 // schema.prisma
 
 generator client {
-  provider = "prisma-client-js" 
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-arm64-openssl-3.0.x", "linux-musl-arm64-openssl-3.0.x"]
 }
 
@@ -75,228 +75,229 @@ model Account {
 }
 
 model Session {
-  id                String       @id @default(cuid())
-  sessionToken      String       @unique
-  userId            String
-  clientId          String
-  clientUserId      String
+  id           String     @id @default(cuid())
+  sessionToken String     @unique
+  userId       String
+  clientId     String
+  clientUserId String
   // jobPostingId      String
-  expires           DateTime
-  user              User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  client            Client       @relation(fields: [clientId], references: [id])
-  clientUser        ClientUser   @relation(fields: [clientUserId], references: [id])
+  expires      DateTime
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  client       Client     @relation(fields: [clientId], references: [id])
+  clientUser   ClientUser @relation(fields: [clientUserId], references: [id])
   // jobPostings       JobPosting   @relation(fields: [jobPostingId], references: [id])
 }
 
 model VerificationToken {
-  identifier        String
-  token             String      @unique
-  expires           DateTime
+  identifier String
+  token      String   @unique
+  expires    DateTime
 
   @@unique([identifier, token])
 }
+
 model User {
-  id                String      @id @default(cuid())
-  firstName         String?
-  lastName          String?
-  email             String      @unique
-  emailVerified     DateTime?
-  password          String?
-  image             String?
-  userDomain        String?
-  accounts          Account[]
-  sessions          Session[]
-  client            ClientUser[]
-  jobPostings       JobPosting[]
+  id            String       @id @default(cuid())
+  firstName     String?
+  lastName      String?
+  email         String       @unique
+  emailVerified DateTime?
+  password      String?
+  image         String?
+  userDomain    String?
+  accounts      Account[]
+  sessions      Session[]
+  client        ClientUser[]
+  jobPostings   JobPosting[]
 }
 
-model Client {  
-  id                String    @id @default(cuid())
-  domain            String    @unique
-  companyName       String?
-  logo              String? 
-  website           String?
-  description       String?
-  countryCode       String?
-  phoneNumber       String?
-  streetNo          String?
-  streetAddress     String?
-  province          String?
-  zipCode           String?
-  country           String?
-  user              ClientUser[]
-  jobPostings       JobPosting[]
-  sessions          Session[]
-} 
+model Client {
+  id                    String                  @id @default(cuid())
+  domain                String                  @unique
+  companyName           String?
+  logo                  String?
+  website               String?
+  description           String?
+  countryCode           String?
+  phoneNumber           String?
+  streetNo              String?
+  streetAddress         String?
+  province              String?
+  zipCode               String?
+  country               String?
+  user                  ClientUser[]
+  jobPostings           JobPosting[]
+  sessions              Session[]
+  Finance               Finance[]
+  Sales                 Sales[]
+  Marketing             Marketing[]
+  Consulting            Consulting[]
+  HumanResources        HumanResources[]
+  InformationTechnology InformationTechnology[]
+}
 
 model ClientUser {
-  id                String @id @default(cuid())
-  client            Client @relation(fields: [clientId], references: [id])
-  clientId          String 
-  user              User @relation(fields: [userId], references: [id])
-  userId            String @unique
-  role              Role[]
-  sessions          Session[]
+  id                    String    @id @default(cuid())
+  client                Client    @relation(fields: [clientId], references: [id])
+  clientId              String
+  user                  User      @relation(fields: [userId], references: [id])
+  userId                String    @unique
+  role                  Role[]
+  sessions              Session[]
 }
 
-model JobPosting {
-  id                String @id @default(cuid())
-  title             String
-  description       String?
-  location          String?
-  salary            String?
-  positionsNumber   String?
-  skills            String[]
-  employmentType    String?
-  workPlace         String?
-  workHours         String?
-  department        String?
-  // department        Department
-  company           Client @relation(fields: [clientId], references: [id])
-  clientId          String
-  postedBy          User @relation(fields: [postedById], references: [id])
-  postedById        String
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  status            PostStatus
-  publishInternal   DateTime?
-  publishExternal   DateTime?
-  experienceMin     Int?
-  experienceMax     Int?
-  jobLevel          String?
-  startDate         DateTime?
-  endDate           DateTime?
-  dueDate           DateTime?
-  closingDate       DateTime?
-  // session           Session[]
-  // recruiters        User @relation(fields: [recruiterId], references: [id])
-  // recruiterId       String
-  // hiringManager     User @relation(fields: [hiringManagerId], references: [id])
-  // hiringManagerId   String
-}
+model JobPosting {      
+  id                    String     @id @default(cuid())
+  title                 String
+  description           String?
+  location              String?
+  salary                String?
+  positionsNumber       String?
+  skills                String[]
+  employmentType        String?
+  workPlace             String?
+  workHours             String?
+  department            String?
+  // department              Department
+  company               Client     @relation(fields: [clientId], references: [id])
+  clientId              String
+  postedBy              User       @relation(fields: [postedById], references: [id])
+  postedById            String
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime   @updatedAt
+  status                PostStatus
+  publishInternal       DateTime?
+  publishExternal       DateTime?
+  experienceMin         Int?
+  experienceMax         Int?
+  jobLevel              String?
+  startDate             DateTime?
+  endDate               DateTime?
+  dueDate               DateTime?
+  closingDate           DateTime?
+  // session            Session[]
+  // recruiters         User @relation(fields: [recruiterId], references: [id])
+  // recruiterId        String
+  // hiringManager      User @relation(fields: [hiringManagerId], references: [id])
+  // hiringManagerId    String
+}     
 
 model Finance {
-  id                String  @id @default(cuid())  
-  departmentName    String
-  client            Client @relation(fields: [clientId], references: [id])
-  clientId          String 
-  jobLevel          FinanceJobLevel @relation(fields: [jobLevelId], references: [id])
-  jobLevelId        String
+  id                    String          @id @default(cuid())
+  departmentName        String
+  client                Client          @relation(fields: [clientId], references: [id])
+  clientId              String
+  jobLevel              FinanceJobLevel @relation(fields: [jobLevelId], references: [id])
+  jobLevelId            String
 }
 
 model FinanceJobLevel {
-  id                String  @id @default(cuid())
-  department        Finance @relation(fields: [departmentId], references: [id])
-  departmentId      String
-  FinanceAssistant
-  FinancialAnalyst
-  FinanceManager
-  DirectorOfFinance
-  CFO
+  id                  String    @id @default(cuid())
+  FinanceAssistant    String
+  FinancialAnalyst    String
+  FinanceManager      String
+  DirectorOfFinance   String
+  CFO                 String
+  Finance             Finance[]
 }
 
 model Sales {
-  id                String  @id @default(cuid())  
-  departmentName    String
-  client            Client @relation(fields: [clientId], references: [id])
-  clientId          String 
-  jobLevel          SalesJobLevel @relation(fields: [jobLevelId], references: [id])
-  jobLevelId        String
+  id                  String        @id @default(cuid())
+  departmentName      String
+  client              Client        @relation(fields: [clientId], references: [id])
+  clientId            String
+  jobLevel            SalesJobLevel @relation(fields: [jobLevelId], references: [id])
+  jobLevelId          String
 }
 
-enum SalesJobLevel {
-  id                String  @id @default(cuid())
-  department        Sales @relation(fields: [departmentId], references: [id])
-  departmentId      String
-  SalesRepresentative
-  AccountExecutive
-  SalesManager
-  DirectorOfSales
-  VPofSales
-  CRO
+model SalesJobLevel {
+  id                  String  @id @default(cuid())
+  SalesRepresentative String
+  AccountExecutive    String
+  SalesManager        String
+  DirectorOfSales     String
+  VPofSales           String
+  CRO                 String
+  Sales               Sales[]
 }
 
 model Marketing {
-  id                String  @id @default(cuid())  
-  departmentName    String
-  client            Client @relation(fields: [clientId], references: [id])
-  clientId          String 
-  jobLevel          MarketingJobLevel @relation(fields: [jobLevelId], references: [id])
-  jobLevelId        String
+  id             String            @id @default(cuid())
+  departmentName String
+  client         Client            @relation(fields: [clientId], references: [id])
+  clientId       String
+  jobLevel       MarketingJobLevel @relation(fields: [jobLevelId], references: [id])
+  jobLevelId     String
 }
 
 model MarketingJobLevel {
-  id                String  @id @default(cuid())
-  department        Marketing @relation(fields: [departmentId], references: [id])
-  departmentId      String
-  MarketingCoordinator
-  MarketingSpecialist
-  MarketingManager
-  DirectorOfMarketing
-  CMO
+  id                   String      @id @default(cuid())
+  MarketingCoordinator String
+  MarketingSpecialist  String
+  MarketingManager     String
+  DirectorOfMarketing  String
+  CMO                  String
+  Marketing            Marketing[]
 }
 
 model Consulting {
-  id                String  @id @default(cuid())  
-  departmentName    String
-  client            Client @relation(fields: [clientId], references: [id])
-  clientId          String 
-  jobLevel          ConsultingJobLevel @relation(fields: [jobLevelId], references: [id])
-  jobLevelId        String
+  id             String             @id @default(cuid())
+  departmentName String
+  client         Client             @relation(fields: [clientId], references: [id])
+  clientId       String
+  jobLevel       ConsultingJobLevel @relation(fields: [jobLevelId], references: [id])
+  jobLevelId     String
 }
 
 model ConsultingJobLevel {
-  id                String  @id @default(cuid())
-  department        Consulting @relation(fields: [departmentId], references: [id])
-  departmentId      String
-  Analyst
-  JuniorConsultant
-  AssociateConsultant
-  SeniorConsultant
-  ConsultingManager
-  DirectorOfConsulting
-  Partner
+  id                      String       @id @default(cuid())
+  Analyst                 String
+  JuniorConsultant        String
+  AssociateConsultant     String
+  SeniorConsultant        String
+  ConsultingManager       String
+  DirectorOfConsulting    String
+  Partner                 String
+  Consulting              Consulting[]
 }
 
 model HumanResources {
-  id                String  @id @default(cuid())  
-  departmentName    String
-  client            Client @relation(fields: [clientId], references: [id])
-  clientId          String 
-  jobLevel          HRJobLevel @relation(fields: [jobLevelId], references: [id])
-  jobLevelId        String
+  id                      String     @id @default(cuid())
+  departmentName          String
+  client                  Client     @relation(fields: [clientId], references: [id])
+  clientId                String
+  jobLevel                HRJobLevel @relation(fields: [jobLevelId], references: [id])
+  jobLevelId              String
 }
 
 model HRJobLevel {
-  id                String  @id @default(cuid())
-  department        HumanResources @relation(fields: [departmentId], references: [id])
-  departmentId      String
-  HRAssistant
-  HRCoordinator
-  HRGeneralist
-  HRManager
-  DirectorOfHR
-  CHRO
+  id                      String     @id @default(cuid())
+  HRAssistant             String
+  HRCoordinator           String
+  HRGeneralist            String
+  HRManager               String
+  DirectorOfHR            String
+  CHRO                    String
+  HumanResources          HumanResources[]
 }
 
 model InformationTechnology {
-  id                String  @id @default(cuid())  
-  departmentName    String
-  client            Client @relation(fields: [clientId], references: [id])
-  clientId          String 
-  jobLevel          ITJobLevel @relation(fields: [jobLevelId], references: [id])
-  jobLevelId        String
+  id                      String     @id @default(cuid())
+  departmentName          String
+  client                  Client     @relation(fields: [clientId], references: [id])
+  clientId                String
+  jobLevel                ITJobLevel @relation(fields: [jobLevelId], references: [id])
+  jobLevelId              String
 }
 
 model ITJobLevel {
-  id                String  @id @default(cuid())
-  department        InformationTechnology @relation(fields: [departmentId], references: [id])
-  departmentId      String
-  SDE1              String
-  SDE2              String
-  SDE3              String
-  TechLead              String
-  EngineeringManager    String
-  DirectorOfEngineering String
-  CTO
+  id                      String                  @id @default(cuid())
+  SDE1                    String
+  SDE2                    String
+  SDE3                    String
+  TechLead                String
+  EngineeringManager      String
+  DirectorOfEngineering   String
+  CTO                     String
+  InformationTechnology   InformationTechnology[]
 }

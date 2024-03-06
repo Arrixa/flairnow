@@ -29,6 +29,8 @@ const JobsDashboard = () => {
     fetchData();
   }, []);
 
+  console.log(jobsData, 'fetched jobs')
+
   return (
     <main className='flex flex-col items-left w-full lg:p-10 md:p-6 p-4'>
       <h1 className="text-3xl text-left font-semibold my-4 pt-8">Recruitment dashboard</h1>
@@ -62,20 +64,20 @@ const JobsDashboard = () => {
       </Card>
       {jobsData.length > 0 ? (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-2">
-          jobsData.map((job: any) => (
-            <Link key={job.id} href={`/dashboard/recruitment/jobs/${job.id}&title=${job.title}&location=${job.location}&workplace=${job.workPlace}&company=${job.company.companyName}`}>
-              <JobsGridComp key={job.id} job={job} />   
-            </Link>
-          ))
-          </div>
-        ) : (
-          <Card className="flex items-center justify-center flex-col bg-background mt-2 p-2">
-            <CardTitle className="py-6 text-center">Loading...</CardTitle>
-            <CardContent>
-              <Skeleton className="w-[200px] h-[40px] rounded-full my-10" />
-            </CardContent>
-          </Card>
-        )}
+        {jobsData.map((job: any) => (
+          <Link key={job.id} href={`/dashboard/recruitment/jobs/${job.id}?title=${job.title}&location=${job.location}&workplace=${job.workPlace}&company=${job.company.companyName}`}>
+            <JobsGridComp key={job.id} job={job} />   
+          </Link>
+        ))}
+      </div>
+      ) : (
+        <Card className="flex items-center justify-center flex-col bg-background mt-2 p-2">
+          <CardTitle className="py-6 text-center">Loading...</CardTitle>
+          <CardContent>
+            <Skeleton className="w-[200px] h-[40px] rounded-full my-10" />
+          </CardContent>
+        </Card>
+      )}
       
     </main>
   );

@@ -303,17 +303,25 @@ export interface JobCardProps {
   postedBy: User;
   jobId: string;
   workHours: string;
-  status: string[];
+  status: string;
   positionsNumber: string;
   jobLevel: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   experienceMin: string,
   experienceMax: string,
-  startDate: Date;
-  endDate: Date;
-  dueDate: Date;
-  closingDate: Date;
+  startDate: string;
+  endDate: string;
+  dueDate: string;
+  closingDate: string;
+}
+
+export interface JobBannerProps {
+  jobId: string;
+  title?: string;
+  location?: string;
+  workPlace?: string;
+  company?: string;
 }
 
 export interface JobsGridProps {

@@ -17,7 +17,7 @@ import Link from "next/link";
 const CompanyInfo: React.FC<ClientForm & { formData?: ClientForm, setIsEditMode: React.Dispatch<React.SetStateAction<boolean>> }> = ({ formData, setIsEditMode }) => {
 
   const client = formData
-  console.log(client, 'client data in client info')
+  // console.log(client, 'client data in client info')
 
     // FTM-2 / FTM-20 12. 
 

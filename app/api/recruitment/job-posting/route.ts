@@ -85,7 +85,8 @@ export async function GET(request: Request) {
 
 async function getJobsData(request: Request) {
   const session = await getServerSession(authOptions);
-  const clientId = await session?.client.id;
+  console.log(session, 'session in job post route')
+  const clientId = await session?.clientUser.clientId;
   const jobs = await prisma.jobPosting.findMany({
     where: {
       clientId: clientId,

@@ -145,7 +145,7 @@ export const authOptions: NextAuthOptions = {
           }
         }
       }
-      console.log(token)
+      // console.log(token)
       return token;
     },
 

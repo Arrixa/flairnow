@@ -1,18 +1,22 @@
-// 'use client'
-// import { useSearchParams, useParams } from 'next/navigation'
-import JobCard from '@/app/(client)/_components/jobs/JobCard'
+'use client'
+import { useParams, useSearchParams } from 'next/navigation'
 // import { useEffect, useState } from 'react';
+import JobCard from '@/app/(client)/_components/jobs/JobCard'
+import { useRouter } from 'next/router';
 
 const JobDetailsPage = ({ params }: any) => {
-  // const params = useParams();
-  // console.log(params, 'Params from use params');
-  // const searchParams = useSearchParams();
-  // const jobId = searchParams.get('id');
-  // console.log(jobId, 'Job ID from search params');
+  const searchParams = useSearchParams();
+  
+  // Extracting values from the search parameters
+  const { id } = useParams();
+  const title = searchParams.get('title');
+  const location = searchParams.get('location');
+  const workPlace = searchParams.get('workplace');
+  const company = searchParams.get('company');
 
   return (
     <>
-      <JobCard jobId={params.id} />
+      <JobCard jobId={id} title={title} location={location} workPlace={workPlace} company={company} />
     </>
   );
 };
