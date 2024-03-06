@@ -88,7 +88,7 @@ const EmployeeProfileTable: React.FC<{ formData: FormData, setIsEditMode: React.
         <CardContent className= 'flex flex-col' >
           <Label htmlFor="role" className="">Role</Label>
           <div className='my-2 space-x-2'>
-            <RoleBadges roles={roles} role={''} index={0} />
+            <RoleBadges items={roles} item={''} index={0} variant={'0'} />
           </div>
         </CardContent>
         

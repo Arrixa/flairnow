@@ -178,10 +178,10 @@ export interface TextParams {
   host: string;
 }
 
-export interface RoleBadgeProps {
-  role: string;
+export interface BadgeProps {
+  item: string;
   index: number;
-  roles: Role[] | undefined;
+  items: string[] | undefined;
 }
 
 export interface CloudinaryResponse {
@@ -317,11 +317,11 @@ export interface JobCardProps {
 }
 
 export interface JobBannerProps {
-  jobId: string;
-  title?: string;
-  location?: string;
-  workPlace?: string;
-  company?: string;
+  jobId: string | string[];
+  title?: string | null;
+  location?: string | null;
+  workPlace?: string | null;
+  company?: string | null;
 }
 
 export interface JobsGridProps {

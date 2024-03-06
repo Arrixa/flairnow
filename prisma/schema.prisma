@@ -68,8 +68,7 @@ model Account {
   scope             String?
   id_token          String? @db.Text
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -180,7 +179,30 @@ model JobPosting {
   // recruiterId        String
   // hiringManager      User @relation(fields: [hiringManagerId], references: [id])
   // hiringManagerId    String
-}     
+}   
+
+model Department {
+  id                    String          @id @default(cuid())
+  departmentName        String
+  client                Client          @relation(fields: [clientId], references: [id])
+  clientId              String
+  //jobLevel              FinanceJobLevel @relation(fields: [jobLevelId], references: [id])
+  //jobLevelId            String
+  jobLevel             JobLevel[]
+}
+
+model JobLevel {
+  id                  String    @id @default(cuid())
+  name                String
+  parentLevel         String
+  departmentId        Department @relation       
+}
+
+model Skill {
+  id  String
+  
+
+}
 
 model Finance {
   id                    String          @id @default(cuid())

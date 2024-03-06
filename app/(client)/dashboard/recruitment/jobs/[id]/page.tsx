@@ -1,7 +1,7 @@
 'use client'
 import { useParams, useSearchParams } from 'next/navigation'
 // import { useEffect, useState } from 'react';
-import JobCard from '@/app/(client)/_components/jobs/JobCard'
+import JobCard from '@/app/(client)/_components/jobs/jobCard/JobCard'
 import { useRouter } from 'next/router';
 
 const JobDetailsPage = ({ params }: any) => {
