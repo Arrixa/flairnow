@@ -1,4 +1,3 @@
-/*
 import React from 'react';
 import {
   Drawer,
@@ -37,4 +36,3 @@ const NotificationDrawer = () => {
 }
 
 export default NotificationDrawer
-*/

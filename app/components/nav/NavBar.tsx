@@ -13,7 +13,7 @@ const NavBar = async () => {
     <nav className=' bg-background border-b-4 border-secondary py-2 flex flex-row z-10 top-0 w-full'>
       <div className='container flex items-center' >
         {session?.clientUser.role ? (
-          <Link href="/dashboard/employee-profile">
+          <Link href="/dashboard/profile">
            {renderLogo()}
           </Link>
         ) : (

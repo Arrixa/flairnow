@@ -23,7 +23,7 @@ const SigninButton: React.FC<SigninBtnProps> = () => {
             <>
               {session?.user.userDomain !== 'public' ? (
                 <Button variant="flairnowOutline">
-                  <Link href="/dashboard/employee-profile">{`${session.user.firstName}`}</Link>
+                  <Link href="/dashboard/profile">{`${session.user.firstName}`}</Link>
                 </Button>
 
               ) : (

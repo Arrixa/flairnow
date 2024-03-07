@@ -5,8 +5,12 @@ import { JobCardProps, JobBannerProps } from '@/lib/interfaces'
 import { useEffect, useState } from 'react';
 import { Skeleton } from '@/app/components/ui/skeleton';
 import { capitaliseFirstLetter } from '@/lib/capitiliseFirstLetter';
-
 import { format } from 'date-fns';
+import Badges from '@/app/components/common/Badges';
+import { Badge } from '@/app/components/ui/badge';
+import HTMLReactParser from 'html-react-parser'
+import { Button } from '@/app/components/ui/button';
+import Link from 'next/link';
 
 
 //{ formData, setIsEditMode } : { formData?: JobForm, setIsEditMode: React.Dispatch<React.SetStateAction<boolean>> }
@@ -17,7 +21,7 @@ const JobCard = ({ jobId, title, location, workPlace, company }: JobBannerProps)
   
   const formattedDate = (dateString: string) => {
     const date = new Date(dateString);
-    return format(date, "y-MM-dd 'at' h:mm a");
+    return format(date, "y-MM-dd 'at' h:mm");
   };
 
   useEffect(() => {
@@ -76,7 +80,7 @@ const JobCard = ({ jobId, title, location, workPlace, company }: JobBannerProps)
           </CardContent>
           <CardContent>
             <Label>Job description:</Label>
-            <p>{jobData?.description}</p>
+            <p>{HTMLReactParser(jobData?.description)}</p>
           </CardContent>
           <CardContent>
             <Label>Employment type:</Label>
@@ -100,17 +104,17 @@ const JobCard = ({ jobId, title, location, workPlace, company }: JobBannerProps)
           </CardContent>
           <CardContent>
             <Label>Required skills:</Label>
-            {/* Skill badges */}
+            <p ><Badges items={jobData?.skills} item={''} index={0}/></p>
           </CardContent>  
           <CardContent>
-            <Label>Salary range:</Label>
+            <Label>Expected salary:</Label>
             <p>{jobData?.salary}</p>
           </CardContent>
         </Card>
         <Card className='py-4 mt-2'>
         <CardContent>
-            <Label>Status:</Label>
-            <p>{capitaliseFirstLetter(jobData?.status)}</p>
+            <Label>Status:</Label>           
+            <p><Badge variant="outline" className='py-1'>{capitaliseFirstLetter(jobData?.status)}</Badge></p>
           </CardContent>
           <CardContent>
             <Label>Posted by:</Label>
@@ -121,9 +125,18 @@ const JobCard = ({ jobId, title, location, workPlace, company }: JobBannerProps)
             <p>{formattedDate(jobData?.updatedAt)}</p>
           </CardContent>
         </Card>
+        <div className="flex flex-col-reverse md:flex-row justify-between">
+          <Button variant='flairnowOutline' className='my-4 text-md'>        
+            <Link href='/dashboard/recruitment'>
+              Return
+            </Link>
+          </Button>
+          <Button className='my-4 text-md'>Edit</Button>
+          <Button variant='flairnowOutline' className='my-4 text-md'>Continue</Button>
+        </div>
       </>
       ) : (
-        <Card className=" flex items-center justify-center flex-col bg-background">
+        <Card className=" flex items-center justify-center flex-col bg-background py-4 mt-2'">
           <CardTitle className="text-4xl py-6 text-center">Loading...</CardTitle>
           <CardContent>
             <Skeleton className="w-[200px] h-[40px] rounded-full my-10" />
@@ -134,4 +147,4 @@ const JobCard = ({ jobId, title, location, workPlace, company }: JobBannerProps)
   )
 }
 
-export default JobCard
+export default JobCard;

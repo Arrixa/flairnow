@@ -180,7 +180,7 @@ export interface TextParams {
 
 export interface BadgeProps {
   item: string;
-  index: number;
+  index: any;
   items: string[] | undefined;
 }
 
@@ -328,7 +328,7 @@ export interface JobsGridProps {
   job: {
     id: string;
     title: string;
-    status: string[];
+    status: string;
     company: { companyName: string };
     location: string;
     workPlace: string;

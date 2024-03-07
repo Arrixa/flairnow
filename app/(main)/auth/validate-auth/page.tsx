@@ -14,7 +14,7 @@ const ValidatingAuth = async () => {
   const role = clientUser?.role
 
   if (role && role.includes("EMPLOYEE") || user.userDomain !== 'public') {
-    redirect('/dashboard/employee-profile');
+    redirect('/dashboard/profile');
   } else if (!role || role.length === 0 || user.userDomain === 'public') {
     redirect('/profile');
   } else if (user && user.firstName) {

@@ -45,7 +45,7 @@ const UserCard: React.FC<UserCardProps> = ({ session, isMenuOpen }) => {
               </PopoverTrigger>
               <PopoverContent className="w-fit">
                 <div className="m-2">
-                  <Link href='/dashboard/employee-profile' className="flex items-center cursor-pointer py-2">
+                  <Link href='/dashboard/profile' className="flex items-center cursor-pointer py-2">
                     <User className=" hover:scale-125"  size={24} />
                     <span className="ml-2">Profile</span>
                   </Link>
@@ -69,7 +69,7 @@ const UserCard: React.FC<UserCardProps> = ({ session, isMenuOpen }) => {
             </PopoverTrigger>
             <PopoverContent className="w-fit">
               <div className="m-2">
-                <Link href='/dashboard/employee-profile' className="flex items-center cursor-pointer py-2">
+                <Link href='/dashboard/profile' className="flex items-center cursor-pointer py-2">
                   <User className=" hover:scale-125"  size={24} />
                   <span className="ml-2">Profile</span>
                 </Link>

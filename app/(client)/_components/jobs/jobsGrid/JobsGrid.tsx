@@ -8,7 +8,7 @@ const JobsGridComp: React.FC<JobsGridProps> = ({ job }) => (
   <Card className='flex flex-col h-full'>
     <CardHeader>
       <CardTitle>{job?.title}</CardTitle>      
-      <CardDescription><Badge variant="outline" className='py-1'>{job?.status}</Badge></CardDescription>
+      <CardDescription><Badge variant="outline" className='py-1'>{capitaliseFirstLetter(job?.status)}</Badge></CardDescription>
     </CardHeader>
     <CardContent>
       <p>{job.company.companyName}</p>

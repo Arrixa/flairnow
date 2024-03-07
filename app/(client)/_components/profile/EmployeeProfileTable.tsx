@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import RoleBadges from "../../../components/common/RoleBadges";
+import Badges from "../../../components/common/Badges";
 import { CldImage } from 'next-cloudinary';
 import AddPhoto from '@/app/components/common/AddPhoto';
 import { FormData } from '@/lib/interfaces';
@@ -88,7 +88,7 @@ const EmployeeProfileTable: React.FC<{ formData: FormData, setIsEditMode: React.
         <CardContent className= 'flex flex-col' >
           <Label htmlFor="role" className="">Role</Label>
           <div className='my-2 space-x-2'>
-            <RoleBadges items={roles} item={''} index={0} variant={'0'} />
+            <Badges items={roles} item={''} index={0} />
           </div>
         </CardContent>
         

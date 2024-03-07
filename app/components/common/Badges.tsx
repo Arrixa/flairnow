@@ -1,7 +1,6 @@
 import { Badge } from "@/app/components/ui/badge";
 import { capitaliseFirstLetter } from "@/lib/capitiliseFirstLetter";
 import { BadgeProps } from "@/lib/interfaces";
-import { useEffect, useState } from 'react';
 
 const Badges: React.FC<BadgeProps> = ({ items }) => {
   console.log(items)
@@ -9,7 +8,7 @@ const Badges: React.FC<BadgeProps> = ({ items }) => {
   return (
     <>
       {items?.map((item, index) => (
-         <Badge key={index} variant={index}>{(item)}</Badge>
+         <Badge key={index} variant={index as any} className='p-2 my-2 mr-2'>{capitaliseFirstLetter(item)}</Badge>
       ))}
     </>
   );
