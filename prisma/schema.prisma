@@ -122,8 +122,8 @@ model JobPosting {
   employmentType  String?
   workPlace       String?
   workHours       String?
-  department      Department @relation(fields: [departmentId], references: [id])
-  departmentId    String
+  department      Department? @relation(fields: [departmentId], references: [id])
+  departmentId    String?
   // department      String?
   company         Client     @relation(fields: [clientId], references: [id])
   clientId        String
@@ -135,8 +135,8 @@ model JobPosting {
   publishedAt     DateTime?
   experienceMin   Int?
   experienceMax   Int?
-  jobLevel        JobLevel   @relation(fields: [jobLevelId], references: [id])
-  jobLevelId      String
+  jobLevel        JobLevel?   @relation(fields: [jobLevelId], references: [id])
+  jobLevelId      String?
   // jobLevel        String?
   startDate       DateTime?
   endDate         DateTime?

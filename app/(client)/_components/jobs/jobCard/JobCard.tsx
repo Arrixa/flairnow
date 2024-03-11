@@ -13,16 +13,16 @@ import { Button } from '@/app/components/ui/button';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import PublishJob from '../jobPublish/PublishJob';
+import { useToast } from "@/app/components/ui/use-toast";
 
 
 //{ formData, setIsEditMode } : { formData?: JobForm, setIsEditMode: React.Dispatch<React.SetStateAction<boolean>> }
 
 const JobCard = ({ jobId, title, location, workPlace, company }: JobBannerProps) => {
   const [jobData, setJobData] = useState<JobCardProps>();
-  const [isPublishModalOpen, setIsPublishModalOpen] = useState(false);
+  const { toast } = useToast()
 
   console.log(jobId, 'Job ID in job card');
-  const router = useRouter();
   
   const formattedDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -54,6 +54,46 @@ const JobCard = ({ jobId, title, location, workPlace, company }: JobBannerProps)
   }, [jobId]);
 
   console.log(jobData, 'Job data in job card');
+
+  const onPublishNow = async () => {
+    console.log("Publish now function called");
+
+    try {
+      const response = await fetch(`/api/recruitment/job/${jobId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          publishedAt: new Date(),
+          status: 'PUBLISHED',
+          id: jobId
+        })
+      });
+
+      if (response.ok) {
+        toast({
+          description: "The job post published successfully.",
+        });
+        const res = await response.json();
+        console.log(res, 'response data from publish now');
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Publishing the job post failed.",
+          description: "Please try again.",
+        });
+        console.error("Publishing failed");
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Publishing the job post failed.",
+        description: "Please try again.",
+      });
+      console.error("Publishing failed:", error);
+    }
+  };
 
   return (
     <section className='flex flex-col items-left w-full lg:p-10 md:p-6 p-4'>
@@ -142,6 +182,9 @@ const JobCard = ({ jobId, title, location, workPlace, company }: JobBannerProps)
             </Link>
           </Button>
           <Button className='my-4 text-md'>Edit</Button>
+          <Button className='my-4 text-md' type='button' variant='flairnowOutline' onClick={onPublishNow}>
+              Publish now
+            </Button>
           <PublishJob jobId={jobId} />     
         </div>
       </>

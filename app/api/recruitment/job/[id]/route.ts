@@ -29,6 +29,7 @@ async function getJobData(jobId: string) {
     include: {
       company: true, // Include the related company data
       postedBy: true, // Include the related user data
+      department: true,
     },
   });
 
@@ -74,7 +75,7 @@ export async function POST(request: NextRequest) {
       },
       data: {
         publishedAt: reqBody.publishedAt,
-        status: shouldPublishNow(reqBody.publishedAt) ? 'PUBLISHED' : 'DRAFT',
+        status: 'PUBLISHED',
       },
     });
       return NextResponse.json({ publishJob, message: "Job posting updated successfully"}, { status: 202 })

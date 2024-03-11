@@ -2,7 +2,6 @@ import { JobCardProps } from "@/lib/interfaces";
 import prisma from "@/lib/prisma";
 import { authOptions } from "@/utils/authOptions";
 import { getServerSession } from "next-auth";
-import { Department } from "@/lib/interfaces";
 import { NextResponse } from "next/server";
  
 // FTM-15
@@ -15,41 +14,31 @@ export async function POST(req: Request) {
     const userId = await session?.user.id;
     console.log("session user and client id in job posting route", userId, clientId)
     console.log("reqBody in job posting route", reqBody)
-    // if (session?.jobPosting) {
-    //   const jobId = session?.jobPosting?.id;
-    //   const job = await prisma.jobPosting.findUnique({
-    //     where: {
-    //       id: jobId,
-    //     },
-    //   });
-    //   if (job) {
-    //     const updateJob = await prisma.jobPosting.update({
-    //       where: {
-    //         id: jobId,
-    //       },
-    //       data: {
-    //         ...reqBody
-    //       },
-    //     });
-    //     return NextResponse.json({ updateJob, message: "Job posting updated successfully" }, { status: 202 });
-    // }
-    // } else {}
-    let department = '';
-    
-    if (department.length === 0) {
-      // If department is not assigned, assume some default role
-      department = Department.UNSPECIFIED;
-    } else {
-      department = reqBody.department;
-    }
-    const { experience, ...jobPost } = reqBody;
 
+    const { experience, departmentName, jobLevelName, ...jobPost } = reqBody;
+
+    // Retrieve experienceMin and experienceMax
     const experienceRegex = /(\d+)–?(\d+)?/;
     const match = experience.match(experienceRegex);
     const experienceMin = parseInt(match[1], 10);
     const experienceMax = match[2] ? parseInt(match[2], 10) : null;
-    console.log("Experience Min:", experienceMin);
-    console.log("Experience Max:", experienceMax);
+
+    // Create Department
+    const createdDepartment = await prisma.department.create({
+      data: {
+        departmentName: departmentName,
+        client: { connect: { id: clientId } },
+      },
+    });
+
+    // Create JobLevel
+    const createdJobLevel = await prisma.jobLevel.create({
+      data: {
+        name: jobLevelName,
+        parentLevel: 'parentLevelValue', // replace with actual value
+        department: { connect: { id: createdDepartment.id } },
+      },
+    });
 
     
     const createJob = await prisma.jobPosting.create({
@@ -57,9 +46,10 @@ export async function POST(req: Request) {
           status: "DRAFT",
           company: { connect: { id: clientId } },
           postedBy: { connect: { id: userId } },
-          department: department,
           experienceMin: experienceMin,
           experienceMax: experienceMax,
+          department: { connect: { id: createdDepartment.id } },
+          jobLevel: { connect: { id: createdJobLevel.id } },
           ...jobPost
         },
         
@@ -92,7 +82,9 @@ async function getJobsData(request: Request) {
       clientId: clientId,
     },
     include: {
-      company: true, // Include the related company data
+      company: true, 
+      department: true,
+      jobLevel: true
     },
   });
 
