@@ -63,3 +63,24 @@ async function getJobData(jobId: string) {
     closingDate: job.closingDate,
   };
 }
+
+export async function POST(request: NextRequest) {
+  try {
+    const reqBody = await request.json();
+    
+    const publishJob = await prisma.jobPosting.update({
+      where: {
+        id: reqBody.id,
+      },
+      data: {
+        publishedAt: reqBody.publishedAt,
+        status: shouldPublishNow(reqBody.publishedAt) ? 'PUBLISHED' : 'DRAFT',
+      },
+    });
+      return NextResponse.json({ publishJob, message: "Job posting updated successfully"}, { status: 202 })
+    // }
+  } catch (error) {
+    console.error("Error during creating job posting:", error);
+    return NextResponse.json({ message: "Something went wrong"}, { status: 500 });
+  }
+}

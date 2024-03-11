@@ -5,6 +5,7 @@ import {
   Settings,
   Settings2,
   User,
+  UserRoundCog,
   Users,
 } from "lucide-react";
 
@@ -12,10 +13,10 @@ import {
 
 const IconRenderer = ({ iconName }: { iconName: string }) => {
   switch (iconName) {
-    case 'Profile':
-      return <User className="h-5 w-5 ml-4" />;
-    case 'Admin dashboard':
+    case 'Dashboard':
       return <LayoutDashboard className="h-5 w-5 ml-4" />;
+    case 'Admin':
+      return <UserRoundCog className="h-5 w-5 ml-4" />;
     case 'Recruitment':
       return <Briefcase className="h-5 w-5 ml-4" />;
     case 'Users':

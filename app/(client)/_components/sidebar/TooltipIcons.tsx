@@ -4,7 +4,7 @@ import {
   LayoutDashboard,
   Settings,
   Settings2,
-  User,
+  UserRoundCog,
   Users,
 } from "lucide-react";
 import {
@@ -18,19 +18,19 @@ import {
 
 const TooltipIconRenderer = ({ iconName }: { iconName: string }) => {
   switch (iconName) {
-    case 'Profile':
-      return (
-        <Tooltip>
-          <TooltipTrigger className="mx-auto"><User className="h-5 w-5 mx-auto hover:scale-125" /></TooltipTrigger>
-          <TooltipContent><p>Profile</p></TooltipContent>
-        </Tooltip>
-      );
-
-    case 'Admin dashboard':
+    case 'Dashboard':
       return (
         <Tooltip>
           <TooltipTrigger className="mx-auto"><LayoutDashboard className="h-5 w-5 mx-auto hover:scale-125" /></TooltipTrigger>
-          <TooltipContent><p>Admin dashboard</p></TooltipContent>
+          <TooltipContent><p>Dashboard</p></TooltipContent>
+        </Tooltip>
+      );
+
+    case 'Admin':
+      return (
+        <Tooltip>
+          <TooltipTrigger className="mx-auto"><UserRoundCog className="h-5 w-5 mx-auto hover:scale-125" /></TooltipTrigger>
+          <TooltipContent><p>Admin</p></TooltipContent>
         </Tooltip>
       );
 

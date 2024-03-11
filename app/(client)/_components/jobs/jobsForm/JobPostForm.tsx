@@ -22,7 +22,7 @@ import {
 import { JobForm } from '@/lib/interfaces';
 import DepartmentSelect from './DepartmentSelect';
 import CancelDialog from './CancelDialog';
-import { DateSelect } from './DateSelect';
+import { DateSelect } from '../../../../components/common/DateSelect';
 
 // FTM-15 1. Job post creation
 
@@ -97,7 +97,7 @@ const JobPostForm = () => {
 
   const onSubmit = async (data: z.infer<typeof FormSchemaDraft>) => {
     console.log('Form submitted:', data);
-    console.log("Save client function called");
+    console.log("Save job function called");
     console.log("Selected :", selectedSkills);
 
     try {
@@ -126,7 +126,7 @@ const JobPostForm = () => {
       })
         if (response.ok) {
           toast({
-            description: "The client information saved successfully.",
+            description: "The job posting saved successfully.",
           })
           const res = await response.json();
           // setFormData(res);
@@ -135,7 +135,7 @@ const JobPostForm = () => {
         } else {
           toast({
             variant: "destructive",
-            title: "The client information save failed.",
+            title: "The job posting save failed.",
             description: "Please try again.",
           })
           console.error("Save failed");
@@ -143,15 +143,16 @@ const JobPostForm = () => {
       } catch (error) {
         toast({
           variant: "destructive",
-          title: "The client information save failed.",
+          title: "The job posting save failed.",
           description: "Please try again.",
         })
         console.error("Save failed:", error);
       }
   };
+
   return (
     <Form {...form}>
-      <form  onSubmit={form.handleSubmit(onSubmit)} className='p-2'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='p-2'>
         <h2 className='text-2xl font-bold m-4 px-3'>Create job posting</h2>
         <Card className='my-2 p-2 pt-4 md:p-3 lg:p-5'>
           <FormField

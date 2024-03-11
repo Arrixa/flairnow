@@ -24,12 +24,8 @@ enum Role {
 
 enum PostStatus {
   DRAFT
-  IN_REVIEW
-  PUBLISHED_INTERNALLY
-  PUBLISHED_EXTERNALLY
-  ARCHIVED
-  DELETED
-  RECRUITMENT
+  PUBLISHED
+  INACTIVE
 }
 
 model Account {
@@ -126,7 +122,9 @@ model JobPosting {
   employmentType  String?
   workPlace       String?
   workHours       String?
-  department      String?
+  department      Department @relation(fields: [departmentId], references: [id])
+  departmentId    String
+  // department      String?
   company         Client     @relation(fields: [clientId], references: [id])
   clientId        String
   postedBy        User       @relation(fields: [postedById], references: [id])
@@ -134,11 +132,12 @@ model JobPosting {
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
   status          PostStatus
-  publishInternal DateTime?
-  publishExternal DateTime?
+  publishedAt     DateTime?
   experienceMin   Int?
   experienceMax   Int?
-  jobLevel        String?
+  jobLevel        JobLevel   @relation(fields: [jobLevelId], references: [id])
+  jobLevelId      String
+  // jobLevel        String?
   startDate       DateTime?
   endDate         DateTime?
   dueDate         DateTime?
@@ -151,19 +150,19 @@ model JobPosting {
 }
 
 model Department {
-  id             String     @id @default(cuid())
+  id             String       @id @default(cuid())
   departmentName String
-  client         Client     @relation(fields: [clientId], references: [id])
+  client         Client       @relation(fields: [clientId], references: [id])
   clientId       String
-  //jobLevel              FinanceJobLevel @relation(fields: [jobLevelId], references: [id])
-  //jobLevelId            String
   jobLevel       JobLevel[]
+  JobPosting     JobPosting[]
 }
 
 model JobLevel {
-  id           String     @id @default(cuid())
+  id           String       @id @default(cuid())
   name         String
   parentLevel  String
-  department   Department @relation(fields: [departmentId], references: [id])
+  department   Department   @relation(fields: [departmentId], references: [id])
   departmentId String
+  JobPosting   JobPosting[]
 }

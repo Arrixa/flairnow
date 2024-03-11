@@ -33,7 +33,7 @@ const JobsDashboard = () => {
 
   return (
     <main className='flex flex-col items-left w-full lg:p-10 md:p-6 p-4'>
-      <h1 className="text-3xl text-left font-semibold my-4 pt-8">Recruitment dashboard</h1>
+      <h1 className="text-3xl text-left font-semibold my-4 pt-8 px-6">Recruitment dashboard</h1>
       <Card className='p-2 flex items-center justify-between mt-2'>
         <CardContent className='flex flex-row items-center p-2'>
           <JobSearch jobsData={jobsData} />
@@ -71,14 +71,13 @@ const JobsDashboard = () => {
         ))}
       </div>
       ) : (
-        <Card className="flex items-center justify-center flex-col bg-background mt-2 p-2">
-          <CardTitle className="py-6 text-center">Loading...</CardTitle>
+        <Card className=" flex flex-col bg-background py-4 mt-2">
+          <CardTitle className="text-4xl p-6 ">Loading...</CardTitle>
           <CardContent>
             <Skeleton className="w-[200px] h-[40px] rounded-full my-10" />
           </CardContent>
         </Card>
-      )}
-      
+      )}     
     </main>
   );
 };
